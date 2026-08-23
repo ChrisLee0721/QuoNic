@@ -1,12 +1,13 @@
 <p align="center">
-  <h1 align="center">QuoNic</h1>
-  <p align="center">
-    <b>Quantum programming, as simple as writing Python.</b>
-  </p>
-  <p align="center">
-    No QuantumCircuit to learn, no backend to understand, no manual measure.<br>
-    If you can write Python, you can write quantum programs.
-  </p>
+  <img src="docs/local/banner.png" width="600" alt="QuoNic Banner" />
+</p>
+
+<p align="center">
+  <b>Quantum programming, as simple as writing Python.</b>
+</p>
+<p align="center">
+  No QuantumCircuit to learn, no backend to understand, no manual measure.<br>
+  If you can write Python, you can write quantum programs.
 </p>
 
 <div align="center">
@@ -58,6 +59,10 @@ Quantum programming today is unnecessarily complex. Writing a simple Bell state 
 
 QuoNic abstracts away the complexity. Three lines of code, any backend, any hardware.
 
+<p align="center">
+  <img src="docs/local/preview_terminal.png" width="500" alt="QuoNic Terminal Preview" />
+</p>
+
 ```python
 from quonic import qgate, qshow
 from quonic.gates import H, CX
@@ -65,13 +70,6 @@ from quonic.gates import H, CX
 qgate(H, 0)
 qgate(CX, 0, 1)
 qshow()
-```
-
-```
-backend: native | shots: 1024
-Result:
-  |00>     512  ( 50.0%)  ####################
-  |11>     512  ( 50.0%)  ####################
 ```
 
 ```bash
