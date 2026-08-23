@@ -207,7 +207,7 @@ Additional simulator backends (Qulacs / TensorCircuit / CUDA-Q / MindQuantum / Q
 
 Hardware / cloud backends (IBM Quantum / AWS Braket / Azure Quantum / IonQ / Rigetti / Xanadu / QuEra): `pip install 'quonic[all-hw]'` or install individually.
 
-> **⚠️ Hardware backends are untested.** IBM Quantum, AWS Braket, Azure Quantum, IonQ, Rigetti, Xanadu, and QuEra backends are provided as-is without real-hardware validation. Use at your own risk. Local simulators (Qulacs / TensorCircuit / QPanda3 / CuPy / native) are fully tested.
+> **Hardware status:** Origin Quantum (WK\_C180), AWS Braket (Rigetti Cepheus), and Quantum Inspire (Tuna-9/17) are **verified on real hardware**. IBM Quantum, Azure Quantum, IonQ, Xanadu, and QuEra backends are provided as-is without real-hardware validation. Local simulators (Qulacs / TensorCircuit / QPanda3 / CuPy / native) are fully tested.
 
 GPU acceleration: `pip install 'quonic[gpu]'` (CuPy).
 

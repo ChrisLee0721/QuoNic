@@ -98,7 +98,7 @@ pip install 'quonic[qiskit,cirq,pennylane,algorithms,all-sim]'
 
 硬件/云后端（IBM Quantum / AWS Braket / Azure Quantum / IonQ / Rigetti / Xanadu / QuEra）：`pip install 'quonic[all-hw]'` 或单独安装。
 
-> **⚠️ 硬件后端未经测试。** IBM Quantum、AWS Braket、Azure Quantum、IonQ、Rigetti、Xanadu、QuEra 后端按原样提供，未经真实硬件验证，不保证稳定性。本地模拟器（Qulacs / TensorCircuit / QPanda3 / CuPy / native）已完整测试。
+> **硬件状态：** Origin Quantum（WK\_C180）、AWS Braket（Rigetti Cepheus）、Quantum Inspire（Tuna-9/17）已通过**真实硬件验证**。IBM Quantum、Azure Quantum、IonQ、Xanadu、QuEra 后端按原样提供，未经真实硬件验证。本地模拟器（Qulacs / TensorCircuit / QPanda3 / CuPy / native）已完整测试。
 
 GPU 加速：`pip install 'quonic[gpu]'`（CuPy）。
 
