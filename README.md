@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1 style="font-size: 3em; margin-bottom: 0.2em;">QuoNic</h1>
+<h1 style="font-size: 10em; margin-bottom: 0.2em;">QuoNic</h1>
 
 <p style="font-size: 1.3em; font-weight: bold;">Quantum programming, as simple as writing Python.</p>
 
