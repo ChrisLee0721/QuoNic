@@ -15,7 +15,7 @@ Usage:
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, ClassVar
 
 from .._i18n import tr
 from ..ir import Circuit
@@ -27,7 +27,7 @@ from .base import Backend
 class XanaduBackend(Backend):
     name = "xanadu"
     methods = frozenset({"statevector"})
-    _CAPABILITIES = {"noise": False, "ctrl": False, "mid_measure": False, "gpu": False}
+    _CAPABILITIES: ClassVar[dict[str, bool]] = {"noise": False, "ctrl": False, "mid_measure": False, "gpu": False}
 
     def __init__(self, device: str = "X8") -> None:
         self.device = device

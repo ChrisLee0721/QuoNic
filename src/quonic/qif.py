@@ -714,7 +714,7 @@ class _CWhileBuilder:
         self,
         exc_type: type[BaseException] | None,
         exc_val: BaseException | None,
-        exc_tb: Any,
+        exc_tb: object,
     ) -> bool:
         body = pop()
         if exc_type is not None:

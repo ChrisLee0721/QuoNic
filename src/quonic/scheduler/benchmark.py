@@ -53,7 +53,7 @@ def _timed_run(
     try:
         with contextlib.redirect_stderr(io.StringIO()):
             be.run(circuit, shots=shots, method=method, noise=noise)
-    except Exception:
+    except (ImportError, RuntimeError, ValueError):
         return None
     return time.time() - t0
 
@@ -290,19 +290,19 @@ def _meta(backend: str, shots: int) -> dict[str, Any]:
         import platform
 
         info["machine"] = platform.platform()
-    except Exception:
+    except (ImportError, RuntimeError, ValueError):
         pass
     try:
         import numpy
 
         info["numpy"] = numpy.__version__
-    except Exception:
+    except (ImportError, RuntimeError, ValueError):
         pass
     try:
         import qiskit_aer
 
         info["qiskit_aer"] = qiskit_aer.__version__
-    except Exception:
+    except (ImportError, RuntimeError, ValueError):
         pass
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),

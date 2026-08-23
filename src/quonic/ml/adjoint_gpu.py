@@ -23,7 +23,7 @@ def _xp():
         import cupy
         if cupy.cuda.runtime.getDeviceCount() > 0:
             return cupy
-    except Exception:
+    except (ImportError, RuntimeError, ValueError):
         pass
     return np
 

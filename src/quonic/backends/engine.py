@@ -20,7 +20,7 @@ from __future__ import annotations
 
 from abc import abstractmethod
 from collections.abc import Iterable
-from typing import Any
+from typing import Any, ClassVar
 
 from .._i18n import tr
 from ..ir import Circuit, CRegCondition
@@ -51,7 +51,7 @@ def _try_groverize(circuit: Circuit) -> Circuit:
                 static = groverize(op)
                 for gate_op in static.ops:
                     out.add(gate_op)
-            except Exception:
+            except (ImportError, RuntimeError, ValueError):
                 # groverize failed — add the original op (will fail at runtime)
                 out.add(op)
         else:
@@ -73,7 +73,7 @@ class EngineBackend(Backend):
     methods: frozenset[str] = frozenset({"statevector"})
 
     # Capability matrix — subclasses override to declare support.
-    _CAPABILITIES: dict[str, bool] = {
+    _CAPABILITIES: ClassVar[dict[str, bool]] = {
         "noise": False,       # density-matrix noise injection
         "ctrl": False,        # classical control flow (cif/cmeasure/cwhile)
         "mid_measure": False, # mid-circuit measurement with state collapse

@@ -10,7 +10,7 @@ Engines are imported lazily inside run(), so `import quonic` does not pull in nu
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import Any
+from typing import Any, ClassVar
 
 from .._i18n import tr
 from ..ir import Circuit, CRegCondition
@@ -29,7 +29,7 @@ _METHODS: tuple[str, ...] = (
 class NativeBackend(Backend):
     name = "native"
     methods = frozenset(_METHODS)
-    _CAPABILITIES = {"noise": True, "ctrl": True, "mid_measure": True, "gpu": False}
+    _CAPABILITIES: ClassVar[dict[str, bool]] = {"noise": True, "ctrl": True, "mid_measure": True, "gpu": False}
 
     def run(
         self,

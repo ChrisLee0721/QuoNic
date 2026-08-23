@@ -70,7 +70,7 @@ def plot_gate_matrix(
 
     u = _gate_unitary(name, qubits, params)
     n = round(math.log2(u.shape[0]))
-    labels = [f"|{format(i, '0%db' % n)}>" for i in range(u.shape[0])]
+    labels = [f"|{format(i, f'0{n}b')}>" for i in range(u.shape[0])]
 
     if ax is None:
         fig, axes = plt.subplots(1, 2, figsize=(10, 4.5))

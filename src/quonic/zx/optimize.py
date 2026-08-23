@@ -163,9 +163,7 @@ def extract_circuit(graph: ZXGraph) -> Circuit:
                 if nb not in visited:
                     visited.add(nb)
                     s = graph.spiders.get(nb)
-                    if s is not None:
-                        # Boundary spiders inherit the qubit
-                        if s.stype == SpiderType.BOUNDARY or nb not in spider_qubit:
+                    if s is not None and (s.stype == SpiderType.BOUNDARY or nb not in spider_qubit):
                             spider_qubit[nb] = q_idx
                             queue.append(nb)
 

@@ -207,8 +207,8 @@ def train_batch(
             print(f"  Step {step:4d}: loss = {loss:.6f}")
 
         # Estimate gradient on batch
-        def batch_loss(p):
-            return loss_fn(p, X_batch, y_batch)
+        def batch_loss(p, X=X_batch, y=y_batch):
+            return loss_fn(p, X, y)
 
         if gradient == "adjoint":
             grad = adjoint_grad(batch_loss, params)

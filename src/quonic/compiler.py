@@ -701,9 +701,7 @@ def optimize_commute(circuit: Circuit) -> Circuit:
             if not isinstance(ops[i - 1], GateOperation):
                 continue
             # Try to swap ops[i] left if it commutes with ops[i-1]
-            if _commutes(ops[i], ops[i - 1]):
-                # Check if swapping creates a cancelable pair with ops[i-2]
-                if (
+            if _commutes(ops[i], ops[i - 1]) and (
                     i >= 2
                     and isinstance(ops[i - 2], GateOperation)
                     and ops[i].name == ops[i - 2].name

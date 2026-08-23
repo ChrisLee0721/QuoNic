@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from .._i18n import tr
 from ..ir import Circuit, CRegCondition
 from ..noise import NoiseModel, resolve_noise
@@ -30,7 +32,7 @@ class QiskitBackend(Backend):
     methods = frozenset(
         {"statevector", "stabilizer", "matrix_product_state", "density_matrix", "gpu"}
     )
-    _CAPABILITIES = {"noise": True, "ctrl": True, "mid_measure": False, "gpu": True}
+    _CAPABILITIES: ClassVar[dict[str, bool]] = {"noise": True, "ctrl": True, "mid_measure": False, "gpu": True}
 
     def run(
         self,

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from contextlib import contextmanager
-from typing import Any
+from typing import Any, ClassVar
 
 from .._i18n import tr
 from ..noise import NoiseModel
@@ -94,7 +94,7 @@ class TensorCircuitBackend(EngineBackend):
     _MISSING_ERR = "err.tensorcircuit_missing"
     _GATE_ERR = "err.tensorcircuit_gate"
     methods = frozenset({"statevector", "density_matrix"})
-    _CAPABILITIES = {"noise": True, "ctrl": True, "mid_measure": True, "gpu": True}
+    _CAPABILITIES: ClassVar[dict[str, bool]] = {"noise": True, "ctrl": True, "mid_measure": True, "gpu": True}
 
     # ------------------------------------------------------------------ #
     #  Statevector path (v1, unchanged)
@@ -219,7 +219,7 @@ class TensorCircuitBackend(EngineBackend):
                     counts = self._apply_readout_noise(counts, circuit.num_qubits, nm.readout)
                 from ..result import Result
                 return Result.from_counts(counts, shots)
-            except Exception:
+            except (ImportError, RuntimeError, ValueError):
                 return super()._run_gpu(circuit, shots, nm)
 
     def _apply_noise_after_gate(

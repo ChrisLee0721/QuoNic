@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, ClassVar
 
 from .._i18n import tr
 from .engine import EngineBackend
@@ -13,7 +13,7 @@ class QulacsBackend(EngineBackend):
     _MISSING_ERR = "err.qulacs_missing"
     _GATE_ERR = "err.qulacs_gate"
     methods = frozenset({"statevector", "density_matrix"})
-    _CAPABILITIES = {"noise": True, "ctrl": True, "mid_measure": True, "gpu": True}
+    _CAPABILITIES: ClassVar[dict[str, bool]] = {"noise": True, "ctrl": True, "mid_measure": True, "gpu": True}
 
     # ------------------------------------------------------------------ #
     #  Statevector path (v1)

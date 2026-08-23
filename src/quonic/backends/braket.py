@@ -32,7 +32,7 @@ Credentials:
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, ClassVar
 
 from .._i18n import tr
 from ..ir import Circuit
@@ -51,7 +51,7 @@ _BRAKET_DEVICES = {
 class BraketBackend(Backend):
     name = "braket"
     methods = frozenset({"statevector", "density_matrix"})
-    _CAPABILITIES = {"noise": True, "ctrl": False, "mid_measure": False, "gpu": False}
+    _CAPABILITIES: ClassVar[dict[str, bool]] = {"noise": True, "ctrl": False, "mid_measure": False, "gpu": False}
 
     def __init__(self, device: str = "sv1") -> None:
         """Initialize Braket backend.

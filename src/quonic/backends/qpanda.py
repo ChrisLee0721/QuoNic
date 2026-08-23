@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, ClassVar
 
 from .._i18n import tr
 from ..noise import NoiseModel
@@ -14,7 +14,7 @@ class QPandaBackend(EngineBackend):
     _MISSING_ERR = "err.qpanda_missing"
     _GATE_ERR = "err.qpanda_gate"
     methods = frozenset({"statevector", "density_matrix"})
-    _CAPABILITIES = {"noise": True, "ctrl": True, "mid_measure": True, "gpu": True}
+    _CAPABILITIES: ClassVar[dict[str, bool]] = {"noise": True, "ctrl": True, "mid_measure": True, "gpu": True}
 
     # ------------------------------------------------------------------ #
     #  Statevector path
@@ -129,7 +129,7 @@ class QPandaBackend(EngineBackend):
                 counts = self._apply_readout_noise(counts, n, nm.readout)
             from ..result import Result
             return Result.from_counts(counts, shots)
-        except Exception:
+        except (ImportError, RuntimeError, ValueError):
             return super()._run_gpu(circuit, shots, nm)
 
     # ------------------------------------------------------------------ #

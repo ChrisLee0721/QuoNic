@@ -236,7 +236,7 @@ def plot_density_matrix(
 
     vmax = max(float(np.max(np.abs(rho.real))), float(np.max(np.abs(rho.imag))), 1e-12)
 
-    labels = [f"|{format(i, '0%db' % n)}>" for i in range(2 ** n)]
+    labels = [f"|{format(i, f'0{n}b')}>" for i in range(2 ** n)]
 
     im0 = axes[0].imshow(rho.real, cmap="RdBu_r", vmin=-vmax, vmax=vmax)
     axes[0].set_title("Re(ρ)")
@@ -508,7 +508,7 @@ def plot_state_evolution(
 
     im = ax.imshow(grid, aspect="auto", cmap="Blues", interpolation="nearest", vmin=0, vmax=1)
     ax.set_yticks(range(grid.shape[0]))
-    ax.set_yticklabels([f"|{format(i, '0%db' % n)}>" for i in shown], fontsize=7)
+    ax.set_yticklabels([f"|{format(i, f'0{n}b')}>" for i in shown], fontsize=7)
     ax.set_xlabel("Gate sequence (0 = initial state)")
     ax.set_ylabel("Basis state")
     fig.colorbar(im, ax=ax, label="|Amplitude|²")

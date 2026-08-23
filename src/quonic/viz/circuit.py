@@ -274,7 +274,7 @@ def plot_statevector(
     else:
         shown = np.arange(size)
 
-    labels = [f"|{format(i, '0%db' % n)}>" for i in shown]
+    labels = [f"|{format(i, f'0{n}b')}>" for i in shown]
     amps = np.abs(sv[shown])
     phases = np.angle(sv[shown])
     k = len(shown)

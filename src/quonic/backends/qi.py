@@ -35,7 +35,7 @@ Usage:
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, ClassVar
 
 from .._i18n import tr
 from ..ir import Circuit
@@ -78,7 +78,7 @@ class QuantumInspireBackend(Backend):
     # Declarative description of the setup guide (setup_guide uses it to generate a
     # "press Enter to continue" interactive guide). When integrating IBM / AWS Braket /
     # domestic hardware in the future, each fills in its own setup while reusing the guide engine.
-    setup: dict[str, Any] = {
+    setup: ClassVar[dict[str, Any]] = {
         "name": "Quantum Inspire",
         "sdk": {
             "package": "qiskit_quantuminspire",       # import name, used to detect whether it is installed

@@ -197,8 +197,7 @@ def qshow_all(
     else:
         with ProcessPoolExecutor(max_workers=len(backends)) as pool:
             futures = {pool.submit(_run_one_in_subprocess, a): a[0] for a in args}
-            for future in futures:
-                be_name = futures[future]
+            for future, be_name in futures.items():
                 results[be_name] = future.result()
 
     if print_results:
@@ -276,8 +275,7 @@ def run_circuits(
 
     with ProcessPoolExecutor(max_workers=len(builders)) as pool:
         futures = {pool.submit(_run_circuit_subprocess, a): i for i, a in enumerate(args_list)}
-        for future in futures:
-            idx = futures[future]
+        for future, idx in futures.items():
             results[idx] = future.result()
 
     if print_results:

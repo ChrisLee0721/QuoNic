@@ -8,7 +8,7 @@ The cqlib.Circuit is built in parallel for QASM/QCIS export via ``engine``.
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, ClassVar
 
 from .._i18n import tr
 from .engine import EngineBackend
@@ -19,7 +19,7 @@ class CqlibBackend(EngineBackend):
     _MISSING_ERR = "err.cqlib_missing"
     _GATE_ERR = "err.cqlib_gate"
     methods = frozenset({"statevector"})
-    _CAPABILITIES = {"noise": False, "ctrl": False, "mid_measure": False}
+    _CAPABILITIES: ClassVar[dict[str, bool]] = {"noise": False, "ctrl": False, "mid_measure": False}
 
     def _create(self, n: int) -> Any:
         try:

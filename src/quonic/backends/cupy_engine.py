@@ -9,7 +9,7 @@ abstraction so the same code runs on both CPU (numpy) and GPU (CuPy).
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, ClassVar
 
 from ..ir import Circuit, CRegCondition
 from ..noise import NoiseModel
@@ -23,7 +23,7 @@ def _xp():
         import cupy
         if cupy.cuda.runtime.getDeviceCount() > 0:
             return cupy
-    except Exception:
+    except (ImportError, RuntimeError, ValueError):
         pass
     import numpy
     return numpy
@@ -44,7 +44,7 @@ def _check_gpu_memory(n: int, xp: Any) -> None:
             )
     except MemoryError:
         raise
-    except Exception:
+    except (ImportError, RuntimeError, ValueError):
         pass  # memory check unavailable, proceed anyway
 
 
@@ -63,7 +63,7 @@ class CupyEngineBackend(EngineBackend):
     _MISSING_ERR = "err.gpu_missing"
     _GATE_ERR = "err.gpu_gate"
     methods = frozenset({"statevector", "density_matrix", "gpu"})
-    _CAPABILITIES = {"noise": True, "ctrl": True, "mid_measure": True, "gpu": True}
+    _CAPABILITIES: ClassVar[dict[str, bool]] = {"noise": True, "ctrl": True, "mid_measure": True, "gpu": True}
 
     def _create(self, n: int) -> Any:
         xp = _xp()

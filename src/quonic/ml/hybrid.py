@@ -142,11 +142,11 @@ class QNNLayer:
                 return expectation_loss(circuit, self.observable[:min(len(self.observable), self.n_qubits)])
 
             param_grad = param_shift_grad(loss_fn, encoded_params)
-            grad_params += param_grad * grad_output[i] if len(grad_output.shape) > 1 else param_grad * grad_output[i]
+            grad_params += param_grad * grad_output[i]
 
             # Compute gradient w.r.t. input (through encoding)
             for j in range(min(len(x_2d[i]), len(self.params))):
-                grad_input[i, j] = param_grad[j] * (grad_output[i] if len(grad_output.shape) > 1 else grad_output[i])
+                grad_input[i, j] = param_grad[j] * (grad_output[i])
 
         return grad_input.reshape(x.shape), grad_params / batch_size
 

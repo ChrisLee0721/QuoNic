@@ -130,7 +130,7 @@ def _exponential_extrap(factors: Sequence[float], values: Sequence[float]) -> fl
             # a perfect exponential fit leaves the covariance unestimated; harmless
             warnings.simplefilter("ignore", OptimizeWarning)
             popt, _ = curve_fit(_model, lam, y, p0=p0, bounds=bounds, maxfev=20000)
-    except Exception:  # pragma: no cover - defensive fallback
+    except (ImportError, RuntimeError, ValueError):  # pragma: no cover - defensive fallback
         return _linear_extrap(factors, values)
     return float(popt[0] + popt[2])
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import ClassVar
 
 from ..ir import Circuit
 from ..noise import NoiseModel
@@ -15,7 +16,7 @@ class Backend(ABC):
     methods: frozenset[str] = frozenset({"statevector"})
 
     # Capability matrix — subclasses override to declare support.
-    _CAPABILITIES: dict[str, bool] = {
+    _CAPABILITIES: ClassVar[dict[str, bool]] = {
         "noise": False,
         "ctrl": False,
         "mid_measure": False,
