@@ -14,7 +14,8 @@ Example: a triangle graph (3 vertices, 3 edges)
 
 from __future__ import annotations
 
-from typing import Any, Callable, List, Optional, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Any, Callable
 
 from .._i18n import tr
 from ..result import Result
@@ -30,7 +31,7 @@ def _pauli_z(i: int, j: int, n: int) -> str:
 
 def _qaoa_state(
     n: int,
-    edges: Sequence[Tuple[int, int]],
+    edges: Sequence[tuple[int, int]],
     p: int,
     params: Sequence[float],
 ) -> StatevectorSimulator:
@@ -52,10 +53,10 @@ def _qaoa_state(
 
 
 def qaoa_maxcut(
-    edges: List[Tuple[int, int]],
+    edges: list[tuple[int, int]],
     n_qubits: int,
     p: int = 1,
-    init_params: Optional[Sequence[float]] = None,
+    init_params: Sequence[float] | None = None,
     optimizer: str = "COBYLA",
     maxiter: int = 300,
     record_history: bool = False,
@@ -88,8 +89,8 @@ def qaoa_maxcut(
         sim = _qaoa_state(n_qubits, edges, p, params)
         return sum(sim.expectation(_pauli_z(i, j, n_qubits)) for i, j in edges)
 
-    history: List[float] = []
-    callback: Optional[Callable[[Any], None]] = None
+    history: list[float] = []
+    callback: Callable[[Any], None] | None = None
     if record_history:
         def callback(xk: Any) -> None:
             history.append(float(cost(xk)))

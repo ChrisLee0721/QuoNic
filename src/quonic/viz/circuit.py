@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import math
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 from ..ir import Circuit, GateOperation
 from ..topology import CouplingMap
@@ -53,8 +53,8 @@ def plot_circuit(
     circuit: Circuit,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the gate-sequence circuit diagram: one qubit per row, gates laid out
     left-to-right in time order.
@@ -113,7 +113,7 @@ def plot_circuit(
 # 3. Coupling topology diagram
 # ---------------------------------------------------------------------------
 
-def _layout_positions(coupling_map: CouplingMap) -> Dict[int, Tuple[float, float]]:
+def _layout_positions(coupling_map: CouplingMap) -> dict[int, tuple[float, float]]:
     """Linear topology uses a straight-line layout; the rest use a circular layout (no networkx dependency)."""
     n = coupling_map.n
     if coupling_map.edges() == [(i, i + 1) for i in range(n - 1)]:
@@ -129,8 +129,8 @@ def plot_coupling_map(
     coupling_map: CouplingMap,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the coupling topology: nodes are qubits, edges are allowed two-qubit
     gate connections.
@@ -182,8 +182,8 @@ def plot_qubit_activity(
     circuit: Circuit,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the qubit activity heatmap: rows = qubits, columns = gate sequence,
     colored to indicate which qubits are touched.
@@ -241,9 +241,9 @@ def plot_statevector(
     state: Any,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
-    top_k: Optional[int] = 32,
+    save: str | None = None,
+    title: str | None = None,
+    top_k: int | None = 32,
 ) -> Any:
     """Draw the complex amplitudes of a statevector: magnitudes on top, phases
     below (indexed by basis state).
@@ -265,7 +265,7 @@ def plot_statevector(
     sv = _to_statevector(state)
     sv = np.asarray(sv, dtype=complex)
     size = len(sv)
-    n = int(round(math.log2(size)))
+    n = round(math.log2(size))
 
     truncated = top_k is not None and size > top_k
     if truncated:

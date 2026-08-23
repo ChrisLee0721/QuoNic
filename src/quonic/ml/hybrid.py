@@ -20,7 +20,7 @@ Example::
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, List, Optional, Tuple
+from typing import Any
 
 import numpy as np
 
@@ -34,7 +34,7 @@ class HybridResult:
     """Result of hybrid model training."""
 
     params: np.ndarray
-    loss_history: List[float]
+    loss_history: list[float]
     final_loss: float
     n_epochs: int
 
@@ -66,7 +66,7 @@ class ClassicalLayer:
             return np.tanh(out)
         return out
 
-    def backward(self, x: np.ndarray, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    def backward(self, x: np.ndarray, grad_output: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         """Backward pass. Returns (grad_input, grad_weights, grad_bias)."""
         # Apply activation derivative
         if self.activation == "relu":
@@ -98,7 +98,7 @@ class QNNLayer:
         observable: measurement observable
     """
 
-    def __init__(self, ansatz: AnsatzBuilder, n_qubits: Optional[int] = None, observable: str = "Z"):
+    def __init__(self, ansatz: AnsatzBuilder, n_qubits: int | None = None, observable: str = "Z"):
         self.ansatz = ansatz
         self.n_qubits = n_qubits or ansatz.n_params // (ansatz.n_params // 2)  # estimate
         self.observable = observable
@@ -123,7 +123,7 @@ class QNNLayer:
 
         return np.array(results).reshape(batch_size, 1)
 
-    def backward(self, x: np.ndarray, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    def backward(self, x: np.ndarray, grad_output: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
         """Backward pass. Returns (grad_input, grad_params)."""
         batch_size = x.shape[0] if len(x.shape) > 1 else 1
         x_2d = x.reshape(batch_size, -1)
@@ -165,13 +165,13 @@ class HybridModel:
         layers: list of ClassicalLayer and QNNLayer instances
     """
 
-    def __init__(self, layers: List[Any]):
+    def __init__(self, layers: list[Any]):
         self.layers = layers
 
     def fit(
         self,
-        X: List[List[float]],
-        y: List[float],
+        X: list[list[float]],
+        y: list[float],
         epochs: int = 100,
         lr: float = 0.01,
         verbose: bool = False,
@@ -225,7 +225,7 @@ class HybridModel:
             n_epochs=len(loss_history),
         )
 
-    def predict(self, X: List[List[float]]) -> np.ndarray:
+    def predict(self, X: list[list[float]]) -> np.ndarray:
         """Predict using the trained model.
 
         Args:

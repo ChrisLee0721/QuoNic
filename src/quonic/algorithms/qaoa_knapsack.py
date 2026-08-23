@@ -20,15 +20,13 @@ Example::
 
 from __future__ import annotations
 
-from typing import List
-
 from ..result import Result
 from .qaoa_generic import qaoa
 
 
 def _knapsack_hamiltonian(
-    weights: List[float],
-    values: List[float],
+    weights: list[float],
+    values: list[float],
     capacity: float,
     penalty: float = 10.0,
 ) -> list:
@@ -67,8 +65,8 @@ def _knapsack_hamiltonian(
 
 
 def qaoa_knapsack(
-    weights: List[float],
-    values: List[float],
+    weights: list[float],
+    values: list[float],
     capacity: float,
     p: int = 1,
     penalty: float = 10.0,

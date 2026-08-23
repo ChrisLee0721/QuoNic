@@ -17,12 +17,12 @@ English, then to the raw key, so an untranslated message never crashes.
 from __future__ import annotations
 
 import os
-from typing import Any, Dict
+from typing import Any
 
 _LANGUAGES = ("en", "zh")
 
 # fmt: off
-_MESSAGES: Dict[str, Dict[str, str]] = {
+_MESSAGES: dict[str, dict[str, str]] = {
     # --------------------------------------------------------- setup guide
     "setup.default_name": {
         "en": "this backend",

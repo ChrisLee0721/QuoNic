@@ -3,7 +3,7 @@ linear fit and the λ=0 extrapolated value."""
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from ..zne import ZNEResult
 from ._mpl import _plt, finalize
@@ -13,8 +13,8 @@ def plot_zne(
     result: ZNEResult,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Plot a ZNEResult: scatter of (λ, value), the least-squares linear fit,
     and the extrapolated value at λ = 0 (a star marker).

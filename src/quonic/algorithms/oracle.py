@@ -11,7 +11,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Callable, Tuple
+from typing import Any, Callable
 
 from .._i18n import tr
 from ..ir import Circuit
@@ -35,7 +35,7 @@ def oracle(n_qubits: int) -> Callable[[Callable[[int], bool]], Any]:
         raise ValueError(tr("err.oracle_n_qubits_positive", n_qubits=n_qubits))
 
     def decorator(f: Callable[[int], bool]) -> Any:
-        marked: Tuple[int, ...] = tuple(x for x in range(2 ** n_qubits) if f(x))
+        marked: tuple[int, ...] = tuple(x for x in range(2 ** n_qubits) if f(x))
 
         def phase_oracle(circuit: Circuit) -> None:
             for x in marked:

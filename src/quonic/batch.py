@@ -8,19 +8,17 @@ Example::
 
 from __future__ import annotations
 
-from typing import List, Optional, Union
-
 from .ir import Circuit
 from .noise import NoiseModel
 from .result import Result
 
 
 def run_batch(
-    circuits: List[Circuit],
+    circuits: list[Circuit],
     backend: str = "native",
     shots: int = 1024,
-    noise: Optional[Union[NoiseModel, float, int]] = None,
-) -> List[Result]:
+    noise: NoiseModel | float | None = None,
+) -> list[Result]:
     """Run multiple circuits on the same backend.
 
     Args:

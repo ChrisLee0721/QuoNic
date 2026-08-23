@@ -5,7 +5,8 @@ Convention: qubit 0 is the least-significant bit (the rightmost of the bitstring
 
 from __future__ import annotations
 
-from typing import Any, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 import numpy as np
 

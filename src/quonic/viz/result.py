@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 from .._i18n import tr
 from ..result import Result
@@ -10,12 +10,12 @@ from ._mpl import _plt, finalize
 
 
 def plot_counts(
-    result: Union[Result, Dict[str, int]],
+    result: Result | dict[str, int],
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
-    top_k: Optional[int] = 20,
+    save: str | None = None,
+    title: str | None = None,
+    top_k: int | None = 20,
 ) -> Any:
     """Draw the measurement histogram: x-axis is bit strings, y-axis is sample
     counts.

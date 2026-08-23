@@ -11,7 +11,6 @@ Example::
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, List
 
 
 @dataclass
@@ -40,8 +39,8 @@ class QuantumNetwork:
 
     n_nodes: int
     topology: str = "star"
-    nodes: List[Node] = field(default_factory=list)
-    connections: Dict[str, List[str]] = field(default_factory=dict)
+    nodes: list[Node] = field(default_factory=list)
+    connections: dict[str, list[str]] = field(default_factory=dict)
 
     def __post_init__(self):
         if not self.nodes:
@@ -69,6 +68,6 @@ class QuantumNetwork:
                     neighbors.append(self.nodes[i + 1].name)
                 self.connections[node.name] = neighbors
 
-    def get_neighbors(self, node_name: str) -> List[str]:
+    def get_neighbors(self, node_name: str) -> list[str]:
         """Get neighbors of a node."""
         return self.connections.get(node_name, [])

@@ -6,15 +6,13 @@ future custom gates / function scopes will push / pop new circuits, hence a stac
 
 from __future__ import annotations
 
-from typing import List
-
 from ._i18n import tr
 from .ir import Circuit
 
 
 class CircuitStack:
     def __init__(self) -> None:
-        self._stack: List[Circuit] = [Circuit()]
+        self._stack: list[Circuit] = [Circuit()]
 
     @property
     def current(self) -> Circuit:

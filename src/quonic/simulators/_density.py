@@ -7,7 +7,8 @@ logical gate (depolarizing channel).
 from __future__ import annotations
 
 import functools
-from typing import Any, Dict, Optional, Sequence, Tuple, Union
+from collections.abc import Sequence
+from typing import Any
 
 import numpy as np
 
@@ -26,7 +27,7 @@ class DensityMatrixEngine:
     def __init__(
         self,
         num_qubits: int,
-        noise: Optional[Union[NoiseModel, float, int]] = None,
+        noise: NoiseModel | float | None = None,
     ) -> None:
         self.n: int = num_qubits
         self.noise: NoiseModel = resolve_noise(noise)
@@ -135,7 +136,7 @@ class DensityMatrixEngine:
             self._depolarize_double(qubits[0], qubits[1], self.noise.double)
 
     def apply(
-        self, name: str, qubits: Sequence[int], params: Tuple[float, ...] = ()
+        self, name: str, qubits: Sequence[int], params: tuple[float, ...] = ()
     ) -> None:
         from ..gates import _GATE_REGISTRY
 
@@ -170,7 +171,7 @@ class DensityMatrixEngine:
             raise ValueError(tr("err.density_gate", name=name))
         self._noise_after(qubits)
 
-    def sample(self, shots: int) -> Dict[str, int]:
+    def sample(self, shots: int) -> dict[str, int]:
         probs = np.real(np.diag(self.rho))
         probs = np.clip(probs, 0.0, None)
         probs = probs / probs.sum()
@@ -181,7 +182,7 @@ class DensityMatrixEngine:
             flips = np.random.random((shots, self.n)) < p
             mask = (flips * (1 << np.arange(self.n))).sum(axis=1)
             idx = idx ^ mask.astype(int)
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         fmt = f"0{self.n}b"
         for i in idx:
             bs = format(int(i), fmt)

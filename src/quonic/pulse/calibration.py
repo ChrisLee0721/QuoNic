@@ -11,7 +11,6 @@ Example::
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List
 
 import numpy as np
 
@@ -20,8 +19,8 @@ import numpy as np
 class RabiResult:
     """Result of a Rabi oscillation calibration."""
 
-    amplitudes: List[float]
-    populations: List[float]
+    amplitudes: list[float]
+    populations: list[float]
     pi_amplitude: float
     frequency: float
 
@@ -30,8 +29,8 @@ class RabiResult:
 class T1Result:
     """Result of a T1 relaxation measurement."""
 
-    delays: List[float]
-    populations: List[float]
+    delays: list[float]
+    populations: list[float]
     t1: float
 
 
@@ -39,14 +38,14 @@ class T1Result:
 class T2Result:
     """Result of a T2 dephasing measurement."""
 
-    delays: List[float]
-    populations: List[float]
+    delays: list[float]
+    populations: list[float]
     t2: float
 
 
 def rabi_calibration(
     qubit: int,
-    amplitudes: List[float],
+    amplitudes: list[float],
     backend: str = "native",
     shots: int = 1024,
 ) -> RabiResult:
@@ -89,7 +88,7 @@ def rabi_calibration(
 
 def t1_calibration(
     qubit: int,
-    delays: List[float],
+    delays: list[float],
     backend: str = "native",
     shots: int = 1024,
 ) -> T1Result:
@@ -132,7 +131,7 @@ def t1_calibration(
 
 def t2_calibration(
     qubit: int,
-    delays: List[float],
+    delays: list[float],
     backend: str = "native",
     shots: int = 1024,
 ) -> T2Result:

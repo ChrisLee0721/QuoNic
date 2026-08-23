@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import math
-from typing import Any, List, Optional, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Any
 
 from .._i18n import tr
 from ..gates import Gate, resolve
@@ -11,7 +12,7 @@ from ..ir import GateOperation
 from ._mpl import _plt
 
 
-def _gate_unitary(name: str, qubits: Sequence[int], params: Tuple[float, ...]) -> Any:
+def _gate_unitary(name: str, qubits: Sequence[int], params: tuple[float, ...]) -> Any:
     """Build the gate's unitary matrix column by column using the in-house statevector engine (column = basis state after applying the gate)."""
     import numpy as np
 
@@ -28,7 +29,7 @@ def _gate_unitary(name: str, qubits: Sequence[int], params: Tuple[float, ...]) -
     return u
 
 
-def _resolve_gate(gate: Any) -> Tuple[str, List[int], Tuple[float, ...]]:
+def _resolve_gate(gate: Any) -> tuple[str, list[int], tuple[float, ...]]:
     """Normalize the input into (name, qubits, params)."""
     if isinstance(gate, GateOperation):
         return gate.name, list(gate.qubits), gate.params
@@ -46,8 +47,8 @@ def plot_gate_matrix(
     gate: Any,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw a two-panel heatmap of a single gate's unitary matrix (real/imag).
 
@@ -68,7 +69,7 @@ def plot_gate_matrix(
         raise ValueError(tr("err.viz_measure_unitary"))
 
     u = _gate_unitary(name, qubits, params)
-    n = int(round(math.log2(u.shape[0])))
+    n = round(math.log2(u.shape[0]))
     labels = [f"|{format(i, '0%db' % n)}>" for i in range(u.shape[0])]
 
     if ax is None:

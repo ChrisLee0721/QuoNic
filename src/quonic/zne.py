@@ -16,8 +16,9 @@ Two metrics are supported:
 from __future__ import annotations
 
 import math
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Iterable, Optional, Sequence, Tuple, Union
+from typing import TYPE_CHECKING
 
 from ._i18n import tr
 from .compiler import _adjoint
@@ -34,8 +35,8 @@ _PAULI_CHARS = frozenset("IXYZ")
 class ZNEResult:
     """Outcome of a ZNE run: per-λ measured values and the λ=0 extrapolation."""
 
-    factors: Tuple[float, ...]
-    values: Tuple[float, ...]
+    factors: tuple[float, ...]
+    values: tuple[float, ...]
     extrapolated: float
     metric: str  # "success" or "expectation"
 
@@ -75,9 +76,9 @@ def fold(circuit: Circuit, k: int) -> Circuit:
     return out
 
 
-def _validate_factors(factors: Sequence[float]) -> Tuple[int, ...]:
+def _validate_factors(factors: Sequence[float]) -> tuple[int, ...]:
     ks: list = []
-    prev: Optional[float] = None
+    prev: float | None = None
     for lam in factors:
         k = (float(lam) - 1.0) / 2.0
         if k < 0 or k != int(k):
@@ -215,14 +216,14 @@ def _expectation_from_counts(counts: dict, observable: str, shots: int) -> float
 
 def zne(
     circuit: Circuit,
-    noise: Optional[Union[NoiseModel, float, int]] = None,
+    noise: NoiseModel | float | None = None,
     factors: Sequence[float] = (1, 3, 5),
-    target: Optional[Union[str, Iterable[str]]] = None,
-    observable: Optional[str] = None,
+    target: str | Iterable[str] | None = None,
+    observable: str | None = None,
     backend: str = "native",
     shots: int = 1024,
-    device: Optional[str] = None,
-    calibration: Optional[ReadoutCalibration] = None,
+    device: str | None = None,
+    calibration: ReadoutCalibration | None = None,
     extrapolation: str = "linear",
 ) -> ZNEResult:
     """Estimate a noise-free quantity by zero-noise extrapolation.

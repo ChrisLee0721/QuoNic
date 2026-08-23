@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional, Tuple
-
 from .._i18n import tr
 from .azure import AzureBackend
 from .base import Backend
@@ -31,7 +29,7 @@ from .xanadu import XanaduBackend
 # (local simulators plus the qi cloud entry point). Specific real-hardware devices
 # (Tuna-9 / Tuna-17 / QX emulator) are selected via the device argument, not
 # registered here as independent backend names.
-_REGISTRY: Dict[str, Backend] = {
+_REGISTRY: dict[str, Backend] = {
     "qiskit": QiskitBackend(),
     "cirq": CirqBackend(),
     "pennylane": PennyLaneBackend(),
@@ -54,7 +52,7 @@ _REGISTRY: Dict[str, Backend] = {
 }
 
 # Backward-compatible aliases for the legacy one-shot device shortcuts: backend="tuna9" is equivalent to backend="qi", device="tuna9".
-_BACKEND_ALIASES: Dict[str, Tuple[str, str]] = {
+_BACKEND_ALIASES: dict[str, tuple[str, str]] = {
     "tuna9": ("qi", "tuna9"),
     "tuna17": ("qi", "tuna17"),
     "qx": ("qi", "qx"),
@@ -62,8 +60,8 @@ _BACKEND_ALIASES: Dict[str, Tuple[str, str]] = {
 
 
 def resolve_target(
-    backend: str, device: Optional[str] = None
-) -> Tuple[str, Optional[str]]:
+    backend: str, device: str | None = None
+) -> tuple[str, str | None]:
     """Normalize (backend, device) into (engine name, device name).
 
     - If backend is a legacy device shortcut (tuna9/tuna17/qx), translate it into ("qi", device alias);
@@ -107,7 +105,7 @@ def _detect_available() -> str:
     return "native"  # Fallback: the in-house engine, which only needs numpy
 
 
-def get_backend(name: str, device: Optional[str] = None) -> Backend:
+def get_backend(name: str, device: str | None = None) -> Backend:
     """Get a backend by name. Supports legacy device-shortcut aliases (returns a qi instance carrying the device)."""
     name, device = resolve_target(name, device)
     if name == "auto":
@@ -135,7 +133,7 @@ def get_backend(name: str, device: Optional[str] = None) -> Backend:
 
 
 def get_backend_for_method(
-    name: str, method: str, device: Optional[str] = None
+    name: str, method: str, device: str | None = None
 ) -> Backend:
     """Resolve a backend by method: fall back to native (the in-house engine) when the target backend does not support the method.
 
@@ -152,15 +150,15 @@ def get_backend_for_method(
     raise ValueError(tr("err.no_method_support", method=method))
 
 
-def available_backends() -> List[str]:
+def available_backends() -> list[str]:
     return sorted(_REGISTRY)
 
 
 __all__ = [
     "Backend",
     "EngineBackend",
+    "available_backends",
     "get_backend",
     "get_backend_for_method",
-    "available_backends",
     "resolve_target",
 ]

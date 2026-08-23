@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import math
-from typing import Any, Optional, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Any
 
 from .._i18n import tr
 from ..ir import Circuit
@@ -11,7 +12,7 @@ from ._mpl import _plt, finalize
 from .circuit import _to_statevector
 
 
-def _bloch_vector(state: Any) -> Tuple[float, float, float]:
+def _bloch_vector(state: Any) -> tuple[float, float, float]:
     """Convert a single-qubit state (or a Bloch-vector triple) into (x, y, z)."""
     import numpy as np
 
@@ -32,7 +33,7 @@ def _bloch_vector(state: Any) -> Tuple[float, float, float]:
     return float(x), float(y), float(z)
 
 
-def _rho_bloch_vector(rho: Any) -> Tuple[float, float, float]:
+def _rho_bloch_vector(rho: Any) -> tuple[float, float, float]:
     """Compute the Bloch vector from a 2×2 density matrix (also works for mixed states)."""
     import numpy as np
 
@@ -44,7 +45,7 @@ def _rho_bloch_vector(rho: Any) -> Tuple[float, float, float]:
 
 
 def _draw_bloch_sphere(
-    ax: Any, x: float, y: float, z: float, label: Optional[str] = None
+    ax: Any, x: float, y: float, z: float, label: str | None = None
 ) -> None:
     """Draw a Bloch sphere on the given 3D Axes (sphere wireframe + coordinate axes + statevector arrow)."""
     import numpy as np
@@ -84,8 +85,8 @@ def plot_bloch_sphere(
     state: Any,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the Bloch sphere of a single-qubit state (3D, a point on the unit
     sphere plus an arrow from the origin to it).
@@ -120,11 +121,11 @@ def plot_bloch_sphere(
 
 def plot_bloch_multivector(
     state: Any,
-    cols: Optional[int] = None,
+    cols: int | None = None,
     annotate: bool = False,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw a Bloch sphere for each qubit of a multi-qubit state (grid layout).
 
@@ -148,7 +149,7 @@ def plot_bloch_multivector(
 
     plt = _plt()
     rho = _to_density(state)
-    n = int(round(math.log2(rho.shape[0])))
+    n = round(math.log2(rho.shape[0]))
 
     cols = cols or min(n, 5)
     rows = math.ceil(n / cols)
@@ -208,8 +209,8 @@ def plot_density_matrix(
     state: Any,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw a two-panel heatmap of a density matrix (real/imag).
 
@@ -225,7 +226,7 @@ def plot_density_matrix(
 
     plt = _plt()
     rho = _to_density(state)
-    n = int(round(math.log2(rho.shape[0])))
+    n = round(math.log2(rho.shape[0]))
 
     if ax is None:
         fig, axes = plt.subplots(1, 2, figsize=(10, 4.5))
@@ -333,11 +334,11 @@ def _concurrence(rho: Any) -> float:
 
 def plot_entanglement(
     state: Any,
-    partition: Optional[Sequence[int]] = None,
+    partition: Sequence[int] | None = None,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the entanglement spectrum (reduced density matrix eigenvalues) plus
     the von Neumann entropy of a quantum state.
@@ -360,7 +361,7 @@ def plot_entanglement(
 
     plt = _plt()
     rho = _to_density(state)
-    n = int(round(math.log2(rho.shape[0])))
+    n = round(math.log2(rho.shape[0]))
 
     if partition is None:
         partition = list(range(n // 2))
@@ -405,8 +406,8 @@ def plot_entanglement_profile(
     state: Any,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the entanglement-entropy spectrum for every adjacent bipartition
     (0..k vs k+1..n-1).
@@ -426,7 +427,7 @@ def plot_entanglement_profile(
 
     plt = _plt()
     rho = _to_density(state)
-    n = int(round(math.log2(rho.shape[0])))
+    n = round(math.log2(rho.shape[0]))
 
     entropies = []
     for k in range(n - 1):
@@ -459,9 +460,9 @@ def plot_state_evolution(
     circuit: Circuit,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
-    top_k: Optional[int] = 16,
+    save: str | None = None,
+    title: str | None = None,
+    top_k: int | None = 16,
 ) -> Any:
     """Draw the probability heatmap of the statevector evolving gate by gate
     through the circuit.

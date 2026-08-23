@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 from .._i18n import tr
 from .engine import EngineBackend
@@ -81,7 +81,7 @@ class MindQuantumBackend(EngineBackend):
         sim = Simulator("cpu", n)
         sim.apply_circuit(engine)
         raw = sim.sampling(shots)
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for sample in raw.samples:
             bs = "".join(str(int(sample[i])) for i in range(n))[::-1]
             counts[bs] = counts.get(bs, 0) + 1
@@ -102,7 +102,7 @@ class MindQuantumBackend(EngineBackend):
             sim = Simulator("gpu", n)
             sim.apply_circuit(circ)
             raw = sim.sampling(shots)
-            counts: Dict[str, int] = {}
+            counts: dict[str, int] = {}
             for sample in raw.samples:
                 bs = "".join(str(int(sample[i])) for i in range(n))[::-1]
                 counts[bs] = counts.get(bs, 0) + 1
@@ -121,12 +121,12 @@ class MindQuantumBackend(EngineBackend):
         """Override: use MindQuantum Simulator directly for stateful execution with collapse."""
         from mindquantum import Simulator
 
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         n = circuit.num_qubits
 
         for _ in range(shots):
             sim = Simulator("cpu", n)
-            cregs: Dict[str, int] = {}
+            cregs: dict[str, int] = {}
             self._execute_shot_sim(sim, circuit.ops, cregs, n)
             raw = sim.sampling(1)
             bs = "".join(str(int(raw.samples[0][i])) for i in range(n))[::-1]
@@ -268,7 +268,7 @@ class MindQuantumBackend(EngineBackend):
         sim = Simulator("density_matrix", circuit.num_qubits)
         sim.apply_circuit(circ)
         raw = sim.sampling(shots)
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for sample in raw.samples:
             bs = "".join(str(int(sample[i])) for i in range(circuit.num_qubits))[::-1]
             counts[bs] = counts.get(bs, 0) + 1

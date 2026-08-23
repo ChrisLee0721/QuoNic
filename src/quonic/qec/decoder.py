@@ -10,10 +10,8 @@ Example::
 
 from __future__ import annotations
 
-from typing import List
 
-
-def decode_mwpm(syndrome: List[int], code) -> List[int]:
+def decode_mwpm(syndrome: list[int], code) -> list[int]:
     """Minimum Weight Perfect Matching decoder.
 
     Matches syndrome defects to find the most likely error.
@@ -37,7 +35,7 @@ def decode_mwpm(syndrome: List[int], code) -> List[int]:
     return correction
 
 
-def decode_lookup(syndrome: List[int], code) -> List[int]:
+def decode_lookup(syndrome: list[int], code) -> list[int]:
     """Lookup table decoder.
 
     Uses a pre-built lookup table for syndrome → correction mapping.
@@ -81,7 +79,7 @@ class UnionFindDecoder:
         self.code = code
         self.n = code.n_total
 
-    def decode(self, syndrome: List[int]) -> List[int]:
+    def decode(self, syndrome: list[int]) -> list[int]:
         """Decode syndrome and return correction.
 
         Args:
@@ -109,7 +107,7 @@ class UnionFindDecoder:
         if len(defects) % 2 == 1:
             d = defects[-1]
             # Apply correction from defect to boundary (qubit 0)
-            for q in range(0, d + 1):
+            for q in range(d + 1):
                 if q < self.n:
                     correction[q] ^= 1
 

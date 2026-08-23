@@ -9,8 +9,6 @@ Example::
 
 from __future__ import annotations
 
-from typing import Union
-
 import numpy as np
 
 from ..backends import get_backend
@@ -39,7 +37,7 @@ def expectation_loss(
 
 def fidelity_loss(
     circuit: Circuit,
-    target: Union[StateVector, np.ndarray],
+    target: StateVector | np.ndarray,
     backend: str = "native",
 ) -> float:
     """Compute fidelity loss: 1 - |<ψ|φ>|².

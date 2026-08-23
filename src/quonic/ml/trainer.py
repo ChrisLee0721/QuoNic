@@ -14,7 +14,7 @@ Example::
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Callable, List, Optional
+from typing import Any, Callable
 
 import numpy as np
 
@@ -26,7 +26,7 @@ class TrainResult:
     """Result of a training run."""
 
     params: np.ndarray
-    loss_history: List[float]
+    loss_history: list[float]
     final_loss: float
     n_steps: int
 
@@ -65,7 +65,7 @@ def param_shift_grad(
 def adjoint_grad(
     loss_fn: Callable[[np.ndarray], float],
     params: np.ndarray,
-    ansatz: Optional[AnsatzBuilder] = None,
+    ansatz: AnsatzBuilder | None = None,
     observable: str = "Z",
 ) -> np.ndarray:
     """Compute gradient using adjoint differentiation.
@@ -91,7 +91,7 @@ def train(
     ansatz: AnsatzBuilder,
     optimizer: Any,
     loss_fn: Callable[[np.ndarray], float],
-    init_params: Optional[np.ndarray] = None,
+    init_params: np.ndarray | None = None,
     gradient: str = "param_shift",
     seed: int = 42,
     verbose: bool = False,
@@ -156,10 +156,10 @@ def train(
 def train_batch(
     ansatz: AnsatzBuilder,
     optimizer: Any,
-    loss_fn: Callable[[np.ndarray, List, List], float],
-    X: List[List[float]],
-    y: List[float],
-    init_params: Optional[np.ndarray] = None,
+    loss_fn: Callable[[np.ndarray, list, list], float],
+    X: list[list[float]],
+    y: list[float],
+    init_params: np.ndarray | None = None,
     gradient: str = "param_shift",
     batch_size: int = 32,
     seed: int = 42,

@@ -14,8 +14,6 @@ Example::
 
 from __future__ import annotations
 
-from typing import List, Tuple
-
 from ..result import Result
 
 
@@ -36,7 +34,7 @@ def jordan_wigner_2site(
         Result with Pauli Hamiltonian terms.
     """
     # H = -t/2 * (X_0 X_1 + Y_0 Y_1) + U/4 * (I - Z_0 - Z_1 + Z_0 Z_1)
-    terms: List[Tuple[float, str]] = []
+    terms: list[tuple[float, str]] = []
     terms.append((-t / 2, "XX"))
     terms.append((-t / 2, "YY"))
     terms.append((U / 4, "II"))

@@ -22,7 +22,8 @@ Example: count how many states in 3 bits (N=8) satisfy a predicate
 from __future__ import annotations
 
 import math
-from typing import Any, List, Optional, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 from .._i18n import tr
 from ..backends import get_backend
@@ -31,7 +32,7 @@ from ..result import Result
 from .qpe import _add_iqft
 
 
-def _marked_states(oracle: Any, n_qubits: int) -> List[int]:
+def _marked_states(oracle: Any, n_qubits: int) -> list[int]:
     if isinstance(oracle, str):
         if len(oracle) != n_qubits:
             raise ValueError(tr("err.oracle_len", oracle=oracle, n=len(oracle), n_qubits=n_qubits))
@@ -87,7 +88,7 @@ def _add_controlled_grover(
 def quantum_counting(
     oracle: Any,
     n_qubits: int,
-    t: Optional[int] = None,
+    t: int | None = None,
     backend: str = "auto",
     shots: int = 1024,
 ) -> Result:

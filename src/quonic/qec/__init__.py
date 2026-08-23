@@ -18,16 +18,16 @@ from .stabilizer import StabilizerCode
 
 __all__ = [
     "BitFlipCode",
+    "CSSCode",
+    "ColorCode",
     "PhaseFlipCode",
+    "QECResult",
     "ShorCode",
+    "StabilizerCode",
     "SteaneCode",
     "SurfaceCode",
-    "ColorCode",
-    "CSSCode",
-    "StabilizerCode",
     "UnionFindDecoder",
-    "decode_mwpm",
     "decode_lookup",
-    "QECResult",
+    "decode_mwpm",
     "qec_round_trip",
 ]

@@ -31,7 +31,7 @@ Example::
 
 from __future__ import annotations
 
-from typing import Callable, List
+from typing import Callable
 
 from ..backends import get_backend
 from ..ir import Circuit, GateOperation
@@ -40,7 +40,7 @@ from ..result import Result
 OracleFn = Callable[[Circuit, int], None]
 
 
-def _solve_mod2(equations: List[List[int]], n: int) -> str:
+def _solve_mod2(equations: list[list[int]], n: int) -> str:
     """Solve a system of linear equations mod 2 via Gaussian elimination."""
     # Build augmented matrix
     mat = [eq[:] for eq in equations]
@@ -104,7 +104,7 @@ def simon(
         Result with "secret" string in metadata.
     """
     n = n_qubits
-    equations: List[List[int]] = []
+    equations: list[list[int]] = []
 
     for _ in range(shots):
         circuit = Circuit()

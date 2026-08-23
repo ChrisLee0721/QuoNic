@@ -38,7 +38,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable
 
 from .._i18n import tr
 
@@ -49,7 +49,7 @@ from .._i18n import tr
 @dataclass
 class Diagnosis:
     sdk_installed: bool
-    conflicts: List[Dict[str, str]] = field(default_factory=list)
+    conflicts: list[dict[str, str]] = field(default_factory=list)
     auth_ready: bool = False
 
     @property
@@ -63,7 +63,7 @@ def _module_available(package: str) -> bool:
     return importlib.util.find_spec(package) is not None
 
 
-def _installed_version(package: str) -> Optional[str]:
+def _installed_version(package: str) -> str | None:
     import importlib.metadata
 
     try:
@@ -72,12 +72,12 @@ def _installed_version(package: str) -> Optional[str]:
         return None
 
 
-def _version_tuple(v: str) -> Tuple[int, ...]:
+def _version_tuple(v: str) -> tuple[int, ...]:
     parts = re.findall(r"\d+", str(v))
     return tuple(int(p) for p in parts)
 
 
-def _compare(a: Tuple[int, ...], b: Tuple[int, ...]) -> int:
+def _compare(a: tuple[int, ...], b: tuple[int, ...]) -> int:
     """Compare two version tuples and return -1 / 0 / 1. Pad lengths, then compare digit by digit."""
     n = max(len(a), len(b))
     a = a + (0,) * (n - len(a))
@@ -99,7 +99,7 @@ def satisfies(current: str, constraint: str) -> bool:
     return {"<": c < 0, "<=": c <= 0, ">": c > 0, ">=": c >= 0, "==": c == 0}[op]
 
 
-def _auth_ready(auth: Dict[str, Any]) -> bool:
+def _auth_ready(auth: dict[str, Any]) -> bool:
     import os
 
     token_file = auth.get("token_file")
@@ -108,9 +108,9 @@ def _auth_ready(auth: Dict[str, Any]) -> bool:
     return os.path.isfile(os.path.expanduser(token_file))
 
 
-def _conflicts(setup: Dict[str, Any]) -> List[Dict[str, str]]:
+def _conflicts(setup: dict[str, Any]) -> list[dict[str, str]]:
     """Return the list of conflicts that violate constraints: [{"package", "installed", "constraint"}]."""
-    conflicts: List[Dict[str, str]] = []
+    conflicts: list[dict[str, str]] = []
     for c in setup.get("conflicts", []):
         ver = _installed_version(c["package"])
         if ver is not None and not satisfies(ver, c["constraint"]):
@@ -120,7 +120,7 @@ def _conflicts(setup: Dict[str, Any]) -> List[Dict[str, str]]:
     return conflicts
 
 
-def diagnose(setup: Dict[str, Any]) -> Diagnosis:
+def diagnose(setup: dict[str, Any]) -> Diagnosis:
     """Diagnose whether the backend described by setup is ready, returning a Diagnosis."""
     sdk = setup["sdk"]
     return Diagnosis(
@@ -172,9 +172,9 @@ def _run_pip(run: Callable[..., Any], target: str) -> Any:
 # ---------------------------------------------------------------------------
 
 def guided_setup(
-    setup: Dict[str, Any],
+    setup: dict[str, Any],
     input_: Callable[[str], str] = input,
-    run: Optional[Callable[..., Any]] = None,
+    run: Callable[..., Any] | None = None,
 ) -> bool:
     """Interactively guide configuration. Returns whether it is ready. Should only be called in a TTY environment."""
     if run is None:
@@ -227,7 +227,7 @@ def guided_setup(
 
 
 def _handle_conflict(
-    c: Dict[str, str], run: Callable[..., Any], input_: Callable[[str], str]
+    c: dict[str, str], run: Callable[..., Any], input_: Callable[[str], str]
 ) -> None:
     print(tr("setup.how_to_handle"))
     print(tr("setup.opt_venv"))
@@ -262,9 +262,9 @@ def _print_venv_guide() -> None:
 # ---------------------------------------------------------------------------
 
 def ensure_ready(
-    setup: Dict[str, Any],
+    setup: dict[str, Any],
     input_: Callable[[str], str] = input,
-    run: Optional[Callable[..., Any]] = None,
+    run: Callable[..., Any] | None = None,
 ) -> None:
     """Preflight check for a backend's run(): pass when ready; otherwise guide under a TTY, and raise a Chinese error when not a TTY.
 
@@ -282,7 +282,7 @@ def ensure_ready(
     _raise_not_ready(d, setup)
 
 
-def _raise_not_ready(d: Diagnosis, setup: Dict[str, Any]) -> None:
+def _raise_not_ready(d: Diagnosis, setup: dict[str, Any]) -> None:
     name = setup.get("name", tr("setup.default_name"))
     if not d.sdk_installed:
         sdk = setup["sdk"]

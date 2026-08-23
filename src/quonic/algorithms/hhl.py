@@ -17,7 +17,6 @@ Example::
 from __future__ import annotations
 
 import math
-from typing import List
 
 from ..backends import get_backend
 from ..ir import Circuit, GateOperation
@@ -25,8 +24,8 @@ from ..result import Result
 
 
 def hhl_demo(
-    matrix: List[List[float]] = None,
-    vector: List[float] = None,
+    matrix: list[list[float]] | None = None,
+    vector: list[float] | None = None,
     n_clock: int = 3,
     backend: str = "auto",
     shots: int = 1024,

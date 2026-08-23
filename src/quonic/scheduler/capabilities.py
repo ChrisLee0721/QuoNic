@@ -14,16 +14,17 @@ with the machine and needs re-calibration.
 
 from __future__ import annotations
 
-from typing import Any, Dict, Iterable, Set
+from collections.abc import Iterable
+from typing import Any
 
-BASIC_CLIFFORD: Set[str] = {"h", "x", "y", "z", "cx", "cz"}
+BASIC_CLIFFORD: set[str] = {"h", "x", "y", "z", "cx", "cz"}
 """Aer's stabilizer method only accepts this set of basic Clifford gates (no mcz / cp / ccx)."""
 
-CLIFFORD_GATES: Set[str] = BASIC_CLIFFORD | {"mcz"}
+CLIFFORD_GATES: set[str] = BASIC_CLIFFORD | {"mcz"}
 """The full Clifford gate set (including multi-controlled Z). Used for the is_clifford check."""
 
 
-METHOD_CAPABILITIES: Dict[str, Dict[str, Any]] = {
+METHOD_CAPABILITIES: dict[str, dict[str, Any]] = {
     "statevector": {
         "clifford": True,
         "nonclifford": True,
@@ -57,7 +58,7 @@ METHOD_CAPABILITIES: Dict[str, Dict[str, Any]] = {
 }
 
 
-BACKEND_CAPABILITIES: Dict[str, Set[str]] = {
+BACKEND_CAPABILITIES: dict[str, set[str]] = {
     # Which simulation methods each backend supports (including v2 upgrades).
     "qiskit": {"statevector", "stabilizer", "matrix_product_state", "density_matrix", "gpu"},
     "cirq": {"statevector"},
@@ -74,7 +75,7 @@ BACKEND_CAPABILITIES: Dict[str, Set[str]] = {
 }
 
 
-def eligible_methods(gate_types: Iterable[str], noise: bool = False) -> Set[str]:
+def eligible_methods(gate_types: Iterable[str], noise: bool = False) -> set[str]:
     """Return the set of methods that can run this circuit (capability hard constraints).
 
     - noise -> only density_matrix supports it
@@ -90,7 +91,7 @@ def eligible_methods(gate_types: Iterable[str], noise: bool = False) -> Set[str]
     return methods
 
 
-def decision_class(features: Dict[str, Any]) -> str:
+def decision_class(features: dict[str, Any]) -> str:
     """Classify circuit features into three decision classes, matching benchmark circuit families one-to-one.
 
     - "clifford"  -- pure basic Clifford, where stabilizer shines
@@ -110,6 +111,6 @@ __all__ = [
     "BASIC_CLIFFORD",
     "CLIFFORD_GATES",
     "METHOD_CAPABILITIES",
-    "eligible_methods",
     "decision_class",
+    "eligible_methods",
 ]

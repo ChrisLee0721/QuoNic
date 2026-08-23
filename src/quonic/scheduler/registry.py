@@ -15,7 +15,7 @@ import json
 import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from .capabilities import decision_class, eligible_methods
 
@@ -24,24 +24,24 @@ class BackendRegistry(ABC):
     """Unified interface between the scheduler and external data sources."""
 
     @abstractmethod
-    def get_recommendation(self, features: Dict[str, Any]) -> Optional[str]:
+    def get_recommendation(self, features: dict[str, Any]) -> str | None:
         """Return the recommended backend name for the circuit features; return None if no match."""
 
     def report_result(
         self,
-        features: Dict[str, Any],
+        features: dict[str, Any],
         backend_name: str,
         duration: float,
-        memory: Optional[Any],
+        memory: Any | None,
     ) -> None:
         """Record one run result for future scheduling optimization (no-op by default)."""
-        return None
+        return
 
 
 class BuiltinRegistry(BackendRegistry):
     """Built-in rule fallback: conservative choice when no external table exists."""
 
-    def get_recommendation(self, features: Dict[str, Any]) -> str:
+    def get_recommendation(self, features: dict[str, Any]) -> str:
         # all three current backends are statevector simulators with matching capabilities; qiskit (Aer) is fastest
         return "qiskit"
 
@@ -50,7 +50,7 @@ class BuiltinRegistry(BackendRegistry):
 
 
 # Cold-start fallback thresholds: conservative crossover points (n=24) used when no measured data exists. The measured table overrides these.
-_DEFAULT_DECISION: Dict[str, Dict[str, Any]] = {
+_DEFAULT_DECISION: dict[str, dict[str, Any]] = {
     "clifford": {"method": "stabilizer", "above_n": 24},
     "low_tw": {"method": "matrix_product_state", "above_n": 24},
 }
@@ -64,10 +64,10 @@ class Recommendation:
     method: str = "statevector"
 
 
-_benchmark_cache: Optional[Dict[str, Any]] = None  # None = not loaded yet
+_benchmark_cache: dict[str, Any] | None = None  # None = not loaded yet
 
 
-def _load_benchmarks() -> Dict[str, Any]:
+def _load_benchmarks() -> dict[str, Any]:
     """Read the entire data/benchmarks.json; return an empty dict if missing or unparsable."""
     global _benchmark_cache
     if _benchmark_cache is None:
@@ -83,17 +83,17 @@ def _load_benchmarks() -> Dict[str, Any]:
     return _benchmark_cache
 
 
-def load_measured_decision() -> Dict[str, Any]:
+def load_measured_decision() -> dict[str, Any]:
     """Load the measured decision table (decision field); return an empty dict if missing or unparsable."""
     return _load_benchmarks().get("decision", {})
 
 
-def load_performance() -> List[Any]:
+def load_performance() -> list[Any]:
     """Load measured performance data (performance field); return an empty list if missing."""
     return _load_benchmarks().get("performance", [])
 
 
-def load_noise_cost() -> Dict[str, Any]:
+def load_noise_cost() -> dict[str, Any]:
     """Load measured noise cost (noise field); return an empty dict if missing or unparsable.
 
     Contents: {"method": "density_matrix", "noise": ..., "performance": [...],
@@ -104,12 +104,12 @@ def load_noise_cost() -> Dict[str, Any]:
     return _load_benchmarks().get("noise", {})
 
 
-def load_gpu_decision() -> Dict[str, Any]:
+def load_gpu_decision() -> dict[str, Any]:
     """Load the measured GPU decision table; return an empty dict if missing."""
     return _load_benchmarks().get("gpu", {}).get("decision", {})
 
 
-def recommend_method(features: Dict[str, Any], noise: bool = False) -> str:
+def recommend_method(features: dict[str, Any], noise: bool = False) -> str:
     """Analyze the circuit structure to pick a method: first check the measured table, then fall back to cold-start rules.
 
     Hard constraints (capability): with noise only density_matrix; stabilizer only handles basic Clifford.
@@ -143,7 +143,7 @@ def recommend_method(features: Dict[str, Any], noise: bool = False) -> str:
     return "statevector"
 
 
-def recommend_backend_gpu(features: Dict[str, Any]) -> Recommendation:
+def recommend_backend_gpu(features: dict[str, Any]) -> Recommendation:
     """Pick the best GPU backend for this circuit.
 
     Uses measured data from benchmarks.json when available; falls back to
@@ -176,7 +176,7 @@ def recommend_backend_gpu(features: Dict[str, Any]) -> Recommendation:
     return Recommendation("tensorcircuit", "gpu")
 
 
-def recommend_backend_autodiff(features: Dict[str, Any]) -> Recommendation:
+def recommend_backend_autodiff(features: dict[str, Any]) -> Recommendation:
     """Pick the best autodiff-capable backend for variational circuits.
 
     PennyLane and TensorCircuit both support automatic differentiation.
@@ -191,10 +191,10 @@ def recommend_backend_autodiff(features: Dict[str, Any]) -> Recommendation:
 class MemoryRegistry(BackendRegistry):
     """In-memory key -> backend mapping table."""
 
-    def __init__(self, table: Optional[Dict[str, str]] = None) -> None:
-        self.table: Dict[str, str] = dict(table or {})
+    def __init__(self, table: dict[str, str] | None = None) -> None:
+        self.table: dict[str, str] = dict(table or {})
 
-    def get_recommendation(self, features: Dict[str, Any]) -> Optional[str]:
+    def get_recommendation(self, features: dict[str, Any]) -> str | None:
         return self.table.get(features["key"])
 
     def __repr__(self) -> str:
@@ -206,9 +206,9 @@ class FileRegistry(BackendRegistry):
 
     def __init__(self, path: str) -> None:
         with open(path, encoding="utf-8") as f:
-            self.table: Dict[str, str] = json.load(f)
+            self.table: dict[str, str] = json.load(f)
 
-    def get_recommendation(self, features: Dict[str, Any]) -> Optional[str]:
+    def get_recommendation(self, features: dict[str, Any]) -> str | None:
         return self.table.get(features["key"])
 
     def __repr__(self) -> str:
@@ -226,9 +226,9 @@ class LocalCacheRegistry(BackendRegistry):
 
     def __init__(self, path: str) -> None:
         self.path: str = path
-        self.table: Dict[str, str] = {}
+        self.table: dict[str, str] = {}
         # key -> {backend: [list of durations]}
-        self.timings: Dict[str, Dict[str, list]] = {}
+        self.timings: dict[str, dict[str, list]] = {}
         if os.path.exists(path):
             with open(path, encoding="utf-8") as f:
                 data = json.load(f)
@@ -240,10 +240,10 @@ class LocalCacheRegistry(BackendRegistry):
                         # Legacy format: just key->backend
                         self.table = data
 
-    def get_recommendation(self, features: Dict[str, Any]) -> Optional[str]:
+    def get_recommendation(self, features: dict[str, Any]) -> str | None:
         return self.table.get(features["key"])
 
-    def get_best_backend(self, features: Dict[str, Any]) -> Optional[str]:
+    def get_best_backend(self, features: dict[str, Any]) -> str | None:
         """Pick the backend with the best average timing for this circuit key."""
         key = features.get("key")
         if key and key in self.timings:
@@ -255,10 +255,10 @@ class LocalCacheRegistry(BackendRegistry):
 
     def report_result(
         self,
-        features: Dict[str, Any],
+        features: dict[str, Any],
         backend_name: str,
         duration: float,
-        memory: Optional[Any],
+        memory: Any | None,
     ) -> None:
         key = features["key"]
         self.table[key] = backend_name

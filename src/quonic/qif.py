@@ -19,7 +19,9 @@ zero-cost `import quonic`.
 
 from __future__ import annotations
 
-from typing import Any, List, Optional, Tuple, Type, Union
+from typing import Any
+
+from typing_extensions import Self
 
 from ._i18n import tr
 from .gates import Gate, GateName, resolve
@@ -44,7 +46,7 @@ def _unitary(gate: Gate) -> Any:
     return single(gate.name, gate.params)
 
 
-def _zyz(U: Any) -> Tuple[float, float, float, float]:
+def _zyz(U: Any) -> tuple[float, float, float, float]:
     """Single-bit unitary U → (alpha, beta, gamma, delta),
     satisfying U = e^{i·alpha} Rz(beta) Ry(gamma) Rz(delta)."""
     import numpy as np
@@ -69,7 +71,7 @@ def _zyz(U: Any) -> Tuple[float, float, float, float]:
     return alpha, float(beta), float(gamma), float(delta)
 
 
-def _ctrl_unitary_decompose(V: Any, c: int, t: int) -> List[GateOperation]:
+def _ctrl_unitary_decompose(V: Any, c: int, t: int) -> list[GateOperation]:
     """Controlled single-bit unitary V → basic gate sequence, implementing |0><0|⊗I + |1><1|⊗V.
 
     Built using Nielsen-Chuang Figure 4.6: first ZYZ-decompose V = e^{iα} Rz(β) Ry(γ) Rz(δ),
@@ -80,10 +82,10 @@ def _ctrl_unitary_decompose(V: Any, c: int, t: int) -> List[GateOperation]:
     alpha, beta, gamma, delta = _zyz(V)
     g2 = gamma / 2.0
 
-    def _rot(name: str, angle: float) -> Optional[GateOperation]:
+    def _rot(name: str, angle: float) -> GateOperation | None:
         return GateOperation(name, (t,), (angle,)) if abs(angle) > 1e-12 else None
 
-    ops: List[GateOperation] = []
+    ops: list[GateOperation] = []
     if abs(alpha) > 1e-12:
         ops.append(GateOperation("p", (c,), (alpha,)))
     for op in [
@@ -100,7 +102,7 @@ def _ctrl_unitary_decompose(V: Any, c: int, t: int) -> List[GateOperation]:
     return ops
 
 
-def _qif_decompose(F: Gate, T: Gate, c: int, t: int) -> List[GateOperation]:
+def _qif_decompose(F: Gate, T: Gate, c: int, t: int) -> list[GateOperation]:
     """Compile qif into a basic gate sequence: |0><0|⊗F + |1><1|⊗T = ctrl(T·F†) · (I⊗F).
 
     First apply F unconditionally (else branch), then apply controlled V=T·F†: control=0 yields F,
@@ -123,8 +125,8 @@ def _qif_decompose(F: Gate, T: Gate, c: int, t: int) -> List[GateOperation]:
 
 
 def _qif_multi_decompose(
-    F: Gate, T: Gate, c: int, targets: Tuple[int, ...]
-) -> List[GateOperation]:
+    F: Gate, T: Gate, c: int, targets: tuple[int, ...]
+) -> list[GateOperation]:
     """Multi-qubit qif: |0><0|⊗F + |1><1|⊗T on target qubits, controlled by c.
 
     Same strategy as single-qubit: apply F unconditionally, then controlled V=T·F†.
@@ -155,8 +157,8 @@ def _qif_multi_decompose(
 
 
 def _ctrl_multi_qubit_gate(
-    gate: Gate, c: int, targets: Tuple[int, ...]
-) -> List[GateOperation]:
+    gate: Gate, c: int, targets: tuple[int, ...]
+) -> list[GateOperation]:
     """Emit controlled version of a multi-qubit gate (else branch = identity)."""
     # Controlled-CX = Toffoli (CCX)
     if gate.name == "cx" and len(targets) == 2:
@@ -234,8 +236,8 @@ def _unitary_multi(gate: Gate, n_targets: int) -> Any:
 
 
 def _ctrl_multi_qubit_decompose(
-    V: Any, c: int, targets: Tuple[int, ...]
-) -> List[GateOperation]:
+    V: Any, c: int, targets: tuple[int, ...]
+) -> list[GateOperation]:
     """Decompose controlled-V where V is a multi-qubit unitary.
 
     For 2-qubit V (4x4): uses diagonal-block decomposition.
@@ -257,7 +259,7 @@ def _ctrl_multi_qubit_decompose(
         # controlled-U where U = B·A†
         U = B @ A.conj().T
         # Apply A unconditionally on last target, then controlled-U
-        ops: List[GateOperation] = []
+        ops: list[GateOperation] = []
         # Check if A is identity (skip if so)
         if not np.allclose(A, np.eye(2)):
             alpha, beta, gamma, delta = _zyz(A)
@@ -278,7 +280,7 @@ def _ctrl_multi_qubit_decompose(
     )
 
 
-def _gate_matrix(name: str, params: Tuple[float, ...]) -> Any:
+def _gate_matrix(name: str, params: tuple[float, ...]) -> Any:
     """Return the 2x2 unitary matrix for a single-qubit gate by name."""
     import numpy as np
 
@@ -368,7 +370,7 @@ def _apply_gate_to_sv(sv, name, qubits, params, n):
 
 
 def _build_unitary(
-    ops: List[GateOperation], qubits: List[int], n: int
+    ops: list[GateOperation], qubits: list[int], n: int
 ) -> Any:
     """Build the 2^n × 2^n unitary matrix for a list of operations."""
     import numpy as np
@@ -389,8 +391,8 @@ def _build_unitary(
 
 
 def _ctrl_multi_qubit_unitary(
-    V: Any, c: int, targets: Tuple[int, ...]
-) -> List[GateOperation]:
+    V: Any, c: int, targets: tuple[int, ...]
+) -> list[GateOperation]:
     """Decompose controlled-V where V is a multi-qubit unitary.
 
     Uses the multiplexor decomposition: V = Σ |i><i| ⊗ R_i, where each R_i
@@ -407,7 +409,7 @@ def _ctrl_multi_qubit_unitary(
 
     # For 2-qubit: decompose into 4 controlled rotations
     # V = Σ_i |i><i| ⊗ R_i where R_i is the 2x2 diagonal block
-    ops: List[GateOperation] = []
+    ops: list[GateOperation] = []
     # Apply R_0 unconditionally (the first diagonal block)
     R_prev = np.eye(2, dtype=complex)
     for i in range(dim // 2):
@@ -431,32 +433,32 @@ def _check_branch(g: Gate, which: str, kind: str = "qif") -> None:
 class _QIfBuilder:
     def __init__(self, control: int) -> None:
         self.control: int = int(control)
-        self._then: Optional[Tuple[Gate, Tuple[int, ...]]] = None
-        self._else: Optional[Tuple[Gate, Tuple[int, ...]]] = None
+        self._then: tuple[Gate, tuple[int, ...]] | None = None
+        self._else: tuple[Gate, tuple[int, ...]] | None = None
 
-    def then(self, gate: Union[Gate, GateName], *targets: int) -> _QIfBuilder:
+    def then(self, gate: Gate | GateName, *targets: int) -> _QIfBuilder:
         g = resolve(gate)
         _check_branch(g, "then")
         self._then = (g, tuple(int(t) for t in targets))
         return self
 
-    def else_(self, gate: Union[Gate, GateName], *targets: int) -> List[GateOperation]:
+    def else_(self, gate: Gate | GateName, *targets: int) -> list[GateOperation]:
         g = resolve(gate)
         _check_branch(g, "else")
         self._else = (g, tuple(int(t) for t in targets))
         return self._compile()
 
-    def then_ops(self, ops: List[GateOperation]) -> _QIfBuilder:
+    def then_ops(self, ops: list[GateOperation]) -> _QIfBuilder:
         """Accept a pre-compiled list of operations as the then branch (for nesting)."""
         self._then_ops = ops
         return self
 
-    def else_ops(self, ops: List[GateOperation]) -> List[GateOperation]:
+    def else_ops(self, ops: list[GateOperation]) -> list[GateOperation]:
         """Accept a pre-compiled list of operations as the else branch, then compile."""
         self._else_ops = ops
         return self._compile_nested()
 
-    def _compile_nested(self) -> List[GateOperation]:
+    def _compile_nested(self) -> list[GateOperation]:
         """Compile nested qif: controlled(sub_circuit_then, sub_circuit_else)."""
         then_ops = getattr(self, "_then_ops", None)
         else_ops = getattr(self, "_else_ops", None)
@@ -492,7 +494,7 @@ class _QIfBuilder:
             circ.add(op)
         return ops
 
-    def _compile(self) -> List[GateOperation]:
+    def _compile(self) -> list[GateOperation]:
         if self._then is None:
             raise ValueError(tr("err.qif_missing_then"))
         if self._else is None:
@@ -519,8 +521,8 @@ def qif(control: int) -> _QIfBuilder:
 
 
 def controlled(
-    gate: Union[Gate, GateName], control: int, *targets: int
-) -> List[GateOperation]:
+    gate: Gate | GateName, control: int, *targets: int
+) -> list[GateOperation]:
     """Apply a controlled gate to target qubit(s), with control as the control bit.
 
     Examples:
@@ -552,7 +554,7 @@ def controlled(
     return ops
 
 
-def _to_register_value(value: Union[int, str]) -> int:
+def _to_register_value(value: int | str) -> int:
     """Normalize a register value to an integer: accept an int or a "0/1" bitstring (MSB first)."""
     if isinstance(value, str):
         if not value or any(c not in "01" for c in value):
@@ -617,19 +619,19 @@ def creg(name: str, width: int = 1) -> CReg:
 
 
 class _CIfBuilder:
-    def __init__(self, control: Union[int, CReg], value: Union[int, str] = 1) -> None:
-        self.control: Union[int, CReg] = control  # int (qubit) or CReg (classical register)
-        self._value: Union[int, str] = value
-        self._then: Optional[Tuple[Gate, int]] = None
-        self._else: Optional[Tuple[Gate, int]] = None
+    def __init__(self, control: int | CReg, value: int | str = 1) -> None:
+        self.control: int | CReg = control  # int (qubit) or CReg (classical register)
+        self._value: int | str = value
+        self._then: tuple[Gate, int] | None = None
+        self._else: tuple[Gate, int] | None = None
 
-    def then(self, gate: Union[Gate, GateName], target: int) -> _CIfBuilder:
+    def then(self, gate: Gate | GateName, target: int) -> _CIfBuilder:
         g = resolve(gate)
         _check_branch(g, "then", "cif")
         self._then = (g, int(target))
         return self
 
-    def else_(self, gate: Union[Gate, GateName], target: int) -> ClassicalIfOperation:
+    def else_(self, gate: Gate | GateName, target: int) -> ClassicalIfOperation:
         g = resolve(gate)
         _check_branch(g, "else", "cif")
         self._else = (g, int(target))
@@ -650,7 +652,7 @@ class _CIfBuilder:
             if not 0 <= v < 2 ** reg.width:
                 raise ValueError(tr("err.cif_value", value=self._value, max=2 ** reg.width))
             # single-bit register with value 1 keeps the plain str control (backward compatible)
-            ctrl: Union[int, str, CRegCondition] = (
+            ctrl: int | str | CRegCondition = (
                 reg.name if reg.width == 1 and v == 1 else CRegCondition(reg.name, reg.width, v)
             )
         else:
@@ -666,7 +668,7 @@ class _CIfBuilder:
         return op
 
 
-def cif(control: Union[int, CReg], value: Union[int, str] = 1) -> _CIfBuilder:
+def cif(control: int | CReg, value: int | str = 1) -> _CIfBuilder:
     """Classical if: apply one of two branch gates depending on the control source.
 
     Unlike qif (quantum-superposition if), cif produces a classical mixed state rather than coherent entanglement.
@@ -691,7 +693,7 @@ def cif(control: Union[int, CReg], value: Union[int, str] = 1) -> _CIfBuilder:
 
 
 class _CWhileBuilder:
-    def __init__(self, cond: CReg, until: Union[int, str], max_iters: int) -> None:
+    def __init__(self, cond: CReg, until: int | str, max_iters: int) -> None:
         if not isinstance(cond, CReg):
             raise TypeError(tr("err.cwhile_cond", cond=cond))
         self.creg: CReg = cond
@@ -702,16 +704,16 @@ class _CWhileBuilder:
         self.max_iters: int = int(max_iters)
         if self.max_iters < 1:
             raise ValueError(tr("err.cwhile_max_iters", max_iters=self.max_iters))
-        self.op: Optional[ClassicalWhileOperation] = None
+        self.op: ClassicalWhileOperation | None = None
 
-    def __enter__(self) -> _CWhileBuilder:
+    def __enter__(self) -> Self:
         push()  # capture the loop body into a new circuit scope
         return self
 
     def __exit__(
         self,
-        exc_type: Optional[Type[BaseException]],
-        exc_val: Optional[BaseException],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
         exc_tb: Any,
     ) -> bool:
         body = pop()
@@ -723,7 +725,7 @@ class _CWhileBuilder:
         current_circuit().add(self.op)
         return False
 
-    def groverize(self, success_prob: Optional[float] = None) -> Circuit:
+    def groverize(self, success_prob: float | None = None) -> Circuit:
         """Compile this loop into a static Grover circuit (see quonic.compiler.groverize).
 
         success_prob may be omitted: for a purely unitary body it is inferred exactly by
@@ -737,7 +739,7 @@ class _CWhileBuilder:
 
 
 def cwhile(
-    cond: CReg, until: Union[int, str] = 0, max_iters: int = 10000
+    cond: CReg, until: int | str = 0, max_iters: int = 10000
 ) -> _CWhileBuilder:
     """Classical feedback loop (repeat-until-success): repeat the loop body until the creg
     register value equals until (an int register value, or a "0/1" bitstring MSB-first).

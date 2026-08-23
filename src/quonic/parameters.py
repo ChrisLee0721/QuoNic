@@ -10,8 +10,6 @@ Example::
 
 from __future__ import annotations
 
-from typing import Dict, List
-
 from .ir import Circuit, GateOperation
 
 
@@ -31,7 +29,7 @@ class Parameter:
         return isinstance(other, Parameter) and self.name == other.name
 
 
-def bind_params(circuit: Circuit, values: Dict[Parameter, float]) -> Circuit:
+def bind_params(circuit: Circuit, values: dict[Parameter, float]) -> Circuit:
     """Bind symbolic parameters to concrete values.
 
     Args:
@@ -60,8 +58,8 @@ def bind_params(circuit: Circuit, values: Dict[Parameter, float]) -> Circuit:
 
 
 def bind_batch(
-    circuit: Circuit, param_sets: List[Dict[Parameter, float]]
-) -> List[Circuit]:
+    circuit: Circuit, param_sets: list[dict[Parameter, float]]
+) -> list[Circuit]:
     """Bind multiple sets of parameters to create multiple circuits.
 
     Args:

@@ -7,7 +7,6 @@ Uses the no-swap convention (consistent with QPE).
 from __future__ import annotations
 
 import math
-from typing import Tuple
 
 from .ir import Circuit, GateOperation
 
@@ -17,7 +16,7 @@ def _add_cp(circuit: Circuit, c: int, t: int, phi: float) -> None:
     circuit.add(GateOperation("cp", (c, t), (phi,)))
 
 
-def add_qft(circuit: Circuit, qubits: Tuple[int, ...]) -> None:
+def add_qft(circuit: Circuit, qubits: tuple[int, ...]) -> None:
     """Forward QFT (no swap, qubits[0] is the least-significant bit)."""
     n = len(qubits)
     for j in range(n - 1, -1, -1):
@@ -26,7 +25,7 @@ def add_qft(circuit: Circuit, qubits: Tuple[int, ...]) -> None:
             _add_cp(circuit, qubits[k], qubits[j], math.pi / 2 ** (j - k))
 
 
-def add_iqft(circuit: Circuit, qubits: Tuple[int, ...]) -> None:
+def add_iqft(circuit: Circuit, qubits: tuple[int, ...]) -> None:
     """Inverse QFT (no swap), the inverse of add_qft."""
     n = len(qubits)
     for j in range(n):

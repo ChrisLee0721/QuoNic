@@ -16,11 +16,11 @@ from .base import AlgorithmPlugin, BackendPlugin, PassPlugin, Plugin
 from .registry import get_plugin, list_plugins, register_plugin
 
 __all__ = [
-    "Plugin",
+    "AlgorithmPlugin",
     "BackendPlugin",
     "PassPlugin",
-    "AlgorithmPlugin",
-    "register_plugin",
+    "Plugin",
     "get_plugin",
     "list_plugins",
+    "register_plugin",
 ]

@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import math
-from typing import Any, List, Optional, Sequence, Tuple, Union
+from collections.abc import Sequence
+from typing import Any
 
 from .._i18n import tr
 from ..result import Result
@@ -13,7 +14,7 @@ from ._mpl import _plt, finalize
 # 10. Energy convergence plot
 # ---------------------------------------------------------------------------
 
-def _as_energies(data: Union[Result, Sequence[float]]) -> List[float]:
+def _as_energies(data: Result | Sequence[float]) -> list[float]:
     if isinstance(data, Result):
         history = data.metadata.get("history")
         if history is None:
@@ -23,11 +24,11 @@ def _as_energies(data: Union[Result, Sequence[float]]) -> List[float]:
 
 
 def plot_energy_convergence(
-    energies: Union[Result, Sequence[float]],
+    energies: Result | Sequence[float],
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the convergence curve of energy vs. optimization iteration for a
     variational algorithm (VQE/QAOA).
@@ -89,11 +90,11 @@ def _target_prob(eng: Any, marked: str) -> float:
 def plot_grover_amplitudes(
     n_qubits: int,
     marked: str,
-    iterations: Optional[int] = None,
+    iterations: int | None = None,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the probability of the target state in Grover search as a function
     of iteration count (simulated with the in-house engine, no backend
@@ -143,13 +144,13 @@ def plot_grover_amplitudes(
 # ---------------------------------------------------------------------------
 
 def plot_problem_graph(
-    edges: Sequence[Tuple[int, int]],
-    n_qubits: Optional[int] = None,
+    edges: Sequence[tuple[int, int]],
+    n_qubits: int | None = None,
     partition: Any = None,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw an optimization problem graph (e.g. MaxCut vertices and edges),
     optionally colored by cut.
@@ -223,12 +224,12 @@ _OP_COLORS = {"I": "#EEEEEE", "X": "#4C72B0", "Y": "#55A868", "Z": "#C44E52"}
 
 
 def plot_hamiltonian(
-    hamiltonian: Sequence[Tuple[float, str]],
-    n_qubits: Optional[int] = None,
+    hamiltonian: Sequence[tuple[float, str]],
+    n_qubits: int | None = None,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw a Pauli-term Hamiltonian: left = bar chart of term coefficients,
     right = heatmap of the operator structure.

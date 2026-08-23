@@ -20,17 +20,15 @@ Example::
 
 from __future__ import annotations
 
-from typing import Dict, List, Tuple
-
 from ..result import Result
 from .qaoa_generic import qaoa
 
 
 def _tsp_hamiltonian(
-    distances: Dict[Tuple[int, int], float],
+    distances: dict[tuple[int, int], float],
     n_cities: int,
     penalty: float = 10.0,
-) -> Tuple[List[Tuple[float, str]], int]:
+) -> tuple[list[tuple[float, str]], int]:
     """Build TSP cost Hamiltonian.
 
     Qubit encoding: q[i*n + t] = 1 if city i visited at time t.
@@ -38,7 +36,7 @@ def _tsp_hamiltonian(
     """
     n = n_cities
     n_qubits = n * n
-    terms: List[Tuple[float, str]] = []
+    terms: list[tuple[float, str]] = []
 
     # Distance cost: sum_{i,j,t} d_{ij} * x_{i,t} * x_{j,t+1}
     for (i, j), d in distances.items():
@@ -86,7 +84,7 @@ def _tsp_hamiltonian(
 
 
 def qaoa_tsp(
-    distances: Dict[Tuple[int, int], float],
+    distances: dict[tuple[int, int], float],
     n_cities: int,
     p: int = 1,
     penalty: float = 10.0,

@@ -15,7 +15,7 @@ Usage:
 
 from __future__ import annotations
 
-from typing import Any, Optional, Union
+from typing import Any
 
 from .._i18n import tr
 from ..ir import Circuit
@@ -37,7 +37,7 @@ class IBMBackend(Backend):
         self,
         circuit: Circuit,
         shots: int = 1024,
-        noise: Optional[Union[NoiseModel, float, int]] = None,
+        noise: NoiseModel | float | None = None,
         method: str = "statevector",
         return_state: bool = False,
     ) -> Any:

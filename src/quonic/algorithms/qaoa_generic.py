@@ -23,7 +23,8 @@ Example::
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Any, Callable
 
 from .._i18n import tr
 from ..result import Result
@@ -32,7 +33,7 @@ from ..simulator import StatevectorSimulator
 
 def _qaoa_state(
     n: int,
-    cost_terms: List[Tuple[float, str]],
+    cost_terms: list[tuple[float, str]],
     p: int,
     params: Sequence[float],
     mixer_type: str = "rx",
@@ -89,10 +90,10 @@ def _apply_cost_term(
 
 
 def qaoa(
-    cost_hamiltonian: List[Tuple[float, str]],
+    cost_hamiltonian: list[tuple[float, str]],
     n_qubits: int,
     p: int = 1,
-    init_params: Optional[Sequence[float]] = None,
+    init_params: Sequence[float] | None = None,
     optimizer: str = "COBYLA",
     maxiter: int = 300,
     record_history: bool = False,
@@ -123,8 +124,8 @@ def qaoa(
         sim = _qaoa_state(n_qubits, cost_hamiltonian, p, params)
         return sum(coeff * sim.expectation(pauli) for coeff, pauli in cost_hamiltonian)
 
-    history: List[float] = []
-    callback: Optional[Callable[[Any], None]] = None
+    history: list[float] = []
+    callback: Callable[[Any], None] | None = None
     if record_history:
         def callback(xk: Any) -> None:
             history.append(float(cost(xk)))
@@ -133,7 +134,7 @@ def qaoa(
         cost, init_params, method=optimizer,
         options={"maxiter": maxiter}, callback=callback,
     )
-    metadata: Dict[str, Any] = {"params": [float(x) for x in result.x]}
+    metadata: dict[str, Any] = {"params": [float(x) for x in result.x]}
     if record_history:
         metadata["history"] = history
     return Result.from_value(float(result.fun), **metadata)

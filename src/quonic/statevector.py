@@ -15,7 +15,7 @@ Example::
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 
 class StateVector:
@@ -37,7 +37,7 @@ class StateVector:
         idx = int(bitstring, 2)
         return complex(self.data[idx])
 
-    def probabilities(self) -> Dict[str, float]:
+    def probabilities(self) -> dict[str, float]:
         """Return the probability distribution over all bitstrings."""
         import numpy as np
 
@@ -105,7 +105,7 @@ class MixedState:
         dim = self.rho.shape[0]
         self.n = int(np.log2(dim))
 
-    def probabilities(self) -> Dict[str, float]:
+    def probabilities(self) -> dict[str, float]:
         """Return the probability distribution (diagonal of density matrix)."""
         import numpy as np
 

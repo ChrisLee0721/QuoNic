@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional, Union
-
 from .._i18n import tr
 from ..ir import Circuit
 from ..noise import NoiseModel, resolve_noise
@@ -33,7 +31,7 @@ class CirqBackend(Backend):
         self,
         circuit: Circuit,
         shots: int = 1024,
-        noise: Optional[Union[NoiseModel, float, int]] = None,
+        noise: NoiseModel | float | None = None,
         method: str = "statevector",
     ) -> Result:
         if method == "gpu":

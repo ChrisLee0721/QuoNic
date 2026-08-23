@@ -21,7 +21,7 @@ via add_qft / gate matrices, guaranteeing zero-cost `import quonic`.
 from __future__ import annotations
 
 import math
-from typing import Any, Tuple
+from typing import Any
 
 from ._i18n import tr
 from .gates import CX, H, Rz, X
@@ -39,7 +39,7 @@ def _alloc_ancilla() -> int:
     return q
 
 
-def _add_const(circuit: Circuit, qubits: Tuple[int, ...], k: int) -> None:
+def _add_const(circuit: Circuit, qubits: tuple[int, ...], k: int) -> None:
     """QFT addition: |a> -> |a + k mod 2**len(qubits)>; k may be negative."""
     n = len(qubits)
     k = int(k) % (2 ** n)
@@ -89,4 +89,4 @@ def qgt(x: Any, k: int) -> int:
     return flag
 
 
-__all__ = ["qlt", "qeq", "qgt"]
+__all__ = ["qeq", "qgt", "qlt"]

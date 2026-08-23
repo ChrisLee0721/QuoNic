@@ -18,14 +18,12 @@ Example::
 
 from __future__ import annotations
 
-from typing import Dict, Tuple
-
 from ..backends import get_backend
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
-def _build_surface_code_circuit(distance: int) -> Tuple[Circuit, int, int]:
+def _build_surface_code_circuit(distance: int) -> tuple[Circuit, int, int]:
     """Build a distance-d surface code circuit.
 
     Returns:
@@ -64,10 +62,10 @@ def _build_surface_code_circuit(distance: int) -> Tuple[Circuit, int, int]:
 
 
 def _decode_syndrome(
-    counts: Dict[str, int],
+    counts: dict[str, int],
     n_data: int,
     n_syndrome: int,
-) -> Dict[str, float]:
+) -> dict[str, float]:
     """Simple majority-vote decoder.
 
     For each shot, check if the data qubits are in a valid code space.

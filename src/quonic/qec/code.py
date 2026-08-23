@@ -11,8 +11,6 @@ Example::
 
 from __future__ import annotations
 
-from typing import Tuple
-
 import numpy as np
 
 from ..ir import Circuit, GateOperation
@@ -47,7 +45,7 @@ class BitFlipCode:
         c.add(GateOperation("cx", (2, 4)))
         return c
 
-    def correct(self, circuit: Circuit, syndrome: Tuple[int, int]) -> Circuit:
+    def correct(self, circuit: Circuit, syndrome: tuple[int, int]) -> Circuit:
         """Apply correction based on syndrome."""
         c = Circuit()
         c.allocate(3)

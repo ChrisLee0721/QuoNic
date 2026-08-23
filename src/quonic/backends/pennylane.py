@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, List, Optional, Union
+from typing import Any
 
 from .._i18n import tr
 from ..ir import Circuit
@@ -12,7 +12,7 @@ from .base import Backend
 from .translators import TRANSLATORS
 
 
-def _two_qubit_depolarizing_kraus(p: float) -> List[Any]:
+def _two_qubit_depolarizing_kraus(p: float) -> list[Any]:
     """The 16 Kraus operators of the two-qubit depolarizing channel (consistent with Qiskit's depolarizing_error(p, 2))."""
     import numpy as np
 
@@ -68,7 +68,7 @@ class PennyLaneBackend(Backend):
         self,
         circuit: Circuit,
         shots: int = 1024,
-        noise: Optional[Union[NoiseModel, float, int]] = None,
+        noise: NoiseModel | float | None = None,
         method: str = "statevector",
     ) -> Result:
         if method == "gpu":

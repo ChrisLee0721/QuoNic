@@ -11,7 +11,7 @@ Conventions:
 
 from __future__ import annotations
 
-from typing import Any, Set, Tuple
+from typing import Any
 
 import numpy as np
 
@@ -46,7 +46,7 @@ def phase_shift(theta: float) -> Any:
     return np.array([[1.0, 0.0], [0.0, np.exp(1j * theta)]], dtype=complex)
 
 
-def single(name: str, params: Tuple[float, ...] = ()) -> Any:
+def single(name: str, params: tuple[float, ...] = ()) -> Any:
     """Return the single-qubit gate matrix; name is the lowercase gate name."""
     name = name.lower()
     if name == "i":
@@ -71,4 +71,4 @@ def single(name: str, params: Tuple[float, ...] = ()) -> Any:
 
 
 # single-qubit Clifford gate set (usable by the stabilizer engine)
-SINGLE_GATES: Set[str] = {"i", "h", "x", "y", "z", "rx", "ry", "rz", "p"}
+SINGLE_GATES: set[str] = {"i", "h", "x", "y", "z", "rx", "ry", "rz", "p"}

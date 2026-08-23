@@ -11,8 +11,6 @@ Example::
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
-
 import numpy as np
 
 _PAULI = {
@@ -41,8 +39,8 @@ class StabilizerCode:
 
     def __init__(
         self,
-        stabilizers: List[str],
-        logical_ops: Optional[Dict[str, List[str]]] = None,
+        stabilizers: list[str],
+        logical_ops: dict[str, list[str]] | None = None,
     ):
         self.stabilizers = stabilizers
         self.n_qubits = len(stabilizers[0]) if stabilizers else 0
@@ -54,7 +52,7 @@ class StabilizerCode:
         # Pre-compute stabilizer matrices for fast syndrome extraction
         self._stab_matrices = [_pauli_matrix(s) for s in stabilizers]
 
-    def syndrome_vector(self, state: np.ndarray) -> List[int]:
+    def syndrome_vector(self, state: np.ndarray) -> list[int]:
         """Compute syndrome bits for a given state vector.
 
         For each stabilizer generator g_i, the syndrome bit is:
@@ -80,11 +78,11 @@ class StabilizerCode:
             syndrome.append(0 if val > 0 else 1)
         return syndrome
 
-    def is_valid(self, syndrome: List[int]) -> bool:
+    def is_valid(self, syndrome: list[int]) -> bool:
         """Check if syndrome indicates no error."""
         return all(s == 0 for s in syndrome)
 
-    def detect_error(self, syndrome: List[int]) -> Optional[str]:
+    def detect_error(self, syndrome: list[int]) -> str | None:
         """Detect which Pauli error occurred based on syndrome.
 
         Returns the Pauli string of the most likely error, or None if no error.
@@ -111,7 +109,7 @@ class StabilizerCode:
 
         return best_match
 
-    def _compute_error_syndrome(self, error_str: str) -> List[int]:
+    def _compute_error_syndrome(self, error_str: str) -> list[int]:
         """Compute the syndrome that a given error would produce.
 
         For stabilizer g and error E: the syndrome bit is 0 if gE = Eg (commute),
@@ -132,7 +130,7 @@ class StabilizerCode:
             syndrome.append(1 if anticommute else 0)
         return syndrome
 
-    def logical_operator(self, name: str) -> Optional[np.ndarray]:
+    def logical_operator(self, name: str) -> np.ndarray | None:
         """Get the matrix for a logical operator.
 
         Args:

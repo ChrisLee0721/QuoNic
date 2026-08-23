@@ -17,9 +17,9 @@ from .network import Node, QuantumNetwork
 from .scheduler import ScheduleStep, TaskSchedule, schedule_task
 
 __all__ = [
-    "QuantumNetwork",
-    "Node",
     "EntanglementPair",
+    "Node",
+    "QuantumNetwork",
     "ScheduleStep",
     "TaskSchedule",
     "create_bell_pair",

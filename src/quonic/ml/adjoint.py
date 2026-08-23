@@ -22,7 +22,7 @@ Example::
 
 from __future__ import annotations
 
-from typing import Any, Callable, List
+from typing import Any, Callable
 
 import numpy as np
 
@@ -188,7 +188,7 @@ def adjoint_grad_statevector(
     return grad
 
 
-def _gate_derivative(name: str, theta: float, qubits: List[int], n_qubits: int) -> np.ndarray:
+def _gate_derivative(name: str, theta: float, qubits: list[int], n_qubits: int) -> np.ndarray:
     """Compute the derivative of a parameterized gate w.r.t. its parameter.
 
     Returns the full 2^n × 2^n derivative matrix.

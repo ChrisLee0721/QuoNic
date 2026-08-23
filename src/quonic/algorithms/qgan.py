@@ -17,13 +17,11 @@ Example::
 
 from __future__ import annotations
 
-from typing import List, Optional
-
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
-def _generator_circuit(n_qubits: int, params: List[float]) -> Circuit:
+def _generator_circuit(n_qubits: int, params: list[float]) -> Circuit:
     """Build a parameterized generator circuit.
 
     Structure: Ry rotations on each qubit + entangling CX ladder.
@@ -41,7 +39,7 @@ def _generator_circuit(n_qubits: int, params: List[float]) -> Circuit:
     return c
 
 
-def _discriminator(probs: List[float], threshold: float = 0.5) -> List[float]:
+def _discriminator(probs: list[float], threshold: float = 0.5) -> list[float]:
     """Simple classical discriminator: classify samples as real (1) or fake (0)."""
     return [1.0 if p > threshold else 0.0 for p in probs]
 
@@ -50,7 +48,7 @@ def qgan_train(
     n_qubits: int = 2,
     n_steps: int = 100,
     lr: float = 0.1,
-    target: Optional[List[float]] = None,
+    target: list[float] | None = None,
     seed: int = 42,
 ) -> Result:
     """Train a QGAN to learn a target distribution.

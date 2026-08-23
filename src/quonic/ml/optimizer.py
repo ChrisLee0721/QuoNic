@@ -63,7 +63,7 @@ class SPSAOptimizer:
         return params - lr * grad
 
     def estimate_grad(
-        self, loss_fn, params: np.ndarray, c: float = None
+        self, loss_fn, params: np.ndarray, c: float | None = None
     ) -> np.ndarray:
         """Estimate gradient using SPSA.
 

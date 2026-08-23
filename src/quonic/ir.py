@@ -7,14 +7,13 @@ then qshow() hands them to a concrete backend (Qiskit / Cirq / ...) to translate
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Tuple, Union
 
 
 @dataclass(frozen=True)
 class GateOperation:
     name: str
-    qubits: Tuple[int, ...]
-    params: Tuple[float, ...] = ()
+    qubits: tuple[int, ...]
+    params: tuple[float, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -42,7 +41,7 @@ class ClassicalIfOperation:
     then_op / else_op are single-bit branch gates.
     """
 
-    control: Union[int, str, CRegCondition]
+    control: int | str | CRegCondition
     then_op: GateOperation
     else_op: GateOperation
 
@@ -51,11 +50,11 @@ class ClassicalIfOperation:
         return "cif"
 
     @property
-    def params(self) -> Tuple[()]:
+    def params(self) -> tuple[()]:
         return ()
 
     @property
-    def qubits(self) -> Tuple[int, ...]:
+    def qubits(self) -> tuple[int, ...]:
         qs = set()
         if isinstance(self.control, int):
             qs.add(self.control)
@@ -78,11 +77,11 @@ class CMeasureOperation:
         return "cmeasure"
 
     @property
-    def params(self) -> Tuple[()]:
+    def params(self) -> tuple[()]:
         return ()
 
     @property
-    def qubits(self) -> Tuple[int, ...]:
+    def qubits(self) -> tuple[int, ...]:
         return (self.qubit,)
 
 
@@ -98,7 +97,7 @@ class ClassicalWhileOperation:
 
     creg: str
     until: int
-    body: Tuple[object, ...]
+    body: tuple[object, ...]
     width: int = 1
 
     @property
@@ -106,11 +105,11 @@ class ClassicalWhileOperation:
         return "cwhile"
 
     @property
-    def params(self) -> Tuple[()]:
+    def params(self) -> tuple[()]:
         return ()
 
     @property
-    def qubits(self) -> Tuple[int, ...]:
+    def qubits(self) -> tuple[int, ...]:
         qs = set()
         for op in self.body:
             qs.update(op.qubits)
@@ -122,20 +121,18 @@ _MEASURE_NAMES = ("measure", "cmeasure")
 
 class Circuit:
     def __init__(self) -> None:
-        self.ops: List[object] = []
+        self.ops: list[object] = []
         self.num_qubits: int = 0
         self.requires_grad: bool = False
 
     def add(self, op: object) -> None:
         self.ops.append(op)
         for q in op.qubits:
-            if q + 1 > self.num_qubits:
-                self.num_qubits = q + 1
+            self.num_qubits = max(self.num_qubits, q + 1)
 
     def allocate(self, n_qubits: int) -> None:
         # pre-reserve qubits (without emitting a gate), so QInt etc. can occupy indices even without initial gates
-        if n_qubits > self.num_qubits:
-            self.num_qubits = n_qubits
+        self.num_qubits = max(self.num_qubits, n_qubits)
 
     def measured_qubits(self) -> set:
         measured = set()
@@ -144,12 +141,11 @@ class Circuit:
                 measured.add(op.qubits[0])
             elif op.name == "cmeasure":
                 measured.add(op.qubit)
-            elif op.name == "cif":
-                if isinstance(op.control, int):
-                    measured.add(op.control)
+            elif op.name == "cif" and isinstance(op.control, int):
+                measured.add(op.control)
         return measured
 
-    def unmeasured_qubits(self) -> List[int]:
+    def unmeasured_qubits(self) -> list[int]:
         measured = self.measured_qubits()
         return [q for q in range(self.num_qubits) if q not in measured]
 
@@ -218,7 +214,7 @@ class Circuit:
             c.add(op)
         return c
 
-    def slice(self, start: int = 0, end: int = None) -> Circuit:
+    def slice(self, start: int = 0, end: int | None = None) -> Circuit:
         """Return a sub-circuit from ops[start:end]."""
         c = Circuit()
         for op in self.ops[start:end]:

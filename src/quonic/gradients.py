@@ -11,12 +11,13 @@ Example::
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, Sequence, Union
+from collections.abc import Sequence
+from typing import Any, Callable
 
 from .ir import Circuit, GateOperation
 
 
-def _bind_params(circuit: Circuit, param_map: Dict[int, float]) -> Circuit:
+def _bind_params(circuit: Circuit, param_map: dict[int, float]) -> Circuit:
     """Create a new circuit with parameters bound to values.
 
     Args:
@@ -45,8 +46,8 @@ def _bind_params(circuit: Circuit, param_map: Dict[int, float]) -> Circuit:
 def param_shift(
     circuit: Circuit,
     params: Sequence[float],
-    observable: Union[str, Callable],
-    shift: float = None,
+    observable: str | Callable,
+    shift: float | None = None,
     backend: str = "native",
 ) -> Any:
     """Compute gradients via the parameter-shift rule.
@@ -104,7 +105,7 @@ def param_shift(
 def numerical_gradient(
     circuit: Circuit,
     params: Sequence[float],
-    observable: Union[str, Callable],
+    observable: str | Callable,
     epsilon: float = 1e-5,
     backend: str = "native",
 ) -> Any:

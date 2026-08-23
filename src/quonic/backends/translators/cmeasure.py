@@ -7,7 +7,7 @@ pennylane stores a per-bit MeasurementValue.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 from .base import Translator
 
@@ -15,7 +15,7 @@ from .base import Translator
 class CMeasureTranslator(Translator):
     name = "cmeasure"
 
-    def to_qiskit(self, qc: Any, op: Any, cregs: Dict[str, Any]) -> None:
+    def to_qiskit(self, qc: Any, op: Any, cregs: dict[str, Any]) -> None:
         cr = cregs.get(op.creg)
         if cr is not None and not isinstance(cr, int):
             # multi-bit register: measure into the named ClassicalRegister bit
@@ -26,14 +26,14 @@ class CMeasureTranslator(Translator):
             cregs[op.creg] = op.qubit
 
     def to_cirq(
-        self, cirq: Any, op: Any, qubits: List[Any], cregs: Dict[str, Any]
-    ) -> List[Any]:
+        self, cirq: Any, op: Any, qubits: list[Any], cregs: dict[str, Any]
+    ) -> list[Any]:
         key = f"m{op.qubit}"
         bits = cregs.setdefault(op.creg, {})
         bits[op.bit] = key
         return [cirq.measure(qubits[op.qubit], key=key)]
 
-    def to_pennylane(self, qml: Any, op: Any, cregs: Dict[str, Any]) -> None:
+    def to_pennylane(self, qml: Any, op: Any, cregs: dict[str, Any]) -> None:
         mv = qml.measure(wires=op.qubit)
         bits = cregs.setdefault(op.creg, {})
         bits[op.bit] = mv

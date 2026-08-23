@@ -8,7 +8,7 @@ then when == 1); a CRegCondition reads a named multi-bit register and branches o
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 from ...ir import CRegCondition
 from .base import Translator
@@ -17,7 +17,7 @@ from .base import Translator
 class CifTranslator(Translator):
     name = "cif"
 
-    def to_qiskit(self, qc: Any, op: Any, cregs: Dict[str, Any]) -> None:
+    def to_qiskit(self, qc: Any, op: Any, cregs: dict[str, Any]) -> None:
         from . import TRANSLATORS  # deferred import to avoid a cycle
 
         if isinstance(op.control, int):
@@ -54,8 +54,8 @@ class CifTranslator(Translator):
             TRANSLATORS[op.else_op.name].to_qiskit(qc, op.else_op, cregs)
 
     def to_cirq(
-        self, cirq: Any, op: Any, qubits: List[Any], cregs: Dict[str, Any]
-    ) -> List[Any]:
+        self, cirq: Any, op: Any, qubits: list[Any], cregs: dict[str, Any]
+    ) -> list[Any]:
         from . import TRANSLATORS  # deferred import to avoid a cycle
 
         if isinstance(op.control, int):
@@ -95,7 +95,7 @@ class CifTranslator(Translator):
             ops.append(e.with_classical_controls(sympy.Not(condition)))
         return ops
 
-    def to_pennylane(self, qml: Any, op: Any, cregs: Dict[str, Any]) -> None:
+    def to_pennylane(self, qml: Any, op: Any, cregs: dict[str, Any]) -> None:
         from . import TRANSLATORS  # deferred import to avoid a cycle
 
         if isinstance(op.control, int):

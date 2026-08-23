@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from contextlib import contextmanager
-from typing import Any, Dict, Tuple
+from typing import Any
 
 from .._i18n import tr
 from ..noise import NoiseModel
@@ -110,7 +110,7 @@ class TensorCircuitBackend(EngineBackend):
         return tc.Circuit(n)
 
     def _apply_one(
-        self, engine: Any, name: str, qubits: list[int], params: Tuple[float, ...]
+        self, engine: Any, name: str, qubits: list[int], params: tuple[float, ...]
     ) -> None:
         # Flip qubit indices: QuoNic 0=LSB → TC 0=MSB.
         # Dynamic path uses _apply_one_tc which does NOT flip (uses numpy SV directly).
@@ -162,11 +162,11 @@ class TensorCircuitBackend(EngineBackend):
                 engine.cnot(c, target)
             engine.h(target)
 
-    def _sample(self, engine: Any, shots: int, n: int) -> Dict[str, int]:
+    def _sample(self, engine: Any, shots: int, n: int) -> dict[str, int]:
         raw = engine.sample(shots)
         # TC: qubit 0 = leftmost in bitstring (MSB).
         # QuoNic: qubit 0 = rightmost (LSB).  Reverse to match.
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for val in raw:
             if isinstance(val, tuple):
                 bits = val[0]
@@ -205,7 +205,7 @@ class TensorCircuitBackend(EngineBackend):
                         continue
                     self._apply_one(engine, op.name, list(op.qubits), op.params)
                 raw = engine.sample(shots)
-                counts: Dict[str, int] = {}
+                counts: dict[str, int] = {}
                 for val in raw:
                     if isinstance(val, tuple):
                         bits = val[0]
@@ -266,7 +266,7 @@ class TensorCircuitBackend(EngineBackend):
         with _tc_compat():
             import numpy as np
 
-            counts: Dict[str, int] = {}
+            counts: dict[str, int] = {}
             n = circuit.num_qubits
             self._n = n
 
@@ -293,7 +293,7 @@ class TensorCircuitBackend(EngineBackend):
         import numpy as np
 
         if cregs is None:
-            cregs: Dict[str, int] = {}
+            cregs: dict[str, int] = {}
         sv = current_sv
         if sv is None:
             sv = np.zeros(2**n, dtype=complex)

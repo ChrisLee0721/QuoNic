@@ -16,7 +16,7 @@ state):
 from __future__ import annotations
 
 import math
-from typing import Callable, Optional, Union
+from typing import Callable
 
 from .._i18n import tr
 from ..backends import get_backend
@@ -72,9 +72,9 @@ def mark_state(bitstring: str) -> OracleCallback:
 
 
 def grover(
-    oracle: Union[str, OracleCallback],
+    oracle: str | OracleCallback,
     n_qubits: int,
-    iterations: Optional[int] = None,
+    iterations: int | None = None,
     backend: str = "auto",
     shots: int = 1024,
 ) -> Result:

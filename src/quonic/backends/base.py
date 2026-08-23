@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Dict, FrozenSet, Optional, Union
 
 from ..ir import Circuit
 from ..noise import NoiseModel
@@ -13,10 +12,10 @@ from ..result import Result
 class Backend(ABC):
     name: str = "base"
     # Set of method names this backend supports (overridden by subclasses). The scheduler uses this for capability matching and fallback.
-    methods: FrozenSet[str] = frozenset({"statevector"})
+    methods: frozenset[str] = frozenset({"statevector"})
 
     # Capability matrix — subclasses override to declare support.
-    _CAPABILITIES: Dict[str, bool] = {
+    _CAPABILITIES: dict[str, bool] = {
         "noise": False,
         "ctrl": False,
         "mid_measure": False,
@@ -32,7 +31,7 @@ class Backend(ABC):
         self,
         circuit: Circuit,
         shots: int = 1024,
-        noise: Optional[Union[NoiseModel, float, int]] = None,
+        noise: NoiseModel | float | None = None,
         method: str = "statevector",
     ) -> Result:
         """Run a circuit and return a Result with kind="counts".

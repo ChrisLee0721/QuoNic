@@ -14,7 +14,8 @@ Example: the transverse-field Ising model H = Z⊗Z + X⊗I + I⊗X (2 qubits)
 
 from __future__ import annotations
 
-from typing import Any, Callable, List, Optional, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Any, Callable
 
 from .._i18n import tr
 from ..result import Result
@@ -34,9 +35,9 @@ def _ansatz_state(n: int, params: Sequence[float]) -> StatevectorSimulator:
 
 
 def vqe(
-    hamiltonian: List[Tuple[float, str]],
+    hamiltonian: list[tuple[float, str]],
     n_qubits: int,
-    init_params: Optional[Sequence[float]] = None,
+    init_params: Sequence[float] | None = None,
     optimizer: str = "COBYLA",
     maxiter: int = 300,
     record_history: bool = False,
@@ -69,8 +70,8 @@ def vqe(
         sim = _ansatz_state(n_qubits, params)
         return sum(coeff * sim.expectation(pauli) for coeff, pauli in hamiltonian)
 
-    history: List[float] = []
-    callback: Optional[Callable[[Any], None]] = None
+    history: list[float] = []
+    callback: Callable[[Any], None] | None = None
     if record_history:
         def callback(xk: Any) -> None:
             history.append(float(energy(xk)))

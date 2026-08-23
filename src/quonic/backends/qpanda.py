@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Tuple
+from typing import Any
 
 from .._i18n import tr
 from ..noise import NoiseModel
@@ -29,7 +29,7 @@ class QPandaBackend(EngineBackend):
         return QCircuit(n)
 
     def _apply_one(
-        self, engine: Any, name: str, qubits: list[int], params: Tuple[float, ...]
+        self, engine: Any, name: str, qubits: list[int], params: tuple[float, ...]
     ) -> None:
         from pyqpanda3.core import CNOT, CP, CZ, RX, RY, RZ, SWAP, TOFFOLI, H, X, Y, Z
 
@@ -84,7 +84,7 @@ class QPandaBackend(EngineBackend):
                 engine << CNOT(c, target)
             engine << H(target)
 
-    def _sample(self, engine: Any, shots: int, n: int) -> Dict[str, int]:
+    def _sample(self, engine: Any, shots: int, n: int) -> dict[str, int]:
         from pyqpanda3.core import CPUQVM, QProg, measure
 
         prog = QProg()
@@ -95,7 +95,7 @@ class QPandaBackend(EngineBackend):
         qvm = CPUQVM()
         qvm.run(prog, shots)
         raw = qvm.result().get_counts()
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for bs, count in raw.items():
             # QPanda3 returns bitstrings with MSB first; reverse for qubit-0-is-LSB
             counts[str(bs)[::-1]] = counts.get(str(bs)[::-1], 0) + int(count)
@@ -122,7 +122,7 @@ class QPandaBackend(EngineBackend):
             vm = GPUQVM()
             vm.run(prog, shots)
             raw = vm.result().get_counts()
-            counts: Dict[str, int] = {}
+            counts: dict[str, int] = {}
             for bs, count in raw.items():
                 counts[str(bs)[::-1]] = counts.get(str(bs)[::-1], 0) + int(count)
             if nm.readout > 0:
@@ -136,7 +136,7 @@ class QPandaBackend(EngineBackend):
     #  Density-matrix path (v2)
     # ------------------------------------------------------------------ #
 
-    def _sample_dm(self, engine: Any, shots: int, n: int) -> Dict[str, int]:
+    def _sample_dm(self, engine: Any, shots: int, n: int) -> dict[str, int]:
         """Sample using density-matrix simulator."""
         from pyqpanda3.core import DensityMatrixSimulator, QProg, measure
 
@@ -147,7 +147,7 @@ class QPandaBackend(EngineBackend):
         sim = DensityMatrixSimulator()
         sim.run(prog, shots)
         raw = sim.result().get_counts()
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for bs, count in raw.items():
             counts[str(bs)[::-1]] = counts.get(str(bs)[::-1], 0) + int(count)
         return counts

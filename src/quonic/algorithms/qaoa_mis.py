@@ -20,24 +20,22 @@ Example::
 
 from __future__ import annotations
 
-from typing import List, Tuple
-
 from ..result import Result
 from .qaoa_generic import qaoa
 
 
 def _mis_hamiltonian(
-    edges: List[Tuple[int, int]],
+    edges: list[tuple[int, int]],
     n_vertices: int,
     penalty: float = 2.0,
-) -> List[Tuple[float, str]]:
+) -> list[tuple[float, str]]:
     """Build MIS cost Hamiltonian.
 
     Maximize sum of x_i subject to x_i + x_j ≤ 1 for all edges (i,j).
     Equivalent to: minimize -sum(x_i) + penalty * sum(x_i * x_j for edges).
     """
     n = n_vertices
-    terms: List[Tuple[float, str]] = []
+    terms: list[tuple[float, str]] = []
 
     # Objective: -sum(x_i) = -sum((I - Z_i)/2) = constant + sum(Z_i)/2
     for i in range(n):
@@ -63,7 +61,7 @@ def _mis_hamiltonian(
 
 
 def qaoa_mis(
-    edges: List[Tuple[int, int]],
+    edges: list[tuple[int, int]],
     n_vertices: int,
     p: int = 1,
     penalty: float = 2.0,

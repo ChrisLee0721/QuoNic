@@ -13,16 +13,16 @@ Example::
 
 from __future__ import annotations
 
-from typing import Any, List, Optional
+from typing import Any
 
 import numpy as np
 
 
 def plot_gradient_flow(
-    grad_history: List[np.ndarray],
+    grad_history: list[np.ndarray],
     title: str = "Gradient Flow",
     show: bool = True,
-    save: Optional[str] = None,
+    save: str | None = None,
 ) -> Any:
     """Plot gradient flow over training iterations.
 
@@ -44,7 +44,7 @@ def plot_gradient_flow(
         print("matplotlib required for visualization. Install with: pip install matplotlib")
         return None
 
-    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+    _fig, axes = plt.subplots(1, 2, figsize=(12, 4))
 
     # Gradient norm over iterations
     norms = [np.linalg.norm(g) for g in grad_history]
@@ -75,10 +75,10 @@ def plot_gradient_flow(
 
 
 def plot_training_convergence(
-    loss_history: List[float],
+    loss_history: list[float],
     title: str = "Training Convergence",
     show: bool = True,
-    save: Optional[str] = None,
+    save: str | None = None,
 ) -> Any:
     """Plot training loss convergence.
 
@@ -99,7 +99,7 @@ def plot_training_convergence(
         print("matplotlib required for visualization. Install with: pip install matplotlib")
         return None
 
-    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+    _fig, axes = plt.subplots(1, 2, figsize=(12, 4))
 
     # Loss over iterations
     axes[0].plot(loss_history, 'b-', linewidth=2)
@@ -131,7 +131,7 @@ def plot_parameter_distribution(
     params: np.ndarray,
     title: str = "Parameter Distribution",
     show: bool = True,
-    save: Optional[str] = None,
+    save: str | None = None,
 ) -> Any:
     """Plot distribution of circuit parameters.
 
@@ -150,7 +150,7 @@ def plot_parameter_distribution(
         print("matplotlib required for visualization. Install with: pip install matplotlib")
         return None
 
-    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+    _fig, axes = plt.subplots(1, 2, figsize=(12, 4))
 
     # Parameter values
     axes[0].bar(range(len(params)), params, alpha=0.7)
@@ -181,7 +181,7 @@ def plot_circuit_analysis(
     circuit: Any,
     title: str = "Circuit Analysis",
     show: bool = True,
-    save: Optional[str] = None,
+    save: str | None = None,
 ) -> Any:
     """Plot circuit structure analysis.
 
@@ -213,7 +213,7 @@ def plot_circuit_analysis(
             for q in op.qubits:
                 qubit_usage[q] += 1
 
-    fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+    _fig, axes = plt.subplots(1, 3, figsize=(15, 4))
 
     # Gate distribution
     if gate_counts:

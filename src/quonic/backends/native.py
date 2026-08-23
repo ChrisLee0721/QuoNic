@@ -9,7 +9,8 @@ Engines are imported lazily inside run(), so `import quonic` does not pull in nu
 
 from __future__ import annotations
 
-from typing import Any, Dict, Iterable, Optional, Tuple, Union
+from collections.abc import Iterable
+from typing import Any
 
 from .._i18n import tr
 from ..ir import Circuit, CRegCondition
@@ -17,7 +18,7 @@ from ..noise import NoiseModel, resolve_noise
 from ..result import Result
 from .base import Backend
 
-_METHODS: Tuple[str, ...] = (
+_METHODS: tuple[str, ...] = (
     "statevector",
     "stabilizer",
     "matrix_product_state",
@@ -34,7 +35,7 @@ class NativeBackend(Backend):
         self,
         circuit: Circuit,
         shots: int = 1024,
-        noise: Optional[Union[NoiseModel, float, int]] = None,
+        noise: NoiseModel | float | None = None,
         method: str = "statevector",
         return_state: bool = False,
     ) -> Any:
@@ -97,17 +98,17 @@ class NativeBackend(Backend):
         else:
             raise NotImplementedError(tr("err.native_ctrl", method=method))
 
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for _ in range(shots):
             engine = new_engine()
-            cregs: Dict[str, int] = {}
+            cregs: dict[str, int] = {}
             cls._execute(engine, circuit.ops, cregs)
             for bs, c in engine.sample(1).items():
                 counts[bs] = counts.get(bs, 0) + c
         return Result.from_counts(counts, shots)
 
     @staticmethod
-    def _execute(engine: Any, ops: Iterable[Any], cregs: Dict[str, int]) -> None:
+    def _execute(engine: Any, ops: Iterable[Any], cregs: dict[str, int]) -> None:
         """Execute a block of ops shot by shot, maintaining named classical registers
         cregs (name -> integer register value)."""
         for op in ops:

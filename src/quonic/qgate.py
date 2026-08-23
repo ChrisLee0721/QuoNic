@@ -2,15 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Union
-
 from ._i18n import tr
 from .gates import Gate, GateName, resolve
 from .ir import GateOperation
 from .stack import current_circuit
 
 
-def qgate(gate: Union[Gate, GateName], *qubits: int) -> GateOperation:
+def qgate(gate: Gate | GateName, *qubits: int) -> GateOperation:
     g = resolve(gate)
     qubits = tuple(int(q) for q in qubits)
     if len(qubits) != g.num_qubits:

@@ -19,7 +19,7 @@ qubit count, so it is intended for small circuits (≲ 10 qubits).
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Dict, Optional, Union
+from typing import TYPE_CHECKING
 
 from ._i18n import tr
 from .ir import Circuit, GateOperation
@@ -44,7 +44,7 @@ class ReadoutCalibration:
 
     matrices: np.ndarray  # shape (n, 2, 2); per-qubit marginals (always populated)
     n: int
-    full: Optional[np.ndarray] = None  # shape (2**n, 2**n); correlated model
+    full: np.ndarray | None = None  # shape (2**n, 2**n); correlated model
 
     @property
     def matrix(self) -> np.ndarray:
@@ -62,7 +62,7 @@ class ReadoutCalibration:
             a = np.kron(a, self.matrices[q])
         return a
 
-    def apply(self, counts: Dict[str, int], shots: int) -> Dict[str, int]:
+    def apply(self, counts: dict[str, int], shots: int) -> dict[str, int]:
         """Correct a measured counts histogram by inverting the confusion matrix.
 
         Returns integer counts (rounded, so the total may differ slightly from
@@ -99,9 +99,9 @@ class ReadoutCalibration:
             p_true = p_true / total
 
         fmt = f"0{self.n}b"
-        corrected: Dict[str, int] = {}
+        corrected: dict[str, int] = {}
         for i in range(2 ** self.n):
-            c = int(round(p_true[i] * shots))
+            c = round(p_true[i] * shots)
             if c:
                 corrected[format(i, fmt)] = c
         return corrected
@@ -131,8 +131,8 @@ def calibrate(
     num_qubits: int,
     backend: str = "native",
     shots: int = 1024,
-    noise: Optional[Union[NoiseModel, float, int]] = None,
-    device: Optional[str] = None,
+    noise: NoiseModel | float | None = None,
+    device: str | None = None,
     correlated: bool = False,
 ) -> ReadoutCalibration:
     """Build a readout calibration by preparing computational-basis states.

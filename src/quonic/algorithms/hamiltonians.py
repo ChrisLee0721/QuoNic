@@ -10,12 +10,12 @@ OpenFermion, then use this module's adapter to convert it into the
 
 from __future__ import annotations
 
-from typing import Any, List, Tuple
+from typing import Any
 
 from .._i18n import tr
 
 
-def from_qiskit_nature(op: Any) -> List[Tuple[float, str]]:
+def from_qiskit_nature(op: Any) -> list[tuple[float, str]]:
     """Convert a Qiskit Nature (or Qiskit) SparsePauliOp into [(coeff, pauli), ...].
 
     op must have .coeffs and .paulis attributes (satisfied by
@@ -36,7 +36,7 @@ def from_qiskit_nature(op: Any) -> List[Tuple[float, str]]:
         - Under JW mapping the molecular Hamiltonian has real coefficients; an error is
           raised if a non-negligible imaginary part appears.
     """
-    terms: List[Tuple[float, str]] = []
+    terms: list[tuple[float, str]] = []
     for coeff, pauli in zip(op.coeffs, op.paulis):
         if abs(coeff.imag) > 1e-8:
             raise ValueError(tr("err.hamiltonian_imag", coeff=coeff))

@@ -30,13 +30,16 @@ from .viz import (
 )
 
 __all__ = [
+    "AdamOptimizer",
     "Ansatz",
     "ClassicalLayer",
     "HybridModel",
     "HybridResult",
     "QMLPipeline",
     "QMLResult",
+    "QNGOptimizer",
     "QNNLayer",
+    "SPSAOptimizer",
     "adjoint_grad",
     "adjoint_grad_exact",
     "adjoint_grad_gpu",
@@ -56,9 +59,6 @@ __all__ = [
     "plot_training_convergence",
     "pulse_fisher_information",
     "pulse_gradient",
-    "SPSAOptimizer",
-    "AdamOptimizer",
-    "QNGOptimizer",
     "train",
     "train_batch",
 ]

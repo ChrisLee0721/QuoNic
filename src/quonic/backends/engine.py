@@ -19,7 +19,8 @@ v2 adds optional hooks for noise injection and classical control flow:
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import Any, Dict, FrozenSet, Iterable, Optional, Tuple, Union
+from collections.abc import Iterable
+from typing import Any
 
 from .._i18n import tr
 from ..ir import Circuit, CRegCondition
@@ -69,10 +70,10 @@ class EngineBackend(Backend):
     _MISSING_ERR: str = ""  # e.g. "err.qulacs_missing"
     _GATE_ERR: str = ""     # e.g. "err.qulacs_gate"
 
-    methods: FrozenSet[str] = frozenset({"statevector"})
+    methods: frozenset[str] = frozenset({"statevector"})
 
     # Capability matrix — subclasses override to declare support.
-    _CAPABILITIES: Dict[str, bool] = {
+    _CAPABILITIES: dict[str, bool] = {
         "noise": False,       # density-matrix noise injection
         "ctrl": False,        # classical control flow (cif/cmeasure/cwhile)
         "mid_measure": False, # mid-circuit measurement with state collapse
@@ -87,7 +88,7 @@ class EngineBackend(Backend):
         self,
         circuit: Circuit,
         shots: int = 1024,
-        noise: Optional[Union[NoiseModel, float, int]] = None,
+        noise: NoiseModel | float | None = None,
         method: str = "statevector",
         return_state: bool = False,
     ) -> Any:
@@ -146,9 +147,7 @@ class EngineBackend(Backend):
                 continue
             self._apply_one_dm(engine, op.name, list(op.qubits), op.params)
             nq = len(op.qubits)
-            if nq == 1 and nm.single > 0:
-                self._apply_noise_after_gate(engine, list(op.qubits), nm)
-            elif nq == 2 and nm.double > 0:
+            if nq == 1 and nm.single > 0 or nq == 2 and nm.double > 0:
                 self._apply_noise_after_gate(engine, list(op.qubits), nm)
 
         if return_state:
@@ -178,13 +177,13 @@ class EngineBackend(Backend):
         a different state).  Always returns counts.
         """
         use_dm = nm.enabled
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for _ in range(shots):
             if use_dm:
                 engine = self._create_dm(circuit.num_qubits)
             else:
                 engine = self._create(circuit.num_qubits)
-            cregs: Dict[str, int] = {}
+            cregs: dict[str, int] = {}
             self._execute_shot(engine, circuit.ops, cregs, use_dm, nm)
             shot_counts = (self._sample_dm if use_dm else self._sample)(
                 engine, 1, circuit.num_qubits
@@ -221,7 +220,7 @@ class EngineBackend(Backend):
         self,
         engine: Any,
         ops: Iterable[Any],
-        cregs: Dict[str, int],
+        cregs: dict[str, int],
         use_dm: bool,
         nm: NoiseModel,
     ) -> None:
@@ -268,12 +267,12 @@ class EngineBackend(Backend):
 
     @abstractmethod
     def _apply_one(
-        self, engine: Any, name: str, qubits: list[int], params: Tuple[float, ...]
+        self, engine: Any, name: str, qubits: list[int], params: tuple[float, ...]
     ) -> None:
         """Apply a single gate by QuoNic gate name.  Raise ValueError for unknown gates."""
 
     @abstractmethod
-    def _sample(self, engine: Any, shots: int, n: int) -> Dict[str, int]:
+    def _sample(self, engine: Any, shots: int, n: int) -> dict[str, int]:
         """Sample *shots* bitstrings, return {bitstring: count} with qubit 0 = LSB."""
 
     # ------------------------------------------------------------------ #
@@ -285,12 +284,12 @@ class EngineBackend(Backend):
         raise NotImplementedError(tr("err.engine_no_dm", name=self.name))
 
     def _apply_one_dm(
-        self, engine: Any, name: str, qubits: list[int], params: Tuple[float, ...]
+        self, engine: Any, name: str, qubits: list[int], params: tuple[float, ...]
     ) -> None:
         """Apply a gate to the DM engine.  Default: delegates to _apply_one."""
         self._apply_one(engine, name, qubits, params)
 
-    def _sample_dm(self, engine: Any, shots: int, n: int) -> Dict[str, int]:
+    def _sample_dm(self, engine: Any, shots: int, n: int) -> dict[str, int]:
         """Sample from the DM engine.  Default: delegates to _sample."""
         return self._sample(engine, shots, n)
 
@@ -328,12 +327,12 @@ class EngineBackend(Backend):
         import numpy as np
 
         n = circuit.num_qubits
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
 
         for _ in range(shots):
             sv = np.zeros(2**n, dtype=complex)
             sv[0] = 1.0
-            cregs: Dict[str, int] = {}
+            cregs: dict[str, int] = {}
             sv = self._sv_execute(sv, circuit.ops, cregs, n)
             probs = np.abs(sv) ** 2
             probs = probs / probs.sum()
@@ -574,8 +573,8 @@ class EngineBackend(Backend):
 
     @staticmethod
     def _apply_readout_noise(
-        counts: Dict[str, int], n: int, readout_prob: float
-    ) -> Dict[str, int]:
+        counts: dict[str, int], n: int, readout_prob: float
+    ) -> dict[str, int]:
         """Apply independent bit-flip readout noise to a counts dict.
 
         Uses per-qubit 2×2 confusion matrix applied via numpy einsum along each
@@ -602,10 +601,10 @@ class EngineBackend(Backend):
             arr = np.moveaxis(arr, 0, q)
 
         # Convert back to counts dict
-        noisy: Dict[str, int] = {}
+        noisy: dict[str, int] = {}
         it = np.nditer(arr, flags=["multi_index"])
         for val in it:
-            v = int(round(float(val)))
+            v = round(float(val))
             if v > 0:
                 idx = it.multi_index
                 bs = "".join(str(idx[n - 1 - i]) for i in range(n))

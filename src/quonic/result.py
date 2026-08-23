@@ -13,19 +13,19 @@ Usage:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 @dataclass(frozen=True)
 class Result:
     kind: str
-    counts: Optional[Dict[str, int]] = None
+    counts: dict[str, int] | None = None
     shots: int = 0
-    value: Optional[float] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    value: float | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
-    def from_counts(cls, counts: Dict[str, int], shots: int) -> Result:
+    def from_counts(cls, counts: dict[str, int], shots: int) -> Result:
         """Construct a Result from a sampling histogram."""
         return cls(
             kind="counts",

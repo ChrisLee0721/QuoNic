@@ -18,8 +18,6 @@ Example::
 
 from __future__ import annotations
 
-from typing import Optional
-
 import numpy as np
 
 from ..ir import Circuit, GateOperation
@@ -167,11 +165,7 @@ def extract_circuit(graph: ZXGraph) -> Circuit:
                     s = graph.spiders.get(nb)
                     if s is not None:
                         # Boundary spiders inherit the qubit
-                        if s.stype == SpiderType.BOUNDARY:
-                            spider_qubit[nb] = q_idx
-                            queue.append(nb)
-                        # Non-boundary spiders: assign to this qubit initially
-                        elif nb not in spider_qubit:
+                        if s.stype == SpiderType.BOUNDARY or nb not in spider_qubit:
                             spider_qubit[nb] = q_idx
                             queue.append(nb)
 
@@ -221,7 +215,7 @@ def extract_circuit(graph: ZXGraph) -> Circuit:
     return c
 
 
-def _find_qubit_for_spider(graph: ZXGraph, sid: int, inputs: list) -> Optional[int]:
+def _find_qubit_for_spider(graph: ZXGraph, sid: int, inputs: list) -> int | None:
     """Find which qubit a spider belongs to by tracing back to an input."""
     visited = {sid}
     queue = [sid]
@@ -236,7 +230,7 @@ def _find_qubit_for_spider(graph: ZXGraph, sid: int, inputs: list) -> Optional[i
     return None
 
 
-def _find_edge(graph: ZXGraph, s1: int, s2: int) -> Optional[ZXEdge]:
+def _find_edge(graph: ZXGraph, s1: int, s2: int) -> ZXEdge | None:
     """Find the edge between two spiders."""
     for e in graph.edges:
         if (e.src == s1 and e.dst == s2) or (e.src == s2 and e.dst == s1):
@@ -483,29 +477,28 @@ def _bialgebra(g: ZXGraph) -> bool:
         nbs2 = g.neighbors(e.dst)
 
         if len(nbs1) == 2 and len(nbs2) == 2:
-            other1 = [nb for nb in nbs1 if nb != e.dst][0]
-            other2 = [nb for nb in nbs2 if nb != e.src][0]
+            other1 = next(nb for nb in nbs1 if nb != e.dst)
+            other2 = next(nb for nb in nbs2 if nb != e.src)
 
             # If both other neighbors are boundaries, connect them
             sp1 = g.spiders.get(other1)
             sp2 = g.spiders.get(other2)
-            if sp1 is not None and sp2 is not None:
-                if sp1.stype == SpiderType.BOUNDARY and sp2.stype == SpiderType.BOUNDARY:
-                    # Connect the two boundaries directly
-                    existing = False
-                    for e2 in g.edges:
-                        if e2.src == -1:
-                            continue
-                        if (e2.src == other1 and e2.dst == other2) or \
+            if sp1 is not None and sp2 is not None and sp1.stype == SpiderType.BOUNDARY and sp2.stype == SpiderType.BOUNDARY:
+                # Connect the two boundaries directly
+                existing = False
+                for e2 in g.edges:
+                    if e2.src == -1:
+                        continue
+                    if (e2.src == other1 and e2.dst == other2) or \
                            (e2.src == other2 and e2.dst == other1):
-                            existing = True
-                            break
-                    if not existing:
-                        g.add_edge(other1, other2)
-                    g.remove_spider(e.src)
-                    g.remove_spider(e.dst)
-                    changed = True
-                    break
+                        existing = True
+                        break
+                if not existing:
+                    g.add_edge(other1, other2)
+                g.remove_spider(e.src)
+                g.remove_spider(e.dst)
+                changed = True
+                break
 
     return changed
 
@@ -575,11 +568,10 @@ def _match_patterns(g: ZXGraph) -> bool:
         if s1.stype == SpiderType.BOUNDARY or s2.stype == SpiderType.BOUNDARY:
             continue
 
-        if abs(s1.phase) > 1e-10 and abs(s2.phase) < 1e-10:
-            if s1.stype == s2.stype:
-                s2.phase = s1.phase
-                s1.phase = 0.0
-                changed = True
+        if abs(s1.phase) > 1e-10 and abs(s2.phase) < 1e-10 and s1.stype == s2.stype:
+            s2.phase = s1.phase
+            s1.phase = 0.0
+            changed = True
 
     return changed
 

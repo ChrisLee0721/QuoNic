@@ -15,15 +15,13 @@ Example::
 
 from __future__ import annotations
 
-from typing import List, Tuple
-
 from ..backends import get_backend
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
 def trotter(
-    hamiltonian: List[Tuple[float, str]],
+    hamiltonian: list[tuple[float, str]],
     time: float = 1.0,
     steps: int = 10,
     n_qubits: int = 2,

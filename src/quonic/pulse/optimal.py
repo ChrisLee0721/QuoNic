@@ -15,7 +15,6 @@ Example::
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional
 
 import numpy as np
 
@@ -45,7 +44,7 @@ def grape_optimize(
     max_amp: float = 1.0,
     lr: float = 0.1,
     seed: int = 42,
-    h_drift: Optional[np.ndarray] = None,
+    h_drift: np.ndarray | None = None,
 ) -> GRAPEResult:
     """Optimize a pulse to implement a target unitary using GRAPE.
 
@@ -153,7 +152,7 @@ def krotov_optimize(
     max_amp: float = 1.0,
     lambda_a: float = 1.0,
     seed: int = 42,
-    h_drift: Optional[np.ndarray] = None,
+    h_drift: np.ndarray | None = None,
 ) -> GRAPEResult:
     """Optimize a pulse using Krotov's method.
 

@@ -8,21 +8,21 @@ directly hitting the local cache and avoiding re-deciding every time.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any
 
 from ..ir import Circuit
 from .capabilities import CLIFFORD_GATES
 
 
-def _gate_types(circuit: Circuit) -> List[str]:
+def _gate_types(circuit: Circuit) -> list[str]:
     return sorted(
         {op.name for op in circuit.ops if op.name not in ("measure", "cmeasure")}
     )
 
 
-def _interaction_graph(circuit: Circuit) -> Set[Tuple[int, int]]:
+def _interaction_graph(circuit: Circuit) -> set[tuple[int, int]]:
     """Qubit pairs connected by two/multi-qubit gates form undirected edges, used to estimate the entanglement structure."""
-    edges: Set[Tuple[int, int]] = set()
+    edges: set[tuple[int, int]] = set()
     for op in circuit.ops:
         if op.name in ("measure", "cmeasure"):
             continue
@@ -33,7 +33,7 @@ def _interaction_graph(circuit: Circuit) -> Set[Tuple[int, int]]:
     return edges
 
 
-def _treewidth_upper_bound(n: int, edges: Set[Tuple[int, int]]) -> int:
+def _treewidth_upper_bound(n: int, edges: set[tuple[int, int]]) -> int:
     """Upper bound on treewidth from min-degree elimination (a proxy for tensor-network complexity)."""
     adj = [set() for _ in range(n)]
     for u, v in edges:
@@ -54,7 +54,7 @@ def _treewidth_upper_bound(n: int, edges: Set[Tuple[int, int]]) -> int:
     return width
 
 
-def _bucket_key(f: Dict[str, Any]) -> str:
+def _bucket_key(f: dict[str, Any]) -> str:
     n = f["n"]
     n_bucket = "n<8" if n < 8 else ("n<16" if n < 16 else ("n<24" if n < 24 else "n>=24"))
     cliff = "clifford" if f["is_clifford"] else "nonclifford"
@@ -74,7 +74,7 @@ def _entanglement_level(tw: int, n: int) -> str:
     return "high"
 
 
-def circuit_features(circuit: Circuit) -> Dict[str, Any]:
+def circuit_features(circuit: Circuit) -> dict[str, Any]:
     """Extract circuit features and return a dict whose features['key'] is a hashable bucketing key."""
     gate_types = _gate_types(circuit)
     edges = _interaction_graph(circuit)
@@ -83,7 +83,7 @@ def circuit_features(circuit: Circuit) -> Dict[str, Any]:
     has_ctrl = any(
         op.name in ("cif", "cmeasure", "cwhile") for op in circuit.ops
     )
-    feats: Dict[str, Any] = {
+    feats: dict[str, Any] = {
         "n": circuit.num_qubits,
         "depth": circuit.depth(),
         "gate_count": circuit.gate_count(),

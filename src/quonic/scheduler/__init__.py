@@ -17,8 +17,6 @@ Example:
 
 from __future__ import annotations
 
-from typing import Optional, Tuple
-
 from ..ir import Circuit
 from .capabilities import (
     METHOD_CAPABILITIES,
@@ -45,7 +43,7 @@ from .registry import (
 _BUILTIN = BuiltinRegistry()
 
 
-def _parse(rec: Optional[str]) -> Tuple[Optional[str], Optional[str]]:
+def _parse(rec: str | None) -> tuple[str | None, str | None]:
     """Parse the lookup result into (backend, method); "qiskit" -> (qiskit, None),
     "qiskit:stabilizer" -> (qiskit, stabilizer), None -> (None, None)."""
     if rec is None:
@@ -58,8 +56,8 @@ def _parse(rec: Optional[str]) -> Tuple[Optional[str], Optional[str]]:
 
 def schedule(
     circuit: Circuit,
-    cache: Optional[BackendRegistry] = None,
-    table: Optional[BackendRegistry] = None,
+    cache: BackendRegistry | None = None,
+    table: BackendRegistry | None = None,
     noise: bool = False,
 ) -> Recommendation:
     """Return the scheduling decision (backend name + simulation method).
@@ -79,8 +77,8 @@ def schedule(
     data required.
     """
     feats = circuit_features(circuit)
-    backend: Optional[str] = None
-    method: Optional[str] = None
+    backend: str | None = None
+    method: str | None = None
 
     # 1. Check cache (highest priority)
     if cache is not None:
@@ -106,22 +104,22 @@ def schedule(
 
 
 __all__ = [
-    "schedule",
+    "METHOD_CAPABILITIES",
+    "BackendRegistry",
+    "BuiltinRegistry",
+    "FileRegistry",
+    "LocalCacheRegistry",
+    "MemoryRegistry",
+    "Recommendation",
     "circuit_features",
-    "recommend_method",
-    "recommend_backend_gpu",
-    "recommend_backend_autodiff",
+    "decision_class",
+    "eligible_methods",
     "load_gpu_decision",
     "load_measured_decision",
     "load_noise_cost",
     "load_performance",
-    "Recommendation",
-    "BackendRegistry",
-    "BuiltinRegistry",
-    "MemoryRegistry",
-    "FileRegistry",
-    "LocalCacheRegistry",
-    "METHOD_CAPABILITIES",
-    "eligible_methods",
-    "decision_class",
+    "recommend_backend_autodiff",
+    "recommend_backend_gpu",
+    "recommend_method",
+    "schedule",
 ]

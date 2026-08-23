@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import math
 from collections import deque
-from typing import Callable, Dict, List, Optional, Set, Tuple
+from typing import Callable
 
 from ._i18n import tr
 from .ir import (
@@ -32,14 +32,14 @@ class RoutingError(ValueError):
 
 
 # the basic gate set allowed after decomposition (decompose's output is guaranteed to lie within it)
-BASIC_GATES: Set[str] = {"i", "h", "x", "y", "z", "rx", "ry", "rz", "p", "cx", "cz"}
+BASIC_GATES: set[str] = {"i", "h", "x", "y", "z", "rx", "ry", "rz", "p", "cx", "cz"}
 
 
 def _p(q: int, theta: float) -> GateOperation:
     return GateOperation("p", (q,), (theta,))
 
 
-def _decompose_cp(c: int, t: int, theta: float) -> List[GateOperation]:
+def _decompose_cp(c: int, t: int, theta: float) -> list[GateOperation]:
     """Controlled phase cp(theta) = p·cx·p·cx·p (exact, no ancilla)."""
     half = theta / 2
     return [
@@ -51,7 +51,7 @@ def _decompose_cp(c: int, t: int, theta: float) -> List[GateOperation]:
     ]
 
 
-def _decompose_ccx(a: int, b: int, c: int) -> List[GateOperation]:
+def _decompose_ccx(a: int, b: int, c: int) -> list[GateOperation]:
     """Exact Toffoli (Nielsen-Chuang Figure 4.9), using p(π/4) as the T gate, 6 cx gates."""
     t = math.pi / 4
     return [
@@ -73,7 +73,7 @@ def _decompose_ccx(a: int, b: int, c: int) -> List[GateOperation]:
     ]
 
 
-def _decompose_mcx_vale(c0: int, c1: int, c2: int, target: int) -> List[GateOperation]:
+def _decompose_mcx_vale(c0: int, c1: int, c2: int, target: int) -> list[GateOperation]:
     """MCX(3 controls) decomposition using Vale et al. (2024) phase polynomial method.
 
     arXiv:2302.06377, IEEE TCAD 43(3) (2024).
@@ -122,10 +122,10 @@ def _decompose_mcx_vale(c0: int, c1: int, c2: int, target: int) -> List[GateOper
 
 
 def _decompose_mcx(
-    controls: Tuple[int, ...],
+    controls: tuple[int, ...],
     target: int,
-    new_ancillas: Callable[[int], Tuple[int, ...]],
-) -> List[GateOperation]:
+    new_ancillas: Callable[[int], tuple[int, ...]],
+) -> list[GateOperation]:
     """Multi-controlled X: k=1 -> cx; k=2 -> Toffoli; k=3 -> Vale et al. (2024); k>=4 -> AND cascade.
 
     For 3 controls: 14 CX gates (vs 18 for standard AND cascade).
@@ -140,7 +140,7 @@ def _decompose_mcx(
         return _decompose_mcx_vale(controls[0], controls[1], controls[2], target)
     # k >= 4: use standard AND cascade with ancillas
     anc = new_ancillas(k - 2)
-    ops: List[GateOperation] = []
+    ops: list[GateOperation] = []
     ops += _decompose_ccx(controls[0], controls[1], anc[0])
     for j in range(1, k - 2):
         ops += _decompose_ccx(anc[j - 1], controls[j + 1], anc[j])
@@ -152,9 +152,9 @@ def _decompose_mcx(
 
 
 def _decompose_mcz(
-    qubits: Tuple[int, ...],
-    new_ancillas: Callable[[int], Tuple[int, ...]],
-) -> List[GateOperation]:
+    qubits: tuple[int, ...],
+    new_ancillas: Callable[[int], tuple[int, ...]],
+) -> list[GateOperation]:
     """Multi-controlled Z: mcz = H·mcx·H; a single control becomes cz directly.
 
     Uses Vale et al. (2024) decomposition for 3+ controls.
@@ -184,10 +184,10 @@ def decompose(circuit: Circuit) -> Circuit:
     out.allocate(circuit.num_qubits)
     # reusable clean ancillas: after each multi-controlled gate decomposition the ancillas are restored to |0>,
     # so the same set of ancillas can be reused by subsequent gates; total ancilla count = the maximum required by any gate.
-    pool: List[int] = []
+    pool: list[int] = []
     next_ancilla = [circuit.num_qubits]
 
-    def new_ancillas(m: int) -> Tuple[int, ...]:
+    def new_ancillas(m: int) -> tuple[int, ...]:
         while len(pool) < m:
             pool.append(next_ancilla[0])
             next_ancilla[0] += 1
@@ -222,7 +222,7 @@ def _violates(op: GateOperation, coupling_map: CouplingMap) -> bool:
 
 def compile(
     circuit: Circuit,
-    coupling_map: Optional[CouplingMap] = None,
+    coupling_map: CouplingMap | None = None,
     route: bool = False,
 ) -> Circuit:
     """Compile the circuit onto the target topology, returning a new Circuit (without modifying the original).
@@ -273,8 +273,8 @@ def compile(
 # SWAP routing
 # ---------------------------------------------------------------------------
 
-def _adjacency(coupling_map: CouplingMap) -> Dict[int, Set[int]]:
-    adj: Dict[int, Set[int]] = {q: set() for q in range(coupling_map.n)}
+def _adjacency(coupling_map: CouplingMap) -> dict[int, set[int]]:
+    adj: dict[int, set[int]] = {q: set() for q in range(coupling_map.n)}
     for u, v in coupling_map.edges():
         adj[u].add(v)
         adj[v].add(u)
@@ -282,12 +282,12 @@ def _adjacency(coupling_map: CouplingMap) -> Dict[int, Set[int]]:
 
 
 def _shortest_path(
-    adj: Dict[int, Set[int]], src: int, dst: int
-) -> Optional[List[int]]:
+    adj: dict[int, set[int]], src: int, dst: int
+) -> list[int] | None:
     """BFS shortest path on the coupling map, returning the node sequence [src, ..., dst]; returns None if disconnected."""
     if src == dst:
         return [src]
-    prev: Dict[int, Optional[int]] = {src: None}
+    prev: dict[int, int | None] = {src: None}
     q: deque = deque([src])
     while q:
         u = q.popleft()
@@ -299,8 +299,8 @@ def _shortest_path(
                 q.append(v)
     if dst not in prev:
         return None
-    path: List[int] = []
-    cur: Optional[int] = dst
+    path: list[int] = []
+    cur: int | None = dst
     while cur is not None:
         path.append(cur)
         cur = prev[cur]
@@ -322,7 +322,7 @@ def route_swaps(circuit: Circuit, coupling_map: CouplingMap) -> Circuit:
     out.allocate(n_phys)
 
     def emit(
-        name: str, qubits: Tuple[int, ...], params: Tuple[float, ...] = ()
+        name: str, qubits: tuple[int, ...], params: tuple[float, ...] = ()
     ) -> None:
         out.add(GateOperation(name, tuple(qubits), params))
 
@@ -396,14 +396,14 @@ def _adjoint(op: GateOperation) -> GateOperation:
     return op
 
 
-def _oracle_multi(ancillas: List[int], until: int) -> List[GateOperation]:
+def _oracle_multi(ancillas: list[int], until: int) -> list[GateOperation]:
     """Phase-flip the basis states where the ancilla register equals ``until``.
 
     Flips an X on each ancilla whose target bit is 0, applies a multi-controlled Z,
     then uncomputes the X gates — so only the register-value == ``until`` state is flipped.
     """
     width = len(ancillas)
-    ops: List[GateOperation] = []
+    ops: list[GateOperation] = []
     for i in range(width):
         if (until >> i) & 1 == 0:
             ops.append(GateOperation("x", (ancillas[i],)))
@@ -462,7 +462,7 @@ def _infer_success_prob(cwhile_op: ClassicalWhileOperation) -> float:
 
 def groverize(
     cwhile_op: ClassicalWhileOperation,
-    success_prob: Optional[float] = None,
+    success_prob: float | None = None,
     method: str = "grover",
 ) -> Circuit:
     """Compile a repeat-until-success ``cwhile`` loop into a static Grover circuit.
@@ -540,7 +540,7 @@ def groverize(
     out = Circuit()
     out.allocate(n_total)
 
-    def _emit(ops: List[GateOperation]) -> None:
+    def _emit(ops: list[GateOperation]) -> None:
         for o in ops:
             out.add(o)
 
@@ -556,7 +556,7 @@ def groverize(
     return out
 
 
-def _oracle_multi_fpaa(ancillas: List[int], until: int, theta: float) -> List[GateOperation]:
+def _oracle_multi_fpaa(ancillas: list[int], until: int, theta: float) -> list[GateOperation]:
     """FPAA oracle: applies phase e^{iθ} to target state.
 
     For standard Grover (θ=π): phase -1 (full reflection)
@@ -566,7 +566,7 @@ def _oracle_multi_fpaa(ancillas: List[int], until: int, theta: float) -> List[Ga
     P(θ) = [[1, 0], [0, e^{iθ}]] applies phase e^{iθ} to |1⟩.
     """
     width = len(ancillas)
-    ops: List[GateOperation] = []
+    ops: list[GateOperation] = []
 
     # Flip ancillas where target bit is 0
     for i in range(width):
@@ -632,7 +632,7 @@ def _reflect_zero_fpaa(circuit: Circuit, n: int, theta: float) -> None:
 # ---------------------------------------------------------------------------
 
 # Self-inverse gates: applying twice = identity
-_SELF_INVERSE: Set[str] = {"x", "y", "z", "h", "cx", "cz", "swap", "ccx"}
+_SELF_INVERSE: set[str] = {"x", "y", "z", "h", "cx", "cz", "swap", "ccx"}
 
 
 def optimize_cancel(circuit: Circuit) -> Circuit:
@@ -663,7 +663,7 @@ def optimize_cancel(circuit: Circuit) -> Circuit:
 
 # Commutation table: gates on different qubits always commute.
 # Gates on the same qubit: these pairs commute (can be reordered).
-_SAME_QUBIT_COMMUTE: Set[Tuple[str, str]] = {
+_SAME_QUBIT_COMMUTE: set[tuple[str, str]] = {
     ("x", "z"), ("z", "x"),
     ("y", "z"), ("z", "y"),
     ("x", "y"), ("y", "x"),
@@ -721,7 +721,7 @@ def optimize_commute(circuit: Circuit) -> Circuit:
 
 
 # Peephole patterns: (sequence of gate names+qubits) → replacement
-_PEEPHOLE_PATTERNS: List[Tuple[Tuple[str, ...], Tuple[str, ...]]] = [
+_PEEPHOLE_PATTERNS: list[tuple[tuple[str, ...], tuple[str, ...]]] = [
     # CX(0,1) · CX(1,0) · CX(0,1) = SWAP(0,1)
     (("cx", "cx", "cx"), ("swap",)),
 ]
@@ -852,7 +852,7 @@ def _gate_matrix_2x2(name: str, params: tuple):
 
 def optimize(
     circuit: Circuit,
-    passes: Tuple = ("cancel", "commute", "cancel", "peephole"),
+    passes: tuple = ("cancel", "commute", "cancel", "peephole"),
 ) -> Circuit:
     """Apply optimization passes in order.
 

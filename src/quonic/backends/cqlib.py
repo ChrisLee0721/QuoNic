@@ -8,7 +8,7 @@ The cqlib.Circuit is built in parallel for QASM/QCIS export via ``engine``.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from .._i18n import tr
 from .engine import EngineBackend
@@ -27,11 +27,11 @@ class CqlibBackend(EngineBackend):
         except ImportError as e:
             raise ImportError(tr(self._MISSING_ERR)) from e
         self._n = n
-        self._ops: List[Tuple[str, list, tuple]] = []
+        self._ops: list[tuple[str, list, tuple]] = []
         return Circuit(n)
 
     def _apply_one(
-        self, engine: Any, name: str, qubits: list[int], params: Tuple[float, ...]
+        self, engine: Any, name: str, qubits: list[int], params: tuple[float, ...]
     ) -> None:
         if name in ("identity", "i", "measure"):
             pass
@@ -39,7 +39,7 @@ class CqlibBackend(EngineBackend):
             # Accumulate for native replay
             self._ops.append((name, list(qubits), params))
 
-    def _sample(self, engine: Any, shots: int, n: int) -> Dict[str, int]:
+    def _sample(self, engine: Any, shots: int, n: int) -> dict[str, int]:
         """Delegate simulation to the native statevector engine.
 
         The native engine uses qubit-0-is-MSB convention for bitstrings, while

@@ -11,7 +11,8 @@ x[0..n-1] | z[0..n-1] | phase (mod 4: 0=+1, 1=i, 2=-1, 3=-i).
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Any
 
 import numpy as np
 
@@ -58,7 +59,7 @@ class StabilizerEngine:
         self.z[:, a] ^= self.z[:, b]
 
     def apply(
-        self, name: str, qubits: Sequence[int], params: Tuple[float, ...] = ()
+        self, name: str, qubits: Sequence[int], params: tuple[float, ...] = ()
     ) -> None:
         name = name.lower()
         if name == "measure":
@@ -110,7 +111,7 @@ class StabilizerEngine:
         return bool(g[1][c - n])
 
     @staticmethod
-    def _mul(g: Any, h: Any) -> Tuple[Any, Any, int]:
+    def _mul(g: Any, h: Any) -> tuple[Any, Any, int]:
         """Pauli multiplication g·h, returns (x^, z^, phase mod 4)."""
         x1, z1, p1 = g
         x2, z2, p2 = h
@@ -126,7 +127,7 @@ class StabilizerEngine:
     def _deterministic_outcome(self, q: int) -> int:
         """When no stabilizer row contains X_q, the measurement is deterministic; use Gaussian elimination to find the sign of Z_q."""
         n = self.n
-        gens: List[Any] = [
+        gens: list[Any] = [
             [self.x[i].copy(), self.z[i].copy(), int(self.phase[i])]
             for i in range(n, 2 * n)
         ]
@@ -151,7 +152,7 @@ class StabilizerEngine:
 
     def _measure(self, q: int) -> int:
         n = self.n
-        p: Optional[int] = None
+        p: int | None = None
         for i in range(n, 2 * n):
             if self.x[i, q]:
                 p = i
@@ -172,8 +173,8 @@ class StabilizerEngine:
         self.phase[p] = 2 * outcome
         return outcome
 
-    def sample(self, shots: int) -> Dict[str, int]:
-        counts: Dict[str, int] = {}
+    def sample(self, shots: int) -> dict[str, int]:
+        counts: dict[str, int] = {}
         for _ in range(shots):
             engine = self._copy()
             bits = [engine._measure(q) for q in range(self.n)]

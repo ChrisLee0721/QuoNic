@@ -16,15 +16,13 @@ Example::
 
 from __future__ import annotations
 
-from typing import List
-
 from ..result import Result
 from ..simulator import StatevectorSimulator
 
 
 def vqr(
-    X: List[List[float]],
-    y: List[float],
+    X: list[list[float]],
+    y: list[float],
     n_params: int = 2,
     maxiter: int = 100,
     optimizer: str = "COBYLA",

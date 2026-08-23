@@ -8,8 +8,6 @@ if/elif dispatch table to maintain.
 
 from __future__ import annotations
 
-from typing import Dict
-
 from .base import Translator
 from .cif import CifTranslator
 from .cmeasure import CMeasureTranslator
@@ -24,7 +22,7 @@ from .pauli import XTranslator, YTranslator, ZTranslator
 from .rotation import CpTranslator, PTranslator, RxTranslator, RyTranslator, RzTranslator
 from .swap import SwapTranslator
 
-TRANSLATORS: Dict[str, Translator] = {t.name: t for t in (
+TRANSLATORS: dict[str, Translator] = {t.name: t for t in (
     IdentityTranslator(),
     HadamardTranslator(),
     XTranslator(),
@@ -47,4 +45,4 @@ TRANSLATORS: Dict[str, Translator] = {t.name: t for t in (
     CwhileTranslator(),
 )}
 
-__all__ = ["Translator", "TRANSLATORS"]
+__all__ = ["TRANSLATORS", "Translator"]

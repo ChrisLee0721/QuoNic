@@ -18,23 +18,23 @@ Custom gates with arbitrary unitary matrices:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, Literal, Optional, Tuple, Union
+from typing import Any, Literal
 
 from ._i18n import tr
 
 # Global registry for custom gates (name -> Gate with matrix)
-_GATE_REGISTRY: Dict[str, "Gate"] = {}
+_GATE_REGISTRY: dict[str, Gate] = {}
 
 
 @dataclass(frozen=True)
 class Gate:
     name: str
     num_qubits: int
-    params: Tuple[float, ...] = field(default_factory=tuple)
-    matrix: Optional[Any] = None  # 2^n × 2^n unitary matrix (numpy array)
+    params: tuple[float, ...] = field(default_factory=tuple)
+    matrix: Any | None = None  # 2^n × 2^n unitary matrix (numpy array)
 
     @classmethod
-    def from_matrix(cls, name: str, matrix: Any, **kwargs) -> "Gate":
+    def from_matrix(cls, name: str, matrix: Any, **kwargs) -> Gate:
         """Create a custom gate from a unitary matrix.
 
         The matrix must be 2^n × 2^n for some n. The number of qubits is
@@ -60,7 +60,7 @@ H = Gate("h", 1)
 X = Gate("x", 1)
 Y = Gate("y", 1)
 Z = Gate("z", 1)
-I = Gate("i", 1)  # noqa: E741  # identity gate, standard symbol
+I = Gate("i", 1)  # identity gate, standard symbol
 CX = Gate("cx", 2)
 CZ = Gate("cz", 2)
 CCX = Gate("ccx", 3)
@@ -114,7 +114,7 @@ _GATE_ALIASES = {
 }
 
 
-def resolve(gate: Union[Gate, GateName]) -> Gate:
+def resolve(gate: Gate | GateName) -> Gate:
     """Resolve a gate object or gate name string into a Gate object."""
     if isinstance(gate, Gate):
         return gate
@@ -144,17 +144,27 @@ def resolve(gate: Union[Gate, GateName]) -> Gate:
 
 
 __all__ = [
+    "CCX",
+    "CP",
+    "CX",
+    "CZ",
+    "MEASURE",
+    "SWAP",
     "Gate",
     "GateName",
-    "H", "X", "Y", "Z", "I",
-    "CX", "CZ", "CCX", "SWAP",
-    "MEASURE",
-    "Rx", "Ry", "Rz", "CP",
-    "resolve",
+    "H",
+    "I",
+    "Rx",
+    "Ry",
+    "Rz",
+    "X",
+    "Y",
+    "Z",
     "get_gate_registry",
+    "resolve",
 ]
 
 
-def get_gate_registry() -> Dict[str, Gate]:
+def get_gate_registry() -> dict[str, Gate]:
     """Return the global custom gate registry."""
     return dict(_GATE_REGISTRY)

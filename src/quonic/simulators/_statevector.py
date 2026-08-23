@@ -7,7 +7,8 @@ the index-order ambiguity of two-qubit matrices.
 
 from __future__ import annotations
 
-from typing import Any, Dict, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Any
 
 import numpy as np
 
@@ -83,7 +84,7 @@ class StatevectorEngine:
         self.state = self.state[new_idx]
 
     def apply(
-        self, name: str, qubits: Sequence[int], params: Tuple[float, ...] = ()
+        self, name: str, qubits: Sequence[int], params: tuple[float, ...] = ()
     ) -> None:
         from ..gates import _GATE_REGISTRY
 
@@ -118,11 +119,11 @@ class StatevectorEngine:
         else:
             raise ValueError(tr("err.statevector_gate", name=name))
 
-    def sample(self, shots: int) -> Dict[str, int]:
+    def sample(self, shots: int) -> dict[str, int]:
         probs = np.abs(self.state) ** 2
         probs = probs / probs.sum()
         idx = np.random.choice(2 ** self.n, size=shots, p=probs)
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         fmt = f"0{self.n}b"
         for i in idx:
             bs = format(int(i), fmt)

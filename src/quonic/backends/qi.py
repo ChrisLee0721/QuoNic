@@ -35,7 +35,7 @@ Usage:
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 from .._i18n import tr
 from ..ir import Circuit
@@ -47,7 +47,7 @@ from .translators import TRANSLATORS
 
 # Device alias → official QI device name. Lets qshow(backend="tuna9") / get_backend("qx")
 # work in one step without remembering the exact Tuna-9 / QX emulator spelling.
-DEVICE_ALIASES: Dict[str, str] = {
+DEVICE_ALIASES: dict[str, str] = {
     "tuna9": "Tuna-9",
     "tuna17": "Tuna-17",
     "qx": "QX emulator",
@@ -59,7 +59,7 @@ DEVICE_ALIASES: Dict[str, str] = {
 DEFAULT_DEVICE: str = "QX emulator"
 
 
-def resolve_device(device: Optional[str]) -> Optional[str]:
+def resolve_device(device: str | None) -> str | None:
     """Map a device alias (tuna9 / tuna17 / qx) to the official QI device name; unknown names pass through unchanged."""
     if device is None:
         return None
@@ -78,7 +78,7 @@ class QuantumInspireBackend(Backend):
     # Declarative description of the setup guide (setup_guide uses it to generate a
     # "press Enter to continue" interactive guide). When integrating IBM / AWS Braket /
     # domestic hardware in the future, each fills in its own setup while reusing the guide engine.
-    setup: Dict[str, Any] = {
+    setup: dict[str, Any] = {
         "name": "Quantum Inspire",
         "sdk": {
             "package": "qiskit_quantuminspire",       # import name, used to detect whether it is installed
@@ -95,11 +95,11 @@ class QuantumInspireBackend(Backend):
         "billing": True,                               # real hardware consumes quota → confirm before submission
     }
 
-    def __init__(self, device: Optional[str] = None) -> None:
+    def __init__(self, device: str | None = None) -> None:
         # device=None defaults to the QX cloud simulator (safe, fast, for pre-submission
         # validation); you may also pass the aliases tuna9/tuna17/qx or the official
         # device names "Tuna-9"/"Tuna-17"/"QX emulator"
-        self.device: Optional[str] = resolve_device(device)
+        self.device: str | None = resolve_device(device)
 
     def supports(self, method: str) -> bool:
         # Hardware backends do not participate in method capability matching: any method runs directly on hardware
@@ -109,7 +109,7 @@ class QuantumInspireBackend(Backend):
         self,
         circuit: Circuit,
         shots: int = 1024,
-        noise: Optional[Union[NoiseModel, float, int]] = None,
+        noise: NoiseModel | float | None = None,
         method: str = "statevector",
     ) -> Result:
         if noise is not None:

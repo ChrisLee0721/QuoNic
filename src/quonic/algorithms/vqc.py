@@ -16,14 +16,14 @@ Example::
 
 from __future__ import annotations
 
-from typing import List, Optional, Sequence
+from collections.abc import Sequence
 
 from ..backends import get_backend
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
-def _vqc_circuit(features: List[float], params: Sequence[float], n_qubits: int) -> Circuit:
+def _vqc_circuit(features: list[float], params: Sequence[float], n_qubits: int) -> Circuit:
     """Build VQC circuit: angle encoding + variational layers."""
     circuit = Circuit()
 
@@ -45,9 +45,9 @@ def _vqc_circuit(features: List[float], params: Sequence[float], n_qubits: int) 
 
 
 def vqc(
-    features: List[float],
+    features: list[float],
     params: Sequence[float],
-    n_qubits: Optional[int] = None,
+    n_qubits: int | None = None,
     backend: str = "auto",
     shots: int = 1000,
 ) -> Result:

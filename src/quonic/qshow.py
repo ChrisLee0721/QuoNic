@@ -19,7 +19,7 @@ from __future__ import annotations
 import sys
 import time
 from concurrent.futures import ProcessPoolExecutor
-from typing import Callable, Dict, List, Optional, Union
+from typing import Callable
 
 from ._i18n import tr
 from .backends import get_backend, get_backend_for_method
@@ -42,16 +42,16 @@ if hasattr(sys.stdout, "reconfigure"):
 
 
 def qshow(
-    result: Optional[Result] = None,
+    result: Result | None = None,
     backend: str = "auto",
     shots: int = 1024,
-    noise: Optional[Union[NoiseModel, float, int]] = None,
+    noise: NoiseModel | float | None = None,
     report: bool = False,
-    cache: Optional[LocalCacheRegistry] = None,
-    coupling_map: Optional[CouplingMap] = None,
-    device: Optional[str] = None,
+    cache: LocalCacheRegistry | None = None,
+    coupling_map: CouplingMap | None = None,
+    device: str | None = None,
     requires_grad: bool = False,
-) -> Optional[Result]:
+) -> Result | None:
     if result is not None:
         if not isinstance(result, Result):
             raise TypeError(tr("err.qshow_arg"))
@@ -116,7 +116,7 @@ def _print_circuit_report(circuit: Circuit) -> None:
     print(tr("show.qubit_count", n=circuit.num_qubits))
 
 
-def _print_result(result: Result, backend_name: Optional[str] = None) -> None:
+def _print_result(result: Result, backend_name: str | None = None) -> None:
     if result.kind == "counts":
         _print_counts(result, backend_name)
     elif result.kind == "value":
@@ -125,7 +125,7 @@ def _print_result(result: Result, backend_name: Optional[str] = None) -> None:
         raise ValueError(tr("err.unknown_result_kind", kind=result.kind))
 
 
-def _print_counts(result: Result, backend_name: Optional[str]) -> None:
+def _print_counts(result: Result, backend_name: str | None) -> None:
     header = tr("show.backend_header", name=backend_name) if backend_name else ""
     print(f"{header}{tr('show.shots', shots=result.shots)}")
     print(tr("show.result"))
@@ -133,7 +133,7 @@ def _print_counts(result: Result, backend_name: Optional[str]) -> None:
     total = sum(counts.values()) or 1
     for bitstring in sorted(counts):
         n = counts[bitstring]
-        bar = "#" * int(round(40 * n / total))
+        bar = "#" * round(40 * n / total)
         print(f"  |{bitstring}>  {n:>6d}  ({n / total:6.1%})  {bar}")
 
 
@@ -150,11 +150,11 @@ def _print_value(result: Result) -> None:
 
 
 def qshow_all(
-    backends: List[str],
+    backends: list[str],
     shots: int = 1024,
-    noise: Optional[Union[NoiseModel, float, int]] = None,
+    noise: NoiseModel | float | None = None,
     print_results: bool = True,
-) -> Dict[str, Result]:
+) -> dict[str, Result]:
     """Run the current circuit on multiple backends in parallel.
 
     Each backend runs in a separate process (independent global state).
@@ -191,7 +191,7 @@ def qshow_all(
     # _run_one must be at module level for ProcessPoolExecutor pickle
     args = [(backend, ops, n, shots, noise) for backend in backends]
 
-    results: Dict[str, Result] = {}
+    results: dict[str, Result] = {}
     if len(backends) == 1:
         results[backends[0]] = _run_one_in_subprocess(args[0])
     else:
@@ -226,12 +226,12 @@ def _run_one_in_subprocess(args: tuple) -> Result:
 
 
 def run_circuits(
-    builders: List[Callable[[], None]],
+    builders: list[Callable[[], None]],
     backend: str = "auto",
     shots: int = 1024,
-    noise: Optional[Union[NoiseModel, float, int]] = None,
+    noise: NoiseModel | float | None = None,
     print_results: bool = True,
-) -> Dict[int, Result]:
+) -> dict[int, Result]:
     """Run multiple different circuits in parallel.
 
     Each builder is a function that calls qgate() to build a circuit.
@@ -256,7 +256,7 @@ def run_circuits(
 
     # Capture each circuit by running the builder in the main process
     # and recording the ops, then replay in subprocesses.
-    captured: List[tuple] = []
+    captured: list[tuple] = []
     for builder in builders:
         reset()
         builder()
@@ -272,7 +272,7 @@ def run_circuits(
         return {0: result}
 
     args_list = [(backend, ops, n, shots, noise) for ops, n in captured]
-    results: Dict[int, Result] = {}
+    results: dict[int, Result] = {}
 
     with ProcessPoolExecutor(max_workers=len(builders)) as pool:
         futures = {pool.submit(_run_circuit_subprocess, a): i for i, a in enumerate(args_list)}

@@ -17,8 +17,6 @@ Example::
 
 from __future__ import annotations
 
-from typing import List
-
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -26,7 +24,7 @@ from ..result import Result
 def _qcnn_circuit(
     n_qubits: int,
     n_layers: int,
-    params: List[float],
+    params: list[float],
 ) -> Circuit:
     """Build a QCNN circuit with convolutional + pooling layers.
 
@@ -62,11 +60,11 @@ def _qcnn_circuit(
 
 
 def _cost_function(
-    params: List[float],
+    params: list[float],
     n_qubits: int,
     n_layers: int,
-    X_train: List[List[int]],
-    y_train: List[int],
+    X_train: list[list[int]],
+    y_train: list[int],
 ) -> float:
     """Cost function for QCNN training.
 

@@ -14,7 +14,6 @@ Example::
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, List, Optional
 
 from ..ir import Circuit, GateOperation
 from .network import QuantumNetwork
@@ -31,7 +30,7 @@ class ScheduleStep:
     """
 
     node: str
-    gates: List[GateOperation]
+    gates: list[GateOperation]
     sync_after: bool = False
 
 
@@ -45,7 +44,7 @@ class TaskSchedule:
         entanglement_pairs: number of entanglement pairs needed
     """
 
-    steps: List[ScheduleStep]
+    steps: list[ScheduleStep]
     total_time: float = 0.0
     entanglement_pairs: int = 0
 
@@ -60,7 +59,7 @@ class TaskSchedule:
 def schedule_task(
     circuit: Circuit,
     network: QuantumNetwork,
-    qubit_assignment: Optional[Dict[int, str]] = None,
+    qubit_assignment: dict[int, str] | None = None,
 ) -> TaskSchedule:
     """Schedule a circuit across network nodes.
 
@@ -85,8 +84,8 @@ def schedule_task(
             qubit_assignment[q] = nodes[q % len(nodes)].name
 
     # Group gates by which nodes they involve
-    steps: List[ScheduleStep] = []
-    current_gates: Dict[str, List[GateOperation]] = {node.name: [] for node in nodes}
+    steps: list[ScheduleStep] = []
+    current_gates: dict[str, list[GateOperation]] = {node.name: [] for node in nodes}
     entanglement_pairs = 0
 
     for op in circuit.ops:

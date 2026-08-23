@@ -13,7 +13,6 @@ Example::
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional
 
 from ..ir import Circuit, GateOperation
 
@@ -57,7 +56,7 @@ def remote_cnot(
     pair: EntanglementPair,
     control_qubit: int,
     target_qubit: int,
-    circuit: Optional[Circuit] = None,
+    circuit: Circuit | None = None,
 ) -> Circuit:
     """Apply a remote CNOT using entanglement.
 
@@ -105,7 +104,7 @@ def teleport_state(
     pair: EntanglementPair,
     source_qubit: int,
     target_qubit: int,
-    circuit: Optional[Circuit] = None,
+    circuit: Circuit | None = None,
 ) -> Circuit:
     """Teleport a qubit state using an entangled pair.
 

@@ -14,8 +14,6 @@ Example::
 
 from __future__ import annotations
 
-from typing import List
-
 import numpy as np
 
 from ..ir import Circuit, GateOperation
@@ -23,14 +21,14 @@ from ..result import Result
 from .swap_test import swap_test
 
 
-def _angle_encode(circuit: Circuit, start: int, features: List[float]) -> None:
+def _angle_encode(circuit: Circuit, start: int, features: list[float]) -> None:
     """Encode features as rotation angles."""
     for i, f in enumerate(features):
         circuit.add(GateOperation("ry", (start + i,), (f,)))
 
 
 def quantum_kernel(
-    X: List[List[float]],
+    X: list[list[float]],
     n_qubits: int = 2,
     shots: int = 10000,
 ) -> Result:

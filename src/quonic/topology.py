@@ -7,7 +7,7 @@ precursor abstraction for routing when later connecting real hardware / domestic
 
 from __future__ import annotations
 
-from typing import Iterable, List, Tuple
+from collections.abc import Iterable
 
 from ._i18n import tr
 
@@ -15,7 +15,7 @@ from ._i18n import tr
 class CouplingMap:
     """Undirected coupling map: n qubits + a set of edges allowing direct interaction."""
 
-    def __init__(self, n: int, edges: Iterable[Tuple[int, int]] = ()) -> None:
+    def __init__(self, n: int, edges: Iterable[tuple[int, int]] = ()) -> None:
         if n < 0:
             raise ValueError(tr("err.topology_nonneg", n=n))
         self.n: int = n
@@ -60,7 +60,7 @@ class CouplingMap:
         """Whether a direct two-qubit gate is allowed between u and v."""
         return (min(u, v), max(u, v)) in self._edges
 
-    def edges(self) -> List[Tuple[int, int]]:
+    def edges(self) -> list[tuple[int, int]]:
         """Sorted list of edges (tuples, smaller endpoint first)."""
         return sorted(self._edges)
 

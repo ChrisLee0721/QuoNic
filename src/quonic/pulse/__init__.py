@@ -15,15 +15,15 @@ from .optimal import GRAPEResult, grape_optimize, krotov_optimize
 from .pulse import CrossResonancePulse, DragPulse, GaussianPulse
 
 __all__ = [
-    "GaussianPulse",
-    "DragPulse",
     "CrossResonancePulse",
+    "DragPulse",
     "GRAPEResult",
+    "GaussianPulse",
+    "cpmg_sequence",
     "grape_optimize",
     "krotov_optimize",
     "rabi_calibration",
     "t1_calibration",
     "t2_calibration",
-    "cpmg_sequence",
     "xy4_sequence",
 ]

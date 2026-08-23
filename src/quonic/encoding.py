@@ -9,12 +9,11 @@ Example::
 from __future__ import annotations
 
 import math
-from typing import List
 
 from .ir import Circuit, GateOperation
 
 
-def angle_encode(features: List[float]) -> Circuit:
+def angle_encode(features: list[float]) -> Circuit:
     """Angle encoding: each feature encoded as a Ry rotation.
 
     Ry(θ)|0> = cos(θ/2)|0> + sin(θ/2)|1>
@@ -32,7 +31,7 @@ def angle_encode(features: List[float]) -> Circuit:
     return c
 
 
-def amplitude_encode(data: List[float]) -> Circuit:
+def amplitude_encode(data: list[float]) -> Circuit:
     """Amplitude encoding: encode a real vector into quantum amplitudes.
 
     Uses a recursive decomposition to prepare the state.
@@ -62,7 +61,7 @@ def amplitude_encode(data: List[float]) -> Circuit:
     return c
 
 
-def _prepare_state(circuit: Circuit, vec, qubits: List[int]) -> None:
+def _prepare_state(circuit: Circuit, vec, qubits: list[int]) -> None:
     """Recursively prepare a state vector using controlled rotations."""
     import numpy as np
 

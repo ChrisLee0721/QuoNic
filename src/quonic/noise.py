@@ -11,7 +11,6 @@ Usage:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Union
 
 from ._i18n import tr
 
@@ -46,7 +45,7 @@ def depolarizing(p: float) -> NoiseModel:
     return NoiseModel(single=float(p), double=float(p))
 
 
-def resolve_noise(noise: Union[NoiseModel, float, int, None]) -> NoiseModel:
+def resolve_noise(noise: NoiseModel | float | None) -> NoiseModel:
     """Normalize the noise parameter into a NoiseModel (None means no noise)."""
     if noise is None:
         return NoiseModel()

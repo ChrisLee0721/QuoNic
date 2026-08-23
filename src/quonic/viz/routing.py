@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from ..compiler import route_swaps
 from ..ir import Circuit
@@ -23,8 +23,8 @@ def plot_routing(
     coupling_map: CouplingMap,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the circuit after greedy SWAP routing, with inserted SWAPs marked as
     orange crosses.

@@ -33,8 +33,8 @@ def rejection_sampling_demo(n_samples: int = 100) -> Result:
         # Accept/reject based on target probability
         prob = sim.expectation("Z")
         p_0 = (1 + prob) / 2
-        if np.random.random() < target[int(round(p_0))]:
-            samples.append(int(round(p_0)))
+        if np.random.random() < target[round(p_0)]:
+            samples.append(round(p_0))
 
     counts = {str(s): samples.count(s) for s in set(samples)}
     return Result.from_value(float(len(samples)), counts=counts, n_accepted=len(samples))

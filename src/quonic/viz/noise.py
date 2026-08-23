@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import time
-from typing import Any, Optional, Sequence, Union
+from collections.abc import Sequence
+from typing import Any
 
 from ..ir import Circuit
 from ..noise import NoiseModel
@@ -11,7 +12,7 @@ from ._mpl import _plt, finalize
 from .circuit import _draw_box, _draw_target, _gate_label
 
 
-def _noisy_ghz_time(n: int, p: float, repeats: int) -> Optional[float]:
+def _noisy_ghz_time(n: int, p: float, repeats: int) -> float | None:
     """Run an n-qubit GHZ (H + CX chain) on the density-matrix engine with depolarizing noise and return the shortest elapsed time."""
     from ..noise import depolarizing
     from ..simulators import DensityMatrixEngine
@@ -36,8 +37,8 @@ def plot_noise_heatmap(
     repeats: int = 1,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the timing heatmap of density-matrix simulation under depolarizing
     noise.
@@ -127,11 +128,11 @@ def plot_noise_heatmap(
 
 def plot_noisy_circuit(
     circuit: Circuit,
-    noise: Optional[Union[NoiseModel, float, int]] = None,
+    noise: NoiseModel | float | None = None,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Overlay noise intensity on the circuit diagram: each gate's background
     color is the depolarizing probability it experiences.

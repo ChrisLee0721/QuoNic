@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import math
 import random
-from typing import Dict, Iterator, Optional, Sequence, Tuple
+from collections.abc import Iterator, Sequence
 
 from .._i18n import tr
 from ..backends import get_backend
@@ -78,7 +78,7 @@ def _cadd_const(circuit: Circuit, qubits: Sequence[int], k: int, control: int) -
 # Modular arithmetic
 # ---------------------------------------------------------------------------
 
-def _modinv(a: int, m: int) -> Optional[int]:
+def _modinv(a: int, m: int) -> int | None:
     """Modular inverse a^{-1} mod m (a coprime to m), via the extended Euclidean algorithm."""
     a %= m
     if math.gcd(a, m) != 1:
@@ -182,7 +182,7 @@ def _mod_exp(
 # Classical part: continued fractions and factor extraction
 # ---------------------------------------------------------------------------
 
-def _convergents(x: float, max_q: int) -> Iterator[Tuple[int, int]]:
+def _convergents(x: float, max_q: int) -> Iterator[tuple[int, int]]:
     """Generate continued-fraction convergents p/q of a real number x (q <= max_q)."""
     if x <= 0:
         return
@@ -190,7 +190,7 @@ def _convergents(x: float, max_q: int) -> Iterator[Tuple[int, int]]:
     q0, q1 = 1, 0
     r = x
     for _ in range(1000):
-        a = int(math.floor(r + 1e-12))
+        a = math.floor(r + 1e-12)
         p = a * p1 + p0
         q = a * q1 + q0
         if q > max_q:
@@ -204,7 +204,7 @@ def _convergents(x: float, max_q: int) -> Iterator[Tuple[int, int]]:
         r = 1.0 / frac
 
 
-def _period_from_phase(j: int, t: int, a: int, N: int) -> Optional[int]:
+def _period_from_phase(j: int, t: int, a: int, N: int) -> int | None:
     """Recover the order r of a from the phase j/2^t using continued fractions."""
     phi = j / (2 ** t)
     if phi == 0:
@@ -215,7 +215,7 @@ def _period_from_phase(j: int, t: int, a: int, N: int) -> Optional[int]:
     return None
 
 
-def _factor_from_period(a: int, r: Optional[int], N: int) -> Optional[int]:
+def _factor_from_period(a: int, r: int | None, N: int) -> int | None:
     """Extract a factor from the order r; return None if r is odd or a^{r/2}≡-1."""
     if r is None or r % 2 != 0:
         return None
@@ -228,10 +228,10 @@ def _factor_from_period(a: int, r: Optional[int], N: int) -> Optional[int]:
     return None
 
 
-def _perfect_power_factor(N: int) -> Optional[int]:
+def _perfect_power_factor(N: int) -> int | None:
     """If N is a perfect power b^k, return b; otherwise return None."""
     for b in range(2, N.bit_length() + 1):
-        root = int(round(N ** (1.0 / b)))
+        root = round(N ** (1.0 / b))
         for r in (root - 1, root, root + 1):
             if r >= 2 and r ** b == N:
                 return r
@@ -240,7 +240,7 @@ def _perfect_power_factor(N: int) -> Optional[int]:
 
 def _run_once(
     N: int, a: int, t: int, backend: str, shots: int
-) -> Tuple[Optional[int], Optional[int], Optional[int], Dict[str, int]]:
+) -> tuple[int | None, int | None, int | None, dict[str, int]]:
     """Run one round of quantum period finding; return (factor, j, r, exp_counts)."""
     n = (N - 1).bit_length()
     exponent = list(range(t))
@@ -278,8 +278,8 @@ def _run_once(
 
 def shor(
     N: int,
-    a: Optional[int] = None,
-    t: Optional[int] = None,
+    a: int | None = None,
+    t: int | None = None,
     backend: str = "auto",
     shots: int = 1024,
     attempts: int = 8,

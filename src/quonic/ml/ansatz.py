@@ -11,8 +11,6 @@ Example::
 
 from __future__ import annotations
 
-from typing import List
-
 import numpy as np
 
 from ..ir import Circuit, GateOperation
@@ -26,7 +24,7 @@ class Ansatz:
         n_qubits: int,
         layers: int = 1,
         entanglement: str = "linear",
-    ) -> "AnsatzBuilder":
+    ) -> AnsatzBuilder:
         """Hardware-efficient ansatz: Ry rotations + entangling CX ladder.
 
         Args:
@@ -40,7 +38,7 @@ class Ansatz:
         return _HardwareEfficient(n_qubits, layers, entanglement)
 
     @staticmethod
-    def qaoa(n_qubits: int, p: int = 1) -> "AnsatzBuilder":
+    def qaoa(n_qubits: int, p: int = 1) -> AnsatzBuilder:
         """QAOA ansatz: alternating mixer and problem unitaries.
 
         Args:
@@ -53,7 +51,7 @@ class Ansatz:
         return _QAOA(n_qubits, p)
 
     @staticmethod
-    def uccsd(n_qubits: int) -> "AnsatzBuilder":
+    def uccsd(n_qubits: int) -> AnsatzBuilder:
         """UCCSD ansatz (simplified): singles + doubles excitations.
 
         Args:
@@ -68,7 +66,7 @@ class Ansatz:
     def strongly_entangling(
         n_qubits: int,
         layers: int = 1,
-    ) -> "AnsatzBuilder":
+    ) -> AnsatzBuilder:
         """Strongly entangling ansatz: Ry, Rz rotations + all-pairs CX.
 
         Each layer applies Ry and Rz rotations, then CX between all qubit pairs.
@@ -88,7 +86,7 @@ class Ansatz:
         n_qubits: int,
         depth: int = 3,
         seed: int = 42,
-    ) -> "AnsatzBuilder":
+    ) -> AnsatzBuilder:
         """Random ansatz: random single-qubit gates + random entangling gates.
 
         Useful for benchmarking and exploring quantum advantage.
@@ -107,7 +105,7 @@ class Ansatz:
     def data_reuploading(
         n_qubits: int,
         layers: int = 3,
-    ) -> "AnsatzBuilder":
+    ) -> AnsatzBuilder:
         """Data re-uploading ansatz: re-encodes data at each layer.
 
         Each layer applies data-encoding rotations followed by entangling gates.
@@ -126,7 +124,7 @@ class Ansatz:
     def circuit_centric(
         n_qubits: int,
         layers: int = 2,
-    ) -> "AnsatzBuilder":
+    ) -> AnsatzBuilder:
         """Circuit-centric ansatz: fixed entangling structure + trainable rotations.
 
         Uses a fixed pattern of entangling gates with trainable single-qubit rotations.
@@ -146,7 +144,7 @@ class AnsatzBuilder:
 
     n_params: int
 
-    def build(self, params: List[float]) -> Circuit:
+    def build(self, params: list[float]) -> Circuit:
         """Build a circuit from parameters."""
         raise NotImplementedError
 
@@ -161,7 +159,7 @@ class _HardwareEfficient(AnsatzBuilder):
         # Each layer: n Ry rotations + (n-1) CX gates
         self.n_params = n_qubits * layers
 
-    def build(self, params: List[float]) -> Circuit:
+    def build(self, params: list[float]) -> Circuit:
         c = Circuit()
         c.allocate(self.n_qubits)
         idx = 0
@@ -190,7 +188,7 @@ class _QAOA(AnsatzBuilder):
         # Each layer: n Rx rotations (mixer) + n CX + n Rz (problem)
         self.n_params = 2 * n_qubits * p
 
-    def build(self, params: List[float]) -> Circuit:
+    def build(self, params: list[float]) -> Circuit:
         c = Circuit()
         c.allocate(self.n_qubits)
         # Initial superposition
@@ -219,7 +217,7 @@ class _UCCSD(AnsatzBuilder):
         # Singles: n_qubits, Doubles: n_qubits*(n_qubits-1)/2
         self.n_params = n_qubits + n_qubits * (n_qubits - 1) // 2
 
-    def build(self, params: List[float]) -> Circuit:
+    def build(self, params: list[float]) -> Circuit:
         c = Circuit()
         c.allocate(self.n_qubits)
         idx = 0
@@ -246,7 +244,7 @@ class _StronglyEntangling(AnsatzBuilder):
         # Each layer: n Ry + n Rz + n*(n-1)/2 CX
         self.n_params = 2 * n_qubits * layers
 
-    def build(self, params: List[float]) -> Circuit:
+    def build(self, params: list[float]) -> Circuit:
         c = Circuit()
         c.allocate(self.n_qubits)
         idx = 0
@@ -274,7 +272,7 @@ class _Random(AnsatzBuilder):
         # Each depth layer: n rotations + some entangling gates
         self.n_params = n_qubits * depth
 
-    def build(self, params: List[float]) -> Circuit:
+    def build(self, params: list[float]) -> Circuit:
         rng = np.random.RandomState(self.seed)
         c = Circuit()
         c.allocate(self.n_qubits)
@@ -301,7 +299,7 @@ class _DataReuploading(AnsatzBuilder):
         # Each layer: n data params + n trainable params + entangling
         self.n_params = 2 * n_qubits * layers
 
-    def build(self, params: List[float]) -> Circuit:
+    def build(self, params: list[float]) -> Circuit:
         c = Circuit()
         c.allocate(self.n_qubits)
         idx = 0
@@ -326,7 +324,7 @@ class _CircuitCentric(AnsatzBuilder):
         self.layers = layers
         self.n_params = n_qubits * layers
 
-    def build(self, params: List[float]) -> Circuit:
+    def build(self, params: list[float]) -> Circuit:
         c = Circuit()
         c.allocate(self.n_qubits)
         idx = 0

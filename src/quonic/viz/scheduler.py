@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any
 
 from .._i18n import tr
 from ..ir import Circuit
@@ -18,8 +18,8 @@ def plot_method_comparison(
     cls: str = "clifford",
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the elapsed-time line for each simulation method vs. growing qubit
     count (log y-axis).
@@ -66,13 +66,13 @@ def plot_method_comparison(
 # ---------------------------------------------------------------------------
 
 class _Node:
-    __slots__ = ("label", "children", "x", "y")
+    __slots__ = ("children", "label", "x", "y")
 
     def __init__(
-        self, label: str, children: Optional[List[Tuple[str, _Node]]] = None
+        self, label: str, children: list[tuple[str, _Node]] | None = None
     ) -> None:
         self.label: str = label
-        self.children: List[Tuple[str, _Node]] = children or []
+        self.children: list[tuple[str, _Node]] = children or []
         self.x: float = 0.0
         self.y: float = 0.0
 
@@ -82,7 +82,7 @@ _LEAF_SPACING = 2.0   # x spacing between adjacent leaves
 
 
 def _assign(
-    node: _Node, depth: int, next_leaf: List[int], max_depth: List[int]
+    node: _Node, depth: int, next_leaf: list[int], max_depth: list[int]
 ) -> None:
     node.y = depth * _LAYER_SPACING
     max_depth[0] = max(max_depth[0], depth)
@@ -128,8 +128,8 @@ def _build_decision_tree() -> _Node:
 def plot_decision_tree(
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the scheduling decision tree: noise → density_matrix, others choose
     the method by class and crossover point.
@@ -180,7 +180,7 @@ def plot_decision_tree(
                 va="center",
                 fontsize=8,
                 color="0.25",
-                bbox=dict(facecolor="white", edgecolor="none", pad=1.5),
+                bbox={"facecolor": "white", "edgecolor": "none", "pad": 1.5},
                 zorder=5,
             )
             draw(child)
@@ -230,7 +230,7 @@ def _method_legend() -> str:
     return "   ".join(f"{abbr} = {name}" for name, abbr in _METHOD_ABBREV.items())
 
 
-def _features_for_class(cls: str, n: int) -> Dict[str, Any]:
+def _features_for_class(cls: str, n: int) -> dict[str, Any]:
     if cls == "clifford":
         return {"n": n, "gate_types": ["cx", "h"], "treewidth_ub": 1}
     if cls == "low_tw":
@@ -242,8 +242,8 @@ def _features_for_class(cls: str, n: int) -> Dict[str, Any]:
 def plot_method_heatmap(
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the "decision class × qubit count → method chosen by the scheduler"
     heatmap.
@@ -298,8 +298,8 @@ def plot_method_heatmap(
 def plot_fallback_chain(
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw the backend fallback chain: qiskit → cirq → pennylane → native
     (in-house fallback).
@@ -351,11 +351,11 @@ def plot_fallback_chain(
 # ---------------------------------------------------------------------------
 
 def plot_feature_radar(
-    circuit_or_features: Union[Circuit, Dict[str, Any]],
+    circuit_or_features: Circuit | dict[str, Any],
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Draw a multi-dimensional feature radar chart (polar) of a single circuit.
 

@@ -8,12 +8,10 @@ Example::
 
 from __future__ import annotations
 
-from typing import List
-
 import numpy as np
 
 
-def cpmg_sequence(n_pulses: int, delay: float) -> List[float]:
+def cpmg_sequence(n_pulses: int, delay: float) -> list[float]:
     """CPMG (Carr-Purcell-Meiboom-Gill) decoupling sequence.
 
     Args:
@@ -29,7 +27,7 @@ def cpmg_sequence(n_pulses: int, delay: float) -> List[float]:
     return times
 
 
-def xy4_sequence(delay: float) -> List[float]:
+def xy4_sequence(delay: float) -> list[float]:
     """XY-4 decoupling sequence.
 
     Args:
@@ -41,7 +39,7 @@ def xy4_sequence(delay: float) -> List[float]:
     return [delay * 0.25, delay * 0.75, delay * 1.25, delay * 1.75]
 
 
-def uhrig_sequence(n_pulses: int, total_time: float) -> List[float]:
+def uhrig_sequence(n_pulses: int, total_time: float) -> list[float]:
     """Uhrig dynamic decoupling sequence.
 
     Args:

@@ -15,7 +15,8 @@ Example:
 from __future__ import annotations
 
 import math
-from typing import Optional, Tuple
+
+from typing_extensions import Self
 
 from ._i18n import tr
 from .gates import H, Rz, X
@@ -34,13 +35,13 @@ class QInt:
         value: initial classical value (None means |0>, equivalent to value=0).
     """
 
-    def __init__(self, n_bits: int, value: Optional[int] = None) -> None:
+    def __init__(self, n_bits: int, value: int | None = None) -> None:
         if not isinstance(n_bits, int) or n_bits < 1:
             raise ValueError(tr("err.qint_n_bits", n_bits=n_bits))
         self.n_bits: int = n_bits
         base = current_circuit().num_qubits
         current_circuit().allocate(base + n_bits)
-        self.qubits: Tuple[int, ...] = tuple(range(base, base + n_bits))
+        self.qubits: tuple[int, ...] = tuple(range(base, base + n_bits))
         if value is not None:
             self.load(value)
 
@@ -78,14 +79,14 @@ class QInt:
         add_iqft(current_circuit(), self.qubits)
         return self
 
-    def __iadd__(self, k: int) -> QInt:
+    def __iadd__(self, k: int) -> Self:
         return self.add(k)
 
     def sub(self, k: int) -> QInt:
         """Quantum subtraction: |a> -> |a - k mod 2**n_bits> (equivalent to adding -k)."""
         return self.add(-int(k))
 
-    def __isub__(self, k: int) -> QInt:
+    def __isub__(self, k: int) -> Self:
         return self.sub(k)
 
     def __int__(self) -> int:
@@ -119,8 +120,8 @@ class QInt:
 
 def _add_quantum(
     circuit: Circuit,
-    a_qubits: Tuple[int, ...],
-    b_qubits: Tuple[int, ...],
+    a_qubits: tuple[int, ...],
+    b_qubits: tuple[int, ...],
     shift: int = 0,
 ) -> None:
     """Quantum-quantum addition: |a>|b> -> |a>|b + (a << shift) mod 2**n> (Draper addition).

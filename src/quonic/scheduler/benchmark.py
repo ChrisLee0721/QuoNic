@@ -21,8 +21,9 @@ import io
 import json
 import math
 import time
+from collections.abc import Iterable
 from datetime import datetime, timezone
-from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
+from typing import Any
 
 from .._i18n import tr
 from ..backends import get_backend
@@ -31,7 +32,7 @@ from ..noise import NoiseModel, depolarizing
 from .capabilities import METHOD_CAPABILITIES
 
 # the "challenger method" for each circuit class (the alternative to statevector)
-_ALT_METHOD: Dict[str, str] = {"clifford": "stabilizer", "low_tw": "matrix_product_state"}
+_ALT_METHOD: dict[str, str] = {"clifford": "stabilizer", "low_tw": "matrix_product_state"}
 
 
 def _timed_run(
@@ -39,8 +40,8 @@ def _timed_run(
     backend: str,
     method: str,
     shots: int = 256,
-    noise: Optional[Union[NoiseModel, float, int]] = None,
-) -> Optional[float]:
+    noise: NoiseModel | float | None = None,
+) -> float | None:
     """Run once and return the elapsed time; return None when the method does not support this circuit.
 
     When the method does not support the circuit, Aer prints an error to stderr;
@@ -126,7 +127,7 @@ def _qft(n: int) -> Circuit:
     return c
 
 
-def representative_circuits() -> List[Tuple[str, Circuit]]:
+def representative_circuits() -> list[tuple[str, Circuit]]:
     """Representative circuits for demos / quick benchmarks."""
     return [
         ("ghz24", _ghz(24)),
@@ -145,11 +146,11 @@ def benchmark_methods(
     backend: str = "qiskit",
     shots: int = 256,
     repeats: int = 3,
-) -> Dict[str, float]:
+) -> dict[str, float]:
     """Measure each method's timing and take the minimum over repeats (to suppress single-run timing jitter)."""
-    timings: Dict[str, float] = {}
+    timings: dict[str, float] = {}
     for m in methods:
-        samples: List[float] = []
+        samples: list[float] = []
         for _ in range(repeats):
             t = _timed_run(circuit, backend, m, shots)
             if t is not None:
@@ -164,10 +165,10 @@ def benchmark_grid(
     backend: str = "qiskit",
     shots: int = 256,
     repeats: int = 3,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """For the clifford / low_tw classes, measure each method's timing per n."""
     _timed_run(_ghz(4), backend, "statevector", shots)  # warm-up: trigger backend import/compile
-    performance: List[Dict[str, Any]] = []
+    performance: list[dict[str, Any]] = []
     for n in n_values:
         c = _ghz(n)
         performance.append({
@@ -193,7 +194,7 @@ def benchmark_general(
     backend: str = "qiskit",
     shots: int = 256,
     repeats: int = 3,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Measure the statevector timing of high-treewidth non-Clifford circuits (QFT / Grover).
 
     Only statevector can run these two circuit families (they include mcz /
@@ -202,10 +203,10 @@ def benchmark_general(
     ceiling of statevector as n grows.
     """
     _timed_run(_ghz(4), backend, "statevector", shots)  # warm-up
-    performance: List[Dict[str, Any]] = []
+    performance: list[dict[str, Any]] = []
     for n in n_values:
         for name, fn in (("qft", _qft), ("grover", _grover)):
-            samples: List[float] = []
+            samples: list[float] = []
             for _ in range(repeats):
                 t = _timed_run(fn(n), backend, "statevector", shots)
                 if t is not None:
@@ -226,7 +227,7 @@ def benchmark_noise(
     shots: int = 256,
     repeats: int = 3,
     budget: float = 0.5,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Measure the density_matrix cost curve under noise (the only noise-capable method, 4^n resources).
 
     Returns {"method", "noise", "budget", "performance", "infeasible_n"}:
@@ -234,10 +235,10 @@ def benchmark_noise(
     None if the whole grid runs within budget.
     """
     _timed_run(_ghz(2), backend, "density_matrix", shots, noise=depolarizing(noise))  # warm-up
-    performance: List[Dict[str, Any]] = []
-    infeasible_n: Optional[int] = None
+    performance: list[dict[str, Any]] = []
+    infeasible_n: int | None = None
     for n in n_values:
-        samples: List[float] = []
+        samples: list[float] = []
         for _ in range(repeats):
             t = _timed_run(_ghz(n), backend, "density_matrix", shots, noise=depolarizing(noise))
             if t is not None:
@@ -258,8 +259,8 @@ def benchmark_noise(
 
 
 def derive_decision(
-    performance: List[Dict[str, Any]], margin: float = 0.2
-) -> Dict[str, Dict[str, Any]]:
+    performance: list[dict[str, Any]], margin: float = 0.2
+) -> dict[str, dict[str, Any]]:
     """Derive the crossover point for each class from measured data.
 
     The crossover point is the smallest n where the alternative method is first
@@ -268,10 +269,10 @@ def derive_decision(
     the crossover point at small n -- at small n both methods are on the order of
     milliseconds, and a 1% difference is noise that must not change routing.
     """
-    decision: Dict[str, Dict[str, Any]] = {}
+    decision: dict[str, dict[str, Any]] = {}
     for cls, alt in _ALT_METHOD.items():
         rows = [r for r in performance if r["class"] == cls]
-        above: Optional[int] = None
+        above: int | None = None
         for r in sorted(rows, key=lambda x: x["n"]):
             sv = r["timings"].get("statevector")
             at = r["timings"].get(alt)
@@ -283,8 +284,8 @@ def derive_decision(
     return decision
 
 
-def _meta(backend: str, shots: int) -> Dict[str, Any]:
-    info: Dict[str, Any] = {}
+def _meta(backend: str, shots: int) -> dict[str, Any]:
+    info: dict[str, Any] = {}
     try:
         import platform
 
@@ -320,7 +321,7 @@ def benchmark_gpu_backends(
     backends: Iterable[str] = ("qulacs", "tensorcircuit", "cupy"),
     shots: int = 256,
     repeats: int = 3,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Measure GPU backend timings across circuit families and qubit counts.
 
     Returns a list of dicts: {"n", "class", "backend", "time"}.
@@ -330,11 +331,11 @@ def benchmark_gpu_backends(
     for b in backends:
         _timed_run(_ghz(4), b, "gpu", shots)
 
-    performance: List[Dict[str, Any]] = []
+    performance: list[dict[str, Any]] = []
     for n in n_values:
         for cls, fn in [("clifford", _ghz), ("low_tw", _chain_rotation), ("general", _grover)]:
             for b in backends:
-                samples: List[float] = []
+                samples: list[float] = []
                 for _ in range(repeats):
                     t = _timed_run(fn(n), b, "gpu", shots)
                     if t is not None:
@@ -350,21 +351,21 @@ def benchmark_gpu_backends(
 
 
 def derive_gpu_decision(
-    performance: List[Dict[str, Any]], margin: float = 0.2
-) -> Dict[str, Dict[str, Any]]:
+    performance: list[dict[str, Any]], margin: float = 0.2
+) -> dict[str, dict[str, Any]]:
     """Derive the best GPU backend for each circuit class from measured data.
 
     For each class, find the fastest backend across all n values.
     When no data exists, returns empty dict (caller falls back to hardcoded defaults).
     """
-    decision: Dict[str, Dict[str, Any]] = {}
+    decision: dict[str, dict[str, Any]] = {}
     classes = {r["class"] for r in performance}
     for cls in classes:
         rows = [r for r in performance if r["class"] == cls]
         if not rows:
             continue
         # Find the backend with the best (lowest) average time
-        backend_times: Dict[str, List[float]] = {}
+        backend_times: dict[str, list[float]] = {}
         for r in rows:
             backend_times.setdefault(r["backend"], []).append(r["time"])
         best_backend = min(backend_times, key=lambda b: sum(backend_times[b]) / len(backend_times[b]))
@@ -377,7 +378,7 @@ def build_gpu_benchmark_data(
     backends: Iterable[str] = ("qulacs", "tensorcircuit", "cupy"),
     shots: int = 256,
     repeats: int = 3,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Run the full GPU benchmark and return structured data.
 
     Produces:
@@ -401,7 +402,7 @@ def build_benchmark_data(
     backend: str = "qiskit",
     shots: int = 256,
     repeats: int = 3,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Run the full benchmark and return structured data.
 
     Produces:
@@ -423,7 +424,7 @@ def build_benchmark_data(
     }
 
 
-def main(argv: Optional[List[str]] = None) -> None:
+def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Offline benchmark: generate scheduling data (capability matrix + performance)")
     parser.add_argument("-o", "--output", default="scheduler/data/benchmarks.json")
     parser.add_argument("--backend", default="qiskit")
@@ -445,7 +446,7 @@ def main(argv: Optional[List[str]] = None) -> None:
 
     print(tr("bench.capabilities"))
     for m, cap in data["capabilities"].items():
-        print(f"  {m:24s} noise={str(cap['noise']):5s} gates={cap['gates']}")
+        print(f"  {m:24s} noise={cap['noise']!s:5s} gates={cap['gates']}")
     print(tr("bench.performance"))
     for r in data["performance"]:
         t = ", ".join(f"{m}={s}s" for m, s in r["timings"].items())

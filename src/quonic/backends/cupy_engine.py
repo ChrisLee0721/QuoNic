@@ -9,7 +9,7 @@ abstraction so the same code runs on both CPU (numpy) and GPU (CuPy).
 
 from __future__ import annotations
 
-from typing import Any, Dict, Tuple
+from typing import Any
 
 from ..ir import Circuit, CRegCondition
 from ..noise import NoiseModel
@@ -35,7 +35,7 @@ def _check_gpu_memory(n: int, xp: Any) -> None:
         return  # numpy — no GPU memory to check
     try:
         import cupy
-        free, total = cupy.cuda.Device().mem_info
+        free, _total = cupy.cuda.Device().mem_info
         needed = 2**n * 16  # complex128 = 16 bytes
         if needed > free:
             raise MemoryError(
@@ -51,7 +51,7 @@ def _check_gpu_memory(n: int, xp: Any) -> None:
 class _CuPyState:
     """Mutable container for CuPy statevector + qubit count."""
 
-    __slots__ = ("sv", "n")
+    __slots__ = ("n", "sv")
 
     def __init__(self, sv, n):
         self.sv = sv
@@ -72,11 +72,11 @@ class CupyEngineBackend(EngineBackend):
         return _CuPyState(sv, n)
 
     def _apply_one(
-        self, engine: Any, name: str, qubits: list[int], params: Tuple[float, ...]
+        self, engine: Any, name: str, qubits: list[int], params: tuple[float, ...]
     ) -> None:
         engine.sv = _sv_apply_gate(engine.sv, name, qubits, params, engine.n)
 
-    def _sample(self, engine: Any, shots: int, n: int) -> Dict[str, int]:
+    def _sample(self, engine: Any, shots: int, n: int) -> dict[str, int]:
         return _sv_sample(engine.sv, shots, engine.n, _xp())
 
     def _get_statevector(self, engine: Any, n: int) -> Any:
@@ -121,12 +121,12 @@ class CupyEngineBackend(EngineBackend):
     ) -> Result:
         """Per-shot GPU execution with classical control flow."""
         n = circuit.num_qubits
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
 
         for _ in range(shots):
             sv = xp.zeros(2**n, dtype=complex)
             sv[0] = 1.0
-            cregs: Dict[str, int] = {}
+            cregs: dict[str, int] = {}
             sv = _sv_execute(sv, circuit.ops, cregs, n, xp)
             shot_counts = _sv_sample(sv, 1, n, xp)
             for bs, c in shot_counts.items():
@@ -363,7 +363,7 @@ def _sv_sample(sv, shots, n, xp):
         probs_cpu = probs
     import numpy as np
     indices = np.random.choice(2**n, size=shots, p=probs_cpu)
-    counts: Dict[str, int] = {}
+    counts: dict[str, int] = {}
     fmt = f"0{n}b"
     for idx in indices:
         bs = format(int(idx), fmt)[::-1]

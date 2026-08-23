@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Tuple
+from typing import Any
 
 from .._i18n import tr
 from ..ir import CRegCondition
@@ -31,7 +31,7 @@ class CudaQBackend(EngineBackend):
         return (kernel, n)  # store n for sampling
 
     def _apply_one(
-        self, engine: Any, name: str, qubits: list[int], params: Tuple[float, ...]
+        self, engine: Any, name: str, qubits: list[int], params: tuple[float, ...]
     ) -> None:
         kernel, _ = engine
         if name == "identity":
@@ -89,12 +89,12 @@ class CudaQBackend(EngineBackend):
                 kernel.cx(c, target)
             kernel.h(target)
 
-    def _sample(self, engine: Any, shots: int, n: int) -> Dict[str, int]:
+    def _sample(self, engine: Any, shots: int, n: int) -> dict[str, int]:
         import cudaq
 
         kernel, _ = engine
         result = cudaq.sample(kernel, shots_count=shots)
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for bs, count in result.items():
             counts[str(bs)] = counts.get(str(bs), 0) + int(count)
         return counts
@@ -143,7 +143,7 @@ class CudaQBackend(EngineBackend):
         result = cudaq.sample(kernel, shots_count=shots)
         cudaq.unset_noise()
 
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for bs, count in result.items():
             counts[str(bs)] = counts.get(str(bs), 0) + int(count)
 
@@ -162,10 +162,10 @@ class CudaQBackend(EngineBackend):
         """CUDA-Q dynamic circuits: per-shot kernel creation (high overhead)."""
         import cudaq
 
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for _ in range(shots):
             kernel, n = self._create(circuit.num_qubits)
-            cregs: Dict[str, int] = {}
+            cregs: dict[str, int] = {}
             self._cudaq_execute_shot(kernel, n, circuit.ops, cregs)
             result = cudaq.sample(kernel, shots_count=1)
             for bs, c in result.items():
@@ -173,7 +173,7 @@ class CudaQBackend(EngineBackend):
         return Result.from_counts(counts, shots)
 
     def _cudaq_execute_shot(
-        self, kernel: Any, n: int, ops: list, cregs: Dict[str, int]
+        self, kernel: Any, n: int, ops: list, cregs: dict[str, int]
     ) -> None:
         """Execute ops on a CUDA-Q kernel for one shot."""
         for op in ops:

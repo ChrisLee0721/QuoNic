@@ -78,38 +78,91 @@ from .vqe import vqe
 from .vqr import vqr
 
 __all__ = [
-    # Existing
-    "grover", "mark_state", "diffusion", "oracle",
-    "quantum_counting", "shor", "vqe", "qaoa", "qaoa_maxcut",
-    "from_qiskit_nature", "qpe",
-    # Phase 1: Foundational
-    "qft", "deutsch_jozsa", "bernstein_vazirani", "simon",
-    "swap_test", "hadamard_test", "amplitude_amplification", "amplitude_estimation_demo",
-    # Phase 2: Search & Optimization
-    "qaoa_tsp", "qaoa_mis", "qaoa_knapsack", "quantum_walk",
-    "quantum_annealing_demo",
-    # Phase 3: Chemistry
-    "from_pauli_string", "from_openfermion", "from_pennylane",
-    "trotter", "jordan_wigner_2site", "molecule_vqe_demo",
-    "hamiltonian_simulation_demo", "dynamics_simulation_demo", "qsp_demo",
-    # Phase 4: Linear Algebra
-    "hhl_demo", "quantum_matrix_inversion_demo", "quantum_eigenvalue_demo",
-    "quantum_pde_demo", "quantum_ode_demo", "quantum_fitting_demo",
-    # Phase 5: Communication
-    "teleportation", "bb84", "e91", "superdense_coding", "discrete_log_demo",
-    # Phase 6: Hybrid
-    "vqc", "quantum_kernel", "qng_demo", "vqr", "qnn_demo", "qsvm_demo",
-    "quantum_annealing_hybrid_demo",
+    "amplitude_amplification",
+    "amplitude_estimation_demo",
+    "bb84",
+    "bernstein_vazirani",
     # Phase 7: Error Correction
-    "bit_flip_code", "phase_flip_code", "shor_code", "steane_code",
-    "stabilizer_demo", "syndrome_demo", "surface_code_demo", "color_code_demo",
+    "bit_flip_code",
+    "color_code_demo",
+    "deutsch_jozsa",
+    "diffusion",
+    "discrete_log_demo",
+    "dqaoa_demo",
+    "dynamics_simulation_demo",
+    "e91",
+    "elliptic_curve_demo",
+    "from_openfermion",
+    # Phase 3: Chemistry
+    "from_pauli_string",
+    "from_pennylane",
+    "from_qiskit_nature",
     "ft_gate_demo",
-    # Phase 8: Statistical
-    "quantum_monte_carlo_demo", "rejection_sampling_demo", "quantum_bayesian_demo",
+    # Existing
+    "grover",
+    "hadamard_test",
+    "hamiltonian_simulation_demo",
+    # Phase 4: Linear Algebra
+    "hhl_demo",
     # Phase 9: Algebraic
-    "hsp_demo", "lattice_svp_demo", "elliptic_curve_demo",
+    "hsp_demo",
+    "jordan_wigner_2site",
+    "lattice_svp_demo",
+    "mark_state",
+    "molecule_vqe_demo",
+    "oracle",
+    "phase_flip_code",
+    "qaoa",
+    "qaoa_knapsack",
+    "qaoa_maxcut",
+    "qaoa_mis",
+    # Phase 2: Search & Optimization
+    "qaoa_tsp",
+    "qbm_demo",
     # Phase 10: Minimal Demos
-    "qcnn_demo", "qgnn_demo", "dqaoa_demo", "qtransformer_demo",
-    "qrl_demo", "qtda_demo", "qpca_demo", "quantum_clustering_demo",
-    "qgan_demo", "qbm_demo",
+    "qcnn_demo",
+    # Phase 1: Foundational
+    "qft",
+    "qgan_demo",
+    "qgnn_demo",
+    "qng_demo",
+    "qnn_demo",
+    "qpca_demo",
+    "qpe",
+    "qrl_demo",
+    "qsp_demo",
+    "qsvm_demo",
+    "qtda_demo",
+    "qtransformer_demo",
+    "quantum_annealing_demo",
+    "quantum_annealing_hybrid_demo",
+    "quantum_bayesian_demo",
+    "quantum_clustering_demo",
+    "quantum_counting",
+    "quantum_eigenvalue_demo",
+    "quantum_fitting_demo",
+    "quantum_kernel",
+    "quantum_matrix_inversion_demo",
+    # Phase 8: Statistical
+    "quantum_monte_carlo_demo",
+    "quantum_ode_demo",
+    "quantum_pde_demo",
+    "quantum_walk",
+    "rejection_sampling_demo",
+    "shor",
+    "shor_code",
+    "simon",
+    "stabilizer_demo",
+    "steane_code",
+    "superdense_coding",
+    "surface_code_demo",
+    "swap_test",
+    "syndrome_demo",
+    # Phase 5: Communication
+    "teleportation",
+    "trotter",
+    # Phase 6: Hybrid
+    "vqc",
+    "vqe",
+    "vqr",
 ]

@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuoNic - 量子编程，像写 Python 一样简单</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        quantum: {
+                            50: '#f0f4ff',
+                            100: '#e0e9fe',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            800: '#1e3a8a',
+                            900: '#0f172a',
+                            cyan: '#06b6d4',
+                            purple: '#a855f7',
+                            emerald: '#10b981'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for Simulation Visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Three.js for Bloch Sphere -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #090d16;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        .quantum-gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(56, 189, 248, 0.2);
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.08), transparent);
+            transition: left 0.7s ease;
+        }
+        .glass-card:hover::before {
+            left: 100%;
+        }
+        /* Grid background effect */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #090d16; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+        /* Scroll Reveal Effect (Bidirectional Fade-In / Fade-Out) */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(45px) scale(0.95);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Staggered Delay Helpers */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+    </style>
+</head>
+<body class="bg-grid-pattern antialiased text-gray-200 relative">
+
+    <!-- Quantum Background Particle Canvas -->
+    <canvas id="quantum-bg-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 p-0.5 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                            <i class="fa-solid fa-atom text-cyan-400 text-lg animate-spin-slow"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold tracking-wider text-white">Quo<span class="quantum-gradient-text">Nic</span></span>
+                        <span class="text-xs bg-cyan-950 text-cyan-400 px-2 py-0.5 rounded-full border border-cyan-800/50 font-mono ml-2">v0.2.2</span>
+                    </div>
+                </div>
+
+                <!-- Nav Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                    <a href="#playground" class="hover:text-cyan-400 transition-colors" data-i18n-zh="在线体验" data-i18n-en="Playground">在线体验</a>
+                    <a href="#bloch-sphere" class="hover:text-cyan-400 transition-colors" data-i18n-zh="量子态可视化" data-i18n-en="Bloch Sphere">量子态可视化</a>
+                    <a href="#features" class="hover:text-cyan-400 transition-colors" data-i18n-zh="核心特性" data-i18n-en="Features">核心特性</a>
+                    <a href="#code-examples" class="hover:text-cyan-400 transition-colors" data-i18n-zh="示例代码" data-i18n-en="Examples">示例代码</a>
+                    <a href="#quickstart" class="hover:text-cyan-400 transition-colors" data-i18n-zh="快速开始" data-i18n-en="Quickstart">快速开始</a>
+                    <button onclick="openDocsModal()" class="hover:text-cyan-400 transition-colors flex items-center space-x-1.5 font-semibold text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 px-3 py-1.5 rounded-xl border border-cyan-700/60 transition-all shadow-sm">
+                        <i class="fa-solid fa-book-bookmark text-xs text-cyan-400"></i>
+                        <span data-i18n-zh="文档站" data-i18n-en="Docs">文档站</span>
+                    </button>
+                </nav>
+
+                <!-- Actions -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="toggleLanguage()" id="lang-btn" class="glass-panel hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 border border-slate-700/80 px-3 py-1.5 rounded-xl text-xs font-mono font-semibold transition-all flex items-center space-x-1.5 shadow-sm">
+                        <i class="fa-solid fa-globe text-cyan-400"></i>
+                        <span id="lang-btn-text">EN / 中文</span>
+                    </button>
+
+                    <a href="https://github.com/ChrisLee0721/QuoNic" target="_blank" rel="noopener" class="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-sm font-medium border border-slate-700 transition-all shadow-md hover:border-slate-500">
+                        <i class="fa-brands fa-github text-lg"></i>
+                        <span class="hidden sm:inline">GitHub</span>
+                        <span class="bg-slate-900 text-slate-400 text-xs px-2 py-0.5 rounded-md font-mono border border-slate-800">Star</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section (Dedicated Full Page) -->
+    <section class="relative min-h-[calc(100vh-4rem)] flex flex-col justify-between items-center py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <!-- Glowing background light spots -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-to-tr from-cyan-500/20 via-indigo-500/20 to-purple-500/10 blur-[140px] rounded-full pointer-events-none"></div>
+
+        <div></div> <!-- Spacer for flex balance -->
+
+        <div class="max-w-5xl mx-auto text-center relative z-10 my-auto">
+            <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-cyan-950/70 border border-cyan-800/60 text-cyan-300 text-xs sm:text-sm font-mono mb-8 backdrop-blur-md shadow-lg">
+                <span class="flex h-2 w-2 rounded-full bg-cyan-400 animate-ping"></span>
+                <span data-i18n-zh="QuoNic Python Package | 量子计算高阶开发框架" data-i18n-en="QuoNic Python Package | Advanced Quantum Computing Framework">QuoNic Python Package | 量子计算高阶开发框架</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-8 leading-[1.15]">
+                <span data-i18n-zh="量子编程，" data-i18n-en="Quantum Programming, ">量子编程，</span><br class="hidden sm:inline" />
+                <span data-i18n-zh="像写 " data-i18n-en="As Simple as Writing ">像写 </span><span class="quantum-gradient-text">Python</span><span data-i18n-zh=" 一样简单" data-i18n-en=""> 一样简单</span>
+            </h1>
+
+            <p class="text-lg sm:text-2xl text-slate-300 mb-10 max-w-3xl mx-auto leading-relaxed font-normal" data-i18n-zh="QuoNic 专为开发者与研究员打造。直观的 Python 语法、强大的电路构建器、实时可视化与混合量子算法库，让复杂的量子力学逻辑化繁为简。" data-i18n-en="Built for developers & researchers. Intuitive Python syntax, powerful circuit builders, real-time visualization, and hybrid algorithms simplify complex quantum logic.">
+                QuoNic 专为开发者与研究员打造。直观的 Python 语法、强大的电路构建器、实时可视化与混合量子算法库，让复杂的量子力学逻辑化繁为简。
+            </p>
+
+            <!-- PIP Install Box -->
+            <div class="max-w-md mx-auto mb-10">
+                <div class="glass-panel p-2 rounded-2xl flex items-center justify-between border border-slate-700/80 shadow-2xl">
+                    <div class="flex items-center space-x-3 px-3 code-font text-cyan-300 text-sm sm:text-base">
+                        <span class="text-slate-500 select-none">$</span>
+                        <span id="pip-command">pip install quonic</span>
+                    </div>
+                    <button onclick="copyPipCommand()" id="copy-btn" class="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-2 shadow-lg shadow-cyan-600/30">
+                        <i class="fa-regular fa-copy"></i>
+                        <span data-i18n-zh="复制" data-i18n-en="Copy">复制</span>
+                    </button>
+                </div>
+                <div id="copy-toast" class="text-emerald-400 text-xs mt-2 opacity-0 transition-opacity duration-300" data-i18n-zh="已成功复制到剪贴板！" data-i18n-en="Copied to clipboard!">已成功复制到剪贴板！</div>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#playground" class="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg shadow-cyan-500/25 transition-all flex items-center justify-center space-x-2 text-base">
+                    <i class="fa-solid fa-play text-sm"></i>
+                    <span data-i18n-zh="交互式运行模拟器" data-i18n-en="Try Interactive Simulator">交互式运行模拟器</span>
+                </a>
+                <a href="https://github.com/ChrisLee0721/QuoNic" target="_blank" rel="noopener" class="w-full sm:w-auto glass-panel hover:bg-slate-800 text-slate-200 font-semibold px-8 py-3.5 rounded-xl border border-slate-700 transition-all flex items-center justify-center space-x-2 text-base">
+                    <i class="fa-brands fa-github"></i>
+                    <span data-i18n-zh="浏览 GitHub 源码" data-i18n-en="Explore GitHub Source">浏览 GitHub 源码</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll down pulse indicator -->
+        <div class="relative z-10 pt-6 pb-2 text-center">
+            <a href="#playground" class="inline-flex flex-col items-center text-slate-500 hover:text-cyan-400 transition-colors group">
+                <span class="text-xs font-mono mb-1 group-hover:translate-y-0.5 transition-transform" data-i18n-zh="向下探索" data-i18n-en="Scroll Down">向下探索</span>
+                <i class="fa-solid fa-chevron-down text-sm animate-bounce text-cyan-400"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Feature Counters -->
+    <section class="border-y border-slate-800/80 bg-slate-950/40 py-10 relative z-10 reveal-on-scroll">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="p-4">
+                    <div class="text-3xl font-extrabold text-white font-mono mb-1"><span id="counter-overhead">0</span>ms</div>
+                    <div class="text-xs text-slate-400" data-i18n-zh="依赖门槛 (Zero Overhead)" data-i18n-en="Zero Overhead Threshold">依赖门槛 (Zero Overhead)</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl font-extrabold text-cyan-400 font-mono mb-1"><span id="counter-expressiveness">0</span>%</div>
+                    <div class="text-xs text-slate-400" data-i18n-zh="原生 Python 表达力" data-i18n-en="Native Python Expressiveness">原生 Python 表达力</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl font-extrabold text-indigo-400 font-mono mb-1">QHL</div>
+                    <div class="text-xs text-slate-400" data-i18n-zh="支持量子霍尔逻辑验证" data-i18n-en="Quantum Hoare Logic Support">支持量子霍尔逻辑验证</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl font-extrabold text-purple-400 font-mono mb-1">v0.2.2</div>
+                    <div class="text-xs text-slate-400" data-i18n-zh="最新架构稳定版" data-i18n-en="Latest Architecture Stable">最新架构稳定版</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Quantum Playground Section -->
+    <section id="playground" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 reveal-on-scroll">
+        <div class="text-center mb-12">
+            <div class="inline-block px-3 py-1 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 text-xs font-mono mb-3" data-i18n-zh="在线试用" data-i18n-en="Live Playground">在线试用</div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white" data-i18n-zh="交互式量子电路模拟器" data-i18n-en="Interactive Quantum Circuit Simulator">交互式量子电路模拟器</h2>
+            <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-2xl mx-auto" data-i18n-zh="在线编写或选择预设量子算法，观察电路图渲染与模拟测量结果概率分布" data-i18n-en="Write or select preset quantum algorithms to observe circuit diagrams and simulated measurement distributions in real time.">在线编写或选择预设量子算法，观察电路图渲染与模拟测量结果概率分布</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            <!-- Code Editor Box -->
+            <div class="lg:col-span-6 glass-panel rounded-2xl p-4 sm:p-6 border border-slate-800 flex flex-col justify-between shadow-xl">
+                <div>
+                    <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500/80 inline-block"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500/80 inline-block"></span>
+                            <span class="text-xs text-slate-400 font-mono ml-2">quonic_script.py</span>
+                        </div>
+                        <select id="preset-select" onchange="loadPresetCode()" class="bg-slate-900 text-cyan-400 text-xs font-mono border border-slate-700 rounded-lg px-3 py-1.5 focus:outline-none focus:border-cyan-500">
+                            <option value="bell">贝尔纠缠态 (Bell State)</option>
+                            <option value="ghz">GHZ 3-量子比特态</option>
+                            <option value="teleport">量子隐形传态 (Teleportation)</option>
+                            <option value="grover">Grover 搜索算法演示</option>
+                        </select>
+                    </div>
+
+                    <textarea id="python-editor" rows="12" class="w-full bg-slate-950 text-slate-200 code-font text-xs sm:text-sm p-4 rounded-xl border border-slate-800/80 focus:outline-none focus:border-cyan-500 resize-none leading-relaxed" spellcheck="false"></textarea>
+                </div>
+
+                <div class="mt-4 flex items-center justify-between">
+                    <div class="text-xs text-slate-500 font-mono flex items-center gap-2">
+                        <i class="fa-solid fa-microchip text-cyan-400"></i>
+                        <span>Backend: Statevector Simulator</span>
+                    </div>
+                    <button onclick="runQuantumSimulation()" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-medium px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-cyan-500/20 transition-all flex items-center space-x-2">
+                        <i class="fa-solid fa-play"></i>
+                        <span data-i18n-zh="运行模拟 (Run)" data-i18n-en="Run Simulation">运行模拟 (Run)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Visualization Results Box -->
+            <div class="lg:col-span-6 glass-panel rounded-2xl p-4 sm:p-6 border border-slate-800 flex flex-col justify-between shadow-xl space-y-6">
+                <!-- Circuit Diagram Output -->
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold text-slate-300 uppercase tracking-wider font-mono flex items-center gap-2">
+                            <i class="fa-solid fa-project-diagram text-cyan-400"></i>
+                            <span data-i18n-zh="量子电路管线图" data-i18n-en="Quantum Circuit Wires">量子电路管线图</span>
+                        </span>
+                        <span id="qubit-count-tag" class="text-[11px] bg-slate-800 text-cyan-400 font-mono px-2 py-0.5 rounded border border-slate-700">2 Qubits</span>
+                    </div>
+                    <div id="circuit-wire-container" class="bg-slate-950 p-4 rounded-xl border border-slate-800 overflow-x-auto min-h-[90px] flex items-center justify-center">
+                        <!-- Dynamic wire diagrams generated here -->
+                    </div>
+                </div>
+
+                <!-- Measurement Probability Histogram -->
+                <div class="flex-1 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-semibold text-slate-300 uppercase tracking-wider font-mono flex items-center gap-2">
+                            <i class="fa-solid fa-chart-column text-indigo-400"></i>
+                            <span data-i18n-zh="1024 次测量概率测量分布" data-i18n-en="Measurement Probability Histogram (1024 shots)">1024 次测量概率测量分布</span>
+                        </span>
+                    </div>
+                    <div class="relative h-48 w-full bg-slate-950/60 p-2 rounded-xl border border-slate-800/80">
+                        <canvas id="quantumChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bloch Sphere 3D Visualizer Section -->
+    <section id="bloch-sphere" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 reveal-on-scroll">
+        <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-2xl">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Left 3D Canvas Box -->
+                <div class="lg:col-span-6 flex flex-col items-center">
+                    <div class="relative w-full max-w-[380px] h-[360px] bg-slate-950/80 rounded-2xl border border-slate-800 overflow-hidden shadow-inner flex items-center justify-center">
+                        <div id="bloch-canvas-container" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+                        <div class="absolute bottom-3 right-3 text-[10px] text-slate-500 font-mono bg-slate-900/80 px-2 py-1 rounded border border-slate-800 pointer-events-none" data-i18n-zh="按住鼠标拖拽旋转视图" data-i18n-en="Drag mouse to rotate view">按住鼠标拖拽旋转视图</div>
+                    </div>
+                </div>
+
+                <!-- Right State Description & Controls -->
+                <div class="lg:col-span-6 space-y-6">
+                    <div>
+                        <div class="inline-block px-3 py-1 rounded-full bg-purple-950 text-purple-400 border border-purple-800 text-xs font-mono mb-3" data-i18n-zh="单量子比特动力学" data-i18n-en="Single Qubit Dynamics">单量子比特动力学</div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n-zh="3D 实时 Bloch 矢量球" data-i18n-en="3D Real-time Bloch Sphere">3D 实时 Bloch 矢量球</h2>
+                        <p class="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed" data-i18n-zh="通过施加量子逻辑门观察量子态矢在 Bloch 球面上的旋转轨迹，直观理解相位与叠加态转换。" data-i18n-en="Apply quantum gates to observe state vector rotation trajectory on the Bloch sphere and intuitively understand superposition and phase shifts.">通过施加量子逻辑门观察量子态矢在 Bloch 球面上的旋转轨迹，直观理解相位与叠加态转换。</p>
+                    </div>
+
+                    <!-- State Display Box -->
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 code-font space-y-2">
+                        <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold" data-i18n-zh="当前量子态矢量 |ψ⟩" data-i18n-en="Current Quantum State Vector |ψ⟩">当前量子态矢量 |ψ⟩</div>
+                        <div id="bloch-state-text" class="text-cyan-400 font-bold text-base sm:text-lg">|ψ⟩ = 1.000 |0⟩ + 0.000 |1⟩</div>
+                        <div id="bloch-angles-text" class="text-xs text-slate-400">θ = 0.00 rad, φ = 0.00 rad [X:0.00, Y:0.00, Z:1.00]</div>
+                    </div>
+
+                    <!-- Gate Apply Buttons -->
+                    <div>
+                        <div class="text-xs font-mono text-slate-400 mb-3 flex items-center gap-1.5">
+                            <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i>
+                            <span data-i18n-zh="选择施加的量子门操作:" data-i18n-en="Apply Quantum Gate Operation:">选择施加的量子门操作:</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2.5">
+                            <button onclick="applyBlochGate('H')" class="bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-700/60 font-mono font-bold px-4 py-2 rounded-xl text-xs transition-all shadow-sm">H (Hadamard)</button>
+                            <button onclick="applyBlochGate('X')" class="bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-mono font-bold px-4 py-2 rounded-xl text-xs transition-all shadow-sm">X (NOT)</button>
+                            <button onclick="applyBlochGate('Y')" class="bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-mono font-bold px-4 py-2 rounded-xl text-xs transition-all shadow-sm">Y Gate</button>
+                            <button onclick="applyBlochGate('Z')" class="bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-mono font-bold px-4 py-2 rounded-xl text-xs transition-all shadow-sm">Z Gate</button>
+                            <button onclick="applyBlochGate('S')" class="bg-indigo-950 hover:bg-indigo-900 text-indigo-300 border border-indigo-700/60 font-mono font-bold px-4 py-2 rounded-xl text-xs transition-all shadow-sm">S (Phase)</button>
+                            <button onclick="applyBlochGate('T')" class="bg-purple-950 hover:bg-purple-900 text-purple-300 border border-purple-700/60 font-mono font-bold px-4 py-2 rounded-xl text-xs transition-all shadow-sm">T Gate</button>
+                            <button onclick="resetBlochState()" class="bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-800/60 font-mono font-bold px-4 py-2 rounded-xl text-xs transition-all shadow-sm ml-auto" data-i18n-zh="重置 |0⟩" data-i18n-en="Reset |0⟩">重置 |0⟩</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features Grid Section -->
+    <section id="features" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 reveal-on-scroll">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white" data-i18n-zh="为什么选择 QuoNic？" data-i18n-en="Why Choose QuoNic?">为什么选择 QuoNic？</h2>
+            <p class="text-slate-400 text-sm sm:text-base mt-2" data-i18n-zh="专为高阶开发设计，摒弃冗长胶水代码" data-i18n-en="Designed for advanced development without verbose boilerplate code">专为高阶开发设计，摒弃冗长胶水代码</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-card p-6 rounded-2xl delay-100">
+                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-xl mb-4">
+                    <i class="fa-brands fa-python"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2" data-i18n-zh="原生 Python 链式表达" data-i18n-en="Native Python Syntax">原生 Python 链式表达</h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed" data-i18n-zh="告别复杂的底层变偶构建与对象嵌套。QuoNic 提供连贯的链式 API 调用，如同撰写常规算法逻辑般流畅。" data-i18n-en="Say goodbye to tedious object nesting. QuoNic provides fluent chainable API methods as straightforward as writing regular code.">告别复杂的底层变偶构建与对象嵌套。QuoNic 提供连贯的链式 API 调用，如同撰写常规算法逻辑般流畅。</p>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl delay-200">
+                <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl mb-4">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2" data-i18n-zh="量子霍尔逻辑 (QHL)" data-i18n-en="Quantum Hoare Logic">量子霍尔逻辑 (QHL)</h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed" data-i18n-zh="内置 Quantum Hoare Logic 验证器，支持在模拟期间进行状态前置/后置条件断言校验，提升电路可靠性。" data-i18n-en="Built-in Quantum Hoare Logic assertions allow dynamic verification of preconditions and postconditions during simulation.">内置 Quantum Hoare Logic 验证器，支持在模拟期间进行状态前置/后置条件断言校验，提升电路可靠性。</p>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl delay-300">
+                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl mb-4">
+                    <i class="fa-solid fa-network-wired"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2" data-i18n-zh="无缝接驳云端 QPU 硬件" data-i18n-en="Seamless QPU Cloud Connection">无缝接驳云端 QPU 硬件</h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed" data-i18n-zh="一行代码无缝切换后端。可在本地高性能 Statevector 模拟器与实际超导量子计算云平台之间无缝切转。" data-i18n-en="Switch backends with a single line of code between high-performance local statevector simulators and quantum cloud hardware.">一行代码无缝切换后端。可在本地高性能 Statevector 模拟器与实际超导量子计算云平台之间无缝切转。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Comparison Section -->
+    <section id="code-examples" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 reveal-on-scroll">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white" data-i18n-zh="简洁与表达力的强劲对比" data-i18n-en="Simplicity & Expressiveness Compared">简洁与表达力的强劲对比</h2>
+            <p class="text-slate-400 text-sm sm:text-base mt-2" data-i18n-zh="QuoNic vs 传统量子计算 SDK" data-i18n-en="QuoNic vs Traditional Quantum SDKs">QuoNic vs 传统量子计算 SDK</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- QuoNic Approach -->
+            <div class="glass-panel p-6 rounded-2xl border border-cyan-500/30">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-check-circle text-cyan-400"></i>
+                        <span class="font-bold text-white text-sm" data-i18n-zh="QuoNic 方式" data-i18n-en="QuoNic Way">QuoNic 方式</span>
+                    </div>
+                    <span class="text-xs bg-cyan-950 text-cyan-300 font-mono px-2 py-0.5 rounded border border-cyan-800">4 Lines</span>
+                </div>
+                <pre class="bg-slate-950 p-4 rounded-xl text-xs code-font text-cyan-300 overflow-x-auto border border-slate-800 leading-relaxed">
+<span class="text-purple-400">import</span> quonic <span class="text-purple-400">as</span> q
+
+prog = q.QProgram(num_qubits=<span class="text-amber-300">2</span>)
+prog.h(<span class="text-amber-300">0</span>).cnot(<span class="text-amber-300">0</span>, <span class="text-amber-300">1</span>)
+result = prog.run(shots=<span class="text-amber-300">1024</span>)</pre>
+            </div>
+
+            <!-- Verbose Approach -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 opacity-80">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-align-left text-slate-500"></i>
+                        <span class="font-bold text-slate-400 text-sm" data-i18n-zh="传统 SDK 冗长写法" data-i18n-en="Traditional SDK Way">传统 SDK 冗长写法</span>
+                    </div>
+                    <span class="text-xs bg-slate-900 text-slate-500 font-mono px-2 py-0.5 rounded border border-slate-800">12+ Lines</span>
+                </div>
+                <pre class="bg-slate-950 p-4 rounded-xl text-xs code-font text-slate-400 overflow-x-auto border border-slate-800 leading-relaxed">
+<span class="text-slate-500">from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer</span>
+qr = QuantumRegister(2)
+cr = ClassicalRegister(2)
+circuit = QuantumCircuit(qr, cr)
+circuit.h(qr[0])
+circuit.cx(qr[0], qr[1])
+circuit.measure(qr, cr)
+backend = Aer.get_backend('qasm_simulator')
+job = execute(circuit, backend, shots=1024)</pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quickstart Section -->
+    <section id="quickstart" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 reveal-on-scroll">
+        <div class="glass-panel rounded-3xl p-8 sm:p-12 border border-slate-800">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-extrabold text-white" data-i18n-zh="三步快速上手" data-i18n-en="Get Started in 3 Steps">三步快速上手</h2>
+                <p class="text-slate-400 text-xs sm:text-sm mt-2" data-i18n-zh="分钟级集成进入你的 Python 项目" data-i18n-en="Integrate into your Python project in minutes">分钟级集成进入你的 Python 项目</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-950/80 p-5 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="text-cyan-400 font-mono font-bold text-lg">01. 安装</div>
+                    <p class="text-xs text-slate-400" data-i18n-zh="使用 pip 安装轻量包，无需繁重的底层编译依赖" data-i18n-en="Install with pip without heavy compiler dependencies">使用 pip 安装轻量包，无需繁重的底层编译依赖</p>
+                    <code class="block bg-slate-900 p-2.5 rounded-lg text-xs font-mono text-cyan-300">pip install quonic</code>
+                </div>
+
+                <div class="bg-slate-950/80 p-5 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="text-indigo-400 font-mono font-bold text-lg">02. 编写逻辑</div>
+                    <p class="text-xs text-slate-400" data-i18n-zh="导入模块并利用 intuitive API 构建量子叠加与纠缠" data-i18n-en="Import module and use intuitive API to build entanglement">导入模块并利用 intuitive API 构建量子叠加与纠缠</p>
+                    <code class="block bg-slate-900 p-2.5 rounded-lg text-xs font-mono text-indigo-300">prog.h(0).cnot(0, 1)</code>
+                </div>
+
+                <div class="bg-slate-950/80 p-5 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="text-purple-400 font-mono font-bold text-lg">03. 执行获取</div>
+                    <p class="text-xs text-slate-400" data-i18n-zh="直接运行获取测量直方图或态矢量概率分布" data-i18n-en="Run to get measurement histograms or state vectors">直接运行获取测量直方图或态矢量概率分布</p>
+                    <code class="block bg-slate-900 p-2.5 rounded-lg text-xs font-mono text-purple-300">res = prog.run()</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Documentation Hub Modal -->
+    <div id="docs-modal" class="fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-md">
+        <div class="glass-panel w-full max-w-6xl h-[88vh] rounded-3xl border border-slate-700/80 shadow-2xl flex flex-col overflow-hidden relative">
+            
+            <!-- Modal Header -->
+            <div class="bg-slate-900/95 px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                        <i class="fa-solid fa-book text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold text-lg flex items-center gap-2">
+                            <span data-i18n-zh="QuoNic 官方开发文档" data-i18n-en="QuoNic Official Documentation">QuoNic 官方开发文档</span>
+                            <span class="text-xs bg-cyan-950 text-cyan-400 px-2 py-0.5 rounded font-mono border border-cyan-800/50">v0.2.2 API</span>
+                        </h3>
+                    </div>
+                </div>
+
+                <!-- Docs Search Input -->
+                <div class="flex items-center space-x-4">
+                    <div class="relative hidden sm:block w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                        <input id="docs-search-input" onkeyup="searchDocs()" type="text" placeholder="搜索 API 或算法..." class="w-full bg-slate-950 text-xs text-slate-200 pl-8 pr-3 py-1.5 rounded-xl border border-slate-800 focus:outline-none focus:border-cyan-500 transition-colors code-font">
+                    </div>
+                    <button onclick="closeDocsModal()" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Body (Sidebar + Content) -->
+            <div class="flex-1 flex overflow-hidden">
+                <!-- Left Nav Sidebar -->
+                <aside class="w-64 border-r border-slate-800 bg-slate-950/70 p-4 overflow-y-auto hidden md:block space-y-6 text-sm">
+                    <div>
+                        <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2 font-mono" data-i18n-zh="入门指南" data-i18n-en="GETTING STARTED">入门指南</div>
+                        <ul class="space-y-1">
+                            <li><button onclick="switchDocTab('overview')" class="doc-nav-btn active w-full text-left px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition-colors flex items-center justify-between" data-tab="overview"><span data-i18n-zh="概览与设计哲学" data-i18n-en="Overview & Philosophy">概览与设计哲学</span><i class="fa-solid fa-chevron-right text-[10px]"></i></button></li>
+                            <li><button onclick="switchDocTab('installation')" class="doc-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition-colors flex items-center justify-between" data-tab="installation"><span data-i18n-zh="环境安装与配置" data-i18n-en="Installation & Setup">环境安装与配置</span></button></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2 font-mono" data-i18n-zh="核心 API 接口" data-i18n-en="CORE API REFERENCE">核心 API 接口</div>
+                        <ul class="space-y-1">
+                            <li><button onclick="switchDocTab('qprogram')" class="doc-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition-colors flex items-center justify-between" data-tab="qprogram"><span data-i18n-zh="QProgram 电路类" data-i18n-en="QProgram Circuit Class">QProgram 电路类</span></button></li>
+                            <li><button onclick="switchDocTab('quantum-gates')" class="doc-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition-colors flex items-center justify-between" data-tab="quantum-gates"><span data-i18n-zh="量子门操作库 (Gates)" data-i18n-en="Quantum Gates Library">量子门操作库 (Gates)</span></button></li>
+                            <li><button onclick="switchDocTab('qhl')" class="doc-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition-colors flex items-center justify-between" data-tab="qhl"><span data-i18n-zh="量子霍尔逻辑断言" data-i18n-en="Quantum Hoare Logic (QHL)">量子霍尔逻辑断言</span></button></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2 font-mono" data-i18n-zh="高级算法与后端" data-i18n-en="ADVANCED & BACKENDS">高级算法与后端</div>
+                        <ul class="space-y-1">
+                            <li><button onclick="switchDocTab('vqe')" class="doc-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition-colors flex items-center justify-between" data-tab="vqe"><span data-i18n-zh="VQE 参数化求解" data-i18n-en="VQE Solver">VQE 参数化求解</span></button></li>
+                            <li><button onclick="switchDocTab('backends')" class="doc-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition-colors flex items-center justify-between" data-tab="backends"><span data-i18n-zh="云端 QPU 硬件接驳" data-i18n-en="Hardware Cloud Backends">云端 QPU 硬件接驳</span></button></li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <!-- Right Doc Content Box -->
+                <main id="docs-content-area" class="flex-1 p-6 sm:p-8 overflow-y-auto space-y-6 text-sm text-slate-300">
+                    
+                    <!-- Overview Tab -->
+                    <div id="doc-tab-overview" class="doc-tab-content space-y-4">
+                        <div class="border-b border-slate-800 pb-4">
+                            <h2 class="text-2xl font-bold text-white mb-2" data-i18n-zh="QuoNic 架构概览与设计哲学" data-i18n-en="Architecture Overview & Philosophy">QuoNic 架构概览与设计哲学</h2>
+                            <p class="text-slate-400 text-xs leading-relaxed" data-i18n-zh="QuoNic 是专为现代 Python 开发者构建的高阶量子编程框架。它通过轻量化的抽象解耦了底层线性代数模拟引擎与上层量子逻辑算法结构。" data-i18n-en="QuoNic is a modern quantum programming framework for Python developers, decoupling linear algebra simulation engines from high-level algorithm logic.">
+                                QuoNic 是专为现代 Python 开发者构建的高阶量子编程框架。它通过轻量化的抽象解耦了底层线性代数模拟引擎与上层量子逻辑算法结构。
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+                            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                                <h4 class="text-cyan-400 font-semibold mb-2 flex items-center gap-2"><i class="fa-solid fa-code"></i> Python 原生表达</h4>
+                                <p class="text-xs text-slate-400">杜绝繁琐样板代码，所有量子门与条件控制流均采用清晰的链式语法组织。</p>
+                            </div>
+                            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                                <h4 class="text-purple-400 font-semibold mb-2 flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> 形式化断言 (QHL)</h4>
+                                <p class="text-xs text-slate-400">内置 Quantum Hoare Logic 验证器，支持在模拟期间动态校验量子态保真度与正交断言。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QProgram Tab -->
+                    <div id="doc-tab-qprogram" class="doc-tab-content hidden space-y-4">
+                        <div class="border-b border-slate-800 pb-4">
+                            <h2 class="text-2xl font-bold text-white mb-2 font-mono text-cyan-400">quonic.QProgram(num_qubits)</h2>
+                            <p class="text-slate-400 text-xs">管理量子比特寄存器、量子门序列部署以及模拟测量的核心主类。</p>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 code-font text-xs text-slate-200">
+                            <span class="text-purple-400">class</span> <span class="text-cyan-300">QProgram</span>:<br>
+                            &nbsp;&nbsp;<span class="text-purple-400">def</span> <span class="text-amber-300">__init__</span>(self, num_qubits: <span class="text-emerald-400">int</span> = <span class="text-amber-300">2</span>):<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-slate-500">""" 初始化包含指定数量量子比特的程序线 """</span><br>
+                            &nbsp;&nbsp;<span class="text-purple-400">def</span> <span class="text-amber-300">run</span>(self, shots: <span class="text-emerald-400">int</span> = <span class="text-amber-300">1024</span>, backend: <span class="text-emerald-400">str</span> = <span class="text-slate-300">'statevector'</span>) -> QResult:
+                        </div>
+                    </div>
+
+                    <!-- Gates Tab -->
+                    <div id="doc-tab-quantum-gates" class="doc-tab-content hidden space-y-4">
+                        <div class="border-b border-slate-800 pb-4">
+                            <h2 class="text-2xl font-bold text-white mb-2" data-i18n-zh="量子门操作指令集" data-i18n-en="Quantum Gates Instruction Set">量子门操作指令集</h2>
+                            <p class="text-slate-400 text-xs">包含单量子比特旋转门、双量子比特纠缠门及受控相位门。</p>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs code-font">
+                                <thead class="bg-slate-900 text-cyan-400 border-b border-slate-800">
+                                    <tr>
+                                        <th class="p-3">API 方法</th>
+                                        <th class="p-3">参数说明</th>
+                                        <th class="p-3">物理矩阵/作用</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/60">
+                                    <tr>
+                                        <td class="p-3 text-emerald-400">prog.h(target)</td>
+                                        <td class="p-3 text-slate-400">target: int</td>
+                                        <td class="p-3 text-slate-300">Hadamard 叠加门，构建公平叠加态</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 text-emerald-400">prog.cnot(control, target)</td>
+                                        <td class="p-3 text-slate-400">control, target: int</td>
+                                        <td class="p-3 text-slate-300">受控非门，制造两量子比特纠缠态</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 text-emerald-400">prog.rx(theta, target)</td>
+                                        <td class="p-3 text-slate-400">theta: float, target: int</td>
+                                        <td class="p-3 text-slate-300">绕 X 轴旋转 $\theta$ 弧度角</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- QHL Tab -->
+                    <div id="doc-tab-qhl" class="doc-tab-content hidden space-y-4">
+                        <div class="border-b border-slate-800 pb-4">
+                            <h2 class="text-2xl font-bold text-white mb-2">Quantum Hoare Logic (QHL)</h2>
+                            <p class="text-slate-400 text-xs">通过定义前置条件与后置条件量子投影算子，验证量子逻辑正确性。</p>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 code-font text-xs text-indigo-300">
+                            prog.assert_state_fidelity(target_state=[1, 0], threshold=0.999)
+                        </div>
+                    </div>
+
+                    <!-- Installation Tab -->
+                    <div id="doc-tab-installation" class="doc-tab-content hidden space-y-4">
+                        <h2 class="text-xl font-bold text-white">环境安装</h2>
+                        <p class="text-xs text-slate-400">通过 pip 一键安装: <code class="text-cyan-300 code-font bg-slate-950 px-2 py-1 rounded">pip install quonic</code></p>
+                    </div>
+                    <!-- VQE Tab -->
+                    <div id="doc-tab-vqe" class="doc-tab-content hidden space-y-4">
+                        <h2 class="text-xl font-bold text-white">VQE 变分量子求解</h2>
+                        <p class="text-xs text-slate-400">使用 <code class="text-cyan-300 code-font bg-slate-950 px-2 py-1 rounded">quonic.algorithms.VQE</code> 求解分子或哈密顿量基态能量。</p>
+                    </div>
+                    <!-- Backends Tab -->
+                    <div id="doc-tab-backends" class="doc-tab-content hidden space-y-4">
+                        <h2 class="text-xl font-bold text-white">云端硬件接驳</h2>
+                        <p class="text-xs text-slate-400">使用统一 API 连接 QPU 平台，提交真机计算任务。</p>
+                    </div>
+
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 bg-slate-950 py-10 relative z-10 text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-slate-300">QuoNic Project</span>
+                <span>© 2026 Released under MIT License.</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="https://github.com/ChrisLee0721/QuoNic" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors">GitHub Repository</a>
+                <a href="#playground" class="hover:text-cyan-400 transition-colors">Playground</a>
+                <button onclick="openDocsModal()" class="hover:text-cyan-400 transition-colors">Docs API</button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentLang = 'zh';
+        let quantumChartInstance = null;
+        let blochScene, blochCamera, blochRenderer, blochVectorArrow, sphereMesh;
+        let qubitState = { alpha: { re: 1, im: 0 }, beta: { re: 0, im: 0 } }; // Initial state |0>
+
+        const CODE_PRESETS = {
+            bell: `# 贝尔纠缠态 (Bell State |Φ+⟩ = (|00⟩ + |11⟩)/√2)\nimport quonic as q\n\nprog = q.QProgram(num_qubits=2)\nprog.h(0)          # 将 q0 置于叠加态\nprog.cnot(0, 1)    # 建立 q0 与 q1 的贝尔纠缠\nresult = prog.run(shots=1024)`,
+            ghz: `# GHZ 3-量子比特极大纠缠态 (|000⟩ + |111⟩)/√2\nimport quonic as q\n\nprog = q.QProgram(num_qubits=3)\nprog.h(0)\nprog.cnot(0, 1)\nprog.cnot(1, 2)\nresult = prog.run(shots=1024)`,
+            teleport: `# 量子隐形传态协议 (Quantum Teleportation)\nimport quonic as q\n\nprog = q.QProgram(num_qubits=3)\n# 1. 准备纠缠对 (q1, q2)\nprog.h(1)\nprog.cnot(1, 2)\n# 2. 状态传送 (q0 -> q2)\nprog.cnot(0, 1)\nprog.h(0)\nresult = prog.run(shots=1024)`,
+            grover: `# Grover 搜索算法 (2-Qubit 演示 |11⟩)\nimport quonic as q\n\nprog = q.QProgram(num_qubits=2)\nprog.h(0)\nprog.h(1)\nprog.cz(0, 1)     # Oracle\nprog.h(0)\nprog.h(1)\nprog.x(0)\nprog.x(1)\nprog.cz(0, 1)\nprog.x(0)\nprog.x(1)\nprog.h(0)\nprog.h(1)\nresult = prog.run(shots=1024)`
+        };
+
+        function copyPipCommand() {
+            const pipEl = document.getElementById('pip-command');
+            if (!pipEl) return;
+            const cmdText = pipEl.innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = cmdText;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const toast = document.getElementById('copy-toast');
+            if (toast) {
+                toast.style.opacity = '1';
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                }, 2000);
+            }
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            const elements = document.querySelectorAll('[data-i18n-zh]');
+            elements.forEach(el => {
+                const text = el.getAttribute(`data-i18n-${currentLang}`);
+                if (text) {
+                    el.innerHTML = text;
+                }
+            });
+
+            const presetSelect = document.getElementById('preset-select');
+            if (presetSelect) {
+                presetSelect.options[0].text = currentLang === 'zh' ? '贝尔纠缠态 (Bell State)' : 'Bell State |Φ+⟩';
+                presetSelect.options[1].text = currentLang === 'zh' ? 'GHZ 3-量子比特态' : 'GHZ 3-Qubit State';
+                presetSelect.options[2].text = currentLang === 'zh' ? '量子隐形传态 (Teleportation)' : 'Quantum Teleportation';
+                presetSelect.options[3].text = currentLang === 'zh' ? 'Grover 搜索算法演示' : 'Grover Search Demo';
+            }
+        }
+
+        function loadPresetCode() {
+            const selectEl = document.getElementById('preset-select');
+            const editorEl = document.getElementById('python-editor');
+            if (selectEl && editorEl && CODE_PRESETS[selectEl.value]) {
+                editorEl.value = CODE_PRESETS[selectEl.value];
+                runQuantumSimulation();
+            }
+        }
+
+        function runQuantumSimulation() {
+            const selectEl = document.getElementById('preset-select');
+            if (!selectEl) return;
+            const presetKey = selectEl.value;
+
+            let labels = [];
+            let data = [];
+            let wireHTML = '';
+            let qubitCountStr = '2 Qubits';
+
+            if (presetKey === 'bell') {
+                qubitCountStr = '2 Qubits';
+                labels = ['|00⟩', '|01⟩', '|10⟩', '|11⟩'];
+                data = [516, 0, 0, 508];
+                wireHTML = `
+                    <div class="space-y-2 py-1 font-mono text-xs">
+                        <div class="flex items-center space-x-2"><span class="text-cyan-400 font-bold w-8">q_0:</span><span class="text-slate-500">─</span><span class="bg-cyan-900/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700"> H </span><span class="text-slate-500">───</span><span class="text-cyan-400 font-bold">●</span><span class="text-slate-500">───</span><span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">M</span></div>
+                        <div class="flex items-center space-x-2"><span class="text-cyan-400 font-bold w-8">q_1:</span><span class="text-slate-500">───────</span><span class="bg-cyan-900/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700">⊕</span><span class="text-slate-500">───</span><span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">M</span></div>
+                    </div>`;
+            } else if (presetKey === 'ghz') {
+                qubitCountStr = '3 Qubits';
+                labels = ['|000⟩', '|001⟩', '|010⟩', '|011⟩', '|100⟩', '|101⟩', '|110⟩', '|111⟩'];
+                data = [510, 0, 0, 0, 0, 0, 0, 514];
+                wireHTML = `
+                    <div class="space-y-2 py-1 font-mono text-xs">
+                        <div class="flex items-center space-x-2"><span class="text-cyan-400 font-bold w-8">q_0:</span><span class="text-slate-500">─</span><span class="bg-cyan-900/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700"> H </span><span class="text-slate-500">───</span><span class="text-cyan-400 font-bold">●</span><span class="text-slate-500">─────────</span><span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">M</span></div>
+                        <div class="flex items-center space-x-2"><span class="text-cyan-400 font-bold w-8">q_1:</span><span class="text-slate-500">───────</span><span class="bg-cyan-900/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700">⊕</span><span class="text-slate-500">───</span><span class="text-cyan-400 font-bold">●</span><span class="text-slate-500">───</span><span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">M</span></div>
+                        <div class="flex items-center space-x-2"><span class="text-cyan-400 font-bold w-8">q_2:</span><span class="text-slate-500">───────────</span><span class="bg-cyan-900/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700">⊕</span><span class="text-slate-500">───</span><span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">M</span></div>
+                    </div>`;
+            } else if (presetKey === 'teleport') {
+                qubitCountStr = '3 Qubits';
+                labels = ['|000⟩', '|001⟩', '|010⟩', '|011⟩', '|100⟩', '|101⟩', '|110⟩', '|111⟩'];
+                data = [252, 260, 255, 257, 0, 0, 0, 0];
+                wireHTML = `
+                    <div class="space-y-2 py-1 font-mono text-xs">
+                        <div class="flex items-center space-x-2"><span class="text-cyan-400 font-bold w-8">q_0:</span><span class="text-slate-500">───────────</span><span class="text-cyan-400 font-bold">●</span><span class="text-slate-500">───</span><span class="bg-cyan-900/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700"> H </span><span class="text-slate-500">───</span><span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">M</span></div>
+                        <div class="flex items-center space-x-2"><span class="text-cyan-400 font-bold w-8">q_1:</span><span class="text-slate-500">─</span><span class="bg-cyan-900/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700"> H </span><span class="text-slate-500">───</span><span class="text-cyan-400 font-bold">●</span><span class="text-slate-500">───</span><span class="bg-cyan-900/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700">⊕</span><span class="text-slate-500">───────</span><span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">M</span></div>
+                        <div class="flex items-center space-x-2"><span class="text-cyan-400 font-bold w-8">q_2:</span><span class="text-slate-500">───────</span><span class="bg-cyan-900/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700">⊕</span><span class="text-slate-500">───────────</span><span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">M</span></div>
+                    </div>`;
+            } else if (presetKey === 'grover') {
+                qubitCountStr = '2 Qubits';
+                labels = ['|00⟩', '|01⟩', '|10⟩', '|11⟩'];
+                data = [12, 10, 8, 994];
+                wireHTML = `
+                    <div class="space-y-2 py-1 font-mono text-xs">
+                        <div class="flex items-center space-x-2"><span class="text-cyan-400 font-bold w-8">q_0:</span><span class="text-slate-500">─</span><span class="bg-cyan-900/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700"> H </span><span class="text-slate-500">───</span><span class="text-cyan-400 font-bold">●</span><span class="text-slate-500">───</span><span class="bg-indigo-900/80 text-indigo-300 px-2 py-0.5 rounded border border-indigo-700"> Diff </span><span class="text-slate-500">───</span><span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">M</span></div>
+                        <div class="flex items-center space-x-2"><span class="text-cyan-400 font-bold w-8">q_1:</span><span class="text-slate-500">─</span><span class="bg-cyan-900/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700"> H </span><span class="text-slate-500">───</span><span class="bg-cyan-900/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700">Z</span><span class="text-slate-500">───</span><span class="bg-indigo-900/80 text-indigo-300 px-2 py-0.5 rounded border border-indigo-700"> Diff </span><span class="text-slate-500">───</span><span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">M</span></div>
+                    </div>`;
+            }
+
+            const tagEl = document.getElementById('qubit-count-tag');
+            const wireEl = document.getElementById('circuit-wire-container');
+            if (tagEl) tagEl.innerText = qubitCountStr;
+            if (wireEl) wireEl.innerHTML = wireHTML;
+
+            const chartCanvas = document.getElementById('quantumChart');
+            if (!chartCanvas) return;
+            const ctx = chartCanvas.getContext('2d');
+            if (quantumChartInstance) {
+                quantumChartInstance.destroy();
+            }
+
+            quantumChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Shots Count (Total 1024)',
+                        data: data,
+                        backgroundColor: 'rgba(56, 189, 248, 0.7)',
+                        borderColor: '#38bdf8',
+                        borderWidth: 1.5,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const val = context.raw;
+                                    const prob = ((val / 1024) * 100).toFixed(1);
+                                    return ` Count: ${val} (${prob}%)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1024,
+                            grid: { color: 'rgba(255, 255, 255, 0.06)' },
+                            ticks: { color: '#94a3b8', font: { family: 'JetBrains Mono', size: 10 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#38bdf8', font: { family: 'JetBrains Mono', size: 12, weight: 'bold' } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initBlochSphere() {
+            const container = document.getElementById('bloch-canvas-container');
+            if (!container) return;
+
+            const width = container.clientWidth || 380;
+            const height = container.clientHeight || 380;
+
+            blochScene = new THREE.Scene();
+
+            blochCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+            blochCamera.position.set(2.6, 1.8, 3.2);
+            blochCamera.lookAt(0, 0, 0);
+
+            blochRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            blochRenderer.setSize(width, height);
+            blochRenderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(blochRenderer.domElement);
+
+            const sphereGeo = new THREE.SphereGeometry(1, 24, 18);
+            const sphereMat = new THREE.MeshBasicMaterial({
+                color: 0x38bdf8,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15
+            });
+            sphereMesh = new THREE.Mesh(sphereGeo, sphereMat);
+            blochScene.add(sphereMesh);
+
+            const axesGroup = new THREE.Group();
+            const createAxis = (from, to, colorHex) => {
+                const mat = new THREE.LineBasicMaterial({ color: colorHex, linewidth: 2 });
+                const geo = new THREE.BufferGeometry().setFromPoints([from, to]);
+                return new THREE.Line(geo, mat);
+            };
+            axesGroup.add(createAxis(new THREE.Vector3(-1.2, 0, 0), new THREE.Vector3(1.2, 0, 0), 0xef4444));
+            axesGroup.add(createAxis(new THREE.Vector3(0, -1.2, 0), new THREE.Vector3(0, 1.2, 0), 0x10b981));
+            axesGroup.add(createAxis(new THREE.Vector3(0, 0, -1.2), new THREE.Vector3(0, 0, 1.2), 0x3b82f6));
+            blochScene.add(axesGroup);
+
+            const dir = new THREE.Vector3(0, 1, 0);
+            blochVectorArrow = new THREE.ArrowHelper(dir, new THREE.Vector3(0, 0, 0), 1.0, 0xf43f5e, 0.2, 0.12);
+            blochScene.add(blochVectorArrow);
+
+            let isDragging = false;
+            let prevMousePos = { x: 0, y: 0 };
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevMousePos = { x: e.clientX, y: e.clientY };
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - prevMousePos.x;
+                const deltaY = e.clientY - prevMousePos.y;
+
+                sphereMesh.rotation.y += deltaX * 0.01;
+                axesGroup.rotation.y += deltaX * 0.01;
+                blochVectorArrow.rotation.y += deltaX * 0.01;
+
+                sphereMesh.rotation.x += deltaY * 0.01;
+                axesGroup.rotation.x += deltaY * 0.01;
+                blochVectorArrow.rotation.x += deltaY * 0.01;
+
+                prevMousePos = { x: e.clientX, y: e.clientY };
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                blochRenderer.render(blochScene, blochCamera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                const w = container.clientWidth;
+                const h = container.clientHeight;
+                blochCamera.aspect = w / h;
+                blochCamera.updateProjectionMatrix();
+                blochRenderer.setSize(w, h);
+            });
+        }
+
+        function applyBlochGate(gate) {
+            let aR = qubitState.alpha.re, aI = qubitState.alpha.im;
+            let bR = qubitState.beta.re, bI = qubitState.beta.im;
+
+            if (gate === 'H') {
+                const invSqrt2 = 1 / Math.sqrt(2);
+                qubitState.alpha = { re: invSqrt2 * (aR + bR), im: invSqrt2 * (aI + bI) };
+                qubitState.beta  = { re: invSqrt2 * (aR - bR), im: invSqrt2 * (aI - bI) };
+            } else if (gate === 'X') {
+                qubitState.alpha = { re: bR, im: bI };
+                qubitState.beta  = { re: aR, im: aI };
+            } else if (gate === 'Y') {
+                qubitState.alpha = { re: bI, im: -bR };
+                qubitState.beta  = { re: -aI, im: aR };
+            } else if (gate === 'Z') {
+                qubitState.beta = { re: -bR, im: -bI };
+            } else if (gate === 'S') {
+                qubitState.beta = { re: -bI, im: bR };
+            } else if (gate === 'T') {
+                const c = 1 / Math.sqrt(2);
+                qubitState.beta = {
+                    re: c * bR - c * bI,
+                    im: c * bR + c * bI
+                };
+            }
+
+            updateBlochVisuals();
+        }
+
+        function resetBlochState() {
+            qubitState = { alpha: { re: 1, im: 0 }, beta: { re: 0, im: 0 } };
+            updateBlochVisuals();
+        }
+
+        function updateBlochVisuals() {
+            const aR = qubitState.alpha.re, aI = qubitState.alpha.im;
+            const bR = qubitState.beta.re, bI = qubitState.beta.im;
+
+            const x = 2 * (aR * bR + aI * bI);
+            const y = 2 * (aR * bI - aI * bR);
+            const z = (aR * aR + aI * aI) - (bR * bR + bI * bI);
+
+            if (blochVectorArrow) {
+                const dir = new THREE.Vector3(x, z, y).normalize();
+                blochVectorArrow.setDirection(dir);
+            }
+
+            const theta = Math.acos(Math.min(Math.max(z, -1), 1));
+            const phi = Math.atan2(y, x);
+
+            const stateText = document.getElementById('bloch-state-text');
+            const anglesText = document.getElementById('bloch-angles-text');
+            const alphaStr = (aR >= 0 ? '+' : '') + aR.toFixed(3);
+            const betaStr = (bR >= 0 ? '+' : '') + bR.toFixed(3);
+
+            if (stateText) stateText.innerText = `|ψ⟩ = (${alphaStr}) |0⟩ + (${betaStr}) |1⟩`;
+            if (anglesText) anglesText.innerText = `θ = ${theta.toFixed(2)} rad,  φ = ${(phi < 0 ? phi + 2 * Math.PI : phi).toFixed(2)} rad  [X:${x.toFixed(2)}, Y:${y.toFixed(2)}, Z:${z.toFixed(2)}]`;
+        }
+
+        function initQuantumBackground() {
+            const canvas = document.getElementById('quantum-bg-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            const particles = [];
+            const particleCount = Math.floor(Math.min(width, 1200) / 25);
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    radius: Math.random() * 2 + 1,
+                    color: Math.random() > 0.5 ? 'rgba(56, 189, 248, ' : 'rgba(129, 140, 248, '
+                });
+            }
+
+            let scrollY = window.scrollY;
+            window.addEventListener('scroll', () => {
+                const diff = window.scrollY - scrollY;
+                scrollY = window.scrollY;
+                particles.forEach(p => {
+                    p.y -= diff * 0.15;
+                    if (p.y < 0) p.y = height;
+                    if (p.y > height) p.y = 0;
+                });
+
+                if (sphereMesh) {
+                    sphereMesh.rotation.y = window.scrollY * 0.001;
+                    sphereMesh.rotation.z = Math.sin(window.scrollY * 0.001) * 0.1;
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            function renderParticles() {
+                ctx.clearRect(0, 0, width, height);
+
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(56, 189, 248, ${0.12 * (1 - dist / 120)})`;
+                            ctx.lineWidth = 0.8;
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.x < 0 || p.x > width) p.vx *= -1;
+                    if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color + '0.6)';
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(renderParticles);
+            }
+            renderParticles();
+        }
+
+        function setupScrollObserver() {
+            const revealElements = document.querySelectorAll('.reveal-on-scroll');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+
+                        if (entry.target.querySelector('#counter-expressiveness')) {
+                            animateNumber('counter-expressiveness', 0, 100, 1200);
+                        }
+                    } else {
+                        entry.target.classList.remove('is-visible');
+                    }
+                });
+            }, { 
+                threshold: 0.12,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            revealElements.forEach(el => observer.observe(el));
+        }
+
+        /* Documentation Modal Logic */
+        function openDocsModal() {
+            const modal = document.getElementById('docs-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                }, 10);
+            }
+        }
+
+        function closeDocsModal() {
+            const modal = document.getElementById('docs-modal');
+            if (modal) {
+                modal.classList.add('opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function switchDocTab(tabId) {
+            const tabs = document.querySelectorAll('.doc-tab-content');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+
+            const targetTab = document.getElementById(`doc-tab-${tabId}`);
+            if (targetTab) {
+                targetTab.classList.remove('hidden');
+            }
+
+            const btns = document.querySelectorAll('.doc-nav-btn');
+            btns.forEach(btn => {
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('bg-slate-800', 'text-cyan-400');
+                    btn.classList.remove('text-slate-300');
+                } else {
+                    btn.classList.remove('bg-slate-800', 'text-cyan-400');
+                    btn.classList.add('text-slate-300');
+                }
+            });
+        }
+
+        function searchDocs() {
+            const searchInput = document.getElementById('docs-search-input');
+            if (!searchInput) return;
+            const query = searchInput.value.toLowerCase();
+            const tabs = document.querySelectorAll('.doc-tab-content');
+            if (!query) {
+                switchDocTab('overview');
+                return;
+            }
+            tabs.forEach(tab => {
+                const text = tab.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    tab.classList.remove('hidden');
+                } else {
+                    tab.classList.add('hidden');
+                }
+            });
+        }
+
+        function animateNumber(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            if (!obj || obj.getAttribute('data-animated')) return;
+            obj.setAttribute('data-animated', 'true');
+
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerText = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        window.onload = function() {
+            const editorEl = document.getElementById('python-editor');
+            if (editorEl) {
+                editorEl.value = CODE_PRESETS.bell;
+            }
+            runQuantumSimulation();
+            initBlochSphere();
+            initQuantumBackground();
+            setupScrollObserver();
+        };
+    </script>
+</body>
+</html>

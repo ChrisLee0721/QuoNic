@@ -14,12 +14,12 @@ Example::
 
 from __future__ import annotations
 
-from typing import Any, List, Tuple
+from typing import Any
 
 from .._i18n import tr
 
 
-def from_pauli_string(expr: str) -> List[Tuple[float, str]]:
+def from_pauli_string(expr: str) -> list[tuple[float, str]]:
     """Parse a Pauli Hamiltonian string into [(coeff, pauli), ...].
 
     Format: "1.0*ZZ + 0.5*XI - 0.3*IX"
@@ -40,7 +40,7 @@ def from_pauli_string(expr: str) -> List[Tuple[float, str]]:
     return terms
 
 
-def from_openfermion(op: Any) -> List[Tuple[float, str]]:
+def from_openfermion(op: Any) -> list[tuple[float, str]]:
     """Convert an OpenFermion QubitOperator to [(coeff, pauli), ...].
 
     Requires: pip install openfermion
@@ -57,7 +57,7 @@ def from_openfermion(op: Any) -> List[Tuple[float, str]]:
     return terms
 
 
-def from_pennylane(op: Any) -> List[Tuple[float, str]]:
+def from_pennylane(op: Any) -> list[tuple[float, str]]:
     """Convert a PennyLane Hamiltonian to [(coeff, pauli), ...].
 
     Requires: pip install pennylane

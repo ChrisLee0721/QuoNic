@@ -14,7 +14,6 @@ Example::
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Optional
 
 import numpy as np
 
@@ -34,7 +33,7 @@ class QMLResult:
     """
 
     train_result: TrainResult
-    predictions: Optional[np.ndarray] = None
+    predictions: np.ndarray | None = None
 
 
 class QMLPipeline:
@@ -77,13 +76,13 @@ class QMLPipeline:
         else:
             raise ValueError(f"Unknown optimizer: {optimizer}")
 
-        self.params: Optional[np.ndarray] = None
-        self.train_result: Optional[TrainResult] = None
+        self.params: np.ndarray | None = None
+        self.train_result: TrainResult | None = None
 
     def fit(
         self,
-        X: List[List[float]],
-        y: List[float],
+        X: list[list[float]],
+        y: list[float],
         maxiter: int = 100,
         observable: str = "Z",
         gradient: str = "param_shift",
@@ -127,7 +126,7 @@ class QMLPipeline:
         predictions = self.predict(X)
         return QMLResult(train_result=result, predictions=predictions)
 
-    def predict(self, X: List[List[float]]) -> np.ndarray:
+    def predict(self, X: list[list[float]]) -> np.ndarray:
         """Predict using the trained model.
 
         Args:

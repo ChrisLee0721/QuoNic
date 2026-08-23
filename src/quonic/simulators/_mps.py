@@ -11,7 +11,8 @@ qubit 0..n-1.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Any
 
 import numpy as np
 
@@ -24,7 +25,7 @@ class MPSEngine:
         self.n: int = num_qubits
         self.chi_max: int = chi_max
         # M[i] has shape [χ_{i-1}, 2, χ_i], initialized to |0...0> (all bond dimensions are 1)
-        self.M: List[Any] = [np.zeros((1, 2, 1), dtype=complex) for _ in range(num_qubits)]
+        self.M: list[Any] = [np.zeros((1, 2, 1), dtype=complex) for _ in range(num_qubits)]
         for t in self.M:
             t[0, 0, 0] = 1.0
 
@@ -92,7 +93,7 @@ class MPSEngine:
 
     def _apply_diag(self, qubits: Sequence[int], angle: float) -> None:
         q = sorted(qubits)
-        swaps: List[int] = []
+        swaps: list[int] = []
         for j in range(1, len(q)):
             target = q[0] + j
             while q[j] > target:
@@ -107,7 +108,7 @@ class MPSEngine:
     # gate dispatch
     # ------------------------------------------------------------------
     def apply(
-        self, name: str, qubits: Sequence[int], params: Tuple[float, ...] = ()
+        self, name: str, qubits: Sequence[int], params: tuple[float, ...] = ()
     ) -> None:
         name = name.lower()
         if name == "measure":
@@ -169,18 +170,18 @@ class MPSEngine:
     # ------------------------------------------------------------------
     # sampling: right environment + per-bit conditional probabilities
     # ------------------------------------------------------------------
-    def _right_env(self) -> List[Any]:
-        r: List[Any] = [None] * (self.n + 1)
+    def _right_env(self) -> list[Any]:
+        r: list[Any] = [None] * (self.n + 1)
         r[self.n] = np.array([[1.0 + 0j]])
         for i in range(self.n - 1, -1, -1):
             r[i] = np.einsum("asc,cd,bsd->ab", self.M[i], r[i + 1], self.M[i].conj())
         return r
 
-    def _sample_once(self, r: List[Any]) -> List[int]:
+    def _sample_once(self, r: list[Any]) -> list[int]:
         left = np.array([[1.0 + 0j]])
-        bits: List[int] = []
+        bits: list[int] = []
         for i in range(self.n):
-            probs: List[float] = []
+            probs: list[float] = []
             for s in (0, 1):
                 m = self.M[i][:, s, :]
                 p = np.einsum("ab,ac,cd,bd->", left, m, r[i + 1], m.conj())
@@ -194,9 +195,9 @@ class MPSEngine:
             left = np.einsum("ab,ac,bd->cd", left, m, m.conj())
         return bits
 
-    def sample(self, shots: int) -> Dict[str, int]:
+    def sample(self, shots: int) -> dict[str, int]:
         r = self._right_env()
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for _ in range(shots):
             bits = self._sample_once(r)
             bs = "".join(str(b) for b in reversed(bits))
@@ -240,7 +241,7 @@ class MPSEngine:
             sv = np.einsum("...a,abc->...bc", sv, self.M[i])
         return sv.reshape(2**self.n)
 
-    def bond_dimensions(self) -> List[int]:
+    def bond_dimensions(self) -> list[int]:
         """Return the current bond dimension between each pair of adjacent sites."""
         return [self.M[i].shape[2] for i in range(self.n - 1)]
 
@@ -328,7 +329,7 @@ class MPSEngine:
             left = np.einsum("ab,asc,bsd->cd", left, m, m.conj())
         return float(np.sqrt(np.real(left[0, 0])))
 
-    def dmrg_sweep(self, hamiltonian: List[Tuple[float, str]], max_sweeps: int = 10) -> float:
+    def dmrg_sweep(self, hamiltonian: list[tuple[float, str]], max_sweeps: int = 10) -> float:
         """2-site DMRG sweep to minimize energy ⟨ψ|H|ψ⟩.
 
         True 2-site DMRG: merges pairs of adjacent tensors, optimizes the
@@ -399,7 +400,7 @@ class MPSEngine:
 
             return H_eff
 
-        def lanczos_ground_state(H_eff: Any, dim: int, krylov_dim: int = 20, tol: float = 1e-10) -> Tuple[float, Any]:
+        def lanczos_ground_state(H_eff: Any, dim: int, krylov_dim: int = 20, tol: float = 1e-10) -> tuple[float, Any]:
             """Find the ground state of H_eff using Lanczos iteration.
 
             Builds a Krylov subspace and diagonalizes the tridiagonal matrix.
@@ -489,8 +490,7 @@ class MPSEngine:
                 self.M[i] = u.reshape(chi_l, d1, chi_new)
                 self.M[i + 1] = (np.diag(s) @ vh).reshape(chi_new, d2, chi_r)
 
-                if energy < best_energy:
-                    best_energy = energy
+                best_energy = min(best_energy, energy)
 
             # Right-to-left sweep
             for i in range(self.n - 2, -1, -1):
@@ -513,7 +513,6 @@ class MPSEngine:
                 self.M[i] = u.reshape(chi_l, d1, chi_new)
                 self.M[i + 1] = (np.diag(s) @ vh).reshape(chi_new, d2, chi_r)
 
-                if energy < best_energy:
-                    best_energy = energy
+                best_energy = min(best_energy, energy)
 
         return best_energy

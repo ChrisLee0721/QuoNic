@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Tuple
+from typing import Any
 
 from .._i18n import tr
 from .engine import EngineBackend
@@ -27,7 +27,7 @@ class QulacsBackend(EngineBackend):
         return qulacs.QuantumCircuit(n)
 
     def _apply_one(
-        self, engine: Any, name: str, qubits: list[int], params: Tuple[float, ...]
+        self, engine: Any, name: str, qubits: list[int], params: tuple[float, ...]
     ) -> None:
         from qulacs import gate
 
@@ -97,12 +97,12 @@ class QulacsBackend(EngineBackend):
                 engine.add_gate(gate.CNOT(qubits[i], target))
             engine.add_gate(gate.H(target))
 
-    def _sample(self, engine: Any, shots: int, n: int) -> Dict[str, int]:
+    def _sample(self, engine: Any, shots: int, n: int) -> dict[str, int]:
         from qulacs import QuantumState
         state = QuantumState(n)
         engine.update_quantum_state(state)
         raw = state.sampling(shots)
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for val in raw:
             bs = format(val, f"0{n}b")[::-1]
             counts[bs] = counts.get(bs, 0) + 1
@@ -147,7 +147,7 @@ class QulacsBackend(EngineBackend):
         state = QuantumStateGpu(n)
         qc.update_quantum_state(state)
         raw = state.sampling(shots)
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for val in raw:
             bs = format(val, f"0{n}b")[::-1]
             counts[bs] = counts.get(bs, 0) + 1
@@ -164,12 +164,12 @@ class QulacsBackend(EngineBackend):
         """Override: use stateful engine that collapses on measurement."""
         from qulacs import QuantumState
 
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         n = circuit.num_qubits
 
         for _ in range(shots):
             state = QuantumState(n)
-            cregs: Dict[str, int] = {}
+            cregs: dict[str, int] = {}
             self._execute_shot_stateful(state, circuit.ops, cregs, n)
             # Sample the final state
             raw = state.sampling(1)
@@ -307,7 +307,7 @@ class QulacsBackend(EngineBackend):
         dm.set_zero_state()
         circuit.update_quantum_state(dm)
         raw = dm.sampling(shots)
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for val in raw:
             bs = format(val, f"0{n}b")[::-1]
             counts[bs] = counts.get(bs, 0) + 1

@@ -15,7 +15,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, List, Optional
 
 
 class SpiderType(Enum):
@@ -75,12 +74,12 @@ class ZXGraph:
     """
 
     def __init__(self):
-        self.spiders: Dict[int, ZXSpider] = {}
-        self.edges: List[ZXEdge] = []
-        self._adj: Dict[int, List[int]] = {}  # spider_id -> list of edge indices
+        self.spiders: dict[int, ZXSpider] = {}
+        self.edges: list[ZXEdge] = []
+        self._adj: dict[int, list[int]] = {}  # spider_id -> list of edge indices
         self._next_id: int = 0
-        self._inputs: List[int] = []  # boundary spider ids for inputs
-        self._outputs: List[int] = []  # boundary spider ids for outputs
+        self._inputs: list[int] = []  # boundary spider ids for inputs
+        self._outputs: list[int] = []  # boundary spider ids for outputs
 
     def add_spider(self, stype: SpiderType, phase: float = 0.0) -> int:
         """Add a spider and return its id."""
@@ -98,7 +97,7 @@ class ZXGraph:
         self._adj[dst].append(idx)
         return idx
 
-    def neighbors(self, sid: int) -> List[int]:
+    def neighbors(self, sid: int) -> list[int]:
         """Get neighbor spider ids."""
         result = []
         for eidx in self._adj.get(sid, []):
@@ -110,22 +109,22 @@ class ZXGraph:
                 result.append(other)
         return result
 
-    def edges_of(self, sid: int) -> List[int]:
+    def edges_of(self, sid: int) -> list[int]:
         """Get edge indices connected to a spider."""
         return list(self._adj.get(sid, []))
 
-    def set_inputs(self, sids: List[int]) -> None:
+    def set_inputs(self, sids: list[int]) -> None:
         self._inputs = list(sids)
 
-    def set_outputs(self, sids: List[int]) -> None:
+    def set_outputs(self, sids: list[int]) -> None:
         self._outputs = list(sids)
 
     @property
-    def inputs(self) -> List[int]:
+    def inputs(self) -> list[int]:
         return self._inputs
 
     @property
-    def outputs(self) -> List[int]:
+    def outputs(self) -> list[int]:
         return self._outputs
 
     def remove_spider(self, sid: int) -> None:
@@ -142,7 +141,7 @@ class ZXGraph:
         del self.spiders[sid]
         del self._adj[sid]
 
-    def contract_edge(self, eidx: int) -> Optional[int]:
+    def contract_edge(self, eidx: int) -> int | None:
         """Contract an edge: merge two same-type spiders (spider fusion rule).
 
         If the two endpoints are the same type, merge them into one spider
@@ -214,7 +213,7 @@ class ZXGraph:
             self.remove_spider(sid)
             return True
 
-    def copy(self) -> "ZXGraph":
+    def copy(self) -> ZXGraph:
         """Deep copy of the graph."""
         g = ZXGraph()
         g._next_id = self._next_id

@@ -7,7 +7,7 @@ Chinese font configuration and save/show finalization all live here.
 
 from __future__ import annotations
 
-from typing import Any, Optional, Tuple
+from typing import Any
 
 from .._i18n import tr
 
@@ -51,8 +51,8 @@ def finalize(
     fig: Any,
     ax: Any = None,
     show: bool = False,
-    save: Optional[str] = None,
-    title: Optional[str] = None,
+    save: str | None = None,
+    title: str | None = None,
 ) -> Any:
     """Unified finalization: set title, save, show, return ax (return fig when no ax is provided)."""
     if title is not None and ax is not None:
@@ -64,7 +64,7 @@ def finalize(
     return ax if ax is not None else fig
 
 
-def new_ax(figsize: Tuple[float, float] = (6, 4)) -> Tuple[Any, Any]:
+def new_ax(figsize: tuple[float, float] = (6, 4)) -> tuple[Any, Any]:
     """Convenience entry point for creating a new figure + ax."""
     plt = _plt()
     fig, ax = plt.subplots(figsize=figsize)

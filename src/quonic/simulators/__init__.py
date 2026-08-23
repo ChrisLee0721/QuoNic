@@ -15,8 +15,8 @@ from ._stabilizer import StabilizerEngine
 from ._statevector import StatevectorEngine
 
 __all__ = [
-    "StatevectorEngine",
-    "StabilizerEngine",
-    "MPSEngine",
     "DensityMatrixEngine",
+    "MPSEngine",
+    "StabilizerEngine",
+    "StatevectorEngine",
 ]

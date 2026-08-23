@@ -11,12 +11,10 @@ Example::
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
-
 from .base import Plugin
 
 # Global plugin registry
-_PLUGINS: Dict[str, Plugin] = {}
+_PLUGINS: dict[str, Plugin] = {}
 
 
 def register_plugin(plugin: Plugin) -> None:
@@ -35,7 +33,7 @@ def register_plugin(plugin: Plugin) -> None:
     _PLUGINS[plugin.name] = plugin
 
 
-def get_plugin(name: str) -> Optional[Plugin]:
+def get_plugin(name: str) -> Plugin | None:
     """Get a registered plugin by name.
 
     Args:
@@ -47,7 +45,7 @@ def get_plugin(name: str) -> Optional[Plugin]:
     return _PLUGINS.get(name)
 
 
-def list_plugins() -> List[Dict[str, str]]:
+def list_plugins() -> list[dict[str, str]]:
     """List all registered plugins.
 
     Returns:
