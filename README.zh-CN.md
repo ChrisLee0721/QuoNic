@@ -1,8 +1,8 @@
 <div align="center">
 
-# QuoNic
+<h1 style="font-size: 3em; margin-bottom: 0.2em;">QuoNic</h1>
 
-**量子编程，像写 Python 一样简单。**
+<p style="font-size: 1.3em; font-weight: bold;">量子编程，像写 Python 一样简单。</p>
 
 [![CI](https://img.shields.io/github/actions/workflow/status/ChrisLee0721/QuoNic/ci.yml?label=CI&logo=github)](https://github.com/ChrisLee0721/QuoNic/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
