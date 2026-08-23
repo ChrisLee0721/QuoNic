@@ -280,7 +280,7 @@ def test_import_quonic_does_not_load_numpy():
         "print('numpy' in sys.modules, 'matplotlib' in sys.modules)"
     )
     out = subprocess.run(
-        [sys.executable, "-c", code], capture_output=True, text=True, timeout=60
+        [sys.executable, "-c", code], capture_output=True, check=False, text=True, timeout=60
     )
     assert out.returncode == 0, out.stderr
     assert out.stdout.strip() == "False False"

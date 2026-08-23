@@ -42,7 +42,6 @@ def test_qft_inverse():
 
 def _constant_oracle(circuit, n):
     """f(x) = 0 for all x (constant)."""
-    pass
 
 
 def _balanced_oracle(circuit, n):
@@ -118,7 +117,6 @@ def test_simon_2qubit():
 
 def _prepare_zero(circuit, start, n):
     """Prepare |0...0> (default state)."""
-    pass
 
 
 def _prepare_one(circuit, start, n):
@@ -145,12 +143,10 @@ def test_swap_test_orthogonal():
 
 def _prepare_zero_h(circuit, start, n):
     """Prepare |0>."""
-    pass
 
 
 def _apply_identity(circuit, n):
     """Apply identity (do nothing)."""
-    pass
 
 
 def test_hadamard_test_identity():

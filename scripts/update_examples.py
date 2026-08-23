@@ -473,7 +473,7 @@ def update_example(path):
     in_docstring = False
     for i, line in enumerate(lines):
         stripped = line.strip()
-        if stripped.startswith('"""') or stripped.startswith("'''"):
+        if stripped.startswith(('"""', "'''")):
             if in_docstring:
                 code_start = i + 1
                 break

@@ -1,2 +1,7 @@
 # Ruff configuration
 line-length = 150
+
+exclude = [
+    "*.ipynb",
+    "scripts/gen_tutorial_cn.py",
+]

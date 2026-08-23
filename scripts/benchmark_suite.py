@@ -18,13 +18,13 @@ import argparse
 import json
 import random
 import time
-from typing import Any, Dict, List
+from typing import Any
 
 
 def random_circuit(n_qubits: int, depth: int, seed: int = 42) -> None:
     """Build a random circuit using QuoNic's global API."""
     from quonic import qgate
-    from quonic.gates import CX, CZ, H, Rx, Ry, Rz, X, Y, Z
+    from quonic.gates import CX, H, Rx, Ry, Rz, X, Y, Z
 
     rng = random.Random(seed)
     single_gates = [H, X, Y, Z]
@@ -48,7 +48,7 @@ def random_circuit(n_qubits: int, depth: int, seed: int = 42) -> None:
 
 def benchmark_quantum_volume(
     n: int, depth: int, shots: int, backend: str
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Quantum Volume benchmark: random square circuit."""
     from quonic import reset
     from quonic.backends import get_backend
@@ -79,7 +79,7 @@ def benchmark_quantum_volume(
 
 def benchmark_cross_entropy(
     n: int, depth: int, shots: int, backend: str
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Cross-entropy benchmark: measure circuit fidelity via sampling."""
     from quonic import reset
     from quonic.backends import get_backend
@@ -110,7 +110,7 @@ def benchmark_cross_entropy(
 
 def benchmark_algorithm(
     name: str, n: int, shots: int, backend: str
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Run an algorithm benchmark."""
     from quonic import qgate, reset
     from quonic.backends import get_backend
@@ -157,7 +157,7 @@ def benchmark_algorithm(
 
 def benchmark_gate_throughput(
     n_gates: int, n_qubits: int, backend: str
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Measure gate throughput: how many gates/second."""
     from quonic import qgate, reset
     from quonic.backends import get_backend
@@ -190,7 +190,7 @@ def main():
 
     n_values = [int(x) for x in args.n.split(",")]
 
-    results: Dict[str, Any] = {
+    results: dict[str, Any] = {
         "meta": {
             "backend": args.backend,
             "shots": args.shots,

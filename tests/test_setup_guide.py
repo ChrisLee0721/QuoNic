@@ -126,7 +126,6 @@ def test_guided_setup_installs_sdk_on_enter(monkeypatch):
 
     def fake_run(cmd):
         installed.append(cmd)
-        return None
 
     def fake_input(prompt=""):
         return ""  # 回车 = 是
@@ -146,7 +145,6 @@ def test_guided_setup_skips_sdk_on_n(monkeypatch):
 
     def fake_run(cmd):
         installed.append(cmd)
-        return None
 
     def fake_input(prompt=""):
         return "n"  # 跳过

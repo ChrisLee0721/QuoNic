@@ -44,7 +44,7 @@ for backend in backends:
         qgate(CX, 1, 2)
         result = qshow(backend=backend, shots=1024)
         print(f"{backend}: {result.counts}")
-    except Exception as e:
+    except (ImportError, RuntimeError, ValueError) as e:
         print(f"{backend}: {e}")
 print()
 

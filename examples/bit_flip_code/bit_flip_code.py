@@ -33,7 +33,6 @@ def syndrome_measure():
     """Measure syndrome to detect error location."""
     # Syndrome extraction using ancilla qubits
     # For simplicity, we use a direct measurement approach
-    pass
 
 
 def decode():

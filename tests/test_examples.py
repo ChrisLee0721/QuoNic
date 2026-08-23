@@ -44,7 +44,7 @@ def _run_example(name):
     assert path.exists(), f"示例缺失：{path}"
     r = subprocess.run(
         [sys.executable, str(path)],
-        capture_output=True,
+        capture_output=True, check=False,
         text=True,
         encoding="utf-8",
         timeout=180,

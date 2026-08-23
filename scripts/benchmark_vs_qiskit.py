@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import argparse
 import time
-from typing import Optional
 
 # ── Code examples for line-count comparison ──────────────────────────────────
 
@@ -225,11 +224,11 @@ def quonic_ghz(n: int) -> float:
 
 def quonic_qft(n: int) -> float:
     """Run QFT-n on QuoNic native backend, return elapsed time."""
+
     from quonic import qgate, reset
     from quonic.backends import get_backend
     from quonic.gates import H
     from quonic.stack import current_circuit
-    import math
 
     reset()
     for i in range(n):
@@ -242,7 +241,7 @@ def quonic_qft(n: int) -> float:
     return time.perf_counter() - t0
 
 
-def qiskit_ghz(n: int) -> Optional[float]:
+def qiskit_ghz(n: int) -> float | None:
     """Run GHZ-n on Qiskit AerSimulator, return elapsed time or None."""
     try:
         from qiskit import QuantumCircuit
@@ -315,9 +314,7 @@ def print_markdown():
         print(f"| {name} | {q_lines} | {k_lines} | {ratio:.1f}x |")
     print(f"| **Total** | **{total_quonic}** | **{total_qiskit}** | **{total_qiskit/total_quonic:.1f}x** |")
     print()
-    print("> QuoNic reduces code by **{:.0f}%** on average compared to raw Qiskit.".format(
-        (1 - total_quonic / total_qiskit) * 100
-    ))
+    print(f"> QuoNic reduces code by **{(1 - total_quonic / total_qiskit) * 100:.0f}%** on average compared to raw Qiskit.")
 
 
 def main():

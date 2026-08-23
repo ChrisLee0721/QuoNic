@@ -103,7 +103,7 @@ def test_recommend_method_fallback_when_no_data(monkeypatch):
     import quonic.scheduler.registry as reg
 
     # 无实测数据时回退默认阈值（n=24）
-    monkeypatch.setattr(reg, "load_measured_decision", lambda: {})
+    monkeypatch.setattr(reg, "load_measured_decision", dict)
     assert recommend_method(circuit_features(_clifford(24))) == "stabilizer"
     assert recommend_method(circuit_features(_clifford(20))) == "statevector"
 

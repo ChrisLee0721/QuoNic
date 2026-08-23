@@ -44,7 +44,7 @@ def bb84_round(alice_basis, alice_bit, bob_basis):
         qgate(H, 0)
 
     result = get_backend("native").run(current_circuit(), shots=1)
-    return int(list(result.counts.keys())[0])
+    return int(next(iter(result.counts.keys())))
 
 
 def main():

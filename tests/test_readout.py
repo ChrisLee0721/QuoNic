@@ -182,7 +182,7 @@ def test_correlated_recovers_crosstalk():
     cal = ReadoutCalibration(np.zeros((2, 2, 2)), 2, A)
     # true state always |11>: measured distribution is row 3
     shots = 1000
-    measured = {format(j, "02b"): int(round(A[3, j] * shots)) for j in range(4)}
+    measured = {format(j, "02b"): round(A[3, j] * shots) for j in range(4)}
     measured = {bs: c for bs, c in measured.items() if c}
     corrected = cal.apply(measured, shots)
     total = sum(corrected.values())

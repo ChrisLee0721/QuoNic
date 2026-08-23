@@ -69,9 +69,9 @@ def main() -> None:
     shots = 1024
     be = get_backend("qi", device=device)
 
-    log = open("qi_mitigation_results.txt", "a", encoding="utf-8")
-    log.write(f"=== {device} shots={shots} ===\n")
-    log.flush()
+    with open("qi_mitigation_results.txt", "a", encoding="utf-8") as log:
+        log.write(f"=== {device} shots={shots} ===\n")
+        log.flush()
     print(f"目标: Quantum Inspire {device}  shots={shots}  共 {len(cases)} 个电路\n", flush=True)
 
     for name, circuit, target in cases:

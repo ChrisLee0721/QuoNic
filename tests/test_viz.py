@@ -308,7 +308,7 @@ def test_plot_bloch_multivector_product_state():
     rho = np.outer(sv, sv.conj())
     for q in range(10):
         rho_q = _partial_trace(rho, [q], 10)
-        x, y, z = _rho_bloch_vector(rho_q)
+        _x, _y, z = _rho_bloch_vector(rho_q)
         assert z == pytest.approx(1.0, abs=1e-9)
 
 

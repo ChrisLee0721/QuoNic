@@ -1,6 +1,5 @@
 """Generate Chinese versions of tutorial notebooks."""
 
-import os
 
 TUTORIALS = {
     "01_basics": {

@@ -12,7 +12,7 @@ import pytest
 
 from quonic import qgate, reset
 from quonic.backends import get_backend
-from quonic.gates import CCX, CX, SWAP, H, Ry, X, Y, Z  # noqa: I001
+from quonic.gates import CCX, CX, SWAP, H, Ry, X, Y, Z
 from quonic.stack import current_circuit
 
 BACKENDS = [

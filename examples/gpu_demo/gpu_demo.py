@@ -49,7 +49,7 @@ def demo_direct_gpu():
             print(f"  {backend_name:12s} GPU: {result.counts}  ({elapsed:.3f}s)")
         except NotImplementedError:
             print(f"  {backend_name:12s} GPU: not supported")
-        except Exception as e:
+        except (ImportError, RuntimeError, ValueError) as e:
             print(f"  {backend_name:12s} GPU: error: {e}")
 
     # Compare with CPU
@@ -122,7 +122,7 @@ def demo_cupy_fallback():
         result = be.run(circuit, shots=1024, method="gpu")
         elapsed = time.time() - t0
         print(f"  qulacs GPU: {result.counts}  ({elapsed:.3f}s)")
-    except Exception as e:
+    except (ImportError, RuntimeError, ValueError) as e:
         print(f"  qulacs GPU: error: {e}")
 
     # Run on CuPy directly
@@ -132,7 +132,7 @@ def demo_cupy_fallback():
         result = be.run(circuit, shots=1024, method="gpu")
         elapsed = time.time() - t0
         print(f"  cupy GPU:   {result.counts}  ({elapsed:.3f}s)")
-    except Exception as e:
+    except (ImportError, RuntimeError, ValueError) as e:
         print(f"  cupy GPU:   error: {e}")
 
     # Compare with CPU
