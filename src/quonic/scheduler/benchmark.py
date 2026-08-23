@@ -8,7 +8,9 @@ It produces two things for the scheduler to query at runtime (the moat = others 
 Usage:
     python -m quonic.scheduler.benchmark -o scheduler/data/benchmarks.json
 
-Note: timings correlate strongly with CPU / memory / BLAS / backend versions and drift across machines. So this script must be re-runnable for calibration; what ships with the package is a frozen table from a "reference machine" for cold-start fallback.
+Note: timings correlate strongly with CPU / memory / BLAS / backend versions and drift
+across machines. So this script must be re-runnable for calibration; what ships with the
+package is a frozen table from a "reference machine" for cold-start fallback.
 """
 
 from __future__ import annotations

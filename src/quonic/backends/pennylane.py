@@ -105,7 +105,8 @@ class PennyLaneBackend(Backend):
         qnode = _set_shots(qml, qnode, shots)
 
         raw = qnode()
-        # PennyLane's bitstring has wire0 at the most significant position; reverse it to the Qiskit convention (qubit0 at the least significant position)
+        # PennyLane's bitstring has wire0 at the most significant position;
+        # reverse it to the Qiskit convention (qubit0 at the least significant position)
         counts = {}
         for bitstring, count in raw.items():
             key = str(bitstring)[::-1]

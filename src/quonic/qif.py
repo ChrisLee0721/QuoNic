@@ -6,10 +6,15 @@
     qgate(H, 0)
     qif(0).then(X, 1).else_(Z, 1)   # when q0==1 apply X(q1), otherwise Z(q1)
 
-Physical semantics (key): when the control bit is in a superposition it is **not measured**; the two branches superpose coherently into
-|0><0|⊗F + |1><1|⊗T (F=else gate, T=then gate), producing true entanglement. This is fundamentally different from a classical if that "measures first and picks one branch by the result" — the former yields a Bell state (entanglement), the latter a classical mixed state (no entanglement).
+Physical semantics (key): when the control bit is in a superposition it is **not measured**;
+the two branches superpose coherently into |0><0|⊗F + |1><1|⊗T (F=else gate, T=then gate),
+producing true entanglement. This is fundamentally different from a classical if that
+"measures first and picks one branch by the result" — the former yields a Bell state
+(entanglement), the latter a classical mixed state (no entanglement).
 
-MVP boundary: only single-bit branch gates, then/else acting on the same target bit, no nesting, no measurement. All numpy imports are inside functions, guaranteeing zero-cost `import quonic`.
+MVP boundary: only single-bit branch gates, then/else acting on the same target bit,
+no nesting, no measurement. All numpy imports are inside functions, guaranteeing
+zero-cost `import quonic`.
 """
 
 from __future__ import annotations
