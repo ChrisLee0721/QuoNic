@@ -8,7 +8,6 @@ from .compare import qeq, qgt, qlt
 from .compiler import RoutingError, compile, decompose, groverize, optimize, randomized_compiling
 from .encoding import amplitude_encode, angle_encode
 from .gradients import numerical_gradient, param_shift
-from .mitigation import CDRResult, PECResult, cdr, pec, symmetry_verify
 from .noise import NoiseModel, amplitude_damping, depolarizing, phase_damping, thermal_relaxation
 from .parameters import Parameter, bind_batch, bind_params
 from .qgate import qgate
@@ -21,6 +20,24 @@ from .stack import reset
 from .stepper import StepExecutor
 from .topology import CouplingMap
 from .zne import ZNEResult, fold, zne
+
+# Lazy imports for modules that pull in numpy at import time
+_LAZY_IMPORTS = {
+    "CDRResult": ".mitigation",
+    "PECResult": ".mitigation",
+    "cdr": ".mitigation",
+    "pec": ".mitigation",
+    "symmetry_verify": ".mitigation",
+}
+
+
+def __getattr__(name: str):
+    if name in _LAZY_IMPORTS:
+        import importlib
+
+        module = importlib.import_module(_LAZY_IMPORTS[name], __name__)
+        return getattr(module, name)
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 __version__ = "0.12.0"
 
