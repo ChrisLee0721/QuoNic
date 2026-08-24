@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  ###### QuoNic
+  <h1>QuoNic</h1>
   <b>Quantum programming, as simple as writing Python.</b>
 </p>
 <p align="center">
