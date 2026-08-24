@@ -1,9 +1,8 @@
 <p align="center">
   <img src="Readme_logo.png" width="300" alt="QuoNic Banner" />
 </p>
-
+<h1 align="center">QuoNic</h1>
 <p align="center">
-  <h1>QuoNic</h1>
   <b>Quantum programming, as simple as writing Python.</b>
 </p>
 <p align="center">
