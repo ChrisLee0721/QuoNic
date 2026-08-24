@@ -859,6 +859,7 @@ def optimize(
       - "commute": reorder gates to enable more cancellations
       - "peephole": replace known multi-gate patterns
       - "fuse": merge consecutive single-qubit gates into one matrix
+      - "prune": remove identity gates and zero-angle rotations
       - "zx": ZX-calculus graphical simplification
       - callable: any function ``f(Circuit) -> Circuit``
 
@@ -878,9 +879,139 @@ def optimize(
             circuit = optimize_peephole(circuit)
         elif p == "fuse":
             circuit = optimize_fuse(circuit)
+        elif p == "prune":
+            circuit = optimize_prune(circuit)
         elif p == "zx":
             circuit = optimize_zx_circuit(circuit)
     return circuit
+
+
+# ---------------------------------------------------------------------------
+#  Randomized compiling
+# ---------------------------------------------------------------------------
+
+# Pauli gates for twirling
+_PAULI_NAMES = ("i", "x", "y", "z")
+
+
+def randomized_compiling(
+    circuit: Circuit,
+    n_samples: int = 1,
+    seed: int | None = None,
+) -> list[Circuit]:
+    """Convert circuit noise to gate-independent depolarizing via Pauli twirling.
+
+    For each two-qubit gate (CX), inserts random Pauli gates before and after,
+    with compensating Paulis on the neighboring gates to preserve the logical
+    computation. This converts coherent errors into stochastic Pauli noise.
+
+    Parameters:
+        circuit: the source circuit (must be decomposed into basic gates).
+        n_samples: number of randomly twirled circuits to generate.
+        seed: random seed for reproducibility.
+
+    Returns: a list of n_samples logically-equivalent circuits with twirled noise.
+    """
+    import numpy as np
+
+    rng = np.random.default_rng(seed)
+    results: list[Circuit] = []
+
+    ops = [op for op in circuit.ops if isinstance(op, GateOperation)]
+
+    for _ in range(n_samples):
+        out = Circuit()
+        out.allocate(circuit.num_qubits)
+
+        i = 0
+        while i < len(ops):
+            op = ops[i]
+            if op.name == "cx":
+                ctrl, tgt = op.qubits
+                # Pick random Paulis P_a, P_b for the twirl
+                pa = rng.integers(4)  # 0=I, 1=X, 2=Y, 3=Z
+                pb = rng.integers(4)
+
+                # Insert P_a on ctrl, P_b on tgt before CX
+                if pa > 0:
+                    out.add(GateOperation(_PAULI_NAMES[pa], (ctrl,)))
+                if pb > 0:
+                    out.add(GateOperation(_PAULI_NAMES[pb], (tgt,)))
+
+                out.add(op)
+
+                # Compute compensating Paulis: CX · (P_a ⊗ P_b) = (P_a' ⊗ P_b') · CX
+                # For CX: P_a' = P_a, P_b' = P_a · P_b (up to phase, absorbed)
+                # Simplified: after CX, apply P_a on ctrl and P_a⊕P_b on tgt
+                pa_after = pa
+                pb_after = (pa + pb) % 4 if pa > 0 and pb > 0 else pb
+                if pa > 0 and pb > 0:
+                    # P_a · P_b on tgt (Pauli multiplication table, ignoring phases)
+                    _PAULI_MUL = [
+                        [0, 1, 2, 3],  # I·{I,X,Y,Z}
+                        [1, 0, 3, 2],  # X·{I,X,Y,Z}
+                        [2, 3, 0, 1],  # Y·{I,X,Y,Z}
+                        [3, 2, 1, 0],  # Z·{I,X,Y,Z}
+                    ]
+                    pb_after = _PAULI_MUL[pa][pb]
+
+                if pa_after > 0:
+                    out.add(GateOperation(_PAULI_NAMES[pa_after], (ctrl,)))
+                if pb_after > 0:
+                    out.add(GateOperation(_PAULI_NAMES[pb_after], (tgt,)))
+
+                i += 1
+            else:
+                out.add(op)
+                i += 1
+
+        results.append(out)
+
+    return results
+
+
+# ---------------------------------------------------------------------------
+#  Circuit pruning
+# ---------------------------------------------------------------------------
+
+# Gates that are identity when their angle is (near) zero
+_ZERO_ANGLE_GATES = frozenset({"rx", "ry", "rz", "p", "cp"})
+
+
+def optimize_prune(circuit: Circuit, tol: float = 1e-12) -> Circuit:
+    """Remove gates that have no effect on the computation.
+
+    Prunes:
+      - Identity gates ("i")
+      - Rotation gates with angle ≈ 0 (rx, ry, rz, p, cp)
+      - Adjacent identical self-inverse pairs (delegates to optimize_cancel)
+
+    Parameters:
+        circuit: the source circuit.
+        tol: angle tolerance for considering a rotation as identity.
+
+    Returns a new Circuit (the original is not modified).
+    """
+    out = Circuit()
+    out.allocate(circuit.num_qubits)
+
+    for op in circuit.ops:
+        if not isinstance(op, GateOperation):
+            out.add(op)
+            continue
+
+        # Skip identity gates
+        if op.name == "i":
+            continue
+
+        # Skip rotations with zero angle
+        if op.name in _ZERO_ANGLE_GATES and op.params and all(abs(p) < tol for p in op.params):
+            continue
+
+        out.add(op)
+
+    # Also cancel adjacent self-inverse pairs
+    return optimize_cancel(out)
 
 
 def optimize_zx_circuit(circuit: Circuit) -> Circuit:

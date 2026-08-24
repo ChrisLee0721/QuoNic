@@ -5,10 +5,11 @@ from ._i18n import get_language, set_language
 from .analysis import CircuitReport, analyze
 from .batch import run_batch
 from .compare import qeq, qgt, qlt
-from .compiler import RoutingError, compile, decompose, groverize, optimize
+from .compiler import RoutingError, compile, decompose, groverize, optimize, randomized_compiling
 from .encoding import amplitude_encode, angle_encode
 from .gradients import numerical_gradient, param_shift
-from .noise import NoiseModel, depolarizing
+from .mitigation import CDRResult, PECResult, cdr, pec, symmetry_verify
+from .noise import NoiseModel, amplitude_damping, depolarizing, phase_damping, thermal_relaxation
 from .parameters import Parameter, bind_batch, bind_params
 from .qgate import qgate
 from .qif import cif, controlled, creg, cwhile, qif
@@ -21,12 +22,14 @@ from .stepper import StepExecutor
 from .topology import CouplingMap
 from .zne import ZNEResult, fold, zne
 
-__version__ = "0.8.2"
+__version__ = "0.12.0"
 
 __all__ = [
+    "CDRResult",
     "CircuitReport",
     "CouplingMap",
     "NoiseModel",
+    "PECResult",
     "Parameter",
     "QInt",
     "ReadoutCalibration",
@@ -35,12 +38,14 @@ __all__ = [
     "StepExecutor",
     "ZNEResult",
     "__version__",
+    "amplitude_damping",
     "amplitude_encode",
     "analyze",
     "angle_encode",
     "bind_batch",
     "bind_params",
     "calibrate",
+    "cdr",
     "cif",
     "compile",
     "controlled",
@@ -56,6 +61,8 @@ __all__ = [
     "numerical_gradient",
     "optimize",
     "param_shift",
+    "pec",
+    "phase_damping",
     "qeq",
     "qgate",
     "qgt",
@@ -63,9 +70,12 @@ __all__ = [
     "qlt",
     "qshow",
     "qshow_all",
+    "randomized_compiling",
     "reset",
     "run_batch",
     "run_circuits",
     "set_language",
+    "symmetry_verify",
+    "thermal_relaxation",
     "zne",
 ]

@@ -555,6 +555,10 @@ _MESSAGES: dict[str, dict[str, str]] = {
         "en": "noise must be a NoiseModel, a probability in [0,1], or None",
         "zh": "noise 参数必须是 NoiseModel、一个 [0,1] 内的概率数值，或 None",
     },
+    "err.noise_t2_t1": {
+        "en": "T2 must be <= 2 * T1 (causality constraint)",
+        "zh": "T2 必须 <= 2 * T1（因果性约束）",
+    },
     "err.compare_qint": {
         "en": "comparator requires a QInt register, got {type}",
         "zh": "比较器需要 QInt 寄存器，收到 {type}",
@@ -819,6 +823,82 @@ _MESSAGES: dict[str, dict[str, str]] = {
         "en": "Shor's algorithm failed to find a factor of {N}; increase shots / "
               "attempts, or try a different N",
         "zh": "Shor 算法未能找到 {N} 的因子；请增加 shots / attempts，或更换 N",
+    },
+
+    # ------------------------------------------------------- quantum chemistry
+    "err.chem.pyscf_missing": {
+        "en": "Molecular SCF requires pyscf:\n"
+              "    pip install 'quonic[chem]'\nor: pip install pyscf",
+        "zh": "分子 SCF 计算需要安装 pyscf：\n"
+              "    pip install 'quonic[chem]'\n或： pip install pyscf",
+    },
+    "err.chem.openfermion_missing": {
+        "en": "Molecular Hamiltonian requires openfermion:\n"
+              "    pip install 'quonic[chem]'\nor: pip install openfermion",
+        "zh": "分子哈密顿量需要安装 openfermion：\n"
+              "    pip install 'quonic[chem]'\n或： pip install openfermion",
+    },
+    "err.chem.rdkit_missing": {
+        "en": "SMILES/SDF parsing requires rdkit:\n"
+              "    pip install 'quonic[chem-rdkit]'\nor: pip install rdkit",
+        "zh": "SMILES/SDF 解析需要安装 rdkit：\n"
+              "    pip install 'quonic[chem-rdkit]'\n或： pip install rdkit",
+    },
+    "err.chem.unknown_basis": {
+        "en": "Unknown basis set '{basis}'. Use list_bases() to see available options.",
+        "zh": "未知基组 '{basis}'。使用 list_bases() 查看可用选项。",
+    },
+    "err.chem.xyz_parse": {
+        "en": "Failed to parse XYZ string: {reason}",
+        "zh": "解析 XYZ 字符串失败：{reason}",
+    },
+    "err.chem.smiles_convert": {
+        "en": "Failed to convert SMILES '{smiles}' to 3D geometry: {reason}",
+        "zh": "将 SMILES '{smiles}' 转换为 3D 几何结构失败：{reason}",
+    },
+    "err.chem.scf_converge": {
+        "en": "SCF did not converge after {max_cycle} iterations",
+        "zh": "SCF 在 {max_cycle} 次迭代后未收敛",
+    },
+    "err.chem.mapping_unknown": {
+        "en": "Unknown qubit mapping '{mapping}'. Supported: jordan_wigner, bravyi_kitaev",
+        "zh": "未知量子比特映射 '{mapping}'。支持：jordan_wigner, bravyi_kitaev",
+    },
+    "err.chem.active_space_invalid": {
+        "en": "Active space CAS({n_e},{n_o}) is invalid for molecule with {elec} electrons and {orb} orbitals",
+        "zh": "活性空间 CAS({n_e},{n_o}) 对于含 {elec} 个电子和 {orb} 个轨道的分子无效",
+    },
+    "err.chem.active_space_auto": {
+        "en": "Automatic active space selection requires a PySCF mean-field calculation first",
+        "zh": "自动活性空间选择需要先运行 PySCF 平均场计算",
+    },
+    "err.chem.fragment_empty": {
+        "en": "Fragmentation produced no fragments",
+        "zh": "分片未产生任何片段",
+    },
+    "err.chem.fragment_large": {
+        "en": "Fragment {idx} has {n} atoms, exceeds max_fragment_size={max}",
+        "zh": "片段 {idx} 含 {n} 个原子，超过 max_fragment_size={max}",
+    },
+    "err.chem.dmet_converge": {
+        "en": "DMET did not converge after {max_iter} iterations (residual={residual:.2e})",
+        "zh": "DMET 在 {max_iter} 次迭代后未收敛（残差={residual:.2e}）",
+    },
+    "err.chem.dmet_solver": {
+        "en": "Unknown DMET solver '{solver}'. Supported: fci, ccsd",
+        "zh": "未知 DMET 求解器 '{solver}'。支持：fci, ccsd",
+    },
+    "err.chem.pdb_parse": {
+        "en": "Failed to parse PDB file '{path}': no ATOM/HETATM records found",
+        "zh": "解析 PDB 文件 '{path}' 失败：未找到 ATOM/HETATM 记录",
+    },
+    "err.chem.mol2_parse": {
+        "en": "Failed to parse MOL2 file '{path}': no @<TRIPOS>ATOM section found",
+        "zh": "解析 MOL2 文件 '{path}' 失败：未找到 @<TRIPOS>ATOM 段",
+    },
+    "err.chem.fcidump_parse": {
+        "en": "Failed to parse FCIDUMP file: {reason}",
+        "zh": "解析 FCIDUMP 文件失败：{reason}",
     },
 
     # ------------------------------------------------------------- zne

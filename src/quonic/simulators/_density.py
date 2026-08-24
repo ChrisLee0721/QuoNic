@@ -126,14 +126,50 @@ class DensityMatrixEngine:
                 result += (p / 15.0) * tmp
         self.rho = result
 
+    def _amplitude_damp(self, q: int, gamma: float) -> None:
+        """Amplitude damping channel: Kraus ops K0 = [[1,0],[0,sqrt(1-g)]], K1 = [[0,sqrt(g)],[0,0]]."""
+        import numpy as np
+
+        k0 = np.array([[1.0, 0.0], [0.0, np.sqrt(1.0 - gamma)]], dtype=complex)
+        k1 = np.array([[0.0, np.sqrt(gamma)], [0.0, 0.0]], dtype=complex)
+        rho = self.rho
+        result = self._apply_single_to(rho, k0, q, self.n)
+        result += self._apply_single_to(rho, k1, q, self.n)
+        self.rho = result
+
+    def _phase_damp(self, q: int, gamma: float) -> None:
+        """Phase damping channel: Kraus ops K0 = [[1,0],[0,sqrt(1-g)]], K1 = [[0,0],[0,sqrt(g)]]."""
+        import numpy as np
+
+        k0 = np.array([[1.0, 0.0], [0.0, np.sqrt(1.0 - gamma)]], dtype=complex)
+        k1 = np.array([[0.0, 0.0], [0.0, np.sqrt(gamma)]], dtype=complex)
+        rho = self.rho
+        result = self._apply_single_to(rho, k0, q, self.n)
+        result += self._apply_single_to(rho, k1, q, self.n)
+        self.rho = result
+
     def _noise_after(self, qubits: Sequence[int]) -> None:
         if not self.noise.enabled:
             return
         nq = len(qubits)
-        if nq == 1 and self.noise.single > 0.0:
-            self._depolarize_single(qubits[0], self.noise.single)
-        elif nq == 2 and self.noise.double > 0.0:
-            self._depolarize_double(qubits[0], qubits[1], self.noise.double)
+        if nq == 1:
+            q = qubits[0]
+            if self.noise.amplitude_damping > 0.0:
+                self._amplitude_damp(q, self.noise.amplitude_damping)
+            if self.noise.phase_damping > 0.0:
+                self._phase_damp(q, self.noise.phase_damping)
+            if self.noise.single > 0.0:
+                self._depolarize_single(q, self.noise.single)
+        elif nq == 2:
+            q0, q1 = qubits
+            if self.noise.amplitude_damping > 0.0:
+                self._amplitude_damp(q0, self.noise.amplitude_damping)
+                self._amplitude_damp(q1, self.noise.amplitude_damping)
+            if self.noise.phase_damping > 0.0:
+                self._phase_damp(q0, self.noise.phase_damping)
+                self._phase_damp(q1, self.noise.phase_damping)
+            if self.noise.double > 0.0:
+                self._depolarize_double(q0, q1, self.noise.double)
 
     def apply(
         self, name: str, qubits: Sequence[int], params: tuple[float, ...] = ()
