@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Readme_logo.png" width="600" alt="QuoNic Banner" />
+  <img src="Readme_logo.png" width="300" alt="QuoNic Banner" />
 </p>
 
 <p align="center">
