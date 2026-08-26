@@ -102,6 +102,10 @@ def satisfies(current: str, constraint: str) -> bool:
 def _auth_ready(auth: dict[str, Any]) -> bool:
     import os
 
+    kind = auth.get("kind", "")
+    if kind == "env_var":
+        env_var = auth.get("env_var", "")
+        return bool(os.environ.get(env_var))
     token_file = auth.get("token_file")
     if not token_file:
         return False
@@ -209,14 +213,19 @@ def guided_setup(
     # [3/3] Authentication
     auth = setup.get("auth")
     if auth and not _auth_ready(auth):
-        cmd = " ".join(auth.get("command", [])) or tr("setup.login_fallback")
-        print(tr("setup.need_login", cmd=cmd))
-        if _confirm(tr("setup.press_enter_login"), input_):
-            run(auth["command"])
-            if _auth_ready(auth):
-                print(tr("setup.logged_in"))
-            else:
-                print(tr("setup.login_incomplete", cmd=cmd))
+        if auth.get("kind") == "env_var":
+            env_var = auth.get("env_var", "")
+            print(tr("setup.need_env_var", env_var=env_var))
+            print(f"  set {env_var}=your-key")
+        else:
+            cmd = " ".join(auth.get("command", [])) or tr("setup.login_fallback")
+            print(tr("setup.need_login", cmd=cmd))
+            if _confirm(tr("setup.press_enter_login"), input_):
+                run(auth["command"])
+                if _auth_ready(auth):
+                    print(tr("setup.logged_in"))
+                else:
+                    print(tr("setup.login_incomplete", cmd=cmd))
 
     d = diagnose(setup)
     if d.ready:
@@ -305,6 +314,9 @@ def _raise_not_ready(d: Diagnosis, setup: dict[str, Any]) -> None:
             )
         )
     auth = setup.get("auth", {})
+    if auth.get("kind") == "env_var":
+        env_var = auth.get("env_var", "")
+        raise RuntimeError(f"Environment variable {env_var} not set. Get your key from the provider's console.")
     cmd = " ".join(auth.get("command", [])) or tr("setup.login_fallback")
     raise RuntimeError(tr("err.need_login", name=name, cmd=cmd))
 

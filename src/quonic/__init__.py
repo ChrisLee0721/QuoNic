@@ -1,6 +1,6 @@
 """QuoNic — quantum programming, as simple as writing Python."""
 
-from . import gates
+from . import gates, gciqa
 from ._i18n import get_language, set_language
 from .analysis import CircuitReport, analyze
 from .batch import run_batch

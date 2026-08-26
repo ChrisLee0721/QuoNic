@@ -16,6 +16,7 @@ from .ionq import IonQBackend
 from .mindquantum import MindQuantumBackend
 from .native import NativeBackend
 from .pennylane import PennyLaneBackend
+from .originq import OriginQBackend
 from .qi import QuantumInspireBackend
 from .qiskit import QiskitBackend
 from .qpanda import QPandaBackend
@@ -49,6 +50,7 @@ _REGISTRY: dict[str, Backend] = {
     "rigetti": RigettiBackend(),
     "xanadu": XanaduBackend(),
     "quera": QuEraBackend(),
+    "originq": OriginQBackend(),
 }
 
 # Backward-compatible aliases for the legacy one-shot device shortcuts: backend="tuna9" is equivalent to backend="qi", device="tuna9".
@@ -81,7 +83,7 @@ def resolve_target(
             )
         return alias_engine, alias_device
     # Backends that accept device parameter
-    _DEVICE_BACKENDS = {"qi", "braket", "ibm", "azure", "ionq", "rigetti", "xanadu", "quera"}
+    _DEVICE_BACKENDS = {"qi", "braket", "ibm", "azure", "ionq", "rigetti", "xanadu", "quera", "originq"}
     if device is not None and backend not in _DEVICE_BACKENDS:
         raise ValueError(
             tr("err.device_only_qi", backend=backend)
@@ -123,6 +125,8 @@ def get_backend(name: str, device: str | None = None) -> Backend:
         # Backends that accept device parameter
         if name == "qi":
             return QuantumInspireBackend(device)
+        elif name == "originq":
+            return OriginQBackend(device)
         elif name == "braket":
             from .braket import BraketBackend
             return BraketBackend(device)

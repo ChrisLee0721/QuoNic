@@ -1,19 +1,30 @@
 """python -m quonic.setup — one-click onboarding entry for real-hardware backends.
 
-By default it onboards Quantum Inspire (the current sole real-hardware backend); when later adding IBM / Braket /
-domestic hardware, resolve the corresponding backend's setup description via --backend, reusing the onboarding engine.
+By default it onboards Quantum Inspire; use --backend to onboard other hardware backends.
 """
 
 from __future__ import annotations
 
+import argparse
+
 from ._i18n import tr
 from .backends.qi import QuantumInspireBackend
+from .backends.originq import OriginQBackend
 from .backends.setup_guide import diagnose, guided_setup
+
+_BACKEND_SETUPS = {
+    "qi": QuantumInspireBackend.setup,
+    "originq": OriginQBackend.setup,
+}
 
 
 def main() -> int:
-    # the current sole real-hardware backend is qi; when extending later, map to the corresponding setup via --backend
-    setup = QuantumInspireBackend.setup
+    parser = argparse.ArgumentParser(description="QuoNic hardware backend onboarding")
+    parser.add_argument("--backend", default="qi", choices=list(_BACKEND_SETUPS),
+                        help="Backend to onboard (default: qi)")
+    args = parser.parse_args()
+
+    setup = _BACKEND_SETUPS[args.backend]
 
     if diagnose(setup).ready:
         print(tr("setup.ready", name=setup["name"]))

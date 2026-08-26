@@ -1,0 +1,18 @@
+# Core dependencies
+numpy>=1.24
+
+# Quantum backends (optional)
+qiskit>=1.0,<2.4.0
+qiskit-aer>=0.14
+
+# Scientific computing (optional)
+scipy>=1.10
+
+# Visualization (optional)
+matplotlib>=3.5
+
+# Testing
+pytest>=7.0
+
+# Linting
+ruff>=0.9

@@ -1,0 +1,74 @@
+{
+  "description": "Zn²⁺ metalloproteinase benchmark dataset",
+  "proteins": [
+    {
+      "pdb_id": "1EAW",
+      "name": "Thermolysin",
+      "zn_count": 1,
+      "coordination": "tetrahedral",
+      "ligands": ["HIS", "HIS", "GLU", "HOH"],
+      "notes": "Classic metalloprotease, well-characterized Zn site"
+    },
+    {
+      "pdb_id": "1MMQ",
+      "name": "Matrix Metalloproteinase-1 (MMP-1)",
+      "zn_count": 1,
+      "coordination": "tetrahedral",
+      "ligands": ["HIS", "HIS", "HIS", "HOH"],
+      "notes": "Collagenase, drug target"
+    },
+    {
+      "pdb_id": "1LKG",
+      "name": "Matrix Metalloproteinase-9 (MMP-9)",
+      "zn_count": 1,
+      "coordination": "tetrahedral",
+      "ligands": ["HIS", "HIS", "HIS", "HOH"],
+      "notes": "Gelatinase, cancer target"
+    },
+    {
+      "pdb_id": "2ITO",
+      "name": "Matrix Metalloproteinase-13 (MMP-13)",
+      "zn_count": 1,
+      "coordination": "tetrahedral",
+      "ligands": ["HIS", "HIS", "HIS", "HOH"],
+      "notes": "Collagenase-3, osteoarthritis target"
+    },
+    {
+      "pdb_id": "3D76",
+      "name": "Anthrax Lethal Factor",
+      "zn_count": 1,
+      "coordination": "tetrahedral",
+      "ligands": ["HIS", "HIS", "GLU", "HOH"],
+      "notes": "Zinc metalloprotease, biodefense target"
+    },
+    {
+      "pdb_id": "1B12",
+      "name": "Carboxypeptidase A",
+      "zn_count": 1,
+      "coordination": "tetrahedral",
+      "ligands": ["HIS", "GLU", "GLU", "HOH"],
+      "notes": "Exopeptidase, classic Zn enzyme"
+    },
+    {
+      "pdb_id": "2HIC",
+      "name": "Histone Deacetylase (HDAC)",
+      "zn_count": 1,
+      "coordination": "octahedral",
+      "ligands": ["HIS", "ASP", "ASP", "HOH"],
+      "notes": "Epigenetic target, different coordination"
+    },
+    {
+      "pdb_id": "3F22",
+      "name": "Angiotensin-Converting Enzyme (ACE)",
+      "zn_count": 1,
+      "coordination": "tetrahedral",
+      "ligands": ["HIS", "HIS", "GLU", "HOH"],
+      "notes": "Hypertension drug target"
+    }
+  ],
+  "evaluation": {
+    "rmsd_threshold": 1.0,
+    "coordination_distance_tolerance": 0.2,
+    "success_rate_target": 0.8
+  }
+}

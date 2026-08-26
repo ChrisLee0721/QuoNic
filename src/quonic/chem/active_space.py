@@ -40,6 +40,7 @@ def select_active_space(
     n_active_electrons: int | None = None,
     n_active_orbitals: int | None = None,
     method: str = "manual",
+    n_qubits: int | None = None,
 ) -> ActiveSpace:
     """Select an active space for CAS calculation.
 
@@ -51,6 +52,10 @@ def select_active_space(
 
             - ``"manual"`` — use *n_active_electrons* and *n_active_orbitals* directly.
             - ``"full_valence"`` — all valence electrons and orbitals.
+            - ``"avas"`` — Automated Valence Active Space (requires PySCF).
+
+        n_qubits: Maximum number of qubits (active orbitals × 2).
+            Used by ``"avas"`` to constrain active space size.
 
     Returns:
         An :class:`ActiveSpace` descriptor.
@@ -62,6 +67,8 @@ def select_active_space(
         return _manual(molecule, n_active_electrons, n_active_orbitals)
     elif method == "full_valence":
         return _full_valence(molecule)
+    elif method == "avas":
+        return _avas(molecule, n_active_orbitals, n_qubits)
     else:
         raise ValueError(
             tr("err.chem.active_space_auto")
@@ -92,6 +99,92 @@ def _manual(
         )
     indices = tuple(range(n_o))
     return ActiveSpace(n_electrons=n_e, n_orbitals=n_o, orbital_indices=indices)
+
+
+def _avas(
+    molecule: Any,
+    n_active_orbitals: int | None = None,
+    n_qubits: int | None = None,
+) -> ActiveSpace:
+    """Automated Valence Active Space (AVAS) selection.
+
+    Uses PySCF's AVAS method to automatically select the active space
+    based on orbital character (valence vs core).
+
+    Args:
+        molecule: A ``quonic.chem.Molecule`` or PySCF ``Mole`` object.
+        n_active_orbitals: Target number of active orbitals (optional).
+        n_qubits: Maximum qubits (constrains n_active_orbitals = n_qubits // 2).
+
+    Returns:
+        An :class:`ActiveSpace` descriptor.
+
+    Raises:
+        ImportError: If PySCF is not installed.
+    """
+    try:
+        from pyscf import scf
+        from pyscf.mcscf import avas
+    except ImportError as exc:
+        raise ImportError(tr("err.chem.pyscf_missing")) from exc
+
+    from .molecule import Molecule as QuoNicMolecule
+
+    # Get PySCF molecule
+    if isinstance(molecule, QuoNicMolecule):
+        pyscf_mol = molecule.to_pyscf_mol()
+    else:
+        pyscf_mol = molecule
+
+    # Run HF first
+    if pyscf_mol.spin == 0:
+        mf = scf.RHF(pyscf_mol)
+    else:
+        mf = scf.UHF(pyscf_mol)
+    mf.kernel()
+
+    # Determine target active orbitals
+    if n_qubits is not None:
+        target_orbs = n_qubits // 2
+    elif n_active_orbitals is not None:
+        target_orbs = n_active_orbitals
+    else:
+        target_orbs = None
+
+    # Run AVAS
+    if target_orbs is not None:
+        n_elec, n_orb, orbs = avas.avas(mf, "valence", ncas=target_orbs)
+    else:
+        n_elec, n_orb, orbs = avas.avas(mf, "valence")
+
+    # Get orbital indices (AVAS returns MO coefficients, need to determine which are active)
+    # The orbs array contains the AVAS-selected orbital coefficients
+    # We need to find which original orbitals are selected
+    import numpy as np
+
+    # Project AVAS orbitals back to original basis
+    mo_coeff = mf.mo_coeff
+    if mo_coeff.ndim == 2:
+        # RHF case
+        overlap = pyscf_mol.intor("int1e_ovlp")
+        # Find which original orbitals have significant overlap with AVAS space
+        proj = mo_coeff.T @ overlap @ orbs
+        orbital_importance = np.sum(proj ** 2, axis=1)
+        active_indices = np.argsort(orbital_importance)[-n_orb:]
+        active_indices = tuple(sorted(active_indices.tolist()))
+    else:
+        # UHF case - use alpha spin
+        overlap = pyscf_mol.intor("int1e_ovlp")
+        proj = mo_coeff[0].T @ overlap @ orbs
+        orbital_importance = np.sum(proj ** 2, axis=1)
+        active_indices = np.argsort(orbital_importance)[-n_orb:]
+        active_indices = tuple(sorted(active_indices.tolist()))
+
+    return ActiveSpace(
+        n_electrons=int(n_elec),
+        n_orbitals=int(n_orb),
+        orbital_indices=active_indices,
+    )
 
 
 def _full_valence(molecule: Any) -> ActiveSpace:
