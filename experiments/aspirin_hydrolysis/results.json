@@ -1,0 +1,46 @@
+{
+  "classical": {
+    "dg": -125.59824175625278,
+    "d_electronic": -128.25942364261644,
+    "d_zpe": 0.0,
+    "d_thermal": 0.0,
+    "d_solvation": 2.661181886363667,
+    "reactant_energy": -711.3892084184689,
+    "product_energy": -711.5936029747902,
+    "time_total": 208.52901434898376
+  },
+  "quantum": null,
+  "reference": {
+    "reaction": "Aspirin + H2O -> Salicylic acid + Acetic acid",
+    "description": "Ester hydrolysis of aspirin (Phase I metabolism reaction)",
+    "experimental": {
+      "delta_g": -5.0,
+      "delta_g_units": "kcal/mol",
+      "delta_g_barrier": 22.0,
+      "delta_g_barrier_units": "kcal/mol",
+      "temperature": 298.15,
+      "solvent": "water",
+      "source": "Phys. Chem. Chem. Phys., 2019, 21, 24906-24917"
+    },
+    "dft_reference": {
+      "method": "B3LYP",
+      "basis": "6-31G*",
+      "delta_g": -4.8,
+      "delta_g_barrier": 21.5,
+      "delta_g_units": "kcal/mol",
+      "source": "J. Phys. Chem. A, 2018, 122, 4521-4531"
+    },
+    "notes": [
+      "Experimental \u0394G measured at 25\u00b0C in aqueous solution",
+      "DFT reference uses implicit PCM solvation model",
+      "Transition state involves tetrahedral intermediate",
+      "Reaction is exergonic (spontaneous under standard conditions)"
+    ]
+  },
+  "parameters": {
+    "method": "hf",
+    "basis": "sto-3g",
+    "solvent": "water",
+    "temperature": 298.15
+  }
+}

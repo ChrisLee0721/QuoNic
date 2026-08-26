@@ -2,6 +2,27 @@
 
 本项目所有重要变更都记录于此。All notable changes to this project are documented here.
 
+## [0.12.1] — 2026-08-26
+
+本源量子云平台接入 + GCIQA 适配器框架完成。
+OriginQ Cloud integration + GCIQA adapter framework complete.
+
+### 修复 Fixed
+
+- **originq 依赖修正**：`cqlib` → `pyqpanda3`，本源量子云使用 pyqpanda3.qcloud
+  **originq dependency fix**: `cqlib` → `pyqpanda3`, OriginQ Cloud uses pyqpanda3.qcloud
+
+### 新增 Added
+
+- **本源量子云后端**：通过 pyqpanda3.qcloud 接入 WK_C180 / PQPUMESH8 / 全幅度模拟器
+  **OriginQ Cloud backend**: WK_C180 / PQPUMESH8 / full_amplitude simulator via pyqpanda3.qcloud
+
+- **GCIQA 适配器框架**：PDB 解析、金属配位模板、蛋白质粗粒化、结合位点检测、验证、报告
+  **GCIQA adapter framework**: PDB parsing, metal templates, protein coarse-graining, binding site detection, validation, reporting
+
+- **GCIQA 基准实验**：Zn²⁺金属蛋白酶、共价结合、NMR 稀疏约束、经典方法对比
+  **GCIQA benchmarks**: Zn²⁺ metalloproteinase, covalent binding, NMR sparse constraints, classical comparison
+
 ## [0.11.0] — 2026-08-20
 
 穷举测试 + 真机验证 + API 锁定。

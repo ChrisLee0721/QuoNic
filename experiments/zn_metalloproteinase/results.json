@@ -1,0 +1,162 @@
+[
+  {
+    "success": true,
+    "rmsd": 0.8982251743494781,
+    "converged": false,
+    "iterations": 3,
+    "time": 0.5743112564086914,
+    "constraint_score": 1.0,
+    "predicted_zn": [
+      0.47735300256903934,
+      0.34560442426086047,
+      -0.6778644087904249
+    ],
+    "true_zn": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pdb_id": "1EAW",
+    "name": "Thermolysin"
+  },
+  {
+    "success": true,
+    "rmsd": 0.7943210597115529,
+    "converged": false,
+    "iterations": 3,
+    "time": 0.5870647430419922,
+    "constraint_score": 1.0,
+    "predicted_zn": [
+      -0.0295850549605077,
+      0.7811762118313801,
+      0.14083464237552784
+    ],
+    "true_zn": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pdb_id": "1MMQ",
+    "name": "Matrix Metalloproteinase-1 (MMP-1)"
+  },
+  {
+    "success": false,
+    "rmsd": 1.4399698245266603,
+    "converged": false,
+    "iterations": 3,
+    "time": 0.572298526763916,
+    "constraint_score": 1.0,
+    "predicted_zn": [
+      0.3304234197816088,
+      -1.2955222245763316,
+      0.5347481882493487
+    ],
+    "true_zn": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pdb_id": "1LKG",
+    "name": "Matrix Metalloproteinase-9 (MMP-9)"
+  },
+  {
+    "success": false,
+    "rmsd": 1.0827623172305254,
+    "converged": false,
+    "iterations": 3,
+    "time": 0.6904315948486328,
+    "constraint_score": 1.0,
+    "predicted_zn": [
+      -0.23178553272028182,
+      1.0557040750342694,
+      -0.06433201685031836
+    ],
+    "true_zn": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pdb_id": "2ITO",
+    "name": "Matrix Metalloproteinase-13 (MMP-13)"
+  },
+  {
+    "success": true,
+    "rmsd": 0.7378820629066194,
+    "converged": false,
+    "iterations": 3,
+    "time": 0.6659064292907715,
+    "constraint_score": 0.8,
+    "predicted_zn": [
+      -0.5498557699259891,
+      -0.3802328592932315,
+      -0.3123324250732217
+    ],
+    "true_zn": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pdb_id": "3D76",
+    "name": "Anthrax Lethal Factor"
+  },
+  {
+    "success": true,
+    "rmsd": 0.4100689905726768,
+    "converged": false,
+    "iterations": 3,
+    "time": 0.6867995262145996,
+    "constraint_score": 0.9,
+    "predicted_zn": [
+      0.39415536807854723,
+      0.11245469438741845,
+      -0.012331445754306326
+    ],
+    "true_zn": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pdb_id": "1B12",
+    "name": "Carboxypeptidase A"
+  },
+  {
+    "success": false,
+    "rmsd": 1.6743192514801464,
+    "converged": false,
+    "iterations": 3,
+    "time": 1.589148998260498,
+    "constraint_score": 1.0,
+    "predicted_zn": [
+      -0.7792982778799386,
+      -1.4632787151950435,
+      -0.23421048573354397
+    ],
+    "true_zn": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pdb_id": "2HIC",
+    "name": "Histone Deacetylase (HDAC)"
+  },
+  {
+    "success": true,
+    "rmsd": 0.9830161928120924,
+    "converged": false,
+    "iterations": 3,
+    "time": 0.8257248401641846,
+    "constraint_score": 1.0,
+    "predicted_zn": [
+      0.9237879720426443,
+      -0.3359727083930064,
+      -0.0076783627934180285
+    ],
+    "true_zn": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pdb_id": "3F22",
+    "name": "Angiotensin-Converting Enzyme (ACE)"
+  }
+]

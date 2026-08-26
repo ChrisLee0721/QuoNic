@@ -900,6 +900,38 @@ _MESSAGES: dict[str, dict[str, str]] = {
         "en": "Failed to parse FCIDUMP file: {reason}",
         "zh": "解析 FCIDUMP 文件失败：{reason}",
     },
+    "err.chem.scf_not_converged": {
+        "en": "SCF calculation with {method} did not converge",
+        "zh": "使用 {method} 的 SCF 计算未收敛",
+    },
+    "err.chem.optimize_failed": {
+        "en": "Geometry optimization failed: {reason}",
+        "zh": "几何优化失败：{reason}",
+    },
+    "err.chem.ts_atom_mismatch": {
+        "en": "Reactant and product must have the same atoms for TS search",
+        "zh": "过渡态搜索要求反应物和产物具有相同的原子",
+    },
+    "err.chem.ts_optimize_failed": {
+        "en": "Transition state optimization failed: {reason}",
+        "zh": "过渡态优化失败：{reason}",
+    },
+    "err.chem.solvent_unknown": {
+        "en": "Unknown solvent '{solvent}'",
+        "zh": "未知溶剂 '{solvent}'",
+    },
+    "err.chem.solvent_invalid": {
+        "en": "Invalid dielectric constant: {solvent}",
+        "zh": "无效的介电常数：{solvent}",
+    },
+    "err.chem.reaction_empty": {
+        "en": "Reaction must have at least one reactant and one product",
+        "zh": "反应必须至少有一个反应物和一个产物",
+    },
+    "err.chem.reaction_invalid_species": {
+        "en": "Invalid species in reaction definition",
+        "zh": "反应定义中的物种无效",
+    },
 
     # ------------------------------------------------------------- zne
     "err.zne_fold_k": {

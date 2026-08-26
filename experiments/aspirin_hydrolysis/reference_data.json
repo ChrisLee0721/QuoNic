@@ -1,0 +1,27 @@
+{
+  "reaction": "Aspirin + H2O -> Salicylic acid + Acetic acid",
+  "description": "Ester hydrolysis of aspirin (Phase I metabolism reaction)",
+  "experimental": {
+    "delta_g": -5.0,
+    "delta_g_units": "kcal/mol",
+    "delta_g_barrier": 22.0,
+    "delta_g_barrier_units": "kcal/mol",
+    "temperature": 298.15,
+    "solvent": "water",
+    "source": "Phys. Chem. Chem. Phys., 2019, 21, 24906-24917"
+  },
+  "dft_reference": {
+    "method": "B3LYP",
+    "basis": "6-31G*",
+    "delta_g": -4.8,
+    "delta_g_barrier": 21.5,
+    "delta_g_units": "kcal/mol",
+    "source": "J. Phys. Chem. A, 2018, 122, 4521-4531"
+  },
+  "notes": [
+    "Experimental ΔG measured at 25°C in aqueous solution",
+    "DFT reference uses implicit PCM solvation model",
+    "Transition state involves tetrahedral intermediate",
+    "Reaction is exergonic (spontaneous under standard conditions)"
+  ]
+}
