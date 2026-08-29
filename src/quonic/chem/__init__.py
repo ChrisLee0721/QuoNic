@@ -33,9 +33,9 @@ from .solvation import differential_solvation, solvation_correction
 from .thermo import ThermoResult, gibbs_free_energy, thermochemistry
 
 __all__ = [
+    "DMET",
     "ActiveSpace",
     "DGResult",
-    "DMET",
     "DMETResult",
     "Fragment",
     "Molecule",

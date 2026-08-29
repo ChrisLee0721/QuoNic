@@ -15,8 +15,8 @@ from .ibm import IBMBackend
 from .ionq import IonQBackend
 from .mindquantum import MindQuantumBackend
 from .native import NativeBackend
-from .pennylane import PennyLaneBackend
 from .originq import OriginQBackend
+from .pennylane import PennyLaneBackend
 from .qi import QuantumInspireBackend
 from .qiskit import QiskitBackend
 from .qpanda import QPandaBackend

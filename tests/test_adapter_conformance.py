@@ -10,17 +10,17 @@ Usage:
 import pytest
 import math
 
-from quonic.gciqa.coarsegrain import CoarseGraining
-from quonic.gciqa.coarsegrain_adapters import CoarseGrainingStrategy
-from quonic.gciqa.protein_cg import ProteinCoarseGraining
-from quonic.gciqa.binding_site import (
+from gciqa.coarsegrain import CoarseGraining
+from gciqa.coarsegrain_adapters import CoarseGrainingStrategy
+from gciqa.protein_cg import ProteinCoarseGraining
+from gciqa.binding_site import (
     BindingSite, SiteDetector, MetalSiteDetector, PocketDetector,
 )
-from quonic.gciqa.constraint_adapters import (
+from gciqa.constraint_adapters import (
     ConstraintGenerator, TemplateConstraintGenerator, AdaptiveConstraintGenerator,
 )
-from quonic.gciqa.pdb import MetalIon, ResidueInfo, ProteinStructure
-from quonic.gciqa.constraints import ConstraintSet
+from gciqa.pdb import MetalIon, ResidueInfo, ProteinStructure
+from gciqa.constraints import ConstraintSet
 
 
 # ============================================================

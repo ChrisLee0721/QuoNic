@@ -1,0 +1,909 @@
+{
+  "summary": {
+    "total": 18,
+    "hit_2A": 1,
+    "hit_5A": 1,
+    "hit_10A": 8,
+    "miss": 8
+  },
+  "results": [
+    {
+      "pdb": "F:\\PyQQQ\\experiments\\zn_metalloproteinase\\data\\1AZU.pdb",
+      "n_atoms": 931,
+      "metal_element": "CU",
+      "n_pockets_detected": 509,
+      "n_refined": 20,
+      "n_predictions": 5,
+      "top_predictions": [
+        {
+          "pos": [
+            19.74,
+            39.32,
+            -9.63
+          ],
+          "score": 4.216,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            14.5,
+            30.37,
+            0.26
+          ],
+          "score": 4.088,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            16.65,
+            24.56,
+            6.27
+          ],
+          "score": 3.912,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            15.93,
+            29.27,
+            1.45
+          ],
+          "score": 3.76,
+          "n_coordinating": 4
+        },
+        {
+          "pos": [
+            16.84,
+            23.41,
+            5.12
+          ],
+          "score": 3.703,
+          "n_coordinating": 4
+        }
+      ],
+      "metals": [
+        {
+          "metal_element": "CU",
+          "true_coord": [
+            17.02,
+            27.75,
+            4.73
+          ],
+          "best_topk_dist": 3.56,
+          "best_overall_dist": 0.48,
+          "best_topk_idx": 2,
+          "hit_2A": false,
+          "hit_5A": true,
+          "hit_10A": true
+        }
+      ],
+      "random_baseline_best_dist": [
+        10.61
+      ],
+      "time_s": 1.46
+    },
+    {
+      "pdb": "F:\\PyQQQ\\experiments\\zn_metalloproteinase\\data\\1CA2.pdb",
+      "n_atoms": 2207,
+      "metal_element": "ZN",
+      "n_pockets_detected": 1378,
+      "n_refined": 20,
+      "n_predictions": 5,
+      "top_predictions": [
+        {
+          "pos": [
+            -2.99,
+            0.39,
+            24.5
+          ],
+          "score": 4.343,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            -3.86,
+            -3.27,
+            -1.36
+          ],
+          "score": 4.263,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            1.95,
+            3.27,
+            17.32
+          ],
+          "score": 4.178,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            -5.22,
+            4.42,
+            27.58
+          ],
+          "score": 4.17,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            -5.46,
+            -11.54,
+            16.73
+          ],
+          "score": 4.16,
+          "n_coordinating": 5
+        }
+      ],
+      "metals": [
+        {
+          "metal_element": "ZN",
+          "true_coord": [
+            -6.788,
+            -1.621,
+            15.381
+          ],
+          "best_topk_dist": 10.08,
+          "best_overall_dist": 7.91,
+          "best_topk_idx": 0,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": false
+        }
+      ],
+      "random_baseline_best_dist": [
+        9.02
+      ],
+      "time_s": 6.5
+    },
+    {
+      "pdb": "F:\\PyQQQ\\experiments\\zn_metalloproteinase\\data\\1FHA.pdb",
+      "n_atoms": 1361,
+      "metal_element": "CA",
+      "n_pockets_detected": 964,
+      "n_refined": 20,
+      "n_predictions": 5,
+      "top_predictions": [
+        {
+          "pos": [
+            51.14,
+            -4.07,
+            19.52
+          ],
+          "score": 5.628,
+          "n_coordinating": 8
+        },
+        {
+          "pos": [
+            41.32,
+            -16.59,
+            20.17
+          ],
+          "score": 5.384,
+          "n_coordinating": 8
+        },
+        {
+          "pos": [
+            35.84,
+            -29.28,
+            42.12
+          ],
+          "score": 5.274,
+          "n_coordinating": 8
+        },
+        {
+          "pos": [
+            45.05,
+            -16.68,
+            31.48
+          ],
+          "score": 5.085,
+          "n_coordinating": 7
+        },
+        {
+          "pos": [
+            43.33,
+            -14.65,
+            19.11
+          ],
+          "score": 4.916,
+          "n_coordinating": 7
+        }
+      ],
+      "metals": [
+        {
+          "metal_element": "CA",
+          "true_coord": [
+            49.05,
+            0.0,
+            43.22
+          ],
+          "best_topk_dist": 20.79,
+          "best_overall_dist": 15.56,
+          "best_topk_idx": 3,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": false
+        },
+        {
+          "metal_element": "CA",
+          "true_coord": [
+            30.285,
+            -30.268,
+            30.309
+          ],
+          "best_topk_dist": 13.09,
+          "best_overall_dist": 5.69,
+          "best_topk_idx": 2,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": false
+        }
+      ],
+      "random_baseline_best_dist": [
+        7.09,
+        8.84
+      ],
+      "time_s": 3.65
+    },
+    {
+      "pdb": "F:\\PyQQQ\\experiments\\zn_metalloproteinase\\data\\1FHA.pdb",
+      "n_atoms": 1361,
+      "metal_element": "FE",
+      "n_pockets_detected": 964,
+      "n_refined": 20,
+      "n_predictions": 5,
+      "top_predictions": [
+        {
+          "pos": [
+            38.33,
+            -9.97,
+            37.93
+          ],
+          "score": 5.167,
+          "n_coordinating": 6
+        },
+        {
+          "pos": [
+            51.14,
+            -4.07,
+            19.52
+          ],
+          "score": 5.132,
+          "n_coordinating": 6
+        },
+        {
+          "pos": [
+            45.05,
+            -16.68,
+            31.48
+          ],
+          "score": 5.107,
+          "n_coordinating": 6
+        },
+        {
+          "pos": [
+            50.82,
+            -5.31,
+            20.94
+          ],
+          "score": 5.081,
+          "n_coordinating": 6
+        },
+        {
+          "pos": [
+            38.96,
+            -17.24,
+            22.81
+          ],
+          "score": 4.992,
+          "n_coordinating": 6
+        }
+      ],
+      "metals": [
+        {
+          "metal_element": "FE",
+          "true_coord": [
+            37.584,
+            -11.633,
+            30.069
+          ],
+          "best_topk_dist": 8.07,
+          "best_overall_dist": 6.55,
+          "best_topk_idx": 0,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": true
+        }
+      ],
+      "random_baseline_best_dist": [
+        11.44
+      ],
+      "time_s": 3.64
+    },
+    {
+      "pdb": "F:\\PyQQQ\\experiments\\zn_metalloproteinase\\data\\1LND.pdb",
+      "n_atoms": 2615,
+      "metal_element": "CA",
+      "n_pockets_detected": 1929,
+      "n_refined": 20,
+      "n_predictions": 5,
+      "top_predictions": [
+        {
+          "pos": [
+            44.87,
+            41.86,
+            -10.24
+          ],
+          "score": 5.182,
+          "n_coordinating": 8
+        },
+        {
+          "pos": [
+            41.96,
+            46.94,
+            -12.44
+          ],
+          "score": 4.864,
+          "n_coordinating": 7
+        },
+        {
+          "pos": [
+            31.4,
+            50.32,
+            -7.81
+          ],
+          "score": 4.731,
+          "n_coordinating": 7
+        },
+        {
+          "pos": [
+            40.98,
+            51.69,
+            -6.14
+          ],
+          "score": 4.65,
+          "n_coordinating": 7
+        },
+        {
+          "pos": [
+            14.51,
+            58.33,
+            7.73
+          ],
+          "score": 4.373,
+          "n_coordinating": 6
+        }
+      ],
+      "metals": [
+        {
+          "metal_element": "CA",
+          "true_coord": [
+            41.809,
+            49.768,
+            4.838
+          ],
+          "best_topk_dist": 11.18,
+          "best_overall_dist": 3.72,
+          "best_topk_idx": 3,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": false
+        },
+        {
+          "metal_element": "CA",
+          "true_coord": [
+            41.506,
+            50.68,
+            8.407
+          ],
+          "best_topk_dist": 14.59,
+          "best_overall_dist": 5.47,
+          "best_topk_idx": 3,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": false
+        },
+        {
+          "metal_element": "CA",
+          "true_coord": [
+            14.549,
+            45.774,
+            15.807
+          ],
+          "best_topk_dist": 14.93,
+          "best_overall_dist": 14.93,
+          "best_topk_idx": 4,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": false
+        },
+        {
+          "metal_element": "CA",
+          "true_coord": [
+            42.863,
+            39.64,
+            10.385
+          ],
+          "best_topk_dist": 20.54,
+          "best_overall_dist": 5.37,
+          "best_topk_idx": 3,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": false
+        }
+      ],
+      "random_baseline_best_dist": [
+        13.87,
+        17.31,
+        14.72,
+        12.45
+      ],
+      "time_s": 11.75
+    },
+    {
+      "pdb": "F:\\PyQQQ\\experiments\\zn_metalloproteinase\\data\\1LND.pdb",
+      "n_atoms": 2615,
+      "metal_element": "ZN",
+      "n_pockets_detected": 1929,
+      "n_refined": 20,
+      "n_predictions": 5,
+      "top_predictions": [
+        {
+          "pos": [
+            41.96,
+            46.94,
+            -12.44
+          ],
+          "score": 4.893,
+          "n_coordinating": 6
+        },
+        {
+          "pos": [
+            14.51,
+            58.33,
+            7.73
+          ],
+          "score": 4.499,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            41.85,
+            45.64,
+            -4.48
+          ],
+          "score": 4.465,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            38.16,
+            49.94,
+            4.14
+          ],
+          "score": 4.381,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            41.87,
+            45.48,
+            -4.47
+          ],
+          "score": 4.295,
+          "n_coordinating": 5
+        }
+      ],
+      "metals": [
+        {
+          "metal_element": "ZN",
+          "true_coord": [
+            36.894,
+            44.848,
+            -7.183
+          ],
+          "best_topk_dist": 5.7,
+          "best_overall_dist": 5.6,
+          "best_topk_idx": 2,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": true
+        },
+        {
+          "metal_element": "ZN",
+          "true_coord": [
+            36.861,
+            41.77,
+            -8.092
+          ],
+          "best_topk_dist": 7.21,
+          "best_overall_dist": 7.21,
+          "best_topk_idx": 4,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": true
+        }
+      ],
+      "random_baseline_best_dist": [
+        6.07,
+        13.53
+      ],
+      "time_s": 11.58
+    },
+    {
+      "pdb": "F:\\PyQQQ\\experiments\\zn_metalloproteinase\\data\\1MBN.pdb",
+      "n_atoms": 1260,
+      "metal_element": "FE",
+      "n_pockets_detected": 873,
+      "n_refined": 20,
+      "n_predictions": 5,
+      "top_predictions": [
+        {
+          "pos": [
+            11.64,
+            17.67,
+            2.71
+          ],
+          "score": 6.298,
+          "n_coordinating": 8
+        },
+        {
+          "pos": [
+            7.88,
+            32.12,
+            3.47
+          ],
+          "score": 5.321,
+          "n_coordinating": 7
+        },
+        {
+          "pos": [
+            8.02,
+            9.45,
+            13.66
+          ],
+          "score": 5.168,
+          "n_coordinating": 6
+        },
+        {
+          "pos": [
+            16.17,
+            12.39,
+            7.14
+          ],
+          "score": 4.85,
+          "n_coordinating": 6
+        },
+        {
+          "pos": [
+            9.23,
+            19.54,
+            0.08
+          ],
+          "score": 4.571,
+          "n_coordinating": 5
+        }
+      ],
+      "metals": [
+        {
+          "metal_element": "FE",
+          "true_coord": [
+            14.8,
+            28.1,
+            4.8
+          ],
+          "best_topk_dist": 8.12,
+          "best_overall_dist": 5.83,
+          "best_topk_idx": 1,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": true
+        }
+      ],
+      "random_baseline_best_dist": [
+        11.28
+      ],
+      "time_s": 3.88
+    },
+    {
+      "pdb": "F:\\PyQQQ\\experiments\\zn_metalloproteinase\\data\\1PCY.pdb",
+      "n_atoms": 783,
+      "metal_element": "CU",
+      "n_pockets_detected": 459,
+      "n_refined": 20,
+      "n_predictions": 5,
+      "top_predictions": [
+        {
+          "pos": [
+            18.45,
+            20.0,
+            20.37
+          ],
+          "score": 3.981,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            1.3,
+            29.6,
+            23.51
+          ],
+          "score": 3.719,
+          "n_coordinating": 4
+        },
+        {
+          "pos": [
+            2.26,
+            35.59,
+            21.39
+          ],
+          "score": 3.69,
+          "n_coordinating": 4
+        },
+        {
+          "pos": [
+            1.07,
+            13.75,
+            23.68
+          ],
+          "score": 3.682,
+          "n_coordinating": 4
+        },
+        {
+          "pos": [
+            13.77,
+            26.75,
+            24.16
+          ],
+          "score": 3.603,
+          "n_coordinating": 4
+        }
+      ],
+      "metals": [
+        {
+          "metal_element": "CU",
+          "true_coord": [
+            7.089,
+            34.973,
+            18.69
+          ],
+          "best_topk_dist": 5.57,
+          "best_overall_dist": 2.02,
+          "best_topk_idx": 2,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": true
+        }
+      ],
+      "random_baseline_best_dist": [
+        10.08
+      ],
+      "time_s": 1.35
+    },
+    {
+      "error": "No pockets detected",
+      "pdb": "F:\\PyQQQ\\experiments\\zn_metalloproteinase\\data\\1SOD.pdb",
+      "n_atoms": 153,
+      "true_metals": [
+        {
+          "coord": [
+            -10.4,
+            -0.6,
+            13.2
+          ]
+        }
+      ]
+    },
+    {
+      "error": "No pockets detected",
+      "pdb": "F:\\PyQQQ\\experiments\\zn_metalloproteinase\\data\\1SOD.pdb",
+      "n_atoms": 153,
+      "true_metals": [
+        {
+          "coord": [
+            -12.2,
+            -5.7,
+            15.4
+          ]
+        }
+      ]
+    },
+    {
+      "pdb": "F:\\PyQQQ\\experiments\\zn_metalloproteinase\\data\\1ZNF.pdb",
+      "n_atoms": 424,
+      "metal_element": "ZN",
+      "n_pockets_detected": 137,
+      "n_refined": 20,
+      "n_predictions": 5,
+      "top_predictions": [
+        {
+          "pos": [
+            0.38,
+            3.91,
+            -0.72
+          ],
+          "score": 5.589,
+          "n_coordinating": 7
+        },
+        {
+          "pos": [
+            1.61,
+            4.75,
+            -0.62
+          ],
+          "score": 5.063,
+          "n_coordinating": 6
+        },
+        {
+          "pos": [
+            4.82,
+            4.56,
+            0.4
+          ],
+          "score": 5.016,
+          "n_coordinating": 6
+        },
+        {
+          "pos": [
+            4.43,
+            4.31,
+            0.1
+          ],
+          "score": 4.901,
+          "n_coordinating": 6
+        },
+        {
+          "pos": [
+            -1.48,
+            3.61,
+            -0.67
+          ],
+          "score": 4.806,
+          "n_coordinating": 6
+        }
+      ],
+      "metals": [
+        {
+          "metal_element": "ZN",
+          "true_coord": [
+            -2.88,
+            -3.408,
+            -1.345
+          ],
+          "best_topk_dist": 7.19,
+          "best_overall_dist": 3.43,
+          "best_topk_idx": 4,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": true
+        }
+      ],
+      "random_baseline_best_dist": [
+        5.79
+      ],
+      "time_s": 1.69
+    },
+    {
+      "pdb": "F:\\PyQQQ\\experiments\\zn_metalloproteinase\\data\\2HHB.pdb",
+      "n_atoms": 4779,
+      "metal_element": "FE",
+      "n_pockets_detected": 3481,
+      "n_refined": 20,
+      "n_predictions": 5,
+      "top_predictions": [
+        {
+          "pos": [
+            -4.02,
+            25.08,
+            58.03
+          ],
+          "score": 4.953,
+          "n_coordinating": 6
+        },
+        {
+          "pos": [
+            -4.83,
+            15.16,
+            51.55
+          ],
+          "score": 4.846,
+          "n_coordinating": 6
+        },
+        {
+          "pos": [
+            -1.77,
+            4.87,
+            23.87
+          ],
+          "score": 4.513,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            26.93,
+            17.77,
+            22.01
+          ],
+          "score": 4.507,
+          "n_coordinating": 5
+        },
+        {
+          "pos": [
+            5.36,
+            -0.56,
+            23.19
+          ],
+          "score": 4.403,
+          "n_coordinating": 5
+        }
+      ],
+      "metals": [
+        {
+          "metal_element": "FE",
+          "true_coord": [
+            18.381,
+            18.478,
+            23.761
+          ],
+          "best_topk_dist": 8.75,
+          "best_overall_dist": 8.75,
+          "best_topk_idx": 3,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": true
+        },
+        {
+          "metal_element": "FE",
+          "true_coord": [
+            19.279,
+            4.478,
+            57.446
+          ],
+          "best_topk_dist": 27.02,
+          "best_overall_dist": 10.65,
+          "best_topk_idx": 1,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": false
+        },
+        {
+          "metal_element": "FE",
+          "true_coord": [
+            4.454,
+            23.46,
+            54.552
+          ],
+          "best_topk_dist": 9.3,
+          "best_overall_dist": 9.3,
+          "best_topk_idx": 0,
+          "hit_2A": false,
+          "hit_5A": false,
+          "hit_10A": true
+        },
+        {
+          "metal_element": "FE",
+          "true_coord": [
+            -1.68,
+            4.682,
+            23.953
+          ],
+          "best_topk_dist": 0.22,
+          "best_overall_dist": 0.22,
+          "best_topk_idx": 2,
+          "hit_2A": true,
+          "hit_5A": true,
+          "hit_10A": true
+        }
+      ],
+      "random_baseline_best_dist": [
+        4.6,
+        19.72,
+        16.91,
+        10.69
+      ],
+      "time_s": 37.53
+    }
+  ]
+}

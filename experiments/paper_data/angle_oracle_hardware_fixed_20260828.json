@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "timestamp": "2026-08-28T03:30:00",
+    "oracle": "AngleEncodingOracle (41 gates, 3 bugs fixed)",
+    "constraints": [
+      {"atoms": ["0", "1"], "min_dist": 3.0, "max_dist": 4.0},
+      {"atoms": ["0", "2"], "min_dist": 3.0, "max_dist": 4.0},
+      {"atoms": ["1", "2"], "min_dist": 2.5, "max_dist": 3.5}
+    ],
+    "distance_range": [0.0, 5.0],
+    "bits_per_distance": 3,
+    "n_qubits": 9,
+    "total_qubits": 24,
+    "device": "WK_C180",
+    "shots": 1000,
+    "valid_states": ["100101101"],
+    "bugs_fixed": [
+      "mcz_decomposed: missing last control in Toffoli cascade",
+      "_decode_bitstring: wrong bit order within distance groups",
+      "encode_distance: MSB-first vs LSB-first mismatch"
+    ]
+  },
+  "noiseless_reference": {
+    "valid_prob_pct": 1.77,
+    "theoretical_pct": 1.75,
+    "valid_state": "100101101",
+    "valid_distances": [3.57, 3.57, 2.86]
+  },
+  "hardware_result": {
+    "job_id": "37BB63754564D76105081875BC8D9044",
+    "job_status": "FINISHED",
+    "elapsed_s": 2512.6,
+    "valid_prob_pct": 0.00,
+    "valid_hits": 0,
+    "total_shots": 1110,
+    "naa": 0.0,
+    "top5": [
+      {"bitstring": "001101011", "count": 267, "prob_pct": 24.05, "distances": [2.14, 3.57, 0.71], "valid": false},
+      {"bitstring": "001100011", "count": 256, "prob_pct": 23.06, "distances": [2.14, 2.86, 0.71], "valid": false},
+      {"bitstring": "010101000", "count": 233, "prob_pct": 20.99, "distances": [0.0, 3.57, 1.43], "valid": false},
+      {"bitstring": "010100000", "count": 231, "prob_pct": 20.81, "distances": [0.0, 2.86, 1.43], "valid": false},
+      {"bitstring": "000000000", "count": 1, "prob_pct": 0.09, "distances": [0.0, 0.0, 0.0], "valid": false}
+    ]
+  },
+  "conclusion": "NAA does not exist. Hardware noise degrades Grover amplification as expected. Valid state probability dropped from 1.77% (noiseless) to 0.00% (hardware). The previous 51x NAA was entirely caused by oracle bugs."
+}

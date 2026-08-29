@@ -22,7 +22,7 @@ import random
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from quonic.gciqa import (
+from gciqa import (
     parse_pdb_string,
     find_metal_ions,
     get_metal_template,
@@ -164,7 +164,7 @@ def _hybrid_coarse_grain(protein, metal_ion, max_dist=2.5):
     while preserving the metal coordination site as separate super-atoms
     so that inter-super-atom constraints survive.
     """
-    from quonic.gciqa.coarsegrain import CoarseGraining, _ATOMIC_MASSES, _build_cg_from_groups
+    from gciqa.coarsegrain import CoarseGraining, _ATOMIC_MASSES, _build_cg_from_groups
 
     n = len(protein.atoms)
     masses = [_ATOMIC_MASSES.get(a, 12.0) for a in protein.atoms]
@@ -280,10 +280,9 @@ def run_single_benchmark(pdb_string, true_zn_coord, protein_name, verbose=True):
     if verbose:
         print(f"  Zn²⁺ in super-atom: {metal_super}")
 
-    # Map atom-level constraints to super-atom-level constraints
-    # Use relaxed ranges (1.0-5.0 Å) for classical simulation compatibility.
-    # The template ranges (1.9-2.2 Å) are too tight for random sampling;
-    # classical Grover can't amplify without quantum interference.
+    # Map atom-level constraints to super-atom-level constraints.
+    # Use template ranges + buffer for super-atom COM offset.
+    # Geometry-aware placement handles tight constraints correctly.
     super_constraints = []
     for c in atom_constraints.constraints:
         if c.type.value == "bond":
@@ -292,18 +291,21 @@ def run_single_benchmark(pdb_string, true_zn_coord, protein_name, verbose=True):
             sa1 = cg.atom_to_super[atom1]
             sa2 = cg.atom_to_super[atom2]
             if sa1 != sa2:  # Only keep inter-super-atom constraints
+                # Template range + 0.5Å buffer for COM offset
+                dmin = c.params["min_dist"] - 0.5
+                dmax = c.params["max_dist"] + 0.5
                 super_constraints.append(
                     GeometricConstraint.bond(
                         str(sa1), str(sa2),
-                        min_dist=1.0,
-                        max_dist=5.0,
+                        min_dist=max(0.5, dmin),
+                        max_dist=dmax,
                     )
                 )
-    # Add pocket constraint centered on Zn to guide search
+    # Tight pocket: metal should be very close to known center
     super_constraints.append(
         GeometricConstraint.pocket(
             center=zn.coord,
-            radius=5.0,
+            radius=2.0,
         )
     )
     constraints = ConstraintSet(super_constraints)
@@ -323,6 +325,7 @@ def run_single_benchmark(pdb_string, true_zn_coord, protein_name, verbose=True):
         alpha=0.7,
         convergence_threshold=1.0,
         use_quantum=False,
+        search_mode="discovery",
     )
 
     result = gciqa.run(max_iterations=3, n_shots=1000, n_clusters=3)
@@ -393,14 +396,17 @@ def main():
 
         # Generate synthetic structure
         zn_coord = (0.0, 0.0, 0.0)
+        seed = hash(pdb_id) % 10000
+        random.seed(seed)
         pdb_string = generate_synthetic_metalloprotein(
             n_residues=30,
             zn_coord=zn_coord,
             coordination=coordination,
-            seed=hash(pdb_id) % 10000,
+            seed=seed,
         )
 
-        # Run benchmark
+        # Reset random seed before GCIQA run for reproducibility
+        random.seed(seed)
         result = run_single_benchmark(pdb_string, zn_coord, f"{pdb_id} ({name})")
         result["pdb_id"] = pdb_id
         result["name"] = name

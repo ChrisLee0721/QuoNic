@@ -4,7 +4,7 @@ import pytest
 import tempfile
 from pathlib import Path
 
-from quonic.gciqa.pdb import (
+from gciqa.pdb import (
     parse_pdb,
     parse_pdb_string,
     find_metal_ions,

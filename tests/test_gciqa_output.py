@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from quonic.gciqa.output import to_pdb, to_json
-from quonic.gciqa.report import generate_report, ConstraintReport
-from quonic.gciqa.constraints import GeometricConstraint, ConstraintSet
+from gciqa.output import to_pdb, to_json
+from gciqa.report import generate_report, ConstraintReport
+from gciqa.constraints import GeometricConstraint, ConstraintSet
 
 
 class TestToPdb:

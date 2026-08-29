@@ -8,8 +8,8 @@ from __future__ import annotations
 import argparse
 
 from ._i18n import tr
-from .backends.qi import QuantumInspireBackend
 from .backends.originq import OriginQBackend
+from .backends.qi import QuantumInspireBackend
 from .backends.setup_guide import diagnose, guided_setup
 
 _BACKEND_SETUPS = {

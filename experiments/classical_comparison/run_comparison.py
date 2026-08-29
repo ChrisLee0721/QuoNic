@@ -24,7 +24,7 @@ import json
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from quonic.gciqa import (
+from gciqa import (
     parse_pdb_string,
     find_metal_ions,
     get_metal_template,
@@ -124,7 +124,7 @@ def run_comparison(verbose=True):
         atom_constraints = generate_metal_constraints(zn, protein, template, max_dist=2.5)
 
         # Coarse-grain
-        from quonic.gciqa import coarse_grain
+        from gciqa import coarse_grain
         cg = coarse_grain(protein.atoms, protein.coords, strategy="spatial", n_super_atoms=3)
         metal_super = cg.atom_to_super[zn.index]
 

@@ -21,7 +21,7 @@ import random
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from quonic.gciqa import (
+from gciqa import (
     parse_pdb_string,
     find_metal_ions,
     get_metal_template,
@@ -101,7 +101,7 @@ def benchmark_single(n_residues, verbose=False):
 
     # Stage 3: Coarse-graining (spatial, 3 super-atoms)
     t0 = time.time()
-    from quonic.gciqa import coarse_grain
+    from gciqa import coarse_grain
     cg = coarse_grain(protein.atoms, protein.coords, strategy="spatial", n_super_atoms=3)
     timings["coarse_grain"] = time.time() - t0
 

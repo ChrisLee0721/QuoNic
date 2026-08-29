@@ -2,13 +2,13 @@
 
 import pytest
 
-from quonic.gciqa.report import (
+from gciqa.report import (
     generate_report,
     ConstraintReport,
     ConstraintEvaluation,
     ConstraintStatus,
 )
-from quonic.gciqa.constraints import GeometricConstraint, ConstraintSet
+from gciqa.constraints import GeometricConstraint, ConstraintSet
 
 
 class TestConstraintStatus:

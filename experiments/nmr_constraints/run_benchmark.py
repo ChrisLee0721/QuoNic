@@ -21,7 +21,7 @@ import random
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from quonic.gciqa import (
+from gciqa import (
     GeometricConstraint,
     ConstraintSet,
     GCIQA,
@@ -132,7 +132,7 @@ def run_nmr_benchmark(verbose=True):
 
         # Coarse-grain: group residues into super-atoms
         n_super_atoms = 5
-        from quonic.gciqa import coarse_grain
+        from gciqa import coarse_grain
         cg = coarse_grain(
             site["atoms"], site["coords"],
             strategy="spatial",

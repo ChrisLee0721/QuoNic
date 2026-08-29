@@ -23,11 +23,10 @@ Example::
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
 
 from .._i18n import tr
 from .molecule import Molecule
-from .optimize import OptimizationResult, optimize_geometry
+from .optimize import optimize_geometry
 from .solvation import differential_solvation, solvation_correction
 from .thermo import ThermoResult, thermochemistry
 

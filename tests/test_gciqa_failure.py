@@ -2,13 +2,13 @@
 
 import pytest
 
-from quonic.gciqa.failure import (
+from gciqa.failure import (
     diagnose_failure,
     FailureMode,
     FailureReport,
 )
-from quonic.gciqa.constraints import GeometricConstraint, ConstraintSet
-from quonic.gciqa.iterative import GCIQAResult
+from gciqa.constraints import GeometricConstraint, ConstraintSet
+from gciqa.iterative import GCIQAResult
 
 
 def _make_result(

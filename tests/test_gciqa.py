@@ -3,7 +3,7 @@
 import pytest
 import math
 
-from quonic.gciqa import (
+from gciqa import (
     GeometricConstraint,
     ConstraintSet,
     GroverOracle,
@@ -12,7 +12,7 @@ from quonic.gciqa import (
     GCIQA,
     GCIQAResult,
 )
-from quonic.gciqa.clustering import compute_rmsd
+from gciqa.clustering import compute_rmsd
 
 
 class TestGeometricConstraint:
@@ -248,7 +248,7 @@ class TestGroverOracle:
         ])
         oracle = GroverOracle(n_qubits=6, constraints=constraints, bits_per_coord=2)
 
-        from quonic.gciqa.search import grover_search
+        from gciqa.search import grover_search
         result = grover_search(oracle=oracle, n_qubits=6, n_shots=200, n_iterations=1)
 
         # Count valid measurements
@@ -281,7 +281,7 @@ class TestGroverOracle:
 
     def test_estimate_qubits(self):
         """Test qubit estimation."""
-        from quonic.gciqa.oracle import estimate_oracle_qubits
+        from gciqa.oracle import estimate_oracle_qubits
         n = estimate_oracle_qubits(n_atoms=2, bits_per_coord=4, n_constraints=1)
         assert n > 2 * 3 * 4  # More than data qubits alone
 
@@ -291,7 +291,7 @@ class TestCoarseGraining:
 
     def test_spatial_strategy(self):
         """Test spatial coarse-graining."""
-        from quonic.gciqa.coarsegrain import coarse_grain
+        from gciqa.coarsegrain import coarse_grain
         # 6 atoms in 2 groups
         atoms = ["C", "C", "O", "H", "H", "H"]
         coords = [(0, 0, 0), (0.5, 0, 0), (1, 0, 0),
@@ -306,7 +306,7 @@ class TestCoarseGraining:
 
     def test_residue_strategy(self):
         """Test residue-based coarse-graining."""
-        from quonic.gciqa.coarsegrain import coarse_grain
+        from gciqa.coarsegrain import coarse_grain
         atoms = ["C", "C", "O", "N"]
         coords = [(0, 0, 0), (1, 0, 0), (2, 0, 0), (3, 0, 0)]
         residue_ids = [0, 0, 1, 1]
@@ -316,7 +316,7 @@ class TestCoarseGraining:
 
     def test_fragment_strategy(self):
         """Test fragment-based coarse-graining."""
-        from quonic.gciqa.coarsegrain import coarse_grain
+        from gciqa.coarsegrain import coarse_grain
         # Two disconnected fragments
         atoms = ["C", "C", "C", "C"]
         coords = [(0, 0, 0), (1, 0, 0), (10, 0, 0), (11, 0, 0)]
@@ -325,7 +325,7 @@ class TestCoarseGraining:
 
     def test_center_of_mass(self):
         """Test center of mass calculation."""
-        from quonic.gciqa.coarsegrain import coarse_grain
+        from gciqa.coarsegrain import coarse_grain
         atoms = ["C", "C"]
         coords = [(0, 0, 0), (2, 0, 0)]
         cg = coarse_grain(atoms, coords, strategy="spatial", n_super_atoms=1)
@@ -335,7 +335,7 @@ class TestCoarseGraining:
 
     def test_expand_conformation(self):
         """Test expanding super-atom conformation to full atoms."""
-        from quonic.gciqa.coarsegrain import coarse_grain
+        from gciqa.coarsegrain import coarse_grain
         atoms = ["C", "C", "O", "O"]
         coords = [(0, 0, 0), (1, 0, 0), (10, 0, 0), (11, 0, 0)]
         cg = coarse_grain(atoms, coords, strategy="spatial", n_super_atoms=2)
@@ -348,7 +348,7 @@ class TestCoarseGraining:
 
     def test_binding_site_super_atoms(self):
         """Test finding super-atoms near binding site."""
-        from quonic.gciqa.coarsegrain import coarse_grain, binding_site_super_atoms
+        from gciqa.coarsegrain import coarse_grain, binding_site_super_atoms
         atoms = ["C", "C", "C"]
         coords = [(0, 0, 0), (1, 0, 0), (20, 0, 0)]
         cg = coarse_grain(atoms, coords, strategy="spatial", n_super_atoms=2)
@@ -357,7 +357,7 @@ class TestCoarseGraining:
 
     def test_gciqa_with_coarse_graining(self):
         """Test GCIQA with full molecular system coarse-graining."""
-        from quonic.gciqa import GCIQA, GeometricConstraint, ConstraintSet
+        from gciqa import GCIQA, GeometricConstraint, ConstraintSet
         atoms = ["C"] * 20
         coords = [(i * 1.5, 0, 0) for i in range(20)]
         # Use a pocket large enough to encompass the whole system

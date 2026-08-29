@@ -1,6 +1,6 @@
 """QuoNic — quantum programming, as simple as writing Python."""
 
-from . import gates, gciqa
+from . import gates
 from ._i18n import get_language, set_language
 from .analysis import CircuitReport, analyze
 from .batch import run_batch
@@ -39,7 +39,7 @@ def __getattr__(name: str):
         return getattr(module, name)
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
-__version__ = "0.12.0"
+__version__ = "0.13.0"
 
 __all__ = [
     "CDRResult",

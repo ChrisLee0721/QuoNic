@@ -2,7 +2,7 @@
 
 import pytest
 
-from quonic.gciqa.metal_templates import (
+from gciqa.metal_templates import (
     get_metal_template,
     auto_detect_geometry,
     generate_metal_constraints,
@@ -12,7 +12,7 @@ from quonic.gciqa.metal_templates import (
     METAL_COORDINATION,
     DEFAULT_GEOMETRY,
 )
-from quonic.gciqa.pdb import MetalIon, ProteinStructure
+from gciqa.pdb import MetalIon, ProteinStructure
 
 
 class TestGetMetalTemplate:

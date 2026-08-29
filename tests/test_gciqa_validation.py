@@ -2,14 +2,14 @@
 
 import pytest
 
-from quonic.gciqa.validation import (
+from gciqa.validation import (
     compute_rmsd,
     validate_binding_site,
     batch_validate,
     ValidationResult,
     BatchValidationResult,
 )
-from quonic.gciqa.binding_site import BindingSite
+from gciqa.binding_site import BindingSite
 
 
 class TestComputeRmsd:

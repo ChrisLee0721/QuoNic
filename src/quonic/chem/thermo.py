@@ -26,7 +26,6 @@ from typing import Any
 from .._i18n import tr
 from .molecule import Molecule
 
-
 # Physical constants
 HARTREE_TO_KCAL = 627.509  # 1 Hartree = 627.509 kcal/mol
 KB = 3.166811563e-6  # Boltzmann constant in Hartree/K

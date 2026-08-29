@@ -2,8 +2,8 @@
 
 import pytest
 
-from quonic.gciqa.feedback import ConstraintRelaxer, FeedbackSignal
-from quonic.gciqa.constraints import GeometricConstraint, ConstraintSet
+from gciqa.feedback import ConstraintRelaxer, FeedbackSignal
+from gciqa.constraints import GeometricConstraint, ConstraintSet
 
 
 class TestFeedbackSignal:

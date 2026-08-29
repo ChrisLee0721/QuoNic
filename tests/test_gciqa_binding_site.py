@@ -2,13 +2,13 @@
 
 import pytest
 
-from quonic.gciqa.binding_site import (
+from gciqa.binding_site import (
     BindingSite,
     SiteDetector,
     MetalSiteDetector,
     PocketDetector,
 )
-from quonic.gciqa.pdb import MetalIon, ResidueInfo, ProteinStructure
+from gciqa.pdb import MetalIon, ResidueInfo, ProteinStructure
 
 
 class TestBindingSite:

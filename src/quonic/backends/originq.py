@@ -110,10 +110,24 @@ class OriginQBackend(Backend):
     def _to_qprog(self, circuit: Circuit) -> Any:
         """Convert QuoNic IR circuit to pyqpanda3 QProg."""
         import math
+
         from pyqpanda3.core import (
-            QProg, QCircuit,
-            H, X, Y, Z, S, T, I,
-            RX, RY, RZ, CNOT, CZ, SWAP, TOFFOLI,
+            CNOT,
+            CZ,
+            RX,
+            RY,
+            RZ,
+            SWAP,
+            TOFFOLI,
+            H,
+            I,
+            QCircuit,
+            QProg,
+            S,
+            T,
+            X,
+            Y,
+            Z,
             measure,
         )
 

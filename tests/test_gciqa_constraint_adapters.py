@@ -2,12 +2,12 @@
 
 import pytest
 
-from quonic.gciqa.constraint_adapters import (
+from gciqa.constraint_adapters import (
     ConstraintGenerator,
     TemplateConstraintGenerator,
     AdaptiveConstraintGenerator,
 )
-from quonic.gciqa.pdb import MetalIon, ResidueInfo, ProteinStructure
+from gciqa.pdb import MetalIon, ResidueInfo, ProteinStructure
 
 
 def _make_metalloprotein():

@@ -26,7 +26,7 @@ import math
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from quonic.gciqa import (
+from gciqa import (
     GroverOracle,
     ConstraintSet,
     GeometricConstraint,
