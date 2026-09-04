@@ -15,7 +15,7 @@ Example::
 
 from __future__ import annotations
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -55,6 +55,6 @@ def superdense_coding(
     circuit.add(GateOperation("cx", (0, 1)))
     circuit.add(GateOperation("h", (0,)))
 
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
     decoded = max(result.counts, key=result.counts.get)
     return Result.from_value(float(int(decoded, 2)), decoded=decoded, counts=result.counts)

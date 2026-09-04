@@ -18,7 +18,7 @@ Example::
 
 from __future__ import annotations
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -129,7 +129,7 @@ def surface_code_run(
 
     # Run with optional noise
     noise = error_rate if error_rate > 0 else None
-    raw_result = get_backend(backend).run(circuit, shots=shots, noise=noise)
+    raw_result = run_circuit(circuit, backend=backend, shots=shots, noise=noise)
 
     # Decode
     stats = _decode_syndrome(raw_result.counts, n_data, n_syndrome)
@@ -144,7 +144,7 @@ def surface_code_run(
     )
 
 
-def surface_code_demo(
+def surface_code(
     distance: int = 3,
     backend: str = "native",
     shots: int = 100,

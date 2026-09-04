@@ -1,0 +1,187 @@
+{
+  "experiment": "exp11_clifford_baseline",
+  "description": "Statevector vs stabilizer crossover for Clifford circuits",
+  "shots": 1024,
+  "repeats": 3,
+  "qubit_range": [
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40
+  ],
+  "results": [
+    {
+      "circuit": "GHZ",
+      "n": 4,
+      "sv_time_s": 0.004818,
+      "stab_time_s": 0.008566,
+      "ratio": 0.56,
+      "winner": "statevector"
+    },
+    {
+      "circuit": "LinearCluster",
+      "n": 4,
+      "sv_time_s": 0.005543,
+      "stab_time_s": 0.009884,
+      "ratio": 0.56,
+      "winner": "statevector"
+    },
+    {
+      "circuit": "GHZ",
+      "n": 8,
+      "sv_time_s": 0.007319,
+      "stab_time_s": 0.016147,
+      "ratio": 0.45,
+      "winner": "statevector"
+    },
+    {
+      "circuit": "LinearCluster",
+      "n": 8,
+      "sv_time_s": 0.010075,
+      "stab_time_s": 0.017933,
+      "ratio": 0.56,
+      "winner": "statevector"
+    },
+    {
+      "circuit": "GHZ",
+      "n": 12,
+      "sv_time_s": 0.009603,
+      "stab_time_s": 0.021627,
+      "ratio": 0.44,
+      "winner": "statevector"
+    },
+    {
+      "circuit": "LinearCluster",
+      "n": 12,
+      "sv_time_s": 0.014397,
+      "stab_time_s": 0.025473,
+      "ratio": 0.57,
+      "winner": "statevector"
+    },
+    {
+      "circuit": "GHZ",
+      "n": 16,
+      "sv_time_s": 0.01039,
+      "stab_time_s": 0.025935,
+      "ratio": 0.4,
+      "winner": "statevector"
+    },
+    {
+      "circuit": "LinearCluster",
+      "n": 16,
+      "sv_time_s": 0.021162,
+      "stab_time_s": 0.039166,
+      "ratio": 0.54,
+      "winner": "statevector"
+    },
+    {
+      "circuit": "GHZ",
+      "n": 20,
+      "sv_time_s": 0.043226,
+      "stab_time_s": 0.039058,
+      "ratio": 1.11,
+      "winner": "stabilizer"
+    },
+    {
+      "circuit": "LinearCluster",
+      "n": 20,
+      "sv_time_s": 0.07489,
+      "stab_time_s": 0.044354,
+      "ratio": 1.69,
+      "winner": "stabilizer"
+    },
+    {
+      "circuit": "GHZ",
+      "n": 24,
+      "sv_time_s": 0.651617,
+      "stab_time_s": 0.049565,
+      "ratio": 13.15,
+      "winner": "stabilizer"
+    },
+    {
+      "circuit": "LinearCluster",
+      "n": 24,
+      "sv_time_s": 0.729691,
+      "stab_time_s": 0.049837,
+      "ratio": 14.64,
+      "winner": "stabilizer"
+    },
+    {
+      "circuit": "GHZ",
+      "n": 28,
+      "sv_time_s": 10.236282,
+      "stab_time_s": 0.052983,
+      "ratio": 193.2,
+      "winner": "stabilizer"
+    },
+    {
+      "circuit": "LinearCluster",
+      "n": 28,
+      "sv_time_s": 11.017793,
+      "stab_time_s": 0.060056,
+      "ratio": 183.46,
+      "winner": "stabilizer"
+    },
+    {
+      "circuit": "GHZ",
+      "n": 32,
+      "sv_time_s": null,
+      "stab_time_s": null,
+      "ratio": null,
+      "winner": "error"
+    },
+    {
+      "circuit": "LinearCluster",
+      "n": 32,
+      "sv_time_s": null,
+      "stab_time_s": null,
+      "ratio": null,
+      "winner": "error"
+    },
+    {
+      "circuit": "GHZ",
+      "n": 36,
+      "sv_time_s": null,
+      "stab_time_s": null,
+      "ratio": null,
+      "winner": "error"
+    },
+    {
+      "circuit": "LinearCluster",
+      "n": 36,
+      "sv_time_s": null,
+      "stab_time_s": null,
+      "ratio": null,
+      "winner": "error"
+    },
+    {
+      "circuit": "GHZ",
+      "n": 40,
+      "sv_time_s": null,
+      "stab_time_s": null,
+      "ratio": null,
+      "winner": "error"
+    },
+    {
+      "circuit": "LinearCluster",
+      "n": 40,
+      "sv_time_s": null,
+      "stab_time_s": null,
+      "ratio": null,
+      "winner": "error"
+    }
+  ],
+  "summary": {
+    "empirical_crossover_n": 20,
+    "theoretical_crossover_n": 4,
+    "scheduler_threshold_n": 24,
+    "c_sv": 3.8115175850103846e-08,
+    "c_stab": 5.7834635416666667e-05
+  }
+}

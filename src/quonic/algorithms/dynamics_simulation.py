@@ -7,20 +7,20 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import dynamics_simulation_demo
-    result = dynamics_simulation_demo()
+    from quonic.algorithms import dynamics_simulation
+    result = dynamics_simulation()
 """
 
 from __future__ import annotations
 
 import math
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
-def dynamics_simulation_demo(
+def dynamics_simulation(
     n_steps: int = 10,
     backend: str = "auto",
     shots: int = 1024,
@@ -41,4 +41,4 @@ def dynamics_simulation_demo(
         angle_z = t * math.pi / n_steps
         circuit.add(GateOperation("rz", (0,), (angle_z,)))
 
-    return get_backend(backend).run(circuit, shots=shots)
+    return run_circuit(circuit, backend=backend, shots=shots)

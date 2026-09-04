@@ -12,7 +12,7 @@ Exponentially faster PCA for density matrices.
 Principal eigenvalues.
 主特征值。"""
 
-from quonic.algorithms import qpca_demo
+from quonic.algorithms import qpca
 
-result = qpca_demo()
+result = qpca()
 print(result.counts)

@@ -42,17 +42,18 @@ class BuiltinRegistry(BackendRegistry):
     """Built-in rule fallback: conservative choice when no external table exists."""
 
     def get_recommendation(self, features: dict[str, Any]) -> str:
-        # all three current backends are statevector simulators with matching capabilities; qiskit (Aer) is fastest
-        return "qiskit"
+        # QPanda is fastest for most circuits based on Experiment 2b benchmarks
+        return "qpanda"
 
     def __repr__(self) -> str:
         return "BuiltinRegistry()"
 
 
-# Cold-start fallback thresholds: conservative crossover points (n=24) used when no measured data exists. The measured table overrides these.
+# Cold-start fallback thresholds: empirical crossover points from Experiments 2b/11.
+# QPanda is fastest for most circuits; qiskit/stabilizer for large Clifford.
 _DEFAULT_DECISION: dict[str, dict[str, Any]] = {
-    "clifford": {"method": "stabilizer", "above_n": 24},
-    "low_tw": {"method": "matrix_product_state", "above_n": 24},
+    "clifford": {"method": "stabilizer", "above_n": 20, "backend": "qiskit"},
+    "low_tw": {"method": "matrix_product_state", "above_n": 20, "backend": "native"},
 }
 
 
@@ -109,38 +110,86 @@ def load_gpu_decision() -> dict[str, Any]:
     return _load_benchmarks().get("gpu", {}).get("decision", {})
 
 
-def recommend_method(features: dict[str, Any], noise: bool = False) -> str:
-    """Analyze the circuit structure to pick a method: first check the measured table, then fall back to cold-start rules.
+def _gate_bucket(gate_count: int) -> str:
+    """Bucket gate count for decision lookup."""
+    if gate_count < 50:
+        return "small"
+    if gate_count < 200:
+        return "medium"
+    return "large"
 
-    Hard constraints (capability): with noise only density_matrix; stabilizer only handles basic Clifford.
-    Soft selection (performance): pick the measured fastest among capable methods (use default thresholds without measured data).
 
-    - noise                                   -> density_matrix
-    - requires_grad                           -> statevector (autodiff needs SV)
-    - basic Clifford and n >= crossover point -> stabilizer (polynomial)
-    - low treewidth and n >= crossover point  -> matrix_product_state (low entanglement)
-    - otherwise                               -> statevector
+def _depth_bucket(depth: int) -> str:
+    """Bucket depth for decision lookup."""
+    if depth < 20:
+        return "shallow"
+    if depth < 50:
+        return "medium"
+    return "deep"
+
+
+def recommend_method(features: dict[str, Any], noise: bool = False) -> Recommendation:
+    """Pick the best backend+method by checking the measured table, then cold-start rules.
+
+    Returns a Recommendation(backend, method) — not just a method string — because
+    the fastest backend/method pair varies by circuit (e.g., qiskit/statevector is
+    100x faster than native/statevector for large circuits).
+
+    Lookup chain:
+    1. Detailed measured table (n|class|gate_bucket|depth_bucket) from benchmarks.json
+    2. Legacy measured table (class -> {method, above_n})
+    3. Cold-start rules (hardcoded defaults)
     """
     if noise:
-        return "density_matrix"
+        return Recommendation("native", "density_matrix")
     if features.get("requires_grad", False):
-        return "statevector"
+        return Recommendation("qiskit", "statevector")
+
     n = features["n"]
     gate_types = set(features["gate_types"])
+    gate_count = features.get("gate_count", n)
     cls = decision_class(features)
-    if cls == "general":
-        return "statevector"
 
+    # 1. Try detailed measured table (data-driven, no hardcoded thresholds)
     measured = load_measured_decision()
-    entry = measured.get(cls) if measured else None
-    if entry is None:
-        entry = _DEFAULT_DECISION.get(cls)
+    if measured:
+        gc_bucket = _gate_bucket(gate_count)
+        depth = features.get("depth", n)
+        d_bucket = _depth_bucket(depth)
+        family = features.get("family")
+        # Try family-specific key first, then fall back to base key
+        keys_to_try = []
+        if family:
+            keys_to_try.append(f"{n}|{family}|{cls}|{gc_bucket}|{d_bucket}")
+        keys_to_try.append(f"{n}|{cls}|{gc_bucket}|{d_bucket}")
+        for key in keys_to_try:
+            entry = measured.get(key)
+            if entry and "method" in entry:
+                bm_key = entry["method"]  # e.g. "qiskit/statevector"
+                if "/" in bm_key:
+                    backend, method = bm_key.split("/", 1)
+                else:
+                    # Legacy format: just a method name
+                    method = bm_key
+                    backend = "native"
+                # Check the method is eligible for this circuit's gate types
+                if method in eligible_methods(gate_types):
+                    return Recommendation(backend, method)
 
-    if entry and n >= entry["above_n"]:
-        method = entry["method"]
+    # 2. Try legacy measured table
+    if cls == "general":
+        return Recommendation("qpanda", "statevector")
+    legacy = measured.get(cls) if measured else None
+    if legacy is None:
+        legacy = _DEFAULT_DECISION.get(cls)
+    if legacy and n >= legacy.get("above_n", 999):
+        method = legacy["method"]
+        backend = legacy.get("backend", "qiskit")
         if method in eligible_methods(gate_types):
-            return method
-    return "statevector"
+            return Recommendation(backend, method)
+
+    # 3. Cold-start fallback: QPanda is fastest for most small circuits
+    return Recommendation("qpanda", "statevector")
 
 
 def recommend_backend_gpu(features: dict[str, Any]) -> Recommendation:

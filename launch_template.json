@@ -1,0 +1,24 @@
+{
+        "ImageId": "ami-0c55b159cbfafe1f0",
+        "InstanceType": "r6i.2xlarge",
+        "BlockDeviceMappings": [
+            {
+                "DeviceName": "/dev/sda1",
+                "Ebs": {
+                    "VolumeSize": 2000,
+                    "VolumeType": "gp3",
+                    "DeleteOnTermination": true
+                }
+            }
+        ],
+        "UserData": "IyEvYmluL2Jhc2gKc2V0IC1lCmV4ZWMgPiAvdmFyL2xvZy9nY2lxYS1zZXR1cC5sb2cgMj4mMQoKYXB0LWdldCB1cGRhdGUgLXFxCmFwdC1nZXQgaW5zdGFsbCAteSAtcXEgcHl0aG9uMyBweXRob24zLXBpcCBweXRob24zLXZlbnYgcnN5bmMgYXdzY2xpIGdpdAoKbWtkaXIgLXAgL2RhdGEvZ2NpcWEKY2QgL2RhdGEvZ2NpcWEKCiMgQ2xvbmUgcmVwbwpnaXQgY2xvbmUgaHR0cHM6Ly9naXRodWIuY29tL3lvdXItcmVwby9QeVFRUS5naXQgL2RhdGEvZ2NpcWEvUHlRUVEgMj4vZGV2L251bGwgfHwgdHJ1ZQoKIyBTZXR1cCBQeXRob24KcHl0aG9uMyAtbSB2ZW52IC9kYXRhL2djaXFhL3ZlbnYKc291cmNlIC9kYXRhL2djaXFhL3ZlbnYvYmluL2FjdGl2YXRlCnBpcCBpbnN0YWxsIG51bXB5IHBhbmRhcyBweWFycm93CgojIERvd25sb2FkIFBEQgplY2hvICJEb3dubG9hZGluZyBQREIgZmlsZXMuLi4iCnJzeW5jIC1ybHB0IC16IC0tZGVsZXRlIC0tcG9ydD0zMzQ0NCBcCiAgICByc3luYy5yY3NiLm9yZzo6ZnRwX2RhdGEvc3RydWN0dXJlcy9kaXZpZGVkL3BkYi8gXAogICAgL2RhdGEvZ2NpcWEvcGRicy8gLS1wYXJhbGxlbD00CgojIERlY29tcHJlc3MKY2QgL2RhdGEvZ2NpcWEvcGRicwpmaW5kIC4gLW5hbWUgJyoucGRiLmd6JyAtZXhlYyBndW56aXAgLWsge30gXDsKCiMgUnVuIEdDSVFBCmNkIC9kYXRhL2djaXFhCmV4cG9ydCBQWVRIT05QQVRIPS9kYXRhL2djaXFhL1B5UVFRL3NyYwpweXRob24zIC1tIHF1b25pYy5nY2lxYSAvZGF0YS9nY2lxYS9wZGJzIC0tYml0cyA0IC0td29ya2VycyAkKG5wcm9jKSAtLXRvbGVyYW5jZSAwLjUgLW8gL2RhdGEvZ2NpcWEvcmVzdWx0cy9mdWxsX3BkYl80Yml0LnBhcnF1ZXQKCiMgVXBsb2FkIHJlc3VsdHMKYXdzIHMzIGNwIC9kYXRhL2djaXFhL3Jlc3VsdHMvIHMzOi8vZ2NpcWEtcmVzdWx0cy9yZXN1bHRzLyAtLXJlY3Vyc2l2ZQphd3MgczMgY3AgL3Zhci9sb2cvZ2NpcWEtc2V0dXAubG9nIHMzOi8vZ2NpcWEtcmVzdWx0cy9sb2dzL3NldHVwLmxvZwoKc2h1dGRvd24gLWggbm93Cg==",
+        "TagSpecifications": [
+            {
+                "ResourceType": "instance",
+                "Tags": [
+                    {"Key": "Name", "Value": "gciqa-full-pdb"},
+                    {"Key": "Project", "Value": "gciqa"}
+                ]
+            }
+        ]
+    }

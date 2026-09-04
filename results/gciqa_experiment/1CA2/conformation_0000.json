@@ -1,0 +1,64 @@
+{
+  "conformation": {
+    "0": [
+      -0.07474999999999996,
+      -9.5865,
+      14.394
+    ],
+    "1": [
+      1.332,
+      -10.746,
+      14.968
+    ],
+    "2": [
+      -0.008,
+      -8.921,
+      16.267
+    ],
+    "3": [
+      -1.751,
+      -8.415,
+      14.072
+    ],
+    "4": [
+      0.128,
+      -10.264,
+      12.269
+    ]
+  },
+  "atoms": [
+    "Zn",
+    "O",
+    "O",
+    "N",
+    "O"
+  ],
+  "constraint_report": {
+    "overall_score": 1.0,
+    "satisfied": 1,
+    "partial": 0,
+    "violated": 0,
+    "details": [
+      {
+        "constraint": "GeometricConstraint(type=<ConstraintType.COORDINATION: 'coordination'>, atoms=('Zn',), params={'n_ligands': 4, 'min_dist': 1.8, 'max_dist': 2.5, 'elements_hash': 3360653333867147114}, weight=1.0)",
+        "status": "satisfied",
+        "actual_value": 0.0,
+        "expected_range": [
+          0.0,
+          0.0
+        ],
+        "deviation": 0.0
+      }
+    ]
+  },
+  "metadata": {
+    "satisfied": true,
+    "score": 4.796693999627793,
+    "coord_atoms": [
+      2113,
+      1889,
+      1902,
+      1905
+    ]
+  }
+}

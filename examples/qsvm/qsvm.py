@@ -12,7 +12,7 @@ SVM with quantum kernel for classification.
 Classification accuracy.
 分类准确率。"""
 
-from quonic.algorithms import qsvm_demo
+from quonic.algorithms import qsvm
 
-result = qsvm_demo()
+result = qsvm()
 print(result.counts)

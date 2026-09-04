@@ -9,21 +9,21 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import hhl_demo
+    from quonic.algorithms import hhl
     # Solve [[3,0],[0,1]] * x = [1,1]
-    result = hhl_demo(matrix=[[3,0],[0,1]], vector=[1,1], shots=1024)
+    result = hhl(matrix=[[3,0],[0,1]], vector=[1,1], shots=1024)
 """
 
 from __future__ import annotations
 
 import math
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
-def hhl_demo(
+def hhl(
     matrix: list[list[float]] | None = None,
     vector: list[float] | None = None,
     n_clock: int = 3,
@@ -74,5 +74,5 @@ def hhl_demo(
     circuit.add(GateOperation("ry", (n_total - 1,), (0.5,)))
 
     # Measure data qubit
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
     return Result.from_value(0.0, counts=result.counts)

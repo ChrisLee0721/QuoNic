@@ -81,8 +81,8 @@ def qgan_train(
         # Generate samples from quantum circuit
         circuit = _generator_circuit(n_qubits, params)
 
-        from ..backends import get_backend
-        result = get_backend("native").run(circuit, shots=1024)
+        from ..backends import run_circuit
+        result = run_circuit(circuit, shots=1024)
 
         # Convert counts to probability distribution
         gen_probs = np.zeros(2**n_qubits)
@@ -101,7 +101,7 @@ def qgan_train(
             params_plus = params.copy()
             params_plus[i] += 0.01
             circuit_plus = _generator_circuit(n_qubits, params_plus)
-            result_plus = get_backend("native").run(circuit_plus, shots=1024)
+            result_plus = run_circuit(circuit_plus, shots=1024)
 
             gen_plus = np.zeros(2**n_qubits)
             for bs, count in result_plus.counts.items():
@@ -117,7 +117,7 @@ def qgan_train(
 
     # Final evaluation
     final_circuit = _generator_circuit(n_qubits, params)
-    final_result = get_backend("native").run(final_circuit, shots=1024)
+    final_result = run_circuit(final_circuit, shots=1024)
     final_probs = np.zeros(2**n_qubits)
     for bs, count in final_result.counts.items():
         final_probs[int(bs, 2)] += count / 1024
@@ -132,6 +132,6 @@ def qgan_train(
     )
 
 
-def qgan_demo(n_steps: int = 50) -> Result:
+def qgan(n_steps: int = 50) -> Result:
     """Quick QGAN demo with default settings."""
     return qgan_train(n_qubits=2, n_steps=n_steps)

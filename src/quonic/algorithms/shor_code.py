@@ -16,7 +16,7 @@ Example::
 
 from __future__ import annotations
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -53,5 +53,5 @@ def shor_code(
         circuit.add(GateOperation("h", (q,)))
 
     # Syndrome measurement (simplified)
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
     return Result.from_value(1.0, counts=result.counts, error_qubit=error_qubit)

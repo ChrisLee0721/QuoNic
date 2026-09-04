@@ -12,7 +12,7 @@ Quantum approach to elliptic curve discrete log.
 Approximate solution to ECDLP.
 ECDLP 的近似解。"""
 
-from quonic.algorithms import elliptic_curve_demo
+from quonic.algorithms import elliptic_curve
 
-result = elliptic_curve_demo()
+result = elliptic_curve()
 print(result.counts)

@@ -158,10 +158,146 @@ def available_backends() -> list[str]:
     return sorted(_REGISTRY)
 
 
+_EXPLORE_TIMEOUT = 10  # seconds
+
+
+def _explore_subprocess(args: tuple) -> float:
+    """Module-level function for ProcessPoolExecutor (must be picklable)."""
+    explore_backend, ops, n, shots, explore_method = args
+    from .ir import Circuit as _Circuit
+
+    c = _Circuit()
+    c.num_qubits = n
+    c.ops = list(ops)
+    be = get_backend(explore_backend)
+    import time as _time
+    t0 = _time.time()
+    be.run(c, shots=shots, method=explore_method)
+    return _time.time() - t0
+
+
+def _background_explore(circuit, explore_backend, explore_method, profiles, feats):
+    """Run an alternative backend in a subprocess with a hard timeout.
+
+    Uses ProcessPoolExecutor so the subprocess can be terminated on timeout.
+    """
+    from concurrent.futures import ProcessPoolExecutor, TimeoutError as _Timeout
+
+    ops = list(circuit.ops)
+    n = circuit.num_qubits
+    args = (explore_backend, ops, n, 1024, explore_method)
+
+    try:
+        with ProcessPoolExecutor(max_workers=1) as pool:
+            future = pool.submit(_explore_subprocess, args)
+            elapsed = future.result(timeout=_EXPLORE_TIMEOUT)
+        profiles.report_result(feats, f"{explore_backend}/{explore_method}", elapsed, None)
+        profiles._save()
+    except (_Timeout, Exception):
+        pass
+
+
+def _pick_alternative(chosen_rec, profiles, feats):
+    """Pick an alternative backend/method for exploration.
+
+    Uses a two-tier strategy:
+    1. Prefer alternatives predicted within 10x of the chosen backend (fast exploration).
+    2. If none found, pick any eligible backend (broad exploration).
+    """
+    import random as _random
+    from ..scheduler.capabilities import eligible_methods
+
+    n = feats["n"]
+    gate_count = feats.get("gate_count", n)
+    chosen_key = f"{chosen_rec.backend}/{chosen_rec.method}"
+
+    gate_types = feats.get("gate_types", [])
+    eligible = eligible_methods(gate_types) if gate_types else None
+
+    candidates = []
+    broad_candidates = []
+    chosen_time = profiles.predict_time(chosen_key, n, gate_count)
+
+    for bm_key in profiles.profiles.profiles:
+        if bm_key == chosen_key:
+            continue
+        method = bm_key.split("/", 1)[1] if "/" in bm_key else bm_key
+        if eligible is not None and method not in eligible:
+            continue
+        broad_candidates.append(bm_key)
+        if chosen_time is not None and chosen_time > 0:
+            t = profiles.predict_time(bm_key, n, gate_count)
+            if t is not None and 0 < t < chosen_time * 10:
+                candidates.append(bm_key)
+
+    # Prefer close alternatives, fall back to any eligible
+    pool = candidates if candidates else broad_candidates
+    if not pool:
+        return None
+
+    pick = _random.choice(pool)
+    if "/" in pick:
+        backend, method = pick.split("/", 1)
+        from ..scheduler.registry import Recommendation
+        return Recommendation(backend, method)
+    return None
+
+
+def run_circuit(circuit, backend: str = "auto", shots: int = 1024, **kwargs):
+    """Run a circuit with automatic backend/method selection via the scheduler.
+
+    When backend="auto", uses the scheduler to pick the optimal backend and method
+    based on circuit features (n, gate_count, depth, is_clifford, treewidth, etc.).
+    Falls back to statevector if no measured data is available.
+
+    With 5% probability, runs an alternative backend in the background to gather
+    timing data for the learning scheduler (does not block the user).
+
+    This is the recommended entry point for algorithm templates and user code.
+    """
+    if backend == "auto":
+        import random as _random
+        import threading as _threading
+        import time as _time
+
+        from ..scheduler import default_profiles, schedule
+        from ..scheduler.features import circuit_features as _cf
+
+        profiles = default_profiles()
+        rec = schedule(circuit, profiles=profiles)
+        be = get_backend(rec.backend)
+        feats = _cf(circuit)
+
+        t0 = _time.time()
+        result = be.run(circuit, shots=shots, method=rec.method, **kwargs)
+        elapsed = _time.time() - t0
+
+        if profiles is not None:
+            try:
+                profiles.report_result(feats, f"{rec.backend}/{rec.method}", elapsed, None)
+                profiles._save()  # persist immediately
+            except Exception:
+                pass
+
+            # 5% exploration: run an alternative backend in background
+            if _random.random() < 0.05:
+                explore = _pick_alternative(rec, profiles, feats)
+                if explore is not None:
+                    _threading.Thread(
+                        target=_background_explore,
+                        args=(circuit, explore.backend, explore.method, profiles, feats),
+                        daemon=True,
+                    ).start()
+
+        return result
+    return get_backend(backend).run(circuit, shots=shots, **kwargs)
+
+
 __all__ = [
     "Backend",
     "EngineBackend",
     "available_backends",
+    "run_circuit",
     "get_backend",
     "get_backend_for_method",
     "resolve_target",

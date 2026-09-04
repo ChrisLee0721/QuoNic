@@ -7,20 +7,20 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import quantum_monte_carlo_demo
-    result = quantum_monte_carlo_demo()
+    from quonic.algorithms import quantum_monte_carlo
+    result = quantum_monte_carlo()
 """
 
 from __future__ import annotations
 
 import math
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
-def quantum_monte_carlo_demo(
+def quantum_monte_carlo(
     n_qubits: int = 2,
     shots: int = 1024,
     backend: str = "auto",
@@ -36,7 +36,7 @@ def quantum_monte_carlo_demo(
     circuit.add(GateOperation("ry", (0,), (math.pi / 4,)))
 
     # Measure
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
 
     # Estimate: P(1) on qubit 0
     p1 = sum(c for bs, c in result.counts.items() if bs[-1] == "1") / shots

@@ -75,7 +75,7 @@ def test_decision_class():
 def test_recommend_method_noise_forces_density():
     # 大 Clifford 电路，噪声开启时方法必须是 density_matrix（而非 stabilizer）
     c = _clifford(24)
-    assert recommend_method(circuit_features(c), noise=True) == "density_matrix"
+    assert recommend_method(circuit_features(c), noise=True).method == "density_matrix"
 
 
 def test_schedule_threads_noise():
@@ -96,16 +96,17 @@ def test_recommend_method_uses_measured_decision(monkeypatch):
         lambda: {"clifford": {"method": "stabilizer", "above_n": 10}},
     )
     c = _clifford(12)  # n=12 >= 10，应路由到 stabilizer
-    assert recommend_method(circuit_features(c)) == "stabilizer"
+    assert recommend_method(circuit_features(c)).method == "stabilizer"
 
 
 def test_recommend_method_fallback_when_no_data(monkeypatch):
     import quonic.scheduler.registry as reg
 
-    # 无实测数据时回退默认阈值（n=24）
+    # 无实测数据时回退默认阈值（n=20）
     monkeypatch.setattr(reg, "load_measured_decision", dict)
-    assert recommend_method(circuit_features(_clifford(24))) == "stabilizer"
-    assert recommend_method(circuit_features(_clifford(20))) == "statevector"
+    assert recommend_method(circuit_features(_clifford(24))).method == "stabilizer"
+    assert recommend_method(circuit_features(_clifford(20))).method == "stabilizer"
+    assert recommend_method(circuit_features(_clifford(16))).method == "statevector"
 
 
 def test_load_measured_decision_returns_dict():

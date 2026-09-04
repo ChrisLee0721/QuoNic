@@ -1,0 +1,123 @@
+{
+  "experiment": "exp10_groverize_hardware",
+  "description": "cwhile \u2192 groverize \u2192 real hardware validation",
+  "shots": 1024,
+  "results": [
+    {
+      "circuit": "RUS-Ry(2\u03c0/3)",
+      "n_qubits": 2,
+      "gate_count": 12,
+      "depth": 12,
+      "results": {
+        "simulator": {
+          "platform": "simulator",
+          "backend": "native/statevector",
+          "time": 0.0373,
+          "counts": {
+            "00": 1024
+          },
+          "success_rate": 1.0
+        },
+        "Tuna-9": {
+          "platform": "tuna17",
+          "backend": "qi/tuna17",
+          "time": 113.4365,
+          "counts": {
+            "00": 970,
+            "01": 28,
+            "10": 17,
+            "11": 9
+          },
+          "success_rate": 0.9639,
+          "tvd_vs_simulator": 0.0527
+        },
+        "AWS Braket": {
+          "platform": "braket",
+          "backend": "braket/local",
+          "time": 0.066,
+          "counts": {
+            "00": 1024
+          },
+          "success_rate": 1.0,
+          "tvd_vs_simulator": 0.0
+        },
+        "Wukong-180": {
+          "platform": "wukong180",
+          "backend": "originq/WK_C180",
+          "time": 151.8247,
+          "counts": {
+            "00": 1014,
+            "10": 3,
+            "01": 4,
+            "11": 4
+          },
+          "success_rate": 0.9922,
+          "tvd_vs_simulator": 0.0107
+        }
+      }
+    },
+    {
+      "circuit": "RUS-GHZ-2",
+      "n_qubits": 3,
+      "gate_count": 17,
+      "depth": 15,
+      "results": {
+        "simulator": {
+          "platform": "simulator",
+          "backend": "native/statevector",
+          "time": 0.0012,
+          "counts": {
+            "111": 497,
+            "000": 527
+          },
+          "success_rate": 0.5146
+        },
+        "Tuna-9": {
+          "platform": "tuna17",
+          "backend": "qi/tuna17",
+          "time": 18.9164,
+          "counts": {
+            "000": 447,
+            "001": 57,
+            "010": 1,
+            "011": 9,
+            "100": 5,
+            "101": 14,
+            "110": 30,
+            "111": 461
+          },
+          "success_rate": 0.4717,
+          "tvd_vs_simulator": 0.1133
+        },
+        "AWS Braket": {
+          "platform": "braket",
+          "backend": "braket/local",
+          "time": 0.0412,
+          "counts": {
+            "111": 513,
+            "000": 511
+          },
+          "success_rate": 0.499,
+          "tvd_vs_simulator": 0.0156
+        },
+        "Wukong-180": {
+          "platform": "wukong180",
+          "backend": "originq/WK_C180",
+          "time": 75.3227,
+          "counts": {
+            "000": 520,
+            "100": 1,
+            "010": 1,
+            "110": 1,
+            "001": 1,
+            "101": 3,
+            "011": 2,
+            "111": 495
+          },
+          "success_rate": 0.5107,
+          "tvd_vs_simulator": 0.0088
+        }
+      }
+    }
+  ]
+}

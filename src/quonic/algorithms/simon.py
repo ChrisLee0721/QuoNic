@@ -33,7 +33,7 @@ from __future__ import annotations
 
 from typing import Callable
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -120,7 +120,7 @@ def simon(
         for q in range(n):
             circuit.add(GateOperation("measure", (q,)))
 
-        result = get_backend(backend).run(circuit, shots=1)
+        result = run_circuit(circuit, backend=backend, shots=1)
         outcome = next(iter(result.counts))
         y = [int(c) for c in outcome]
         # Only keep non-zero equations

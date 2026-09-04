@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import quantum_annealing_demo
-    result = quantum_annealing_demo()
+    from quonic.algorithms import quantum_annealing
+    result = quantum_annealing()
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ from ..result import Result
 from ..simulator import StatevectorSimulator
 
 
-def quantum_annealing_demo(
+def quantum_annealing(
     n_qubits: int = 2,
     steps: int = 20,
 ) -> Result:

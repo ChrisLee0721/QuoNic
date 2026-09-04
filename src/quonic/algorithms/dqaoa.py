@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import dqaoa_demo
-    result = dqaoa_demo()
+    from quonic.algorithms import dqaoa
+    result = dqaoa()
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from ..result import Result
 from .qaoa_generic import qaoa
 
 
-def dqaoa_demo() -> Result:
+def dqaoa() -> Result:
     """Minimal distributed QAOA demo with 2 partitions."""
     # Partition 1: qubits 0,1 with local cost Z0Z1
     terms1 = [(1.0, "ZI"), (1.0, "IZ")]

@@ -19,7 +19,7 @@ import math
 from typing import Callable
 
 from .._i18n import tr
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -108,7 +108,7 @@ def grover(
         oracle(circuit)
         _add_diffusion(circuit, n_qubits)
 
-    return get_backend(backend).run(circuit, shots=shots)
+    return run_circuit(circuit, backend=backend, shots=shots)
 
 
 def diffusion(n_qubits: int) -> Circuit:

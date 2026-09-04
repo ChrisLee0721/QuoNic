@@ -15,7 +15,7 @@ Example::
 
 from __future__ import annotations
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -62,4 +62,4 @@ def trotter(
                 circuit.add(GateOperation("rz", (z_qubits[1],), (2 * coeff * dt,)))
                 circuit.add(GateOperation("cx", (z_qubits[0], z_qubits[1])))
 
-    return get_backend(backend).run(circuit, shots=shots)
+    return run_circuit(circuit, backend=backend, shots=shots)

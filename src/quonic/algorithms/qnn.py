@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import qnn_demo
-    result = qnn_demo()
+    from quonic.algorithms import qnn
+    result = qnn()
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from ..result import Result
 from ..simulator import StatevectorSimulator
 
 
-def qnn_demo(
+def qnn(
     n_qubits: int = 2,
     depth: int = 2,
 ) -> Result:

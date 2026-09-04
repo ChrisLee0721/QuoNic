@@ -12,7 +12,7 @@ Simon、Shor 和其他 HSP 算法的通用框架。
 Subgroup generators.
 子群生成元。"""
 
-from quonic.algorithms import hsp_demo
+from quonic.algorithms import hsp
 
-result = hsp_demo()
+result = hsp()
 print(result.counts)

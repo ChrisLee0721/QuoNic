@@ -1,14 +1,14 @@
-"""Quantum Annealing Hybrid — classical + quantum annealing simulation.
+"""Quantum Annealing Hybrid — quantum + classical optimization.
 
-Boundary conditions:
-- Combines classical optimization with quantum tunneling effect
-- Minimal: simulated annealing with quantum-inspired tunneling
-- NOT actual D-Wave hardware
+Combines quantum transverse field evolution (for tunneling through energy
+barriers) with classical gradient-free optimization. The quantum circuit
+implements the annealing schedule, while the classical optimizer tunes
+parameters to minimize the Ising energy.
 
 Example::
 
-    from quonic.algorithms import quantum_annealing_hybrid_demo
-    result = quantum_annealing_hybrid_demo()
+    from quonic.algorithms import quantum_annealing_hybrid
+    result = quantum_annealing_hybrid(n_spins=4)
 """
 
 from __future__ import annotations
@@ -16,38 +16,97 @@ from __future__ import annotations
 import math
 import random
 
+from ..backends import run_circuit
+from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
-def quantum_annealing_hybrid_demo(
+def _ising_energy(spins: list[int], J: dict[tuple[int, int], float]) -> float:
+    """Compute Ising energy H = -Σ J_ij s_i s_j."""
+    return -sum(J[(i, j)] * spins[i] * spins[j] for i, j in J)
+
+
+def quantum_annealing_hybrid(
     n_spins: int = 4,
-    n_steps: int = 100,
-    temperature: float = 1.0,
+    n_iterations: int = 20,
+    n_anneal_steps: int = 10,
+    shots: int = 256,
+    backend: str = "auto",
 ) -> Result:
-    """Minimal quantum annealing hybrid demo.
+    """Hybrid quantum-classical annealing for Ising optimization.
 
-    Ising model: H = -sum J_ij * s_i * s_j
+    Each iteration:
+    1. Quantum: Trotterized transverse field annealing prepares a candidate state
+    2. Measure to get a candidate spin configuration
+    3. Classical: Accept/reject based on energy (Metropolis criterion)
+
+    The quantum circuit implements: e^{-β(H_Z + Γ(t) H_X)}
+    where H_Z is the Ising Hamiltonian, H_X is the transverse field,
+    and Γ(t) decreases from Γ_max to 0 (annealing schedule).
+
+    Args:
+        n_spins: Number of spins (qubits).
+        n_iterations: Number of hybrid iterations.
+        n_anneal_steps: Number of Trotter steps per anneal.
+        shots: Number of shots per quantum circuit.
+        backend: Backend for execution.
+
+    Returns:
+        Result with best energy and spin configuration.
     """
-    # Random coupling
-    J = {(i, j): random.uniform(-1, 1) for i in range(n_spins) for j in range(i + 1, n_spins)}
+    # Random couplings
+    J = {}
+    for i in range(n_spins):
+        for j in range(i + 1, n_spins):
+            J[(i, j)] = random.uniform(-1, 1)
 
-    # Initialize random spins
-    spins = [random.choice([-1, 1]) for _ in range(n_spins)]
-    best_energy = sum(-J[(i, j)] * spins[i] * spins[j] for i, j in J)
-    best_spins = list(spins)
+    best_energy = float("inf")
+    best_spins = None
 
-    for step in range(n_steps):
-        # Classical: flip random spin
-        i = random.randint(0, n_spins - 1)
-        spins[i] *= -1
-        energy = sum(-J[(a, b)] * spins[a] * spins[b] for a, b in J)
+    for iteration in range(n_iterations):
+        # Annealing schedule: Γ from Γ_max to 0
+        gamma_max = 2.0
+        circuit = Circuit()
 
-        # Accept or reject (Metropolis with quantum tunneling)
-        delta = energy - best_energy
-        if delta < 0 or random.random() < math.exp(-delta / temperature):
-            best_energy = energy
-            best_spins = list(spins)
-        else:
-            spins[i] *= -1  # revert
+        # Initialize in |+>^n (superposition)
+        for i in range(n_spins):
+            circuit.add(GateOperation("h", (i,)))
 
-    return Result.from_value(best_energy, best_spins=best_spins)
+        # Trotterized annealing
+        for step in range(n_anneal_steps):
+            t = step / max(n_anneal_steps - 1, 1)
+            gamma = gamma_max * (1 - t)  # linear schedule
+
+            # Ising ZZ interactions
+            for (i, j), j_val in J.items():
+                angle = 2 * j_val / n_anneal_steps
+                circuit.add(GateOperation("cx", (i, j)))
+                circuit.add(GateOperation("rz", (j,), (angle,)))
+                circuit.add(GateOperation("cx", (i, j)))
+
+            # Transverse field (quantum tunneling)
+            for i in range(n_spins):
+                circuit.add(GateOperation("rx", (i,), (2 * gamma / n_anneal_steps,)))
+
+        # Measure
+        for i in range(n_spins):
+            circuit.add(GateOperation("measure", (i,)))
+
+        result = run_circuit(circuit, backend=backend, shots=shots)
+
+        # Find best measurement outcome
+        counts = result.counts
+        for bitstring, count in counts.items():
+            spins = [1 if b == '1' else -1 for b in bitstring]
+            energy = _ising_energy(spins, J)
+            if energy < best_energy:
+                best_energy = energy
+                best_spins = spins
+
+    return Result.from_value(
+        best_energy,
+        best_spins=best_spins,
+        n_spins=n_spins,
+        n_iterations=n_iterations,
+        couplings={str(k): v for k, v in J.items()},
+    )

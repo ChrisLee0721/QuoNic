@@ -35,7 +35,7 @@ from __future__ import annotations
 import math
 from typing import Callable
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -89,7 +89,7 @@ def hadamard_test(
     # Bitstring: ancilla (leftmost) + data qubits (rightmost).
     # Extract leftmost character = ancilla measurement.
 
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
     # Extract ancilla bit (leftmost character of bitstring)
     p0 = sum(c for bs, c in result.counts.items() if bs[0] == "0") / shots
     # P(0) = (1 + Re(⟨ψ|U|ψ⟩)) / 2

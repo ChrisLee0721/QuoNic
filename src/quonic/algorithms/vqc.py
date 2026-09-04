@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -67,7 +67,7 @@ def vqc(
         n_qubits = len(features)
 
     circuit = _vqc_circuit(features, params, n_qubits)
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
 
     # Classification: majority vote on first qubit
     p1 = sum(c for bs, c in result.counts.items() if bs[-1] == "1") / shots

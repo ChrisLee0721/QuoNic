@@ -56,16 +56,16 @@ def test_features_includes_requires_grad_true():
 
 def test_recommend_method_grad_returns_statevector():
     feats = {"n": 4, "gate_types": ["h", "cx"], "requires_grad": True}
-    method = recommend_method(feats)
-    assert method == "statevector"
+    rec = recommend_method(feats)
+    assert rec.method == "statevector"
 
 
 def test_recommend_method_no_grad_normal():
     feats = {"n": 4, "gate_types": ["h", "cx"], "is_clifford": True,
              "treewidth_ub": 0, "requires_grad": False}
-    method = recommend_method(feats)
+    rec = recommend_method(feats)
     # Clifford with low treewidth could be stabilizer
-    assert method in ("statevector", "stabilizer")
+    assert rec.method in ("statevector", "stabilizer")
 
 
 # ---------------------------------------------------------------------------

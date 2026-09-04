@@ -264,7 +264,8 @@ def plot_method_heatmap(
             if cls == "noisy":
                 method = "density_matrix"
             else:
-                method = recommend_method(_features_for_class(cls, n))
+                rec = recommend_method(_features_for_class(cls, n))
+                method = rec.method
             row.append(method)
         grid.append(row)
 

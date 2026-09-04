@@ -79,13 +79,13 @@ def eligible_methods(gate_types: Iterable[str], noise: bool = False) -> set[str]
     """Return the set of methods that can run this circuit (capability hard constraints).
 
     - noise -> only density_matrix supports it
-    - basic Clifford -> statevector / stabilizer / matrix_product_state
-    - otherwise (mcz / arbitrary-angle rotations, etc.) -> statevector / matrix_product_state
+    - density_matrix is always eligible (can simulate any circuit)
+    - basic Clifford -> also eligible for stabilizer
     """
     if noise:
         return {"density_matrix"}
     gs = set(gate_types)
-    methods = {"statevector", "matrix_product_state"}
+    methods = {"statevector", "matrix_product_state", "density_matrix"}
     if gs <= BASIC_CLIFFORD:
         methods.add("stabilizer")
     return methods
@@ -100,6 +100,9 @@ def decision_class(features: dict[str, Any]) -> str:
     """
     gs = set(features["gate_types"])
     if gs and gs <= BASIC_CLIFFORD:
+        return "clifford"
+    # Fallback: if gate_types unavailable but is_clifford flag is set
+    if not gs and features.get("is_clifford", False):
         return "clifford"
     if features["treewidth_ub"] <= 4:
         return "low_tw"

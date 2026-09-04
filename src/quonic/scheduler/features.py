@@ -54,6 +54,80 @@ def _treewidth_upper_bound(n: int, edges: set[tuple[int, int]]) -> int:
     return width
 
 
+def detect_family(circuit: Circuit) -> str | None:
+    """Detect circuit family from gate structure. Returns None if unknown.
+
+    Heuristic classification into 9 families. Only returns a family when the
+    pattern is unambiguous; unknown circuits return None and fall back to the
+    base bucket key.
+    """
+    ops = [op for op in circuit.ops if op.name not in ("measure", "cmeasure")]
+    n = circuit.num_qubits
+    if n == 0 or not ops:
+        return None
+
+    gate_names = [op.name for op in ops]
+    name_set = set(gate_names)
+
+    # GHZ: H on qubit 0, then chain of CX (q0→q1, q1→q2, ...)
+    if name_set <= {"h", "cx"} and n >= 2:
+        h_ops = [op for op in ops if op.name == "h"]
+        cx_ops = [op for op in ops if op.name == "cx"]
+        if (len(h_ops) == 1 and h_ops[0].qubits[0] == 0
+                and len(cx_ops) == n - 1):
+            # Verify chain pattern
+            cx_pairs = [(op.qubits[0], op.qubits[1]) for op in cx_ops]
+            if all(cx_pairs[i] == (i, i + 1) for i in range(n - 1)):
+                return "ghz"
+
+    # LinearCluster: H on all qubits, then chain of CZ
+    if name_set <= {"h", "cz"}:
+        h_ops = [op for op in ops if op.name == "h"]
+        cz_ops = [op for op in ops if op.name == "cz"]
+        if len(h_ops) == n and len(cz_ops) == n - 1:
+            cz_pairs = [(op.qubits[0], op.qubits[1]) for op in cz_ops]
+            if all(cz_pairs[i] == (i, i + 1) for i in range(n - 1)):
+                return "linear_cluster"
+
+    # QFT: H + Rz, with many distinct rotation angles (geometric series)
+    if name_set <= {"h", "rz", "cx"} and "rz" in name_set:
+        rz_ops = [op for op in ops if op.name == "rz"]
+        if len(rz_ops) >= n:
+            return "qft"
+
+    # Grover: has multi-controlled gates (ccx, mcx, etc.)
+    multi_ctrl = [op for op in ops if len(op.qubits) >= 3]
+    if multi_ctrl and "h" in name_set:
+        return "grover"
+
+    # QPE: controlled-Rz with many distinct angles
+    if "rz" in name_set and "h" in name_set:
+        rz_ops = [op for op in ops if op.name == "rz"]
+        angles = set()
+        for op in rz_ops:
+            if op.params:
+                angles.add(round(op.params[0], 6))
+        if len(angles) > n * 2:
+            return "qpe"
+
+    # VQE: Ry rotations + CX ladder, repeated layers
+    if "ry" in name_set and name_set <= {"ry", "cx"}:
+        return "vqe"
+
+    # QAOA: Rx + Rz + CX alternating pattern
+    if "rx" in name_set and "rz" in name_set and "cx" in name_set:
+        return "qaoa"
+
+    # Random families: only if no structured pattern matched
+    non_clifford_gates = {"rx", "ry", "rz", "u1", "u2", "u3", "cu1", "cu2", "cu3"}
+    if name_set & non_clifford_gates:
+        return "random_nonclifford"
+    if name_set <= CLIFFORD_GATES:
+        return "random_clifford"
+
+    return None
+
+
 def _bucket_key(f: dict[str, Any]) -> str:
     n = f["n"]
     n_bucket = "n<8" if n < 8 else ("n<16" if n < 16 else ("n<24" if n < 24 else "n>=24"))
@@ -61,7 +135,11 @@ def _bucket_key(f: dict[str, Any]) -> str:
     tw = f["treewidth_ub"]
     tw_bucket = "tw0" if tw == 0 else ("tw<4" if tw < 4 else "tw>=4")
     depth_bucket = f"d{f['depth'] // 50}"
-    return f"{n_bucket}|{cliff}|{tw_bucket}|{depth_bucket}"
+    base = f"{n_bucket}|{cliff}|{tw_bucket}|{depth_bucket}"
+    family = f.get("family")
+    if family:
+        return f"{family}|{base}"
+    return base
 
 
 def _entanglement_level(tw: int, n: int) -> str:
@@ -93,6 +171,7 @@ def circuit_features(circuit: Circuit) -> dict[str, Any]:
         "entanglement": _entanglement_level(tw, circuit.num_qubits),
         "has_ctrl": has_ctrl,
         "requires_grad": getattr(circuit, "requires_grad", False),
+        "family": detect_family(circuit),
     }
     feats["key"] = _bucket_key(feats)
     return feats

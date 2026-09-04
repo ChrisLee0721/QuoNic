@@ -25,7 +25,7 @@ from __future__ import annotations
 
 from typing import Callable
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..compiler import decompose
 from ..ir import Circuit
 from ..result import Result
@@ -80,7 +80,7 @@ def amplitude_amplification(
         # Diffusion (reflect about the initial state)
         _add_diffusion(circuit, n, state_prep)
 
-    return get_backend(backend).run(decompose(circuit), shots=shots)
+    return run_circuit(decompose(circuit), backend=backend, shots=shots)
 
 
 def _add_diffusion(circuit: Circuit, n: int, state_prep: OracleFn) -> None:

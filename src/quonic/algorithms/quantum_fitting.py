@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import quantum_fitting_demo
-    result = quantum_fitting_demo()
+    from quonic.algorithms import quantum_fitting
+    result = quantum_fitting()
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from ..result import Result
 from .vqr import vqr
 
 
-def quantum_fitting_demo() -> Result:
+def quantum_fitting() -> Result:
     """Minimal quantum data fitting demo."""
     X = [[0.0], [1.0]]
     y = [0.0, 1.0]

@@ -12,7 +12,7 @@ Quantum algorithm to estimate the amplitude of a marked state.
 Estimated amplitude with quadratic speedup over classical.
 估计振幅，相比经典有二次加速。"""
 
-from quonic.algorithms import amplitude_estimation_demo
+from quonic.algorithms import amplitude_estimation
 
-result = amplitude_estimation_demo(n_qubits=2, n_precision=3, shots=1024)
+result = amplitude_estimation(n_qubits=2, n_precision=3, shots=1024)
 print(result.counts)

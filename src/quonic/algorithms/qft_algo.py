@@ -18,7 +18,7 @@ Example::
 
 from __future__ import annotations
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit
 from ..qft import add_iqft, add_qft
 from ..result import Result
@@ -46,4 +46,4 @@ def qft(
         add_iqft(circuit, tuple(range(n_qubits)))
     else:
         add_qft(circuit, tuple(range(n_qubits)))
-    return get_backend(backend).run(circuit, shots=shots)
+    return run_circuit(circuit, backend=backend, shots=shots)

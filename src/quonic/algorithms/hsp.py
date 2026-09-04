@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import hsp_demo
-    result = hsp_demo()
+    from quonic.algorithms import hsp
+    result = hsp()
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from ..result import Result
 from .simon import simon
 
 
-def hsp_demo() -> Result:
+def hsp() -> Result:
     """Minimal HSP demo: Simon's algorithm as Abel HSP."""
 
     def period_oracle(circuit, n):

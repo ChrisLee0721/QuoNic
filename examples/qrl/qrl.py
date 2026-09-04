@@ -12,7 +12,7 @@ Quantum agent learning in classical environment.
 Learned policy.
 学习到的策略。"""
 
-from quonic.algorithms import qrl_demo
+from quonic.algorithms import qrl
 
-result = qrl_demo(n_episodes=10)
+result = qrl(n_episodes=10)
 print(result.counts)

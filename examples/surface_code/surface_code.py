@@ -12,7 +12,7 @@ Leading candidate for fault-tolerant quantum computing.
 Logical qubit with error protection.
 具有错误保护的逻辑比特。"""
 
-from quonic.algorithms import surface_code_demo
+from quonic.algorithms import surface_code
 
-result = surface_code_demo(distance=3, shots=100)
+result = surface_code(distance=3, shots=100)
 print(result.counts)

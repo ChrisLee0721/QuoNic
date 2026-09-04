@@ -12,7 +12,7 @@ Quantum algorithm for Ax = b, exponential speedup.
 Quantum state proportional to x = A^{-1}b.
 与 x = A^{-1}b 成正比的量子态。"""
 
-from quonic.algorithms import hhl_demo
+from quonic.algorithms import hhl
 
-result = hhl_demo()
+result = hhl()
 print(result.counts)

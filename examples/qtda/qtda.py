@@ -12,7 +12,7 @@ Quantum algorithm for persistent homology.
 Topological features.
 拓扑特征。"""
 
-from quonic.algorithms import qtda_demo
+from quonic.algorithms import qtda
 
-result = qtda_demo()
+result = qtda()
 print(result.counts)

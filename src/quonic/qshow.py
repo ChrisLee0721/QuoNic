@@ -12,6 +12,9 @@ Passing cache=LocalCacheRegistry(...) enables the local scheduling cache: the fi
 
 backend only selects the engine (qiskit/cirq/pennylane/native/qi); the specific real-hardware chip
 goes through the device parameter (only effective when backend="qi", with values tuna9/tuna17/qx).
+
+Passing groverize=True compiles cwhile loops into static Grover circuits before execution,
+enabling dynamic algorithms to run on backends without mid-circuit measurement support.
 """
 
 from __future__ import annotations
@@ -51,6 +54,7 @@ def qshow(
     coupling_map: CouplingMap | None = None,
     device: str | None = None,
     requires_grad: bool = False,
+    groverize: bool = False,
 ) -> Result | None:
     if result is not None:
         if not isinstance(result, Result):
@@ -64,6 +68,15 @@ def qshow(
         print(tr("show.empty_circuit"))
         return None
 
+    # groverize: compile cwhile loops into static Grover circuits
+    if groverize:
+        from .compiler import groverize as _groverize
+        from .ir import ClassicalWhileOperation
+        cwhile_ops = [op for op in circuit.ops if isinstance(op, ClassicalWhileOperation)]
+        if cwhile_ops:
+            circuit = _groverize(cwhile_ops[0])
+        # if no cwhile ops, just run the circuit as-is
+
     # target topology: first gate decomposition (high-level gates → basic gates), then SWAP routing onto the coupling map
     if coupling_map is not None:
         circuit = route_swaps(decompose(circuit), coupling_map)
@@ -71,17 +84,22 @@ def qshow(
     if report:
         _print_circuit_report(circuit)
 
-    # scheduling: resolve the circuit to pick method; when cache is passed and backend is not explicitly specified, the backend is also looked up
+    # scheduling: resolve the circuit to pick method; when backend is "auto",
+    # use the full scheduler chain (cache -> profiles -> table -> rules)
     noise_enabled = resolve_noise(noise).enabled
+    _profiles = None
     if noise_enabled:
         _warn_noise_cost(circuit.num_qubits)
-    if cache is not None and backend == "auto":
-        rec = schedule(circuit, cache=cache, noise=noise_enabled)
+    if backend == "auto":
+        from .scheduler.profiles import default_profiles as _dp
+        _profiles = _dp()
+        rec = schedule(circuit, cache=cache, profiles=_profiles, noise=noise_enabled)
         be_name = rec.backend
         method = rec.method
     else:
         be_name = backend
-        method = recommend_method(circuit_features(circuit), noise=noise_enabled)
+        rec = recommend_method(circuit_features(circuit), noise=noise_enabled)
+        method = rec.method
 
     # noise is handled by each backend itself (qiskit/native use density_matrix, cirq/pennylane
     # use channels), no method downgrade; without noise, match method capability and downgrade to native.
@@ -95,6 +113,30 @@ def qshow(
 
     if cache is not None:
         cache.report_result(circuit_features(circuit), f"{be.name}:{method}", elapsed, None)
+
+    # Update profile-based scheduler with real timing data
+    try:
+        from .backends import _background_explore, _pick_alternative
+        from .scheduler.registry import Recommendation
+        if _profiles is not None:
+            feats = circuit_features(circuit)
+            _profiles.report_result(feats, f"{be.name}/{method}", elapsed, None)
+            _profiles._save()  # persist immediately
+
+            # 5% exploration in background
+            import random as _random
+            import threading as _threading
+            if _random.random() < 0.05:
+                _rec = Recommendation(be.name, method)
+                explore = _pick_alternative(_rec, _profiles, feats)
+                if explore is not None:
+                    _threading.Thread(
+                        target=_background_explore,
+                        args=(circuit, explore.backend, explore.method, _profiles, feats),
+                        daemon=True,
+                    ).start()
+    except Exception:
+        pass
 
     _print_result(result, backend_name=be.name)
     reset()

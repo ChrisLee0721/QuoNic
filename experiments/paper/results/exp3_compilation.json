@@ -1,0 +1,821 @@
+{
+  "experiment": "exp3_compilation",
+  "description": "Compilation optimization comparison",
+  "quonic_passes": [
+    [
+      "cancel"
+    ],
+    [
+      "cancel",
+      "commute",
+      "cancel"
+    ],
+    [
+      "cancel",
+      "commute",
+      "cancel",
+      "peephole"
+    ],
+    [
+      "cancel",
+      "commute",
+      "cancel",
+      "peephole",
+      "fuse"
+    ],
+    [
+      "cancel",
+      "commute",
+      "cancel",
+      "peephole",
+      "fuse",
+      "prune"
+    ]
+  ],
+  "results": [
+    {
+      "circuit": "QFT-8",
+      "n_qubits": 8,
+      "original_gates": 36,
+      "original_cx": 0,
+      "original_depth": 15,
+      "quonic": [
+        {
+          "passes": [
+            "cancel"
+          ],
+          "gates": 36,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 4.4e-05
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel"
+          ],
+          "gates": 36,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000127
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole"
+          ],
+          "gates": 36,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000171
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse"
+          ],
+          "gates": 36,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.126681
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse",
+            "prune"
+          ],
+          "gates": 36,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000218
+        }
+      ],
+      "qiskit": [
+        {
+          "level": 0,
+          "gates": 36,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.063303
+        },
+        {
+          "level": 1,
+          "gates": 36,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.006098
+        },
+        {
+          "level": 2,
+          "gates": 36,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.010178
+        },
+        {
+          "level": 3,
+          "gates": 36,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.010834
+        }
+      ]
+    },
+    {
+      "circuit": "QFT-12",
+      "n_qubits": 12,
+      "original_gates": 78,
+      "original_cx": 0,
+      "original_depth": 23,
+      "quonic": [
+        {
+          "passes": [
+            "cancel"
+          ],
+          "gates": 78,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 5e-05
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel"
+          ],
+          "gates": 78,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000188
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole"
+          ],
+          "gates": 78,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000509
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse"
+          ],
+          "gates": 78,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000311
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse",
+            "prune"
+          ],
+          "gates": 78,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.00041
+        }
+      ],
+      "qiskit": [
+        {
+          "level": 0,
+          "gates": 78,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.003903
+        },
+        {
+          "level": 1,
+          "gates": 78,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.005859
+        },
+        {
+          "level": 2,
+          "gates": 78,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.009143
+        },
+        {
+          "level": 3,
+          "gates": 78,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.008569
+        }
+      ]
+    },
+    {
+      "circuit": "QFT-16",
+      "n_qubits": 16,
+      "original_gates": 136,
+      "original_cx": 0,
+      "original_depth": 31,
+      "quonic": [
+        {
+          "passes": [
+            "cancel"
+          ],
+          "gates": 136,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000139
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel"
+          ],
+          "gates": 136,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000436
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole"
+          ],
+          "gates": 136,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000682
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse"
+          ],
+          "gates": 136,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000801
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse",
+            "prune"
+          ],
+          "gates": 136,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.00111
+        }
+      ],
+      "qiskit": [
+        {
+          "level": 0,
+          "gates": 136,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.00396
+        },
+        {
+          "level": 1,
+          "gates": 136,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.005684
+        },
+        {
+          "level": 2,
+          "gates": 136,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.01038
+        },
+        {
+          "level": 3,
+          "gates": 136,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.008737
+        }
+      ]
+    },
+    {
+      "circuit": "Grover-4",
+      "n_qubits": 4,
+      "original_gates": 30,
+      "original_cx": 0,
+      "original_depth": 9,
+      "quonic": [
+        {
+          "passes": [
+            "cancel"
+          ],
+          "gates": 30,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 2.1e-05
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel"
+          ],
+          "gates": 30,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 6.7e-05
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole"
+          ],
+          "gates": 30,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 9.5e-05
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse"
+          ],
+          "gates": 30,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000122
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse",
+            "prune"
+          ],
+          "gates": 30,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000143
+        }
+      ],
+      "qiskit": [
+        {
+          "level": 0,
+          "gates": 30,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.002788
+        },
+        {
+          "level": 1,
+          "gates": 10,
+          "cx": 0,
+          "reduction_pct": 66.7,
+          "time": 0.004081
+        },
+        {
+          "level": 2,
+          "gates": 10,
+          "cx": 0,
+          "reduction_pct": 66.7,
+          "time": 0.008098
+        },
+        {
+          "level": 3,
+          "gates": 10,
+          "cx": 0,
+          "reduction_pct": 66.7,
+          "time": 0.00692
+        }
+      ]
+    },
+    {
+      "circuit": "Grover-6",
+      "n_qubits": 6,
+      "original_gates": 44,
+      "original_cx": 0,
+      "original_depth": 9,
+      "quonic": [
+        {
+          "passes": [
+            "cancel"
+          ],
+          "gates": 44,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 2.8e-05
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel"
+          ],
+          "gates": 44,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 9.5e-05
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole"
+          ],
+          "gates": 44,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000153
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse"
+          ],
+          "gates": 44,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000171
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse",
+            "prune"
+          ],
+          "gates": 44,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.000207
+        }
+      ],
+      "qiskit": [
+        {
+          "level": 0,
+          "gates": 44,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.0024
+        },
+        {
+          "level": 1,
+          "gates": 12,
+          "cx": 0,
+          "reduction_pct": 72.7,
+          "time": 0.004548
+        },
+        {
+          "level": 2,
+          "gates": 12,
+          "cx": 0,
+          "reduction_pct": 72.7,
+          "time": 0.00692
+        },
+        {
+          "level": 3,
+          "gates": 12,
+          "cx": 0,
+          "reduction_pct": 72.7,
+          "time": 0.007631
+        }
+      ]
+    },
+    {
+      "circuit": "CCZ-chain-8",
+      "n_qubits": 8,
+      "original_gates": 11,
+      "original_cx": 0,
+      "original_depth": 4,
+      "quonic": [
+        {
+          "passes": [
+            "cancel"
+          ],
+          "gates": 11,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 1.1e-05
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel"
+          ],
+          "gates": 11,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 3.3e-05
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole"
+          ],
+          "gates": 11,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 4.2e-05
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse"
+          ],
+          "gates": 11,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 5.5e-05
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse",
+            "prune"
+          ],
+          "gates": 11,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 6.3e-05
+        }
+      ],
+      "qiskit": [
+        {
+          "level": 0,
+          "gates": 11,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.002564
+        },
+        {
+          "level": 1,
+          "gates": 11,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.004067
+        },
+        {
+          "level": 2,
+          "gates": 11,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.007887
+        },
+        {
+          "level": 3,
+          "gates": 11,
+          "cx": 0,
+          "reduction_pct": 0.0,
+          "time": 0.007362
+        }
+      ]
+    },
+    {
+      "circuit": "Random-8x16",
+      "n_qubits": 8,
+      "original_gates": 194,
+      "original_cx": 23,
+      "original_depth": 40,
+      "quonic": [
+        {
+          "passes": [
+            "cancel"
+          ],
+          "gates": 114,
+          "cx": 19,
+          "reduction_pct": 41.2,
+          "time": 7.9e-05
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel"
+          ],
+          "gates": 114,
+          "cx": 19,
+          "reduction_pct": 41.2,
+          "time": 0.000251
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole"
+          ],
+          "gates": 114,
+          "cx": 19,
+          "reduction_pct": 41.2,
+          "time": 0.000419
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse"
+          ],
+          "gates": 114,
+          "cx": 19,
+          "reduction_pct": 41.2,
+          "time": 0.000452
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse",
+            "prune"
+          ],
+          "gates": 114,
+          "cx": 19,
+          "reduction_pct": 41.2,
+          "time": 0.000565
+        }
+      ],
+      "qiskit": [
+        {
+          "level": 0,
+          "gates": 194,
+          "cx": 23,
+          "reduction_pct": 0.0,
+          "time": 0.003679
+        },
+        {
+          "level": 1,
+          "gates": 82,
+          "cx": 17,
+          "reduction_pct": 57.7,
+          "time": 0.00528
+        },
+        {
+          "level": 2,
+          "gates": 19,
+          "cx": 2,
+          "reduction_pct": 90.2,
+          "time": 0.014274
+        },
+        {
+          "level": 3,
+          "gates": 19,
+          "cx": 2,
+          "reduction_pct": 90.2,
+          "time": 0.008576
+        }
+      ]
+    },
+    {
+      "circuit": "Random-12x24",
+      "n_qubits": 12,
+      "original_gates": 416,
+      "original_cx": 49,
+      "original_depth": 55,
+      "quonic": [
+        {
+          "passes": [
+            "cancel"
+          ],
+          "gates": 240,
+          "cx": 33,
+          "reduction_pct": 42.3,
+          "time": 0.000197
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel"
+          ],
+          "gates": 240,
+          "cx": 33,
+          "reduction_pct": 42.3,
+          "time": 0.00056
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole"
+          ],
+          "gates": 240,
+          "cx": 33,
+          "reduction_pct": 42.3,
+          "time": 0.000868
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse"
+          ],
+          "gates": 240,
+          "cx": 33,
+          "reduction_pct": 42.3,
+          "time": 0.000992
+        },
+        {
+          "passes": [
+            "cancel",
+            "commute",
+            "cancel",
+            "peephole",
+            "fuse",
+            "prune"
+          ],
+          "gates": 240,
+          "cx": 33,
+          "reduction_pct": 42.3,
+          "time": 0.001214
+        }
+      ],
+      "qiskit": [
+        {
+          "level": 0,
+          "gates": 416,
+          "cx": 49,
+          "reduction_pct": 0.0,
+          "time": 0.002818
+        },
+        {
+          "level": 1,
+          "gates": 177,
+          "cx": 33,
+          "reduction_pct": 57.5,
+          "time": 0.005368
+        },
+        {
+          "level": 2,
+          "gates": 6,
+          "cx": 0,
+          "reduction_pct": 98.6,
+          "time": 0.007989
+        },
+        {
+          "level": 3,
+          "gates": 6,
+          "cx": 0,
+          "reduction_pct": 98.6,
+          "time": 0.007583
+        }
+      ]
+    }
+  ]
+}

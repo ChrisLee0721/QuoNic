@@ -12,7 +12,7 @@ Quantum attention mechanism for sequence modeling.
 Attention weights.
 注意力权重。"""
 
-from quonic.algorithms import qtransformer_demo
+from quonic.algorithms import qtransformer
 
-result = qtransformer_demo()
+result = qtransformer()
 print(result.counts)

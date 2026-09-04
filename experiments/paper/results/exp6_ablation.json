@@ -1,0 +1,272 @@
+{
+  "experiment": "exp6_ablation",
+  "description": "Ablation study - component contribution",
+  "shots": 1024,
+  "configs": [
+    "full_quonic",
+    "no_scheduler",
+    "no_optimization",
+    "no_decomposition",
+    "external_only"
+  ],
+  "results": [
+    {
+      "circuit": "QFT-8",
+      "n_qubits": 8,
+      "gate_count": 36,
+      "depth": 15,
+      "configs": {
+        "full_quonic": {
+          "config": "full_quonic",
+          "time": 1.042,
+          "unique_outcomes": 253,
+          "top_outcome": "00101101",
+          "error": null
+        },
+        "no_scheduler": {
+          "config": "no_scheduler",
+          "time": 0.011,
+          "unique_outcomes": 251,
+          "top_outcome": "01010010",
+          "error": null
+        },
+        "no_optimization": {
+          "config": "no_optimization",
+          "time": 0.0147,
+          "unique_outcomes": 254,
+          "top_outcome": "10100010",
+          "error": null
+        },
+        "no_decomposition": {
+          "config": "no_decomposition",
+          "time": 0.0139,
+          "unique_outcomes": 254,
+          "top_outcome": "00111000",
+          "error": null
+        },
+        "external_only": {
+          "config": "external_only",
+          "time": 0.0132,
+          "unique_outcomes": 251,
+          "top_outcome": "00000101",
+          "error": null
+        }
+      }
+    },
+    {
+      "circuit": "QFT-12",
+      "n_qubits": 12,
+      "gate_count": 78,
+      "depth": 23,
+      "configs": {
+        "full_quonic": {
+          "config": "full_quonic",
+          "time": 0.0282,
+          "unique_outcomes": 912,
+          "top_outcome": "111011001101",
+          "error": null
+        },
+        "no_scheduler": {
+          "config": "no_scheduler",
+          "time": 0.0153,
+          "unique_outcomes": 900,
+          "top_outcome": "011111100000",
+          "error": null
+        },
+        "no_optimization": {
+          "config": "no_optimization",
+          "time": 0.0265,
+          "unique_outcomes": 912,
+          "top_outcome": "000001010000",
+          "error": null
+        },
+        "no_decomposition": {
+          "config": "no_decomposition",
+          "time": 0.027,
+          "unique_outcomes": 914,
+          "top_outcome": "101111001101",
+          "error": null
+        },
+        "external_only": {
+          "config": "external_only",
+          "time": 0.0291,
+          "unique_outcomes": 897,
+          "top_outcome": "111111100001",
+          "error": null
+        }
+      }
+    },
+    {
+      "circuit": "Grover-4",
+      "n_qubits": 4,
+      "gate_count": 30,
+      "depth": 9,
+      "configs": {
+        "full_quonic": {
+          "config": "full_quonic",
+          "time": 0.0083,
+          "unique_outcomes": 4,
+          "top_outcome": "0000",
+          "error": null
+        },
+        "no_scheduler": {
+          "config": "no_scheduler",
+          "time": 0.0027,
+          "unique_outcomes": 4,
+          "top_outcome": "1100",
+          "error": null
+        },
+        "no_optimization": {
+          "config": "no_optimization",
+          "time": 0.0078,
+          "unique_outcomes": 4,
+          "top_outcome": "0000",
+          "error": null
+        },
+        "no_decomposition": {
+          "config": "no_decomposition",
+          "time": 0.0071,
+          "unique_outcomes": 4,
+          "top_outcome": "1100",
+          "error": null
+        },
+        "external_only": {
+          "config": "external_only",
+          "time": 0.0069,
+          "unique_outcomes": 4,
+          "top_outcome": "1100",
+          "error": null
+        }
+      }
+    },
+    {
+      "circuit": "Grover-6",
+      "n_qubits": 6,
+      "gate_count": 44,
+      "depth": 9,
+      "configs": {
+        "full_quonic": {
+          "config": "full_quonic",
+          "time": 0.0085,
+          "unique_outcomes": 16,
+          "top_outcome": "110100",
+          "error": null
+        },
+        "no_scheduler": {
+          "config": "no_scheduler",
+          "time": 0.0034,
+          "unique_outcomes": 16,
+          "top_outcome": "111000",
+          "error": null
+        },
+        "no_optimization": {
+          "config": "no_optimization",
+          "time": 0.0079,
+          "unique_outcomes": 16,
+          "top_outcome": "110100",
+          "error": null
+        },
+        "no_decomposition": {
+          "config": "no_decomposition",
+          "time": 0.0095,
+          "unique_outcomes": 16,
+          "top_outcome": "011000",
+          "error": null
+        },
+        "external_only": {
+          "config": "external_only",
+          "time": 0.0085,
+          "unique_outcomes": 16,
+          "top_outcome": "011100",
+          "error": null
+        }
+      }
+    },
+    {
+      "circuit": "GHZ-16",
+      "n_qubits": 16,
+      "gate_count": 16,
+      "depth": 16,
+      "configs": {
+        "full_quonic": {
+          "config": "full_quonic",
+          "time": 0.0119,
+          "unique_outcomes": 2,
+          "top_outcome": "1111111111111111",
+          "error": null
+        },
+        "no_scheduler": {
+          "config": "no_scheduler",
+          "time": 0.119,
+          "unique_outcomes": 2,
+          "top_outcome": "0000000000000000",
+          "error": null
+        },
+        "no_optimization": {
+          "config": "no_optimization",
+          "time": 0.0076,
+          "unique_outcomes": 2,
+          "top_outcome": "1111111111111111",
+          "error": null
+        },
+        "no_decomposition": {
+          "config": "no_decomposition",
+          "time": 0.0097,
+          "unique_outcomes": 2,
+          "top_outcome": "1111111111111111",
+          "error": null
+        },
+        "external_only": {
+          "config": "external_only",
+          "time": 0.0091,
+          "unique_outcomes": 2,
+          "top_outcome": "0000000000000000",
+          "error": null
+        }
+      }
+    },
+    {
+      "circuit": "Random-8x16",
+      "n_qubits": 8,
+      "gate_count": 240,
+      "depth": 53,
+      "configs": {
+        "full_quonic": {
+          "config": "full_quonic",
+          "time": 0.0219,
+          "unique_outcomes": 214,
+          "top_outcome": "11001110",
+          "error": null
+        },
+        "no_scheduler": {
+          "config": "no_scheduler",
+          "time": 0.0205,
+          "unique_outcomes": 210,
+          "top_outcome": "11001110",
+          "error": null
+        },
+        "no_optimization": {
+          "config": "no_optimization",
+          "time": 0.0233,
+          "unique_outcomes": 216,
+          "top_outcome": "11010001",
+          "error": null
+        },
+        "no_decomposition": {
+          "config": "no_decomposition",
+          "time": 0.0277,
+          "unique_outcomes": 216,
+          "top_outcome": "11010001",
+          "error": null
+        },
+        "external_only": {
+          "config": "external_only",
+          "time": 0.0235,
+          "unique_outcomes": 212,
+          "top_outcome": "11010001",
+          "error": null
+        }
+      }
+    }
+  ]
+}

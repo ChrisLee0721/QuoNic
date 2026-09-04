@@ -7,20 +7,20 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import ft_gate_demo
-    result = ft_gate_demo()
+    from quonic.algorithms import ft_gate
+    result = ft_gate()
 """
 
 from __future__ import annotations
 
 import math
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
-def ft_gate_demo(
+def ft_gate(
     backend: str = "auto",
     shots: int = 100,
 ) -> Result:
@@ -38,5 +38,5 @@ def ft_gate_demo(
     circuit.add(GateOperation("cx", (0, 1)))
 
     # Measure ancilla and post-select
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
     return Result.from_value(1.0, counts=result.counts)

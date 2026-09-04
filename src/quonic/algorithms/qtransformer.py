@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import qtransformer_demo
-    result = qtransformer_demo()
+    from quonic.algorithms import qtransformer
+    result = qtransformer()
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from ..result import Result
 from ..simulator import StatevectorSimulator
 
 
-def qtransformer_demo() -> Result:
+def qtransformer() -> Result:
     """Minimal quantum transformer demo with 2 tokens."""
     import numpy as np
 

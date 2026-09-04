@@ -1,0 +1,525 @@
+{
+  "experiment": "exp9_stress",
+  "description": "Stress test - practical limits",
+  "shots": 1024,
+  "timeout": 120,
+  "results": [
+    {
+      "circuit": "GHZ (Clifford)",
+      "qubit_range": [
+        8,
+        12,
+        16,
+        20,
+        24,
+        28,
+        30,
+        40,
+        50
+      ],
+      "engines": [
+        "statevector",
+        "stabilizer"
+      ],
+      "results": [
+        {
+          "n": 8,
+          "gate_count": 8,
+          "depth": 8,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 0.2138,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 1.2417,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 12,
+          "gate_count": 12,
+          "depth": 12,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 0.0041,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 3.5293,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 16,
+          "gate_count": 16,
+          "depth": 16,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 0.0619,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 6.6085,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 20,
+          "gate_count": 20,
+          "depth": 20,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 1.4592,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 11.1509,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 24,
+          "gate_count": 24,
+          "depth": 24,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 24.8979,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 17.5534,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 28,
+          "gate_count": 28,
+          "depth": 28,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 120.009,
+              "status": "timeout",
+              "unique_outcomes": 0,
+              "error": "Timeout (120s)"
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 31.0424,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 30,
+          "gate_count": 30,
+          "depth": 30,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 0.004,
+              "status": "oom",
+              "unique_outcomes": 0,
+              "error": "oom"
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 38.0379,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 40,
+          "gate_count": 40,
+          "depth": 40,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 0.0007,
+              "status": "oom",
+              "unique_outcomes": 0,
+              "error": "oom"
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 80.1373,
+              "status": "ok",
+              "unique_outcomes": 2,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 50,
+          "gate_count": 50,
+          "depth": 50,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 0.0005,
+              "status": "oom",
+              "unique_outcomes": 0,
+              "error": "oom"
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 120.0427,
+              "status": "timeout",
+              "unique_outcomes": 0,
+              "error": "Timeout (120s)"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "circuit": "Random Clifford",
+      "qubit_range": [
+        10,
+        14,
+        18,
+        22,
+        26,
+        30
+      ],
+      "engines": [
+        "statevector",
+        "stabilizer"
+      ],
+      "results": [
+        {
+          "n": 10,
+          "gate_count": 182,
+          "depth": 28,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 4.5682,
+              "status": "ok",
+              "unique_outcomes": 64,
+              "error": null
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 2.0318,
+              "status": "ok",
+              "unique_outcomes": 64,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 14,
+          "gate_count": 349,
+          "depth": 39,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 17.4376,
+              "status": "ok",
+              "unique_outcomes": 32,
+              "error": null
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 2.9707,
+              "status": "ok",
+              "unique_outcomes": 32,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 18,
+          "gate_count": 596,
+          "depth": 55,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 5.9355,
+              "status": "ok",
+              "unique_outcomes": 801,
+              "error": null
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 2.6692,
+              "status": "ok",
+              "unique_outcomes": 804,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 22,
+          "gate_count": 899,
+          "depth": 65,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 120.0026,
+              "status": "timeout",
+              "unique_outcomes": 0,
+              "error": "Timeout (120s)"
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 4.7156,
+              "status": "ok",
+              "unique_outcomes": 913,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 26,
+          "gate_count": 1264,
+          "depth": 76,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 120.0145,
+              "status": "timeout",
+              "unique_outcomes": 0,
+              "error": "Timeout (120s)"
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 10.3056,
+              "status": "ok",
+              "unique_outcomes": 965,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 30,
+          "gate_count": 1684,
+          "depth": 87,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 0.2055,
+              "status": "oom",
+              "unique_outcomes": 0,
+              "error": "oom"
+            },
+            "stabilizer": {
+              "engine": "stabilizer",
+              "time": 12.4659,
+              "status": "ok",
+              "unique_outcomes": 1012,
+              "error": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "circuit": "Random non-Clifford",
+      "qubit_range": [
+        8,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20
+      ],
+      "engines": [
+        "statevector",
+        "matrix_product_state"
+      ],
+      "results": [
+        {
+          "n": 8,
+          "gate_count": 57,
+          "depth": 13,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 0.0036,
+              "status": "ok",
+              "unique_outcomes": 134,
+              "error": null
+            },
+            "matrix_product_state": {
+              "engine": "matrix_product_state",
+              "time": 0.714,
+              "status": "ok",
+              "unique_outcomes": 134,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 10,
+          "gate_count": 92,
+          "depth": 16,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 0.0071,
+              "status": "ok",
+              "unique_outcomes": 257,
+              "error": null
+            },
+            "matrix_product_state": {
+              "engine": "matrix_product_state",
+              "time": 0.938,
+              "status": "ok",
+              "unique_outcomes": 257,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 12,
+          "gate_count": 126,
+          "depth": 20,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 0.0323,
+              "status": "ok",
+              "unique_outcomes": 555,
+              "error": null
+            },
+            "matrix_product_state": {
+              "engine": "matrix_product_state",
+              "time": 1.0684,
+              "status": "ok",
+              "unique_outcomes": 555,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 14,
+          "gate_count": 171,
+          "depth": 23,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 0.129,
+              "status": "ok",
+              "unique_outcomes": 814,
+              "error": null
+            },
+            "matrix_product_state": {
+              "engine": "matrix_product_state",
+              "time": 1.217,
+              "status": "ok",
+              "unique_outcomes": 822,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 16,
+          "gate_count": 231,
+          "depth": 24,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 0.7233,
+              "status": "ok",
+              "unique_outcomes": 797,
+              "error": null
+            },
+            "matrix_product_state": {
+              "engine": "matrix_product_state",
+              "time": 1.2466,
+              "status": "ok",
+              "unique_outcomes": 792,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 18,
+          "gate_count": 297,
+          "depth": 28,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 3.3708,
+              "status": "ok",
+              "unique_outcomes": 920,
+              "error": null
+            },
+            "matrix_product_state": {
+              "engine": "matrix_product_state",
+              "time": 1.7365,
+              "status": "ok",
+              "unique_outcomes": 911,
+              "error": null
+            }
+          }
+        },
+        {
+          "n": 20,
+          "gate_count": 364,
+          "depth": 30,
+          "engines": {
+            "statevector": {
+              "engine": "statevector",
+              "time": 17.8065,
+              "status": "ok",
+              "unique_outcomes": 987,
+              "error": null
+            },
+            "matrix_product_state": {
+              "engine": "matrix_product_state",
+              "time": 1.8481,
+              "status": "ok",
+              "unique_outcomes": 983,
+              "error": null
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

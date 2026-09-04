@@ -12,7 +12,7 @@ Core subroutine for quantum singular value transformation.
 Transformed signal.
 变换后的信号。"""
 
-from quonic.algorithms import qsp_demo
+from quonic.algorithms import qsp
 
-result = qsp_demo(angle=0.785)
+result = qsp(angle=0.785)
 print(result.counts)

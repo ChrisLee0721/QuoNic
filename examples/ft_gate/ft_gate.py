@@ -12,7 +12,7 @@ Gates implemented with error detection/correction.
 Logically encoded state with error protection.
 具有错误保护的逻辑编码态。"""
 
-from quonic.algorithms import ft_gate_demo
+from quonic.algorithms import ft_gate
 
-result = ft_gate_demo(shots=100)
+result = ft_gate(shots=100)
 print(result.counts)

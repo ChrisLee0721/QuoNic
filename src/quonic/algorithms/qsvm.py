@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import qsvm_demo
-    result = qsvm_demo()
+    from quonic.algorithms import qsvm
+    result = qsvm()
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from ..result import Result
 from .quantum_kernel import quantum_kernel
 
 
-def qsvm_demo() -> Result:
+def qsvm() -> Result:
     """Minimal QSVM demo."""
     # Simple 2-class dataset
     X = [[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]]

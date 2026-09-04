@@ -24,7 +24,7 @@ import random
 from collections.abc import Iterator, Sequence
 
 from .._i18n import tr
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..qft import add_iqft, add_qft
 from ..result import Result
@@ -259,7 +259,7 @@ def _run_once(
     _mod_exp(circuit, exponent, reg, a, N, scratch, anc, flag)
     add_iqft(circuit, exponent)
 
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
 
     # Only care about the exponent register (rightmost t bits); sum over the other bits
     exp_counts = {}

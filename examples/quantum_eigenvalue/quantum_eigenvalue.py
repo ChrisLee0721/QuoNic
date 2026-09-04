@@ -12,7 +12,7 @@ Estimate eigenvalues of unitary operators.
 Eigenvalue estimates.
 特征值估计。"""
 
-from quonic.algorithms import quantum_eigenvalue_demo
+from quonic.algorithms import quantum_eigenvalue
 
-result = quantum_eigenvalue_demo()
+result = quantum_eigenvalue()
 print(result.counts)

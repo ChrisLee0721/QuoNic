@@ -29,7 +29,7 @@ from __future__ import annotations
 
 from typing import Callable
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -74,7 +74,7 @@ def bernstein_vazirani(
     # Bitstring: output qubit (leftmost) + input qubits (rightmost).
     # Extract rightmost n characters = secret s.
 
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
     # Extract input qubit bits (rightmost n characters)
     secret = max(result.counts, key=result.counts.get)[-n:]
     return Result.from_value(float(int(secret, 2)), secret=secret, counts=result.counts)

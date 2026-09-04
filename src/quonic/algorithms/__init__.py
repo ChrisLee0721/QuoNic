@@ -1,4 +1,4 @@
-"""Algorithm templates: 77 quantum algorithms.
+"""Algorithm templates: 72 quantum algorithms.
 
 Each template depends only on numpy / scipy and is not tied to a specific
 backend; sampling algorithms can switch among the qiskit / cirq / pennylane
@@ -6,30 +6,30 @@ backend; sampling algorithms can switch among the qiskit / cirq / pennylane
 """
 
 from .amplitude_amplification import amplitude_amplification
-from .amplitude_estimation import amplitude_estimation_demo
+from .amplitude_estimation import amplitude_estimation
 from .bb84 import bb84
 from .bernstein_vazirani import bernstein_vazirani
 from .bit_flip_code import bit_flip_code
-from .color_code import color_code_demo
+from .color_code import color_code
 from .deutsch_jozsa import deutsch_jozsa
-from .discrete_log import discrete_log_demo
-from .dqaoa import dqaoa_demo
-from .dynamics_simulation import dynamics_simulation_demo
+from .discrete_log import discrete_log
+from .dqaoa import dqaoa
+from .dynamics_simulation import dynamics_simulation
 from .e91 import e91
-from .eigenvalue_solver import quantum_eigenvalue_demo
-from .elliptic_curve import elliptic_curve_demo
+from .eigenvalue_solver import quantum_eigenvalue
+from .elliptic_curve import elliptic_curve
 from .fermion_mapping import jordan_wigner_2site
-from .ft_gates import ft_gate_demo
+from .ft_gates import ft_gate
 from .grover import diffusion, grover, mark_state
 from .hadamard_test import hadamard_test
-from .hamiltonian_simulation import hamiltonian_simulation_demo
+from .hamiltonian_simulation import hamiltonian_simulation
 from .hamiltonians import from_qiskit_nature
 from .hamiltonians_ext import from_openfermion, from_pauli_string, from_pennylane
-from .hhl import hhl_demo
-from .hsp import hsp_demo
-from .lattice import lattice_svp_demo
-from .matrix_inversion import quantum_matrix_inversion_demo
-from .molecule_vqe import molecule_vqe_demo
+from .hhl import hhl
+from .hsp import hsp
+from .lattice import lattice_svp
+from .matrix_inversion import quantum_matrix_inversion
+from .molecule_vqe import molecule_vqe
 from .oracle import oracle
 from .phase_flip_code import phase_flip_code
 from .qaoa import qaoa_maxcut
@@ -37,40 +37,41 @@ from .qaoa_generic import qaoa
 from .qaoa_knapsack import qaoa_knapsack
 from .qaoa_mis import qaoa_mis
 from .qaoa_tsp import qaoa_tsp
-from .qbm import qbm_demo
-from .qcnn import qcnn_demo
+from .qbm import qbm
+from .qcnn import qcnn
 from .qft_algo import qft
-from .qgan import qgan_demo
-from .qgnn import qgnn_demo
-from .qng import qng_demo
-from .qnn import qnn_demo
-from .qpca import qpca_demo
+from .qgan import qgan
+from .qgnn import qgnn
+from .qng import qng
+from .qnn import qnn
+from .qpca import qpca
 from .qpe import qpe
-from .qrl import qrl_demo
-from .qsp import qsp_demo
-from .qsvm import qsvm_demo
-from .qtda import qtda_demo
-from .qtransformer import qtransformer_demo
-from .quantum_annealing_hybrid import quantum_annealing_hybrid_demo
-from .quantum_bayesian import quantum_bayesian_demo
-from .quantum_clustering import quantum_clustering_demo
+from .qrl import qrl
+from .qsp import qsp
+from .qsvm import qsvm
+from .qtda import qtda
+from .qtransformer import qtransformer
+from .quantum_annealing import quantum_annealing
+from .quantum_annealing_hybrid import quantum_annealing_hybrid
+from .quantum_bayesian import quantum_bayesian
+from .quantum_clustering import quantum_clustering
 from .quantum_counting import quantum_counting
-from .quantum_fitting import quantum_fitting_demo
+from .quantum_fitting import quantum_fitting
 from .quantum_kernel import quantum_kernel
-from .quantum_monte_carlo import quantum_monte_carlo_demo
-from .quantum_ode import quantum_ode_demo
-from .quantum_pde import quantum_pde_demo
+from .quantum_monte_carlo import quantum_monte_carlo
+from .quantum_ode import quantum_ode
+from .quantum_pde import quantum_pde
 from .quantum_walk import quantum_walk
-from .rejection_sampling import rejection_sampling_demo
+from .rejection_sampling import rejection_sampling
 from .shor import shor
 from .shor_code import shor_code
 from .simon import simon
-from .stabilizer import stabilizer_demo
+from .stabilizer import stabilizer
 from .steane_code import steane_code
 from .superdense_coding import superdense_coding
-from .surface_code import surface_code_demo
+from .surface_code import surface_code
 from .swap_test import swap_test
-from .syndrome import syndrome_demo
+from .syndrome import syndrome
 from .teleportation import teleportation
 from .trotter import trotter
 from .vqc import vqc
@@ -79,89 +80,78 @@ from .vqr import vqr
 
 __all__ = [
     "amplitude_amplification",
-    "amplitude_estimation_demo",
+    "amplitude_estimation",
     "bb84",
     "bernstein_vazirani",
-    # Phase 7: Error Correction
     "bit_flip_code",
-    "color_code_demo",
+    "color_code",
     "deutsch_jozsa",
     "diffusion",
-    "discrete_log_demo",
-    "dqaoa_demo",
-    "dynamics_simulation_demo",
+    "discrete_log",
+    "dqaoa",
+    "dynamics_simulation",
     "e91",
-    "elliptic_curve_demo",
+    "elliptic_curve",
     "from_openfermion",
-    # Phase 3: Chemistry
     "from_pauli_string",
     "from_pennylane",
     "from_qiskit_nature",
-    "ft_gate_demo",
-    # Existing
+    "ft_gate",
     "grover",
     "hadamard_test",
-    "hamiltonian_simulation_demo",
-    # Phase 4: Linear Algebra
-    "hhl_demo",
-    # Phase 9: Algebraic
-    "hsp_demo",
+    "hamiltonian_simulation",
+    "hhl",
+    "hsp",
     "jordan_wigner_2site",
-    "lattice_svp_demo",
+    "lattice_svp",
     "mark_state",
-    "molecule_vqe_demo",
+    "molecule_vqe",
     "oracle",
     "phase_flip_code",
     "qaoa",
     "qaoa_knapsack",
     "qaoa_maxcut",
     "qaoa_mis",
-    # Phase 2: Search & Optimization
     "qaoa_tsp",
-    "qbm_demo",
-    # Phase 10: Minimal Demos
-    "qcnn_demo",
-    # Phase 1: Foundational
+    "qbm",
+    "qcnn",
     "qft",
-    "qgan_demo",
-    "qgnn_demo",
-    "qng_demo",
-    "qnn_demo",
-    "qpca_demo",
+    "qgan",
+    "qgnn",
+    "qng",
+    "qnn",
+    "qpca",
     "qpe",
-    "qrl_demo",
-    "qsp_demo",
-    "qsvm_demo",
-    "qtda_demo",
-    "qtransformer_demo",
-    "quantum_annealing_demo",
-    "quantum_annealing_hybrid_demo",
-    "quantum_bayesian_demo",
-    "quantum_clustering_demo",
+    "qrl",
+    "qsp",
+    "qsvm",
+    "qtda",
+    "qtransformer",
+    "quantum_annealing",
+    "quantum_annealing_hybrid",
+    "quantum_bayesian",
+    "quantum_clustering",
     "quantum_counting",
-    "quantum_eigenvalue_demo",
-    "quantum_fitting_demo",
+    "quantum_eigenvalue",
+    "quantum_fitting",
     "quantum_kernel",
-    "quantum_matrix_inversion_demo",
-    # Phase 8: Statistical
-    "quantum_monte_carlo_demo",
-    "quantum_ode_demo",
-    "quantum_pde_demo",
+    "quantum_matrix_inversion",
+    "quantum_monte_carlo",
+    "quantum_ode",
+    "quantum_pde",
     "quantum_walk",
-    "rejection_sampling_demo",
+    "rejection_sampling",
     "shor",
     "shor_code",
     "simon",
-    "stabilizer_demo",
+    "stabilizer",
     "steane_code",
     "superdense_coding",
-    "surface_code_demo",
+    "surface_code",
     "swap_test",
-    "syndrome_demo",
-    # Phase 5: Communication
+    "syndrome",
     "teleportation",
     "trotter",
-    # Phase 6: Hybrid
     "vqc",
     "vqe",
     "vqr",

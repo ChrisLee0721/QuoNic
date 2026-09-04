@@ -1,0 +1,8 @@
+HEADER    GCIQA PREDICTION
+TITLE     GCIQA PREDICTED CONFORMATION
+ATOM      1 Zn   UNK A   1      29.239  61.167   3.811  1.00  0.00          Zn  
+ATOM      2 O    UNK A   1      30.226  60.678   1.965  1.00  0.00           O  
+ATOM      3 O    UNK A   1      30.566  61.481   5.473  1.00  0.00           O  
+ATOM      4 N    UNK A   1      30.382  59.482   4.502  1.00  0.00           N  
+ATOM      5 O    UNK A   1      27.450  61.490   2.650  1.00  0.00           O  
+END

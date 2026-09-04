@@ -12,7 +12,7 @@ Topological error correction code with transversal gates.
 Encoded logical qubit with error protection.
 具有错误保护的编码逻辑比特。"""
 
-from quonic.algorithms import color_code_demo
+from quonic.algorithms import color_code
 
-result = color_code_demo(shots=100)
+result = color_code(shots=100)
 print(result.counts)

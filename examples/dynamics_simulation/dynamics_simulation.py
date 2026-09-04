@@ -12,7 +12,7 @@ Simulate time evolution of quantum systems.
 Evolved state after time t.
 时间 t 后的演化态。"""
 
-from quonic.algorithms import dynamics_simulation_demo
+from quonic.algorithms import dynamics_simulation
 
-result = dynamics_simulation_demo(n_steps=10, shots=1024)
+result = dynamics_simulation(n_steps=10, shots=1024)
 print(result.counts)

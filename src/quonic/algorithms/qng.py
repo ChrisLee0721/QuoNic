@@ -8,8 +8,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import qng_demo
-    result = qng_demo(n_params=2, maxiter=50)
+    from quonic.algorithms import qng
+    result = qng(n_params=2, maxiter=50)
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ from ..result import Result
 from ..simulator import StatevectorSimulator
 
 
-def qng_demo(
+def qng(
     n_params: int = 2,
     maxiter: int = 50,
 ) -> Result:

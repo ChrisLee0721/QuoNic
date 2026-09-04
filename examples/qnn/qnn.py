@@ -12,7 +12,7 @@ Variational quantum circuit as neural network.
 Trained model predictions.
 训练模型预测。"""
 
-from quonic.algorithms import qnn_demo
+from quonic.algorithms import qnn
 
-result = qnn_demo(n_qubits=2, depth=2)
+result = qnn(n_qubits=2, depth=2)
 print(result.counts)

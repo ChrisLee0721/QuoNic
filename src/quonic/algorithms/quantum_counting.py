@@ -26,7 +26,7 @@ from collections.abc import Sequence
 from typing import Any
 
 from .._i18n import tr
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 from .qpe import _add_iqft
@@ -119,7 +119,7 @@ def quantum_counting(
 
     _add_iqft(circuit, t)
 
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
     best = max(result.counts, key=result.counts.get)
     j = int(best[-t:], 2)  # the rightmost t bits are the counting qubits
     m = 2 ** n_qubits * math.sin(math.pi * abs(j / 2 ** t - 0.5)) ** 2

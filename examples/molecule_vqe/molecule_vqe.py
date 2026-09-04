@@ -12,7 +12,7 @@ Compute ground state energy of molecules.
 Ground state energy of molecule.
 分子的基态能量。"""
 
-from quonic.algorithms import molecule_vqe_demo
+from quonic.algorithms import molecule_vqe
 
-result = molecule_vqe_demo(maxiter=200)
+result = molecule_vqe(maxiter=200)
 print(f"Ground state energy: {result.value}")

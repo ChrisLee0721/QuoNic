@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import qtda_demo
-    result = qtda_demo()
+    from quonic.algorithms import qtda
+    result = qtda()
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from ..result import Result
 from ..simulator import StatevectorSimulator
 
 
-def qtda_demo() -> Result:
+def qtda() -> Result:
     """Minimal QTDA demo: estimate 0th Betti number of 2 points."""
     import numpy as np
 

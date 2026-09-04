@@ -24,6 +24,7 @@ from .capabilities import (
     eligible_methods,
 )
 from .features import circuit_features
+from .profiles import ProfileRegistry, default_profiles
 from .registry import (
     BackendRegistry,
     BuiltinRegistry,
@@ -45,11 +46,15 @@ _BUILTIN = BuiltinRegistry()
 
 def _parse(rec: str | None) -> tuple[str | None, str | None]:
     """Parse the lookup result into (backend, method); "qiskit" -> (qiskit, None),
-    "qiskit:stabilizer" -> (qiskit, stabilizer), None -> (None, None)."""
+    "qiskit:stabilizer" -> (qiskit, stabilizer), "qiskit/statevector" -> (qiskit, statevector),
+    None -> (None, None)."""
     if rec is None:
         return None, None
     if ":" in rec:
         backend, method = rec.split(":", 1)
+        return backend, method
+    if "/" in rec:
+        backend, method = rec.split("/", 1)
         return backend, method
     return rec, None
 
@@ -58,6 +63,7 @@ def schedule(
     circuit: Circuit,
     cache: BackendRegistry | None = None,
     table: BackendRegistry | None = None,
+    profiles: BackendRegistry | None = None,
     noise: bool = False,
 ) -> Recommendation:
     """Return the scheduling decision (backend name + simulation method).
@@ -67,6 +73,7 @@ def schedule(
             If the cache has timing data, the backend with the best average
             time is chosen (learning scheduler).
         table: static parameter table (FileRegistry / MemoryRegistry), next.
+        profiles: parametric cost model (ProfileRegistry), between table and rules.
         noise: whether to enable depolarizing noise (when enabled, method is
             always density_matrix).
         When neither finds a match, fall back to the built-in rules.
@@ -91,15 +98,22 @@ def schedule(
         if backend is None:
             backend, method = _parse(cache.get_recommendation(feats))
 
-    # 2. Check static table
+    # 2. Check static table (benchmarks.json — accurate for known circuits)
     if backend is None and table is not None:
         backend, method = _parse(table.get_recommendation(feats))
 
-    # 3. Fall back to built-in rules
+    # 3. Check profiles (parametric cost model — fallback for unseen circuits)
+    if backend is None and profiles is not None:
+        rec_str = profiles.get_recommendation(feats)
+        if rec_str is not None:
+            backend, method = _parse(rec_str)
+
+    # 4. Fall back to built-in rules (recommend_method returns Recommendation)
+    rec = recommend_method(feats, noise=noise)
     if backend is None:
-        backend = _BUILTIN.get_recommendation(feats)
+        backend = rec.backend
     if method is None or noise:
-        method = recommend_method(feats, noise=noise)
+        method = rec.method
     return Recommendation(backend=backend, method=method)
 
 
@@ -110,8 +124,10 @@ __all__ = [
     "FileRegistry",
     "LocalCacheRegistry",
     "MemoryRegistry",
+    "ProfileRegistry",
     "Recommendation",
     "circuit_features",
+    "default_profiles",
     "decision_class",
     "eligible_methods",
     "load_gpu_decision",

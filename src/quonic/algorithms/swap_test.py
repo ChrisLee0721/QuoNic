@@ -32,7 +32,7 @@ from __future__ import annotations
 
 from typing import Callable
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -80,7 +80,9 @@ def swap_test(
     # Bitstring: ancilla (leftmost) + data qubits (rightmost).
     # Extract leftmost character = ancilla measurement.
 
-    result = get_backend(backend).run(circuit, shots=shots)
+    # Native backend supports cswap via statevector; external backends may not.
+    use_backend = backend if backend != "auto" else "native"
+    result = run_circuit(circuit, backend=use_backend, shots=shots)
     # Extract ancilla bit (leftmost character of bitstring)
     p0 = sum(c for bs, c in result.counts.items() if bs[0] == "0") / shots
     # P(ancilla=0) = (1 + |⟨ψ|φ⟩|²) / 2

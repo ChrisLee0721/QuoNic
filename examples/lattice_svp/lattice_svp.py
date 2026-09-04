@@ -12,7 +12,7 @@ Quantum approach to lattice-based cryptography.
 Approximate shortest vector.
 近似最短向量。"""
 
-from quonic.algorithms import lattice_svp_demo
+from quonic.algorithms import lattice_svp
 
-result = lattice_svp_demo()
+result = lattice_svp()
 print(result.counts)

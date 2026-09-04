@@ -7,18 +7,18 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import quantum_ode_demo
-    result = quantum_ode_demo()
+    from quonic.algorithms import quantum_ode
+    result = quantum_ode()
 """
 
 from __future__ import annotations
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
-def quantum_ode_demo(
+def quantum_ode(
     backend: str = "auto",
     shots: int = 1024,
 ) -> Result:
@@ -32,5 +32,5 @@ def quantum_ode_demo(
     t = 1.0
     circuit.add(GateOperation("rz", (0,), (t,)))
 
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
     return Result.from_value(0.0, counts=result.counts)

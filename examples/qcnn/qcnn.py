@@ -12,7 +12,7 @@ Quantum CNN for classification tasks.
 Classification accuracy.
 分类准确率。"""
 
-from quonic.algorithms import qcnn_demo
+from quonic.algorithms import qcnn
 
-result = qcnn_demo(maxiter=50)
+result = qcnn(maxiter=50)
 print(f"Accuracy: {result.value}")

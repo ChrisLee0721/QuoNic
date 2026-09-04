@@ -1,0 +1,65 @@
+{
+  "n_circuits": 793,
+  "n_match": 217,
+  "match_rate_pct": 27.4,
+  "overhead_mean": 48.1,
+  "overhead_median": 1.27,
+  "overhead_p95": 226.97,
+  "overhead_worst": 3433.67,
+  "overhead_geomean": 3.67,
+  "per_class": {
+    "clifford": {
+      "n_circuits": 337,
+      "match_rate_pct": 19.6,
+      "overhead_mean": 64.15,
+      "overhead_median": 1.86,
+      "overhead_p95": 348.92,
+      "overhead_worst": 687.09,
+      "overhead_geomean": 6.25
+    },
+    "low_tw": {
+      "n_circuits": 406,
+      "match_rate_pct": 31.3,
+      "overhead_mean": 40.29,
+      "overhead_median": 1.13,
+      "overhead_p95": 176.82,
+      "overhead_worst": 3433.67,
+      "overhead_geomean": 2.67
+    },
+    "general": {
+      "n_circuits": 50,
+      "match_rate_pct": 48.0,
+      "overhead_mean": 3.35,
+      "overhead_median": 1.0,
+      "overhead_p95": 2.6,
+      "overhead_worst": 103.56,
+      "overhead_geomean": 1.33
+    }
+  },
+  "per_size": {
+    "small": {
+      "n_circuits": 344,
+      "match_rate_pct": 18.9,
+      "overhead_mean": 32.47,
+      "overhead_median": 1.19,
+      "overhead_p95": 210.81,
+      "overhead_worst": 454.21
+    },
+    "medium": {
+      "n_circuits": 392,
+      "match_rate_pct": 34.4,
+      "overhead_mean": 44.42,
+      "overhead_median": 1.55,
+      "overhead_p95": 227.03,
+      "overhead_worst": 687.09
+    },
+    "large": {
+      "n_circuits": 29,
+      "match_rate_pct": 6.9,
+      "overhead_mean": 328.4,
+      "overhead_median": 12.64,
+      "overhead_p95": 1916.82,
+      "overhead_worst": 3433.67
+    }
+  }
+}

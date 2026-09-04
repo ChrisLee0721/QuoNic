@@ -27,7 +27,7 @@ def test_qft_and_grover_are_general():
     for fn in (bench._qft, bench._grover):
         feats = circuit_features(fn(6))
         assert decision_class(feats) == "general"
-        assert recommend_method(feats) == "statevector"
+        assert recommend_method(feats).method == "statevector"
 
 
 def test_benchmark_noise_infeasible_threshold(monkeypatch):

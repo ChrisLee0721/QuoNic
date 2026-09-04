@@ -1,0 +1,239 @@
+{
+  "experiment": "exp7_hardware_aware",
+  "description": "Hardware-aware compilation with topology mapping",
+  "coupling_maps": {
+    "linear-16": 15,
+    "4x4-grid": 24,
+    "heavy-hex-16": 17
+  },
+  "results": [
+    {
+      "circuit": "QFT-8",
+      "n_qubits": 8,
+      "original_gates": 36,
+      "topologies": {
+        "linear-16": {
+          "coupling_map": "linear-16",
+          "original": {
+            "gates": 36,
+            "cx": 0,
+            "depth": 15
+          },
+          "fully_connected": {
+            "gates": 148,
+            "cx": 56,
+            "depth": 53,
+            "time": 0.001079
+          },
+          "hardware_aware": {
+            "gates": 204,
+            "cx": 56,
+            "swaps": 56,
+            "depth": 76,
+            "time": 0.001486
+          },
+          "gate_growth_pct": 466.7,
+          "swap_overhead": 56
+        },
+        "4x4-grid": {
+          "coupling_map": "4x4-grid",
+          "original": {
+            "gates": 36,
+            "cx": 0,
+            "depth": 15
+          },
+          "fully_connected": {
+            "gates": 148,
+            "cx": 56,
+            "depth": 53,
+            "time": 0.000662
+          },
+          "hardware_aware": {
+            "gates": 178,
+            "cx": 56,
+            "swaps": 30,
+            "depth": 71,
+            "time": 0.001205
+          },
+          "gate_growth_pct": 394.4,
+          "swap_overhead": 30
+        },
+        "heavy-hex-16": {
+          "coupling_map": "heavy-hex-16",
+          "original": {
+            "gates": 36,
+            "cx": 0,
+            "depth": 15
+          },
+          "fully_connected": {
+            "gates": 148,
+            "cx": 56,
+            "depth": 53,
+            "time": 0.000669
+          },
+          "hardware_aware": {
+            "gates": 186,
+            "cx": 56,
+            "swaps": 38,
+            "depth": 76,
+            "time": 0.001221
+          },
+          "gate_growth_pct": 416.7,
+          "swap_overhead": 38
+        }
+      }
+    },
+    {
+      "circuit": "Grover-4",
+      "n_qubits": 4,
+      "original_gates": 30,
+      "topologies": {
+        "linear-16": {
+          "coupling_map": "linear-16",
+          "original": {
+            "gates": 30,
+            "cx": 0,
+            "depth": 9
+          },
+          "fully_connected": {
+            "gates": 30,
+            "cx": 0,
+            "depth": 9,
+            "time": 0.00012
+          },
+          "hardware_aware": {
+            "gates": 30,
+            "cx": 0,
+            "swaps": 0,
+            "depth": 9,
+            "time": 0.000167
+          },
+          "gate_growth_pct": 0.0,
+          "swap_overhead": 0
+        },
+        "4x4-grid": {
+          "coupling_map": "4x4-grid",
+          "original": {
+            "gates": 30,
+            "cx": 0,
+            "depth": 9
+          },
+          "fully_connected": {
+            "gates": 30,
+            "cx": 0,
+            "depth": 9,
+            "time": 0.000115
+          },
+          "hardware_aware": {
+            "gates": 30,
+            "cx": 0,
+            "swaps": 0,
+            "depth": 9,
+            "time": 0.000168
+          },
+          "gate_growth_pct": 0.0,
+          "swap_overhead": 0
+        },
+        "heavy-hex-16": {
+          "coupling_map": "heavy-hex-16",
+          "original": {
+            "gates": 30,
+            "cx": 0,
+            "depth": 9
+          },
+          "fully_connected": {
+            "gates": 30,
+            "cx": 0,
+            "depth": 9,
+            "time": 0.000114
+          },
+          "hardware_aware": {
+            "gates": 30,
+            "cx": 0,
+            "swaps": 0,
+            "depth": 9,
+            "time": 0.000163
+          },
+          "gate_growth_pct": 0.0,
+          "swap_overhead": 0
+        }
+      }
+    },
+    {
+      "circuit": "Entangled-8",
+      "n_qubits": 8,
+      "original_gates": 22,
+      "topologies": {
+        "linear-16": {
+          "coupling_map": "linear-16",
+          "original": {
+            "gates": 22,
+            "cx": 14,
+            "depth": 10
+          },
+          "fully_connected": {
+            "gates": 22,
+            "cx": 14,
+            "depth": 10,
+            "time": 9.9e-05
+          },
+          "hardware_aware": {
+            "gates": 22,
+            "cx": 14,
+            "swaps": 0,
+            "depth": 10,
+            "time": 0.000138
+          },
+          "gate_growth_pct": 0.0,
+          "swap_overhead": 0
+        },
+        "4x4-grid": {
+          "coupling_map": "4x4-grid",
+          "original": {
+            "gates": 22,
+            "cx": 14,
+            "depth": 10
+          },
+          "fully_connected": {
+            "gates": 22,
+            "cx": 14,
+            "depth": 10,
+            "time": 0.000116
+          },
+          "hardware_aware": {
+            "gates": 29,
+            "cx": 14,
+            "swaps": 7,
+            "depth": 15,
+            "time": 0.000241
+          },
+          "gate_growth_pct": 31.8,
+          "swap_overhead": 7
+        },
+        "heavy-hex-16": {
+          "coupling_map": "heavy-hex-16",
+          "original": {
+            "gates": 22,
+            "cx": 14,
+            "depth": 10
+          },
+          "fully_connected": {
+            "gates": 22,
+            "cx": 14,
+            "depth": 10,
+            "time": 0.000101
+          },
+          "hardware_aware": {
+            "gates": 31,
+            "cx": 14,
+            "swaps": 9,
+            "depth": 17,
+            "time": 0.000236
+          },
+          "gate_growth_pct": 40.9,
+          "swap_overhead": 9
+        }
+      }
+    }
+  ]
+}

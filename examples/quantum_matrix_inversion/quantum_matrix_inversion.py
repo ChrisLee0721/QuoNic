@@ -12,7 +12,7 @@ HHL-based matrix inversion for linear systems.
 Solution vector.
 解向量。"""
 
-from quonic.algorithms import quantum_matrix_inversion_demo
+from quonic.algorithms import quantum_matrix_inversion
 
-result = quantum_matrix_inversion_demo()
+result = quantum_matrix_inversion()
 print(result.counts)

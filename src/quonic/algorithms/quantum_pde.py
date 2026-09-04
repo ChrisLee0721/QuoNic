@@ -7,18 +7,18 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import quantum_pde_demo
-    result = quantum_pde_demo()
+    from quonic.algorithms import quantum_pde
+    result = quantum_pde()
 """
 
 from __future__ import annotations
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
-def quantum_pde_demo(
+def quantum_pde(
     backend: str = "auto",
     shots: int = 1024,
 ) -> Result:
@@ -36,5 +36,5 @@ def quantum_pde_demo(
         circuit.add(GateOperation("rz", (q,), (dt,)))
 
     # Measurement
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
     return Result.from_value(0.0, counts=result.counts)

@@ -12,7 +12,7 @@ Quantum algorithm for partial differential equations.
 Solution field.
 解场。"""
 
-from quonic.algorithms import quantum_pde_demo
+from quonic.algorithms import quantum_pde
 
-result = quantum_pde_demo(shots=1024)
+result = quantum_pde(shots=1024)
 print(result.counts)

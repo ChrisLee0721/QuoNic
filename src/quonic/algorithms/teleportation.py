@@ -18,7 +18,7 @@ Example::
 
 from __future__ import annotations
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -58,4 +58,4 @@ def teleportation(
     circuit.add(GateOperation("cx", (1, 2)))
     circuit.add(GateOperation("cz", (0, 2)))
 
-    return get_backend(backend).run(circuit, shots=shots)
+    return run_circuit(circuit, backend=backend, shots=shots)

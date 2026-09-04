@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import quantum_eigenvalue_demo
-    result = quantum_eigenvalue_demo()
+    from quonic.algorithms import quantum_eigenvalue
+    result = quantum_eigenvalue()
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ from ..result import Result
 from .qpe import qpe
 
 
-def quantum_eigenvalue_demo() -> Result:
+def quantum_eigenvalue() -> Result:
     """Minimal quantum eigenvalue solver demo."""
     # Estimate eigenphase of Rz(π/2) on |1>
     # Rz(π/2)|1> = e^{iπ/4}|1>, so eigenphase = π/4

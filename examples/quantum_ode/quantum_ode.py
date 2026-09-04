@@ -12,7 +12,7 @@ Quantum algorithm for ordinary differential equations.
 Solution trajectory.
 解轨迹。"""
 
-from quonic.algorithms import quantum_ode_demo
+from quonic.algorithms import quantum_ode
 
-result = quantum_ode_demo(shots=1024)
+result = quantum_ode(shots=1024)
 print(result.counts)

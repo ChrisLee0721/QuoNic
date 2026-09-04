@@ -9,18 +9,18 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import stabilizer_demo
-    result = stabilizer_demo(n_qubits=3, shots=100)
+    from quonic.algorithms import stabilizer
+    result = stabilizer(n_qubits=3, shots=100)
 """
 
 from __future__ import annotations
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
-def stabilizer_demo(
+def stabilizer(
     n_qubits: int = 3,
     backend: str = "auto",
     shots: int = 100,
@@ -36,5 +36,5 @@ def stabilizer_demo(
     # Measure stabilizers: Z0Z1, Z1Z2
     # These should give +1 eigenvalue for the GHZ state
 
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
     return Result.from_value(1.0, counts=result.counts)

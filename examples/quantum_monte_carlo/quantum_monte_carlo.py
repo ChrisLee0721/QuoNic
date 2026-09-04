@@ -12,7 +12,7 @@ Quantum speedup for Monte Carlo methods.
 Estimated integral value.
 估计积分值。"""
 
-from quonic.algorithms import quantum_monte_carlo_demo
+from quonic.algorithms import quantum_monte_carlo
 
-result = quantum_monte_carlo_demo(n_qubits=2, shots=1024)
+result = quantum_monte_carlo(n_qubits=2, shots=1024)
 print(f"Estimated value: {result.value}")

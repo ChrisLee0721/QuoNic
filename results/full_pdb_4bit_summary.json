@@ -1,0 +1,134 @@
+{
+  "summary": {
+    "by_bits": {
+      "4": {
+        "n": 3470835,
+        "mean_error": 0.065941,
+        "std_error": 0.044209,
+        "min_error": 0.0,
+        "max_error": 0.15625,
+        "valid_pct": 100.0
+      }
+    },
+    "by_metal": {
+      "C": {
+        "n": 311428,
+        "mean_error": 0.073339,
+        "std_error": 0.017108
+      },
+      "CA": {
+        "n": 58535,
+        "mean_error": 0.072862,
+        "std_error": 0.023205
+      },
+      "CD": {
+        "n": 6193,
+        "mean_error": 0.078456,
+        "std_error": 0.023834
+      },
+      "CO": {
+        "n": 4480,
+        "mean_error": 0.076827,
+        "std_error": 0.026216
+      },
+      "CR": {
+        "n": 45,
+        "mean_error": 0.069758,
+        "std_error": 0.02063
+      },
+      "CU": {
+        "n": 10402,
+        "mean_error": 0.071588,
+        "std_error": 0.026107
+      },
+      "F": {
+        "n": 2,
+        "mean_error": 0.071409,
+        "std_error": 0.007602
+      },
+      "FE": {
+        "n": 80207,
+        "mean_error": 0.067434,
+        "std_error": 0.02535
+      },
+      "H": {
+        "n": 7114,
+        "mean_error": 0.075996,
+        "std_error": 0.023414
+      },
+      "HG": {
+        "n": 856,
+        "mean_error": 0.07519,
+        "std_error": 0.027183
+      },
+      "MG": {
+        "n": 120412,
+        "mean_error": 0.066905,
+        "std_error": 0.024746
+      },
+      "MN": {
+        "n": 17442,
+        "mean_error": 0.081161,
+        "std_error": 0.022987
+      },
+      "MO": {
+        "n": 1525,
+        "mean_error": 0.066744,
+        "std_error": 0.026302
+      },
+      "N": {
+        "n": 110,
+        "mean_error": 0.076537,
+        "std_error": 0.020006
+      },
+      "NI": {
+        "n": 4441,
+        "mean_error": 0.077212,
+        "std_error": 0.023512
+      },
+      "P": {
+        "n": 49965,
+        "mean_error": 0.098586,
+        "std_error": 0.014333
+      },
+      "PB": {
+        "n": 117,
+        "mean_error": 0.071874,
+        "std_error": 0.023503
+      },
+      "SS": {
+        "n": 2695302,
+        "mean_error": 0.06392,
+        "std_error": 0.048418
+      },
+      "TI": {
+        "n": 10,
+        "mean_error": 0.084211,
+        "std_error": 0.021589
+      },
+      "U": {
+        "n": 127,
+        "mean_error": 0.073271,
+        "std_error": 0.022085
+      },
+      "V": {
+        "n": 958,
+        "mean_error": 0.086509,
+        "std_error": 0.025026
+      },
+      "W": {
+        "n": 3663,
+        "mean_error": 0.076505,
+        "std_error": 0.020011
+      },
+      "ZN": {
+        "n": 97501,
+        "mean_error": 0.068308,
+        "std_error": 0.02874
+      }
+    }
+  },
+  "total_time": 2030.0094499588013,
+  "n_pdb_files": 236401,
+  "n_sites": 3470835
+}

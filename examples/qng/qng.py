@@ -12,7 +12,7 @@ Uses quantum Fisher information for better optimization.
 Optimized parameters with faster convergence.
 更快收敛的优化参数。"""
 
-from quonic.algorithms import qng_demo
+from quonic.algorithms import qng
 
-result = qng_demo(n_params=2, maxiter=50)
+result = qng(n_params=2, maxiter=50)
 print(f"Final loss: {result.value}")

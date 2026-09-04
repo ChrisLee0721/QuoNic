@@ -9,20 +9,20 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import amplitude_estimation_demo
-    result = amplitude_estimation_demo()
+    from quonic.algorithms import amplitude_estimation
+    result = amplitude_estimation()
 """
 
 from __future__ import annotations
 
 import math
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
 
-def amplitude_estimation_demo(
+def amplitude_estimation(
     n_qubits: int = 2,
     n_precision: int = 3,
     backend: str = "auto",
@@ -68,6 +68,6 @@ def amplitude_estimation_demo(
             circuit.add(GateOperation("cp", (n + k, n + j), (-math.pi / 2 ** (j - k),)))
         circuit.add(GateOperation("h", (n + j,)))
 
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
     # Parse precision register to estimate amplitude
     return Result.from_value(0.0, counts=result.counts)

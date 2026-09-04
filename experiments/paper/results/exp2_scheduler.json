@@ -1,0 +1,315 @@
+{
+  "experiment": "exp2_scheduler",
+  "description": "Smart scheduler evaluation - all backends comparison",
+  "shots": 1024,
+  "backends_tested": [
+    "native",
+    "qiskit",
+    "cupy",
+    "cirq",
+    "qpanda"
+  ],
+  "results": [
+    {
+      "circuit": "GHZ-20 (Clifford)",
+      "n_qubits": 20,
+      "gate_count": 20,
+      "depth": 20,
+      "features": {
+        "n": 20,
+        "depth": 20,
+        "gate_count": 20,
+        "is_clifford": true,
+        "treewidth_ub": 1,
+        "entanglement": "low"
+      },
+      "decision_class": "clifford",
+      "eligible_methods": [
+        "matrix_product_state",
+        "stabilizer",
+        "statevector"
+      ],
+      "recommendation": {
+        "backend": "qiskit",
+        "method": "statevector"
+      },
+      "recommended_time": 5.964,
+      "all_timings": {
+        "native/statevector": {
+          "time": 1.9423,
+          "outcomes": 2
+        },
+        "native/stabilizer": {
+          "time": 15.7864,
+          "outcomes": 2
+        },
+        "native/matrix_product_state": {
+          "time": 2.1008,
+          "outcomes": 2
+        },
+        "qiskit/statevector": {
+          "time": 0.0418,
+          "outcomes": 2
+        },
+        "qiskit/stabilizer": {
+          "time": 0.0362,
+          "outcomes": 2
+        },
+        "qiskit/matrix_product_state": {
+          "time": 0.0867,
+          "outcomes": 2
+        },
+        "cupy/statevector": {
+          "time": 0.9139,
+          "outcomes": 2
+        },
+        "cirq/statevector": {
+          "time": 28.4702,
+          "outcomes": 2
+        },
+        "qpanda/statevector": {
+          "time": 0.3446,
+          "outcomes": 2
+        }
+      },
+      "fastest": {
+        "key": "qiskit/stabilizer",
+        "time": 0.0362
+      },
+      "scheduler_is_fastest": false,
+      "speedup_vs_slowest": 681.11,
+      "overhead_vs_fastest": 1.15
+    },
+    {
+      "circuit": "QAOA-8 (low treewidth)",
+      "n_qubits": 8,
+      "gate_count": 80,
+      "depth": 13,
+      "features": {
+        "n": 8,
+        "depth": 13,
+        "gate_count": 80,
+        "is_clifford": false,
+        "treewidth_ub": 1,
+        "entanglement": "low"
+      },
+      "decision_class": "low_tw",
+      "eligible_methods": [
+        "matrix_product_state",
+        "statevector"
+      ],
+      "recommendation": {
+        "backend": "native",
+        "method": "statevector"
+      },
+      "recommended_time": 0.004,
+      "all_timings": {
+        "native/statevector": {
+          "time": 0.0068,
+          "outcomes": 166
+        },
+        "native/matrix_product_state": {
+          "time": 0.9944,
+          "outcomes": 157
+        },
+        "native/density_matrix": {
+          "time": 0.944,
+          "outcomes": 171
+        },
+        "qiskit/statevector": {
+          "time": 0.0112,
+          "outcomes": 167
+        },
+        "qiskit/matrix_product_state": {
+          "time": 0.039,
+          "outcomes": 149
+        },
+        "qiskit/density_matrix": {
+          "time": 0.0307,
+          "outcomes": 165
+        },
+        "cupy/statevector": {
+          "time": 0.0645,
+          "outcomes": 168
+        },
+        "cupy/density_matrix": {
+          "time": 0.0554,
+          "outcomes": 173
+        },
+        "cirq/statevector": {
+          "time": 0.0443,
+          "outcomes": 169
+        },
+        "qpanda/statevector": {
+          "time": 0.0036,
+          "outcomes": 164
+        },
+        "qpanda/density_matrix": {
+          "time": 0.0033,
+          "outcomes": 179
+        }
+      },
+      "fastest": {
+        "key": "qpanda/density_matrix",
+        "time": 0.0033
+      },
+      "scheduler_is_fastest": false,
+      "speedup_vs_slowest": 146.24,
+      "overhead_vs_fastest": 2.06
+    },
+    {
+      "circuit": "Random-20 (high entanglement)",
+      "n_qubits": 20,
+      "gate_count": 780,
+      "depth": 77,
+      "features": {
+        "n": 20,
+        "depth": 77,
+        "gate_count": 780,
+        "is_clifford": false,
+        "treewidth_ub": 1,
+        "entanglement": "low"
+      },
+      "decision_class": "low_tw",
+      "eligible_methods": [
+        "matrix_product_state",
+        "statevector"
+      ],
+      "recommendation": {
+        "backend": "qiskit",
+        "method": "statevector"
+      },
+      "recommended_time": 0.8387,
+      "all_timings": {
+        "native/statevector": {
+          "time": 45.4152,
+          "outcomes": 1021
+        },
+        "native/matrix_product_state": {
+          "time": 0,
+          "outcomes": 0,
+          "error": "Timeout (60s)"
+        },
+        "qiskit/statevector": {
+          "time": 0.7829,
+          "outcomes": 1024
+        },
+        "qiskit/matrix_product_state": {
+          "time": 0,
+          "outcomes": 0,
+          "error": "Timeout (60s)"
+        },
+        "cupy/statevector": {
+          "time": 24.8219,
+          "outcomes": 1022
+        },
+        "cirq/statevector": {
+          "time": 4.4805,
+          "outcomes": 1024
+        },
+        "qpanda/statevector": {
+          "time": 0.7595,
+          "outcomes": 1023
+        }
+      },
+      "fastest": {
+        "key": "qpanda/statevector",
+        "time": 0.7595
+      },
+      "scheduler_is_fastest": false,
+      "speedup_vs_slowest": 58.01,
+      "overhead_vs_fastest": 1.03
+    },
+    {
+      "circuit": "Noise-ready circuit",
+      "n_qubits": 10,
+      "gate_count": 10,
+      "depth": 10,
+      "features": {
+        "n": 10,
+        "depth": 10,
+        "gate_count": 10,
+        "is_clifford": true,
+        "treewidth_ub": 1,
+        "entanglement": "low"
+      },
+      "decision_class": "clifford",
+      "eligible_methods": [
+        "matrix_product_state",
+        "stabilizer",
+        "statevector"
+      ],
+      "recommendation": {
+        "backend": "native",
+        "method": "statevector"
+      },
+      "recommended_time": 0.0022,
+      "all_timings": {
+        "native/statevector": {
+          "time": 0.0032,
+          "outcomes": 2
+        },
+        "native/stabilizer": {
+          "time": 3.6631,
+          "outcomes": 2
+        },
+        "native/matrix_product_state": {
+          "time": 1.1943,
+          "outcomes": 2
+        },
+        "native/density_matrix": {
+          "time": 2.7446,
+          "outcomes": 2
+        },
+        "qiskit/statevector": {
+          "time": 0.0079,
+          "outcomes": 2
+        },
+        "qiskit/stabilizer": {
+          "time": 0.0164,
+          "outcomes": 2
+        },
+        "qiskit/matrix_product_state": {
+          "time": 0.0525,
+          "outcomes": 2
+        },
+        "qiskit/density_matrix": {
+          "time": 0.0485,
+          "outcomes": 2
+        },
+        "cupy/statevector": {
+          "time": 0.0115,
+          "outcomes": 2
+        },
+        "cupy/density_matrix": {
+          "time": 0.038,
+          "outcomes": 2
+        },
+        "cirq/statevector": {
+          "time": 0.0552,
+          "outcomes": 2
+        },
+        "qpanda/statevector": {
+          "time": 0.0033,
+          "outcomes": 2
+        },
+        "qpanda/density_matrix": {
+          "time": 0.0031,
+          "outcomes": 2
+        }
+      },
+      "fastest": {
+        "key": "qpanda/density_matrix",
+        "time": 0.0031
+      },
+      "scheduler_is_fastest": false,
+      "speedup_vs_slowest": 1144.72,
+      "overhead_vs_fastest": 1.03
+    }
+  ],
+  "summary": {
+    "n_circuits": 4,
+    "scheduler_picked_fastest": 0,
+    "avg_overhead_vs_fastest": 1.32
+  }
+}

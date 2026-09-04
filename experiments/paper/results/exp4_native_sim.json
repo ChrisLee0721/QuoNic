@@ -1,0 +1,791 @@
+{
+  "experiment": "exp4_native_sim",
+  "description": "Native simulator performance benchmark",
+  "shots": 1024,
+  "engines": [
+    "statevector",
+    "stabilizer",
+    "matrix_product_state",
+    "density_matrix"
+  ],
+  "results": [
+    {
+      "circuit": "GHZ",
+      "qubit_range": [
+        8,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20
+      ],
+      "results": [
+        {
+          "n": 8,
+          "gate_count": 8,
+          "depth": 8,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.2218,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 1.3488,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 0.617,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0.1246,
+            "unique_outcomes": 2,
+            "error": null
+          }
+        },
+        {
+          "n": 10,
+          "gate_count": 10,
+          "depth": 10,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.002,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 2.2594,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 0.7367,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 2.2489,
+            "unique_outcomes": 2,
+            "error": null
+          }
+        },
+        {
+          "n": 12,
+          "gate_count": 12,
+          "depth": 12,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.0047,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 3.4177,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 0.8655,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 39.1719,
+            "unique_outcomes": 2,
+            "error": null
+          }
+        },
+        {
+          "n": 14,
+          "gate_count": 14,
+          "depth": 14,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.0146,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 4.8595,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 1.0681,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 60.0076,
+            "unique_outcomes": 0,
+            "error": "Timeout (60.0s)"
+          }
+        },
+        {
+          "n": 16,
+          "gate_count": 16,
+          "depth": 16,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.0631,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 7.7668,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 1.4554,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0,
+            "unique_outcomes": 0,
+            "error": "Skipped (n>14)"
+          }
+        },
+        {
+          "n": 18,
+          "gate_count": 18,
+          "depth": 18,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.3414,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 10.417,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 1.6161,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0,
+            "unique_outcomes": 0,
+            "error": "Skipped (n>14)"
+          }
+        },
+        {
+          "n": 20,
+          "gate_count": 20,
+          "depth": 20,
+          "statevector": {
+            "engine": "statevector",
+            "time": 1.6352,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 13.4684,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 1.8389,
+            "unique_outcomes": 2,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0,
+            "unique_outcomes": 0,
+            "error": "Skipped (n>14)"
+          }
+        }
+      ]
+    },
+    {
+      "circuit": "Random Clifford",
+      "qubit_range": [
+        10,
+        14,
+        18,
+        22,
+        26,
+        30
+      ],
+      "results": [
+        {
+          "n": 10,
+          "gate_count": 182,
+          "depth": 28,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.0101,
+            "unique_outcomes": 64,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.9254,
+            "unique_outcomes": 64,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 0.8052,
+            "unique_outcomes": 64,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 23.8187,
+            "unique_outcomes": 64,
+            "error": null
+          }
+        },
+        {
+          "n": 14,
+          "gate_count": 349,
+          "depth": 39,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.1899,
+            "unique_outcomes": 32,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 2.558,
+            "unique_outcomes": 32,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 1.1444,
+            "unique_outcomes": 32,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 12.7587,
+            "unique_outcomes": 0,
+            "error": "Unable to allocate 4.00 GiB for an array with shape (8192, 2, 1, 8192, 2, 1) and data type complex12"
+          }
+        },
+        {
+          "n": 18,
+          "gate_count": 596,
+          "depth": 55,
+          "statevector": {
+            "engine": "statevector",
+            "time": 5.4768,
+            "unique_outcomes": 798,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 2.7049,
+            "unique_outcomes": 818,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 1.4564,
+            "unique_outcomes": 798,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0,
+            "unique_outcomes": 0,
+            "error": "Skipped (n>14)"
+          }
+        },
+        {
+          "n": 22,
+          "gate_count": 899,
+          "depth": 65,
+          "statevector": {
+            "engine": "statevector",
+            "time": 60.0059,
+            "unique_outcomes": 0,
+            "error": "Timeout (60.0s)"
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 5.3294,
+            "unique_outcomes": 888,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 2.0467,
+            "unique_outcomes": 887,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0,
+            "unique_outcomes": 0,
+            "error": "Skipped (n>14)"
+          }
+        },
+        {
+          "n": 26,
+          "gate_count": 1264,
+          "depth": 76,
+          "statevector": {
+            "engine": "statevector",
+            "time": 60.0504,
+            "unique_outcomes": 0,
+            "error": "Timeout (60.0s)"
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 13.677,
+            "unique_outcomes": 966,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 3.7557,
+            "unique_outcomes": 970,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0,
+            "unique_outcomes": 0,
+            "error": "Skipped (n>14)"
+          }
+        },
+        {
+          "n": 30,
+          "gate_count": 1684,
+          "depth": 87,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.005,
+            "unique_outcomes": 0,
+            "error": "Unable to allocate 16.0 GiB for an array with shape (1073741824,) and data type complex128"
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 16.0647,
+            "unique_outcomes": 1018,
+            "error": null
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 3.0483,
+            "unique_outcomes": 1018,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0,
+            "unique_outcomes": 0,
+            "error": "Skipped (n>14)"
+          }
+        }
+      ]
+    },
+    {
+      "circuit": "Random non-Clifford",
+      "qubit_range": [
+        8,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20
+      ],
+      "results": [
+        {
+          "n": 8,
+          "gate_count": 57,
+          "depth": 13,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.0038,
+            "unique_outcomes": 122,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.0004,
+            "unique_outcomes": 0,
+            "error": "stabilizer engine does not support gate 'rx'"
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 0.8271,
+            "unique_outcomes": 140,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0.8641,
+            "unique_outcomes": 137,
+            "error": null
+          }
+        },
+        {
+          "n": 10,
+          "gate_count": 92,
+          "depth": 16,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.0111,
+            "unique_outcomes": 268,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.0008,
+            "unique_outcomes": 0,
+            "error": "stabilizer engine does not support gate 'rx'"
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 0.9417,
+            "unique_outcomes": 240,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 15.6454,
+            "unique_outcomes": 257,
+            "error": null
+          }
+        },
+        {
+          "n": 12,
+          "gate_count": 126,
+          "depth": 20,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.0369,
+            "unique_outcomes": 561,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.0006,
+            "unique_outcomes": 0,
+            "error": "stabilizer engine does not support gate 'rx'"
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 1.2037,
+            "unique_outcomes": 529,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 60.0094,
+            "unique_outcomes": 0,
+            "error": "Timeout (60.0s)"
+          }
+        },
+        {
+          "n": 14,
+          "gate_count": 171,
+          "depth": 23,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.1413,
+            "unique_outcomes": 796,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.0007,
+            "unique_outcomes": 0,
+            "error": "stabilizer engine does not support gate 'rx'"
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 1.598,
+            "unique_outcomes": 816,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0.0141,
+            "unique_outcomes": 0,
+            "error": "Unable to allocate 4.00 GiB for an array with shape (8192, 2, 1, 8192, 2, 1) and data type complex12"
+          }
+        },
+        {
+          "n": 16,
+          "gate_count": 231,
+          "depth": 24,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.8092,
+            "unique_outcomes": 792,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.0005,
+            "unique_outcomes": 0,
+            "error": "stabilizer engine does not support gate 'rx'"
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 1.5483,
+            "unique_outcomes": 793,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0,
+            "unique_outcomes": 0,
+            "error": "Skipped (n>14)"
+          }
+        },
+        {
+          "n": 18,
+          "gate_count": 297,
+          "depth": 28,
+          "statevector": {
+            "engine": "statevector",
+            "time": 4.1917,
+            "unique_outcomes": 921,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.0005,
+            "unique_outcomes": 0,
+            "error": "stabilizer engine does not support gate 'rx'"
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 1.9513,
+            "unique_outcomes": 875,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0,
+            "unique_outcomes": 0,
+            "error": "Skipped (n>14)"
+          }
+        },
+        {
+          "n": 20,
+          "gate_count": 364,
+          "depth": 30,
+          "statevector": {
+            "engine": "statevector",
+            "time": 30.2155,
+            "unique_outcomes": 989,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.0006,
+            "unique_outcomes": 0,
+            "error": "stabilizer engine does not support gate 'rx'"
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 2.3995,
+            "unique_outcomes": 987,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0,
+            "unique_outcomes": 0,
+            "error": "Skipped (n>14)"
+          }
+        }
+      ]
+    },
+    {
+      "circuit": "QFT",
+      "qubit_range": [
+        8,
+        10,
+        12,
+        14,
+        16
+      ],
+      "results": [
+        {
+          "n": 8,
+          "gate_count": 36,
+          "depth": 15,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.0029,
+            "unique_outcomes": 251,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.0005,
+            "unique_outcomes": 0,
+            "error": "stabilizer engine does not support gate 'cp'"
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 4.5568,
+            "unique_outcomes": 251,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0.1963,
+            "unique_outcomes": 249,
+            "error": null
+          }
+        },
+        {
+          "n": 10,
+          "gate_count": 55,
+          "depth": 19,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.0053,
+            "unique_outcomes": 655,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.0006,
+            "unique_outcomes": 0,
+            "error": "stabilizer engine does not support gate 'cp'"
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 38.9548,
+            "unique_outcomes": 630,
+            "error": null
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 4.9476,
+            "unique_outcomes": 654,
+            "error": null
+          }
+        },
+        {
+          "n": 12,
+          "gate_count": 78,
+          "depth": 23,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.0156,
+            "unique_outcomes": 910,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.0008,
+            "unique_outcomes": 0,
+            "error": "stabilizer engine does not support gate 'cp'"
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 60.0089,
+            "unique_outcomes": 0,
+            "error": "Timeout (60.0s)"
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 60.069,
+            "unique_outcomes": 0,
+            "error": "Timeout (60.0s)"
+          }
+        },
+        {
+          "n": 14,
+          "gate_count": 105,
+          "depth": 27,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.0519,
+            "unique_outcomes": 1003,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.0006,
+            "unique_outcomes": 0,
+            "error": "stabilizer engine does not support gate 'cp'"
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 60.0028,
+            "unique_outcomes": 0,
+            "error": "Timeout (60.0s)"
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0.0168,
+            "unique_outcomes": 0,
+            "error": "Unable to allocate 4.00 GiB for an array with shape (8192, 2, 1, 8192, 2, 1) and data type complex12"
+          }
+        },
+        {
+          "n": 16,
+          "gate_count": 136,
+          "depth": 31,
+          "statevector": {
+            "engine": "statevector",
+            "time": 0.1585,
+            "unique_outcomes": 1018,
+            "error": null
+          },
+          "stabilizer": {
+            "engine": "stabilizer",
+            "time": 0.0006,
+            "unique_outcomes": 0,
+            "error": "stabilizer engine does not support gate 'cp'"
+          },
+          "matrix_product_state": {
+            "engine": "matrix_product_state",
+            "time": 60.0645,
+            "unique_outcomes": 0,
+            "error": "Timeout (60.0s)"
+          },
+          "density_matrix": {
+            "engine": "density_matrix",
+            "time": 0,
+            "unique_outcomes": 0,
+            "error": "Skipped (n>14)"
+          }
+        }
+      ]
+    }
+  ]
+}

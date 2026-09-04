@@ -12,7 +12,7 @@ Hybrid classical-quantum annealing for optimization.
 Approximate ground state.
 近似基态。"""
 
-from quonic.algorithms import quantum_annealing_hybrid_demo
+from quonic.algorithms import quantum_annealing_hybrid
 
-result = quantum_annealing_hybrid_demo(n_spins=4, n_steps=100)
+result = quantum_annealing_hybrid(n_spins=4, n_steps=100)
 print(result.counts)

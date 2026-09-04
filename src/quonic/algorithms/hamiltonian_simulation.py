@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import hamiltonian_simulation_demo
-    result = hamiltonian_simulation_demo()
+    from quonic.algorithms import hamiltonian_simulation
+    result = hamiltonian_simulation()
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from ..result import Result
 from .trotter import trotter
 
 
-def hamiltonian_simulation_demo() -> Result:
+def hamiltonian_simulation() -> Result:
     """Minimal Hamiltonian simulation demo: 2-qubit Heisenberg model."""
     # H = J(Z0Z1 + X0X1 + Y0Y1)
     J = 1.0

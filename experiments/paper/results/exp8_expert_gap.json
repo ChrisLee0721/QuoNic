@@ -1,0 +1,126 @@
+{
+  "experiment": "exp8_expert_gap",
+  "description": "Expert baseline gap - auto vs hand-optimized",
+  "shots": 50000,
+  "results": [
+    {
+      "circuit": "Bell",
+      "n_qubits": 2,
+      "expert": {
+        "gates": 2,
+        "depth": 2
+      },
+      "quonic": {
+        "gates": 2,
+        "depth": 2
+      },
+      "gate_diff": 0,
+      "gate_diff_pct": 0.0,
+      "tvd": 0.00024,
+      "passed": true
+    },
+    {
+      "circuit": "GHZ-8",
+      "n_qubits": 8,
+      "expert": {
+        "gates": 8,
+        "depth": 8
+      },
+      "quonic": {
+        "gates": 8,
+        "depth": 8
+      },
+      "gate_diff": 0,
+      "gate_diff_pct": 0.0,
+      "tvd": 0.00442,
+      "passed": true
+    },
+    {
+      "circuit": "GHZ-16",
+      "n_qubits": 16,
+      "expert": {
+        "gates": 16,
+        "depth": 16
+      },
+      "quonic": {
+        "gates": 16,
+        "depth": 16
+      },
+      "gate_diff": 0,
+      "gate_diff_pct": 0.0,
+      "tvd": 0.000245,
+      "passed": true
+    },
+    {
+      "circuit": "QFT-8",
+      "n_qubits": 8,
+      "expert": {
+        "gates": 36,
+        "depth": 15
+      },
+      "quonic": {
+        "gates": 148,
+        "depth": 53
+      },
+      "gate_diff": 112,
+      "gate_diff_pct": 311.1,
+      "tvd": 0.03784,
+      "passed": true
+    },
+    {
+      "circuit": "QFT-12",
+      "n_qubits": 12,
+      "expert": {
+        "gates": 78,
+        "depth": 23
+      },
+      "quonic": {
+        "gates": 342,
+        "depth": 85
+      },
+      "gate_diff": 264,
+      "gate_diff_pct": 338.5,
+      "tvd": 0.0817,
+      "passed": true
+    },
+    {
+      "circuit": "Grover-4",
+      "n_qubits": 4,
+      "expert": {
+        "gates": 30,
+        "depth": 9
+      },
+      "quonic": {
+        "gates": 30,
+        "depth": 9
+      },
+      "gate_diff": 0,
+      "gate_diff_pct": 0.0,
+      "tvd": 0.00664,
+      "passed": true
+    },
+    {
+      "circuit": "Grover-6",
+      "n_qubits": 6,
+      "expert": {
+        "gates": 44,
+        "depth": 9
+      },
+      "quonic": {
+        "gates": 44,
+        "depth": 9
+      },
+      "gate_diff": 0,
+      "gate_diff_pct": 0.0,
+      "tvd": 0.00892,
+      "passed": true
+    }
+  ],
+  "summary": {
+    "total_expert_gates": 214,
+    "total_quonic_gates": 590,
+    "avg_gate_diff_pct": 92.8,
+    "max_tvd": 0.0817,
+    "all_correct": true
+  }
+}

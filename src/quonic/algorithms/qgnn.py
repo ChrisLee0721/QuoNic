@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import qgnn_demo
-    result = qgnn_demo()
+    from quonic.algorithms import qgnn
+    result = qgnn()
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from ..result import Result
 from ..simulator import StatevectorSimulator
 
 
-def qgnn_demo() -> Result:
+def qgnn() -> Result:
     """Minimal QGNN demo on 3-node graph."""
     edges = [(0, 1), (1, 2)]
     params = [0.5, 0.3, 0.7]

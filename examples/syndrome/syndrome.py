@@ -12,7 +12,7 @@ Extract error syndromes without disturbing encoded state.
 Syndrome bits indicating error location.
 指示错误位置的 syndrome 比特。"""
 
-from quonic.algorithms import syndrome_demo
+from quonic.algorithms import syndrome
 
-result = syndrome_demo(n_data=3, shots=100)
+result = syndrome(n_data=3, shots=100)
 print(result.counts)

@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import rejection_sampling_demo
-    result = rejection_sampling_demo()
+    from quonic.algorithms import rejection_sampling
+    result = rejection_sampling()
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from ..result import Result
 from ..simulator import StatevectorSimulator
 
 
-def rejection_sampling_demo(n_samples: int = 100) -> Result:
+def rejection_sampling(n_samples: int = 100) -> Result:
     """Minimal quantum rejection sampling demo."""
     import numpy as np
 

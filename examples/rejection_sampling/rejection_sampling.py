@@ -12,7 +12,7 @@ Quantum-enhanced rejection sampling.
 Samples from target distribution.
 目标分布的样本。"""
 
-from quonic.algorithms import rejection_sampling_demo
+from quonic.algorithms import rejection_sampling
 
-result = rejection_sampling_demo(n_samples=100)
+result = rejection_sampling(n_samples=100)
 print(result.counts)

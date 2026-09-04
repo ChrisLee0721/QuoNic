@@ -1,0 +1,37 @@
+{
+  "experiment": "exp_hardware_originq_photonic",
+  "description": "OriginQ PQPUMESH8 photonic hardware validation",
+  "shots": 1024,
+  "results": [
+    {
+      "circuit": "Bell",
+      "n_qubits": 2,
+      "simulator": {
+        "counts": {
+          "00": 521,
+          "11": 503
+        },
+        "time": 10.4858
+      },
+      "hardware": {
+        "status": "skipped",
+        "note": "PQPUMESH8 accessible but requires queue time"
+      }
+    },
+    {
+      "circuit": "GHZ-2",
+      "n_qubits": 2,
+      "simulator": {
+        "counts": {
+          "00": 499,
+          "11": 525
+        },
+        "time": 8.8298
+      },
+      "hardware": {
+        "status": "skipped",
+        "note": "PQPUMESH8 accessible but requires queue time"
+      }
+    }
+  ]
+}

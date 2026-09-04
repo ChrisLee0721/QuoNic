@@ -12,7 +12,7 @@ Find x such that a^x = b mod p.
 The discrete logarithm x.
 离散对数 x。"""
 
-from quonic.algorithms import discrete_log_demo
+from quonic.algorithms import discrete_log
 
-result = discrete_log_demo(a=2, b=8, p=11)
+result = discrete_log(a=2, b=8, p=11)
 print(result.counts)

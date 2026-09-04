@@ -12,7 +12,7 @@ Quantum version of regression/curve fitting.
 Fitted parameters.
 拟合参数。"""
 
-from quonic.algorithms import quantum_fitting_demo
+from quonic.algorithms import quantum_fitting
 
-result = quantum_fitting_demo()
+result = quantum_fitting()
 print(result.counts)

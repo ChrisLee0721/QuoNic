@@ -32,7 +32,7 @@ from __future__ import annotations
 
 from typing import Callable
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -77,7 +77,7 @@ def deutsch_jozsa(
     # The bitstring includes output qubit (leftmost) + input qubits (rightmost).
     # We check if the rightmost n characters (input qubits) are all zero.
 
-    result = get_backend(backend).run(circuit, shots=shots)
+    result = run_circuit(circuit, backend=backend, shots=shots)
     # Extract input qubit bits (rightmost n characters of bitstring)
     all_zero_input = "0" * n
     is_balanced = all(

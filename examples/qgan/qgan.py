@@ -12,7 +12,7 @@ Quantum generator + classical discriminator.
 Generated data distribution.
 生成的数据分布。"""
 
-from quonic.algorithms import qgan_demo
+from quonic.algorithms import qgan
 
-result = qgan_demo(n_steps=50)
+result = qgan(n_steps=50)
 print(result.counts)

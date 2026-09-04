@@ -12,7 +12,7 @@ Quantum GNN for graph-structured data.
 Graph/node embeddings.
 图/节点嵌入。"""
 
-from quonic.algorithms import qgnn_demo
+from quonic.algorithms import qgnn
 
-result = qgnn_demo()
+result = qgnn()
 print(result.counts)

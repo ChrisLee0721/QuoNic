@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import qsp_demo
-    result = qsp_demo()
+    from quonic.algorithms import qsp
+    result = qsp()
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ from ..result import Result
 from ..simulator import StatevectorSimulator
 
 
-def qsp_demo(angle: float = math.pi / 4) -> Result:
+def qsp(angle: float = math.pi / 4) -> Result:
     """Minimal QSP demo: single-qubit signal processing."""
     sim = StatevectorSimulator(1)
     # QSP sequence: Rz(φ) · exp(i·angle·Z) · Rz(φ)

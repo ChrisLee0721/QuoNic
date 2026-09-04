@@ -12,7 +12,7 @@ Adaptive layer QAOA that adds layers until convergence.
 Approximate optimal solution.
 近似最优解。"""
 
-from quonic.algorithms import dqaoa_demo
+from quonic.algorithms import dqaoa
 
-result = dqaoa_demo()
+result = dqaoa()
 print(result.counts)

@@ -61,37 +61,37 @@ def test_treewidth_chain():
 # ---------------------------------------------------------------------------
 
 def test_recommend_method_small_is_statevector():
-    # 小电路（n<24）statevector 反而最快，stabilizer 固定开销不划算
-    assert recommend_method(circuit_features(_bell())) == "statevector"
+    # 小电路（n<20）statevector 反而最快，stabilizer 固定开销不划算
+    assert recommend_method(circuit_features(_bell())).method == "statevector"
 
 
 def test_recommend_method_stabilizer():
-    # n>=24 且基础 Clifford 门集 -> stabilizer
+    # n>=20 且基础 Clifford 门集 -> stabilizer
     c = Circuit()
     c.add(GateOperation("h", (0,)))
     for i in range(23):
         c.add(GateOperation("cx", (i, i + 1)))
-    assert recommend_method(circuit_features(c)) == "stabilizer"
+    assert recommend_method(circuit_features(c)).method == "stabilizer"
 
 
 def test_recommend_method_nonclifford():
     # 含任意角旋转 -> statevector
     c = Circuit()
     c.add(GateOperation("rz", (0,), (0.3,)))
-    assert recommend_method(circuit_features(c)) == "statevector"
+    assert recommend_method(circuit_features(c)).method == "statevector"
     # mcz 是 Clifford 但 stabilizer 不支持 -> statevector
     c = Circuit()
     c.add(GateOperation("mcz", (0, 1, 2)))
-    assert recommend_method(circuit_features(c)) == "statevector"
+    assert recommend_method(circuit_features(c)).method == "statevector"
 
 
 def test_recommend_method_mps():
-    # 低树宽 + 大比特数（n>=24）+ 非 Clifford -> matrix_product_state
+    # 低树宽 + 大比特数（n>=20）+ 非 Clifford -> matrix_product_state
     c = Circuit()
     c.add(GateOperation("rz", (0,), (0.1,)))
     for i in range(23):
         c.add(GateOperation("cx", (i, i + 1)))
-    assert recommend_method(circuit_features(c)) == "matrix_product_state"
+    assert recommend_method(circuit_features(c)).method == "matrix_product_state"
 
 
 # ---------------------------------------------------------------------------
@@ -114,8 +114,8 @@ def test_local_cache_roundtrip(tmp_path):
     p = tmp_path / "cache.json"
     cache = LocalCacheRegistry(str(p))
     c = _bell()
-    # 第一次查不到 -> 回退规则
-    assert schedule(c, cache=cache).backend == "qiskit"
+    # 第一次查不到 -> 回退规则（QPanda 是默认后端）
+    assert schedule(c, cache=cache).backend == "qpanda"
     # 记录一次运行结果 -> 写入缓存
     cache.report_result(circuit_features(c), "cirq", 0.1, 100)
     assert schedule(c, cache=cache).backend == "cirq"
@@ -137,9 +137,9 @@ def test_schedule_priority(tmp_path):
 
 
 def test_schedule_includes_method():
-    # schedule 的 method 来自解析电路（Bell n=2 <24 -> statevector）
+    # schedule 的 method 来自解析电路（Bell n=2 <20 -> statevector）
     rec = schedule(_bell())
-    assert rec.backend == "qiskit"
+    assert rec.backend == "qpanda"
     assert rec.method == "statevector"
 
 

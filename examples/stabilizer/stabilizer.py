@@ -12,7 +12,7 @@ Clifford group simulation via stabilizer tableau.
 Stabilizer state measurements.
 稳定子态测量。"""
 
-from quonic.algorithms import stabilizer_demo
+from quonic.algorithms import stabilizer
 
-result = stabilizer_demo(n_qubits=3, shots=100)
+result = stabilizer(n_qubits=3, shots=100)
 print(result.counts)

@@ -21,7 +21,7 @@ Example::
 
 from __future__ import annotations
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..result import Result
 
@@ -62,4 +62,4 @@ def quantum_walk(
             circuit.add(GateOperation("ccx", (coin_qubit, i - 1, i)))
         circuit.add(GateOperation("cx", (coin_qubit, 0)))
 
-    return get_backend(backend).run(circuit, shots=shots)
+    return run_circuit(circuit, backend=backend, shots=shots)

@@ -8,8 +8,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import qrl_demo
-    result = qrl_demo(n_episodes=10)
+    from quonic.algorithms import qrl
+    result = qrl(n_episodes=10)
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ from ..result import Result
 from ..simulator import StatevectorSimulator
 
 
-def qrl_demo(n_episodes: int = 10) -> Result:
+def qrl(n_episodes: int = 10) -> Result:
     """Minimal quantum RL demo."""
     params = np.array([0.5, 0.5])
     rewards = []

@@ -12,7 +12,7 @@ Quantum version of Boltzmann machine for generative modeling.
 Learned probability distribution.
 学习到的概率分布。"""
 
-from quonic.algorithms import qbm_demo
+from quonic.algorithms import qbm
 
-result = qbm_demo(temperature=1.0)
+result = qbm(temperature=1.0)
 print(result.counts)

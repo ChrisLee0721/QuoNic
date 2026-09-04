@@ -7,8 +7,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import qpca_demo
-    result = qpca_demo()
+    from quonic.algorithms import qpca
+    result = qpca()
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from ..result import Result
 from ..simulator import StatevectorSimulator
 
 
-def qpca_demo() -> Result:
+def qpca() -> Result:
     """Minimal QPCA demo: extract principal components of 2x2 state."""
     import numpy as np
 

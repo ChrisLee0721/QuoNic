@@ -16,7 +16,7 @@ Example:
 
 from __future__ import annotations
 
-from ..backends import get_backend
+from ..backends import run_circuit
 from ..ir import Circuit, GateOperation
 from ..qft import add_iqft
 from ..result import Result
@@ -61,4 +61,4 @@ def qpe(
     for j in range(n):
         _add_crz(circuit, j, state_qubit, theta * (2 ** (n - 1 - j)))
     _add_iqft(circuit, n)
-    return get_backend(backend).run(circuit, shots=shots)
+    return run_circuit(circuit, backend=backend, shots=shots)

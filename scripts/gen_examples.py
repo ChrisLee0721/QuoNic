@@ -22,9 +22,9 @@ Uses precision qubits to estimate the success probability of an oracle.
 Output: estimated amplitude close to the true value.
 """
 
-from quonic.algorithms import amplitude_estimation_demo
+from quonic.algorithms import amplitude_estimation
 
-result = amplitude_estimation_demo(n_qubits=2, n_precision=3, shots=1024)
+result = amplitude_estimation(n_qubits=2, n_precision=3, shots=1024)
 print(result.counts)
 ''',
     "bernstein_vazirani": '''"""Bernstein-Vazirani: find the hidden bitstring s in f(x) = s·x mod 2.
@@ -46,9 +46,9 @@ Demonstrates the color code — a topological code with transversal gates.
 Output: corrected logical state.
 """
 
-from quonic.algorithms import color_code_demo
+from quonic.algorithms import color_code
 
-result = color_code_demo(shots=100)
+result = color_code(shots=100)
 print(result.counts)
 ''',
     "deutsch_jozsa": '''"""Deutsch-Jozsa: determine if f is constant or balanced in one query.
@@ -71,9 +71,9 @@ Quantum algorithm for the discrete log problem.
 Output: the discrete logarithm.
 """
 
-from quonic.algorithms import discrete_log_demo
+from quonic.algorithms import discrete_log
 
-result = discrete_log_demo(a=2, b=8, p=11)
+result = discrete_log(a=2, b=8, p=11)
 print(result.counts)
 ''',
     "dqaoa": '''"""Dynamic QAOA (DQAOA): adaptive layer QAOA variant.
@@ -82,9 +82,9 @@ Adds layers dynamically until convergence.
 Output: approximate optimal solution.
 """
 
-from quonic.algorithms import dqaoa_demo
+from quonic.algorithms import dqaoa
 
-result = dqaoa_demo()
+result = dqaoa()
 print(result.counts)
 ''',
     "dynamics_simulation": '''"""Quantum dynamics simulation: simulate time evolution of a quantum system.
@@ -93,9 +93,9 @@ Uses Trotterization to approximate e^{-iHt}.
 Output: evolved state measurements.
 """
 
-from quonic.algorithms import dynamics_simulation_demo
+from quonic.algorithms import dynamics_simulation
 
-result = dynamics_simulation_demo(n_steps=10, shots=1024)
+result = dynamics_simulation(n_steps=10, shots=1024)
 print(result.counts)
 ''',
     "e91": '''"""E91 quantum key distribution protocol.
@@ -115,9 +115,9 @@ Quantum approach to elliptic curve discrete log.
 Output: approximate solution.
 """
 
-from quonic.algorithms import elliptic_curve_demo
+from quonic.algorithms import elliptic_curve
 
-result = elliptic_curve_demo()
+result = elliptic_curve()
 print(result.counts)
 ''',
     "ft_gate": '''"""Fault-tolerant gate demo.
@@ -126,9 +126,9 @@ Demonstrates gates implemented with error detection/correction.
 Output: logically encoded state.
 """
 
-from quonic.algorithms import ft_gate_demo
+from quonic.algorithms import ft_gate
 
-result = ft_gate_demo(shots=100)
+result = ft_gate(shots=100)
 print(result.counts)
 ''',
     "hadamard_test": '''"""Hadamard test: estimate Re(<psi|U|psi>).
@@ -156,9 +156,9 @@ Simulates e^{-iHt} for a given Hamiltonian H.
 Output: evolved state measurements.
 """
 
-from quonic.algorithms import hamiltonian_simulation_demo
+from quonic.algorithms import hamiltonian_simulation
 
-result = hamiltonian_simulation_demo()
+result = hamiltonian_simulation()
 print(result.counts)
 ''',
     "hhl": '''"""HHL algorithm: quantum linear system solver.
@@ -167,9 +167,9 @@ Solves Ax = b exponentially faster than classical for sparse matrices.
 Output: quantum state proportional to x = A^{-1}b.
 """
 
-from quonic.algorithms import hhl_demo
+from quonic.algorithms import hhl
 
-result = hhl_demo()
+result = hhl()
 print(result.counts)
 ''',
     "hsp": '''"""Hidden Subgroup Problem demo.
@@ -178,9 +178,9 @@ General framework for Simon, Shor, and other HSP-based algorithms.
 Output: subgroup generators.
 """
 
-from quonic.algorithms import hsp_demo
+from quonic.algorithms import hsp
 
-result = hsp_demo()
+result = hsp()
 print(result.counts)
 ''',
     "jordan_wigner": '''"""Jordan-Wigner transform: 2-site Hubbard model simulation.
@@ -200,9 +200,9 @@ Quantum approach to lattice-based cryptography problems.
 Output: approximate shortest vector.
 """
 
-from quonic.algorithms import lattice_svp_demo
+from quonic.algorithms import lattice_svp
 
-result = lattice_svp_demo()
+result = lattice_svp()
 print(result.counts)
 ''',
     "molecule_vqe": '''"""Molecular VQE: compute ground state energy of a molecule.
@@ -211,9 +211,9 @@ Uses variational quantum eigensolver with chemistry-inspired ansatz.
 Output: ground state energy.
 """
 
-from quonic.algorithms import molecule_vqe_demo
+from quonic.algorithms import molecule_vqe
 
-result = molecule_vqe_demo(maxiter=200)
+result = molecule_vqe(maxiter=200)
 print(f"Ground state energy: {result.value}")
 ''',
     "phase_flip_code": '''"""Phase flip error correction code.
@@ -287,9 +287,9 @@ Quantum version of Boltzmann machine for generative modeling.
 Output: learned distribution.
 """
 
-from quonic.algorithms import qbm_demo
+from quonic.algorithms import qbm
 
-result = qbm_demo(temperature=1.0)
+result = qbm(temperature=1.0)
 print(result.counts)
 ''',
     "qcnn": '''"""Quantum Convolutional Neural Network demo.
@@ -298,9 +298,9 @@ Quantum CNN for image classification tasks.
 Output: classification accuracy.
 """
 
-from quonic.algorithms import qcnn_demo
+from quonic.algorithms import qcnn
 
-result = qcnn_demo(maxiter=50)
+result = qcnn(maxiter=50)
 print(f"Accuracy: {result.value}")
 ''',
     "qft": '''"""Quantum Fourier Transform.
@@ -320,9 +320,9 @@ Quantum generator + classical discriminator for data generation.
 Output: generated distribution.
 """
 
-from quonic.algorithms import qgan_demo
+from quonic.algorithms import qgan
 
-result = qgan_demo(n_steps=50)
+result = qgan(n_steps=50)
 print(result.counts)
 ''',
     "qgnn": '''"""Quantum Graph Neural Network demo.
@@ -331,9 +331,9 @@ Quantum version of GNN for graph-structured data.
 Output: node/graph embeddings.
 """
 
-from quonic.algorithms import qgnn_demo
+from quonic.algorithms import qgnn
 
-result = qgnn_demo()
+result = qgnn()
 print(result.counts)
 ''',
     "qng": '''"""Quantum Natural Gradient demo.
@@ -342,9 +342,9 @@ Uses the quantum Fisher information matrix for better optimization.
 Output: optimized parameters.
 """
 
-from quonic.algorithms import qng_demo
+from quonic.algorithms import qng
 
-result = qng_demo(n_params=2, maxiter=50)
+result = qng(n_params=2, maxiter=50)
 print(f"Final loss: {result.value}")
 ''',
     "qnn": '''"""Quantum Neural Network demo.
@@ -353,9 +353,9 @@ Variational quantum circuit as a neural network.
 Output: trained model predictions.
 """
 
-from quonic.algorithms import qnn_demo
+from quonic.algorithms import qnn
 
-result = qnn_demo(n_qubits=2, depth=2)
+result = qnn(n_qubits=2, depth=2)
 print(result.counts)
 ''',
     "qpca": '''"""Quantum PCA (Principal Component Analysis) demo.
@@ -364,9 +364,9 @@ Exponentially faster PCA for density matrices.
 Output: principal eigenvalues.
 """
 
-from quonic.algorithms import qpca_demo
+from quonic.algorithms import qpca
 
-result = qpca_demo()
+result = qpca()
 print(result.counts)
 ''',
     "qrl": '''"""Quantum Reinforcement Learning demo.
@@ -375,9 +375,9 @@ Quantum agent learning in a classical environment.
 Output: learned policy.
 """
 
-from quonic.algorithms import qrl_demo
+from quonic.algorithms import qrl
 
-result = qrl_demo(n_episodes=10)
+result = qrl(n_episodes=10)
 print(result.counts)
 ''',
     "qsp": '''"""Quantum Signal Processing demo.
@@ -386,9 +386,9 @@ Core subroutine for quantum singular value transformation.
 Output: transformed signal.
 """
 
-from quonic.algorithms import qsp_demo
+from quonic.algorithms import qsp
 
-result = qsp_demo(angle=0.785)
+result = qsp(angle=0.785)
 print(result.counts)
 ''',
     "qsvm": '''"""Quantum Support Vector Machine demo.
@@ -397,9 +397,9 @@ Uses quantum kernel for classification.
 Output: classification accuracy.
 """
 
-from quonic.algorithms import qsvm_demo
+from quonic.algorithms import qsvm
 
-result = qsvm_demo()
+result = qsvm()
 print(result.counts)
 ''',
     "qtda": '''"""Quantum Topological Data Analysis demo.
@@ -408,9 +408,9 @@ Quantum algorithm for persistent homology.
 Output: topological features.
 """
 
-from quonic.algorithms import qtda_demo
+from quonic.algorithms import qtda
 
-result = qtda_demo()
+result = qtda()
 print(result.counts)
 ''',
     "qtransformer": '''"""Quantum Transformer demo.
@@ -419,9 +419,9 @@ Quantum attention mechanism for sequence modeling.
 Output: attention weights.
 """
 
-from quonic.algorithms import qtransformer_demo
+from quonic.algorithms import qtransformer
 
-result = qtransformer_demo()
+result = qtransformer()
 print(result.counts)
 ''',
     "quantum_annealing": '''"""Quantum annealing with hybrid classical-quantum solver.
@@ -430,9 +430,9 @@ Simulates quantum annealing for optimization problems.
 Output: approximate ground state.
 """
 
-from quonic.algorithms import quantum_annealing_hybrid_demo
+from quonic.algorithms import quantum_annealing_hybrid
 
-result = quantum_annealing_hybrid_demo(n_spins=4, n_steps=100)
+result = quantum_annealing_hybrid(n_spins=4, n_steps=100)
 print(result.counts)
 ''',
     "quantum_bayesian": '''"""Quantum Bayesian inference demo.
@@ -441,21 +441,23 @@ Quantum version of Bayesian updating.
 Output: posterior probabilities.
 """
 
-from quonic.algorithms import quantum_bayesian_demo
+from quonic.algorithms import quantum_bayesian
 
-result = quantum_bayesian_demo(prior_h0=0.5, likelihood_h0=0.8, likelihood_h1=0.3)
-print(result.counts)
+result = quantum_bayesian(prior_h0=0.5, likelihood_h0=0.8, likelihood_h1=0.3)
+print(result.value)
 ''',
-    "quantum_clustering": '''"""Quantum clustering demo.
+    "quantum_clustering": '''"""Quantum k-means clustering with SWAP test.
 
-Quantum algorithm for unsupervised clustering.
+Quantum algorithm for unsupervised clustering using SWAP test for distance estimation.
 Output: cluster assignments.
 """
 
-from quonic.algorithms import quantum_clustering_demo
+from quonic.algorithms import quantum_clustering
 
-result = quantum_clustering_demo()
-print(result.counts)
+points = [[0.0, 1.0], [1.0, 0.0], [0.5, 0.5]]
+centroids = [[0.0, 0.0], [1.0, 1.0]]
+result = quantum_clustering(points, centroids)
+print(result.metadata["assignments"])
 ''',
     "quantum_eigenvalue": '''"""Quantum eigenvalue estimation demo.
 
@@ -463,9 +465,9 @@ Estimates eigenvalues of a unitary operator.
 Output: eigenvalue estimates.
 """
 
-from quonic.algorithms import quantum_eigenvalue_demo
+from quonic.algorithms import quantum_eigenvalue
 
-result = quantum_eigenvalue_demo()
+result = quantum_eigenvalue()
 print(result.counts)
 ''',
     "quantum_fitting": '''"""Quantum curve fitting demo.
@@ -474,9 +476,9 @@ Quantum version of regression/curve fitting.
 Output: fitted parameters.
 """
 
-from quonic.algorithms import quantum_fitting_demo
+from quonic.algorithms import quantum_fitting
 
-result = quantum_fitting_demo()
+result = quantum_fitting()
 print(result.counts)
 ''',
     "quantum_kernel": '''"""Quantum kernel estimation.
@@ -497,9 +499,9 @@ HHL-based matrix inversion for linear systems.
 Output: solution vector.
 """
 
-from quonic.algorithms import quantum_matrix_inversion_demo
+from quonic.algorithms import quantum_matrix_inversion
 
-result = quantum_matrix_inversion_demo()
+result = quantum_matrix_inversion()
 print(result.counts)
 ''',
     "quantum_monte_carlo": '''"""Quantum Monte Carlo integration demo.
@@ -508,9 +510,9 @@ Quantum speedup for Monte Carlo methods.
 Output: estimated integral value.
 """
 
-from quonic.algorithms import quantum_monte_carlo_demo
+from quonic.algorithms import quantum_monte_carlo
 
-result = quantum_monte_carlo_demo(n_qubits=2, shots=1024)
+result = quantum_monte_carlo(n_qubits=2, shots=1024)
 print(f"Estimated value: {result.value}")
 ''',
     "quantum_ode": '''"""Quantum ODE solver demo.
@@ -519,9 +521,9 @@ Quantum algorithm for solving ordinary differential equations.
 Output: solution trajectory.
 """
 
-from quonic.algorithms import quantum_ode_demo
+from quonic.algorithms import quantum_ode
 
-result = quantum_ode_demo(shots=1024)
+result = quantum_ode(shots=1024)
 print(result.counts)
 ''',
     "quantum_pde": '''"""Quantum PDE solver demo.
@@ -530,9 +532,9 @@ Quantum algorithm for solving partial differential equations.
 Output: solution field.
 """
 
-from quonic.algorithms import quantum_pde_demo
+from quonic.algorithms import quantum_pde
 
-result = quantum_pde_demo(shots=1024)
+result = quantum_pde(shots=1024)
 print(result.counts)
 ''',
     "quantum_walk": '''"""Quantum walk on a line.
@@ -552,9 +554,9 @@ Quantum-enhanced rejection sampling from a target distribution.
 Output: samples from the target distribution.
 """
 
-from quonic.algorithms import rejection_sampling_demo
+from quonic.algorithms import rejection_sampling
 
-result = rejection_sampling_demo(n_samples=100)
+result = rejection_sampling(n_samples=100)
 print(result.counts)
 ''',
     "shor_code": '''"""Shor's 9-qubit code: the first quantum error correction code.
@@ -588,9 +590,9 @@ Demonstrates Clifford group simulation via stabilizer tableau.
 Output: stabilizer state measurements.
 """
 
-from quonic.algorithms import stabilizer_demo
+from quonic.algorithms import stabilizer
 
-result = stabilizer_demo(n_qubits=3, shots=100)
+result = stabilizer(n_qubits=3, shots=100)
 print(result.counts)
 ''',
     "steane_code": '''"""Steane code: [[7,1,3]] CSS code.
@@ -623,9 +625,9 @@ The leading candidate for fault-tolerant quantum computation.
 Output: logical qubit with error correction.
 """
 
-from quonic.algorithms import surface_code_demo
+from quonic.algorithms import surface_code
 
-result = surface_code_demo(distance=3, shots=100)
+result = surface_code(distance=3, shots=100)
 print(result.counts)
 ''',
     "swap_test": '''"""SWAP test: estimate overlap between two quantum states.
@@ -652,9 +654,9 @@ Extracts error syndromes without disturbing the encoded state.
 Output: syndrome bits indicating error location.
 """
 
-from quonic.algorithms import syndrome_demo
+from quonic.algorithms import syndrome
 
-result = syndrome_demo(n_data=3, shots=100)
+result = syndrome(n_data=3, shots=100)
 print(result.counts)
 ''',
     "vqr": '''"""Variational Quantum Regressor.

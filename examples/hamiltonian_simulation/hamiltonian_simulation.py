@@ -12,7 +12,7 @@ Simulate e^{-iHt} for given Hamiltonian.
 Evolved state under Hamiltonian evolution.
 哈密顿量演化下的演化态。"""
 
-from quonic.algorithms import hamiltonian_simulation_demo
+from quonic.algorithms import hamiltonian_simulation
 
-result = hamiltonian_simulation_demo()
+result = hamiltonian_simulation()
 print(result.counts)

@@ -1,0 +1,185 @@
+{
+  "experiment": "exp5_algorithms",
+  "description": "Algorithm template breadth - 11 of 77 templates",
+  "shots": 1024,
+  "results": [
+    {
+      "name": "grover",
+      "kind": "counts",
+      "top_outcomes": {
+        "1010": 984,
+        "0001": 4,
+        "0110": 4,
+        "0111": 4,
+        "1110": 4
+      },
+      "total_shots": 1024,
+      "unique_outcomes": 16,
+      "time": 0.9623,
+      "error": null,
+      "quonic_lines": 32,
+      "qiskit_lines": 28,
+      "line_ratio": 0.9
+    },
+    {
+      "name": "qft",
+      "kind": "counts",
+      "top_outcomes": {
+        "10010101": 10,
+        "10011110": 9,
+        "01100011": 9,
+        "00110010": 8,
+        "00001000": 8
+      },
+      "total_shots": 1024,
+      "unique_outcomes": 252,
+      "time": 0.012,
+      "error": null,
+      "quonic_lines": 21,
+      "qiskit_lines": 12,
+      "line_ratio": 0.6
+    },
+    {
+      "name": "qpe",
+      "kind": "counts",
+      "top_outcomes": {
+        "1000001": 797,
+        "1000010": 110,
+        "1000000": 30,
+        "1000011": 28,
+        "1111110": 9
+      },
+      "total_shots": 1024,
+      "unique_outcomes": 25,
+      "time": 0.0104,
+      "error": null,
+      "quonic_lines": 25,
+      "qiskit_lines": 16,
+      "line_ratio": 0.6
+    },
+    {
+      "name": "qaoa_maxcut",
+      "kind": "value",
+      "value": 2.649519044752041,
+      "metadata_keys": [
+        "params",
+        "energy"
+      ],
+      "time": 1.4137,
+      "error": null,
+      "quonic_lines": 50,
+      "qiskit_lines": 0,
+      "line_ratio": 0.0
+    },
+    {
+      "name": "teleportation",
+      "kind": "counts",
+      "top_outcomes": {
+        "010": 255,
+        "000": 245,
+        "011": 237,
+        "001": 227,
+        "110": 19
+      },
+      "total_shots": 1024,
+      "unique_outcomes": 8,
+      "time": 0.0053,
+      "error": null,
+      "quonic_lines": 23,
+      "qiskit_lines": 16,
+      "line_ratio": 0.7
+    },
+    {
+      "name": "superdense_coding",
+      "kind": "value",
+      "value": 1.0,
+      "metadata_keys": [
+        "decoded",
+        "counts"
+      ],
+      "time": 0.0051,
+      "error": null,
+      "quonic_lines": 28,
+      "qiskit_lines": 15,
+      "line_ratio": 0.5
+    },
+    {
+      "name": "bb84",
+      "kind": "value",
+      "value": 102.0,
+      "metadata_keys": [
+        "key",
+        "key_length",
+        "error_rate",
+        "sift_ratio"
+      ],
+      "time": 0.001,
+      "error": null,
+      "quonic_lines": 42,
+      "qiskit_lines": 11,
+      "line_ratio": 0.3
+    },
+    {
+      "name": "bit_flip_code",
+      "kind": "value",
+      "value": 1.0,
+      "metadata_keys": [
+        "counts",
+        "error_qubit"
+      ],
+      "time": 0.0053,
+      "error": null,
+      "quonic_lines": 25,
+      "qiskit_lines": 15,
+      "line_ratio": 0.6
+    },
+    {
+      "name": "shor_code",
+      "kind": "value",
+      "value": 1.0,
+      "metadata_keys": [
+        "counts",
+        "error_qubit"
+      ],
+      "time": 0.0081,
+      "error": null,
+      "quonic_lines": 21,
+      "qiskit_lines": 19,
+      "line_ratio": 0.9
+    },
+    {
+      "name": "vqe",
+      "kind": "value",
+      "value": -0.999999996357617,
+      "metadata_keys": [
+        "params"
+      ],
+      "time": 0.1887,
+      "error": null,
+      "quonic_lines": 47,
+      "qiskit_lines": 13,
+      "line_ratio": 0.3
+    },
+    {
+      "name": "qsvm_demo",
+      "kind": "value",
+      "value": 0.5,
+      "metadata_keys": [
+        "kernel_matrix",
+        "labels"
+      ],
+      "time": 0.0559,
+      "error": null,
+      "quonic_lines": 11,
+      "qiskit_lines": 2,
+      "line_ratio": 0.2
+    }
+  ],
+  "summary": {
+    "total_tested": 11,
+    "successful": 11,
+    "avg_line_ratio": 0.5,
+    "total_quonic_lines": 325,
+    "total_qiskit_lines": 147
+  }
+}

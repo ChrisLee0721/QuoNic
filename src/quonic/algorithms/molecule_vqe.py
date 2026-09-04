@@ -8,8 +8,8 @@ Boundary conditions:
 
 Example::
 
-    from quonic.algorithms import molecule_vqe_demo
-    result = molecule_vqe_demo()
+    from quonic.algorithms import molecule_vqe
+    result = molecule_vqe()
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ from ..result import Result
 from .vqe import vqe
 
 
-def molecule_vqe_demo(
+def molecule_vqe(
     maxiter: int = 200,
 ) -> Result:
     """Minimal molecular VQE demo with H2 Hamiltonian.

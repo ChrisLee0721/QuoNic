@@ -227,6 +227,18 @@ __marimo__/
 _p_*.png
 _preview_*.png
 
+# 论文文件（不纳入版本控制）
+papers/
+
+# 虚拟环境
+.venv*/
+
+# 敏感文件
+*.pem
+*.key
+*.zip
+submission/
+
 # 生成的测试报告与视频草稿（可重新生成，非项目文档）
 docs/test-report.md
 docs/test-report.html

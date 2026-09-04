@@ -188,15 +188,15 @@
 ### 8. 振幅估计
 
 - **文件**：`amplitude_estimation.py`
-- **函数**：`amplitude_estimation_demo(n_qubits=2, n_precision=3, backend="auto", shots=1024)`
+- **函数**：`amplitude_estimation(n_qubits=2, n_precision=3, backend="auto", shots=1024)`
 - **边界条件**：
   - 需要 Grover oracle + QPE
   - 相比经典采样提供二次加速
   - 最小演示：2 比特系统
 - **案例**：
   ```python
-  from quonic.algorithms import amplitude_estimation_demo
-  result = amplitude_estimation_demo()
+  from quonic.algorithms import amplitude_estimation
+  result = amplitude_estimation()
   ```
 - **限制**：最小演示；振幅解析未完全实现（返回 0.0）
 
@@ -360,15 +360,15 @@
 ### 18. 量子退火（最小演示）
 
 - **文件**：`quantum_annealing.py`
-- **函数**：`quantum_annealing_demo(n_qubits=2, steps=20)`
+- **函数**：`quantum_annealing(n_qubits=2, steps=20)`
 - **边界条件**：
   - 模拟横向场 Ising 模型退火
   - **非** D-Wave 等真实退火硬件
   - 使用 Trotter 步近似绝热演化
 - **案例**：
   ```python
-  from quonic.algorithms import quantum_annealing_demo
-  result = quantum_annealing_demo()
+  from quonic.algorithms import quantum_annealing
+  result = quantum_annealing()
   ```
 - **限制**：仅 2 比特演示；非真实退火硬件
 
@@ -397,15 +397,15 @@
 ### 20. VQE 分子模拟（最小演示）
 
 - **文件**：`molecule_vqe.py`
-- **函数**：`molecule_vqe_demo(maxiter=200)`
+- **函数**：`molecule_vqe(maxiter=200)`
 - **边界条件**：
   - 硬编码 H2 分子哈密顿量（STO-3G 基组）
   - 精确基态能量：-1.8572
   - 需要 PySCF + OpenFermion 才能扩展到其他分子
 - **案例**：
   ```python
-  from quonic.algorithms import molecule_vqe_demo
-  result = molecule_vqe_demo()
+  from quonic.algorithms import molecule_vqe
+  result = molecule_vqe()
   print(result.metadata["energy"])  # ≈ -1.8572
   ```
 - **限制**：仅 H2 分子；硬编码哈密顿量；非生产级量子化学工具
@@ -444,29 +444,29 @@
 ### 23. 哈密顿量模拟
 
 - **文件**：`hamiltonian_simulation.py`
-- **函数**：`hamiltonian_simulation_demo()`
+- **函数**：`hamiltonian_simulation()`
 - **边界条件**：
   - 最小演示：2 比特海森堡模型
   - 包装 `trotter()` 的简化接口
 - **案例**：
   ```python
-  from quonic.algorithms import hamiltonian_simulation_demo
-  result = hamiltonian_simulation_demo()
+  from quonic.algorithms import hamiltonian_simulation
+  result = hamiltonian_simulation()
   ```
 - **限制**：仅 2 比特海森堡模型
 
 ### 24. 动态量子模拟
 
 - **文件**：`dynamics_simulation.py`
-- **函数**：`dynamics_simulation_demo(n_steps=10, backend="auto", shots=1024)`
+- **函数**：`dynamics_simulation(n_steps=10, backend="auto", shots=1024)`
 - **边界条件**：
   - 含时哈密顿量 H(t)
   - 使用分段常数近似
   - 最小演示：线性斜坡横向场
 - **案例**：
   ```python
-  from quonic.algorithms import dynamics_simulation_demo
-  result = dynamics_simulation_demo()
+  from quonic.algorithms import dynamics_simulation
+  result = dynamics_simulation()
   ```
 - **限制**：最小演示；仅线性斜坡
 
@@ -488,14 +488,14 @@
 ### 26. QSP（最小演示）
 
 - **文件**：`qsp.py`
-- **函数**：`qsp_demo(angle=π/4)`
+- **函数**：`qsp(angle=π/4)`
 - **边界条件**：
   - 单比特旋转序列
   - 非完整 QSP 实现
 - **案例**：
   ```python
-  from quonic.algorithms import qsp_demo
-  result = qsp_demo()
+  from quonic.algorithms import qsp
+  result = qsp()
   ```
 - **限制**：仅演示概念
 
@@ -506,56 +506,56 @@
 ### 27. HHL
 
 - **文件**：`hhl.py`
-- **函数**：`hhl_demo(matrix=None, vector=None, n_clock=3, backend="auto", shots=1024)`
+- **函数**：`hhl(matrix=None, vector=None, n_clock=3, backend="auto", shots=1024)`
 - **边界条件**：
   - 仅 2×2 对角矩阵
   - 需要 QPE + 受控旋转 + 逆 QPE
   - 完整 HHL 需要 O(log n) 量子比特
 - **案例**：
   ```python
-  from quonic.algorithms import hhl_demo
-  result = hhl_demo(matrix=[[3,0],[0,1]], vector=[1,1])
+  from quonic.algorithms import hhl
+  result = hhl(matrix=[[3,0],[0,1]], vector=[1,1])
   ```
 - **限制**：仅 2×2 对角矩阵；教育演示
 
 ### 28. 量子矩阵求逆
 
 - **文件**：`matrix_inversion.py`
-- **函数**：`quantum_matrix_inversion_demo()`
+- **函数**：`quantum_matrix_inversion()`
 - **边界条件**：HHL 特例；2×2 对角矩阵
-- **案例**：`result = quantum_matrix_inversion_demo()`
+- **案例**：`result = quantum_matrix_inversion()`
 - **限制**：同 HHL
 
 ### 29. 量子特征值求解
 
 - **文件**：`eigenvalue_solver.py`
-- **函数**：`quantum_eigenvalue_demo()`
+- **函数**：`quantum_eigenvalue()`
 - **边界条件**：QPE 应用；1 比特酉算子
-- **案例**：`result = quantum_eigenvalue_demo()`
+- **案例**：`result = quantum_eigenvalue()`
 - **限制**：仅已知本征值的 1 比特算子
 
 ### 30. PDE 求解
 
 - **文件**：`quantum_pde.py`
-- **函数**：`quantum_pde_demo(backend="auto", shots=1024)`
+- **函数**：`quantum_pde(backend="auto", shots=1024)`
 - **边界条件**：最小 1D 热方程；量子行走结构
-- **案例**：`result = quantum_pde_demo()`
+- **案例**：`result = quantum_pde()`
 - **限制**：非生产级 PDE 求解器
 
 ### 31. ODE 求解
 
 - **文件**：`quantum_ode.py`
-- **函数**：`quantum_ode_demo(backend="auto", shots=1024)`
+- **函数**：`quantum_ode(backend="auto", shots=1024)`
 - **边界条件**：dy/dt = -y（指数衰减）；Trotter 分解
-- **案例**：`result = quantum_ode_demo()`
+- **案例**：`result = quantum_ode()`
 - **限制**：非生产级 ODE 求解器
 
 ### 32. 数据拟合
 
 - **文件**：`quantum_fitting.py`
-- **函数**：`quantum_fitting_demo()`
+- **函数**：`quantum_fitting()`
 - **边界条件**：2 点线性拟合；VQR
-- **案例**：`result = quantum_fitting_demo()`
+- **案例**：`result = quantum_fitting()`
 - **限制**：非生产级拟合工具
 
 ---
@@ -641,9 +641,9 @@
 ### 38. 离散对数（最小演示）
 
 - **文件**：`discrete_log.py`
-- **函数**：`discrete_log_demo(a=2, b=8, p=11)`
+- **函数**：`discrete_log(a=2, b=8, p=11)`
 - **边界条件**：经典暴力搜索（量子版本用 QPE）
-- **案例**：`result = discrete_log_demo(a=2, b=8, p=11)`
+- **案例**：`result = discrete_log(a=2, b=8, p=11)`
 - **限制**：经典暴力搜索；非量子加速
 
 ---
@@ -685,12 +685,12 @@
 ### 41. QNG — 量子自然梯度
 
 - **文件**：`qng.py`
-- **函数**：`qng_demo(n_params=2, maxiter=50)`
+- **函数**：`qng(n_params=2, maxiter=50)`
 - **边界条件**：
   - 计算量子 Fisher 信息矩阵
   - 使用自然梯度代替普通梯度
   - Fisher 信息通过有限差分近似
-- **案例**：`result = qng_demo()`
+- **案例**：`result = qng()`
 - **限制**：Fisher 信息是近似的
 
 ### 42. VQR — 变分量子回归
@@ -710,25 +710,25 @@
 ### 43. QNN（最小演示）
 
 - **文件**：`qnn.py`
-- **函数**：`qnn_demo(n_qubits=2, depth=2)`
+- **函数**：`qnn(n_qubits=2, depth=2)`
 - **边界条件**：可配置深度；仅返回 Z 期望值
-- **案例**：`result = qnn_demo()`
+- **案例**：`result = qnn()`
 - **限制**：简化读出
 
 ### 44. QSVM（最小演示）
 
 - **文件**：`qsvm.py`
-- **函数**：`qsvm_demo()`
+- **函数**：`qsvm()`
 - **边界条件**：量子核 + SVM；未实际训练 SVM
-- **案例**：`result = qsvm_demo()`
+- **案例**：`result = qsvm()`
 - **限制**：未实际运行 SVM 分类器
 
 ### 45. 量子退火混合（最小演示）
 
 - **文件**：`quantum_annealing_hybrid.py`
-- **函数**：`quantum_annealing_hybrid_demo(n_spins=4, n_steps=100, temperature=1.0)`
+- **函数**：`quantum_annealing_hybrid(n_spins=4, n_steps=100, temperature=1.0)`
 - **边界条件**：经典模拟退火 + 量子隧穿效应；非 D-Wave
-- **案例**：`result = quantum_annealing_hybrid_demo()`
+- **案例**：`result = quantum_annealing_hybrid()`
 - **限制**：经典 Metropolis 采样；非真实量子退火
 
 ---
@@ -770,41 +770,41 @@
 ### 50. 稳定子形式
 
 - **文件**：`stabilizer.py`
-- **函数**：`stabilizer_demo(n_qubits=3, backend="auto", shots=100)`
+- **函数**：`stabilizer(n_qubits=3, backend="auto", shots=100)`
 - **边界条件**：仅 Clifford 门（H/S/CX）；无 T 门或任意旋转
-- **案例**：`result = stabilizer_demo()`
+- **案例**：`result = stabilizer()`
 - **限制**：仅 Clifford 门
 
 ### 51. Syndrome 测量
 
 - **文件**：`syndrome.py`
-- **函数**：`syndrome_demo(n_data=3, backend="auto", shots=100)`
+- **函数**：`syndrome(n_data=3, backend="auto", shots=100)`
 - **边界条件**：辅助比特 syndrome 提取；X 和 Z syndrome 演示
-- **案例**：`result = syndrome_demo()`
+- **案例**：`result = syndrome()`
 - **限制**：最小演示
 
 ### 52. 表面码
 
 - **文件**：`surface_code.py`
-- **函数**：`surface_code_demo(backend="auto", shots=100)`
+- **函数**：`surface_code(backend="auto", shots=100)`
 - **边界条件**：最小 3×3 格子（距离 3）；非完整容错实现
-- **案例**：`result = surface_code_demo()`
+- **案例**：`result = surface_code()`
 - **限制**：仅展示 syndrome 提取概念
 
 ### 53. 颜色码
 
 - **文件**：`color_code.py`
-- **函数**：`color_code_demo(backend="auto", shots=100)`
+- **函数**：`color_code(backend="auto", shots=100)`
 - **边界条件**：最小 7 比特颜色码；展示 3-可着色性
-- **案例**：`result = color_code_demo()`
+- **案例**：`result = color_code()`
 - **限制**：仅展示概念
 
 ### 54. 容错门
 
 - **文件**：`ft_gates.py`
-- **函数**：`ft_gate_demo(backend="auto", shots=100)`
+- **函数**：`ft_gate(backend="auto", shots=100)`
 - **边界条件**：魔法态注入实现 T 门；需要后选择
-- **案例**：`result = ft_gate_demo()`
+- **案例**：`result = ft_gate()`
 - **限制**：仅展示概念
 
 ---
@@ -814,26 +814,26 @@
 ### 55. 量子蒙特卡洛
 
 - **文件**：`quantum_monte_carlo.py`
-- **函数**：`quantum_monte_carlo_demo(n_qubits=2, shots=1024, backend="auto")`
+- **函数**：`quantum_monte_carlo(n_qubits=2, shots=1024, backend="auto")`
 - **边界条件**：振幅估计概念演示；未实际使用振幅估计加速
-- **案例**：`result = quantum_monte_carlo_demo()`
+- **案例**：`result = quantum_monte_carlo()`
 - **限制**：最小演示
 
 ### 56. 量子拒绝采样
 
 - **文件**：`rejection_sampling.py`
-- **函数**：`rejection_sampling_demo(n_samples=100)`
+- **函数**：`rejection_sampling(n_samples=100)`
 - **边界条件**：经典拒绝采样 + 量子态制备；未使用 Grover 加速
-- **案例**：`result = rejection_sampling_demo()`
+- **案例**：`result = rejection_sampling()`
 - **限制**：经典实现
 
 ### 57. 量子贝叶斯推理
 
 - **文件**：`quantum_bayesian.py`
-- **函数**：`quantum_bayesian_demo(prior_h0=0.5, likelihood_h0=0.8, likelihood_h1=0.3)`
-- **边界条件**：二元假设检验；经典贝叶斯更新后编码为旋转角
-- **案例**：`result = quantum_bayesian_demo()`
-- **限制**：非真正量子增强
+- **函数**：`quantum_bayesian(prior_h0=0.5, likelihood_h0=0.8, likelihood_h1=0.3)`
+- **边界条件**：二元假设检验；使用振幅编码和受控旋转实现量子贝叶斯后验估计
+- **案例**：`result = quantum_bayesian(prior_h0=0.5, likelihood_h0=0.8, likelihood_h1=0.3)`
+- **说明**：后验由量子电路计算，非经典预计算
 
 ---
 
@@ -842,25 +842,25 @@
 ### 58. 隐藏子群问题
 
 - **文件**：`hsp.py`
-- **函数**：`hsp_demo()`
+- **函数**：`hsp()`
 - **边界条件**：Abel HSP（Simon 泛化）；非 Abel HSP 需更复杂表示
-- **案例**：`result = hsp_demo()`
+- **案例**：`result = hsp()`
 - **限制**：仅 Abel HSP 演示
 
 ### 59. 格问题 SVP
 
 - **文件**：`lattice.py`
-- **函数**：`lattice_svp_demo()`
+- **函数**：`lattice_svp()`
 - **边界条件**：2D 格最短向量；经典暴力搜索（量子用 HSP）
-- **案例**：`result = lattice_svp_demo()`
+- **案例**：`result = lattice_svp()`
 - **限制**：经典暴力搜索
 
 ### 60. 椭圆曲线离散对数
 
 - **文件**：`elliptic_curve.py`
-- **函数**：`elliptic_curve_demo()`
+- **函数**：`elliptic_curve()`
 - **边界条件**：小曲线小域；经典暴力搜索（量子用 Shor 变体）；点加法是简化的
-- **案例**：`result = elliptic_curve_demo()`
+- **案例**：`result = elliptic_curve()`
 - **限制**：非真实椭圆曲线算术
 
 ---
@@ -869,63 +869,64 @@
 
 ### 61. QCNN
 
-- **文件**：`qcnn.py` | **函数**：`qcnn_demo(maxiter=50)`
+- **文件**：`qcnn.py` | **函数**：`qcnn(maxiter=50)`
 - **边界条件**：4 像素二分类；2 比特电路；非生产级分类器
-- **案例**：`result = qcnn_demo()`
+- **案例**：`result = qcnn()`
 
 ### 62. QGNN
 
-- **文件**：`qgnn.py` | **函数**：`qgnn_demo()`
+- **文件**：`qgnn.py` | **函数**：`qgnn()`
 - **边界条件**：3 节点图；量子消息传递；非生产级 GNN
-- **案例**：`result = qgnn_demo()`
+- **案例**：`result = qgnn()`
 
 ### 63. 分布式 QAOA
 
-- **文件**：`dqaoa.py` | **函数**：`dqaoa_demo()`
+- **文件**：`dqaoa.py` | **函数**：`dqaoa()`
 - **边界条件**：2 分区独立执行；无跨分区耦合
-- **案例**：`result = dqaoa_demo()`
+- **案例**：`result = dqaoa()`
 
 ### 64. 量子 Transformer
 
-- **文件**：`qtransformer.py` | **函数**：`qtransformer_demo()`
+- **文件**：`qtransformer.py` | **函数**：`qtransformer()`
 - **边界条件**：2 token、1 比特嵌入；非生产级 Transformer
-- **案例**：`result = qtransformer_demo()`
+- **案例**：`result = qtransformer()`
 
 ### 65. 量子强化学习
 
-- **文件**：`qrl.py` | **函数**：`qrl_demo(n_episodes=10)`
+- **文件**：`qrl.py` | **函数**：`qrl(n_episodes=10)`
 - **边界条件**：2 状态环境；简单参数更新规则
-- **案例**：`result = qrl_demo()`
+- **案例**：`result = qrl()`
 
 ### 66. 量子拓扑分析
 
-- **文件**：`qtda.py` | **函数**：`qtda_demo()`
+- **文件**：`qtda.py` | **函数**：`qtda()`
 - **边界条件**：2 点云、0 阶 Betti 数
-- **案例**：`result = qtda_demo()`
+- **案例**：`result = qtda()`
 
 ### 67. QPCA
 
-- **文件**：`qpca.py` | **函数**：`qpca_demo()`
+- **文件**：`qpca.py` | **函数**：`qpca()`
 - **边界条件**：2×2 密度矩阵；未使用 QPE
-- **案例**：`result = qpca_demo()`
+- **案例**：`result = qpca()`
 
 ### 68. 量子聚类
 
-- **文件**：`quantum_clustering.py` | **函数**：`quantum_clustering_demo()`
-- **边界条件**：2 簇 2 点；经典最近质心分配
-- **案例**：`result = quantum_clustering_demo()`
+- **文件**：`quantum_clustering.py` | **函数**：`quantum_clustering(points, centroids, max_iter=3)`
+- **边界条件**：使用 SWAP 测试估计距离的量子 k-means 聚类
+- **案例**：`result = quantum_clustering([[0,1],[1,0]], [[0,0],[1,1]])`
+- **说明**：距离由量子电路计算，非经典计算
 
 ### 69. QGAN
 
-- **文件**：`qgan.py` | **函数**：`qgan_demo(n_steps=10)`
+- **文件**：`qgan.py` | **函数**：`qgan(n_steps=10)`
 - **边界条件**：1 比特生成器；简化判别器损失
-- **案例**：`result = qgan_demo()`
+- **案例**：`result = qgan()`
 
 ### 70. QBM
 
-- **文件**：`qbm.py` | **函数**：`qbm_demo(temperature=1.0)`
+- **文件**：`qbm.py` | **函数**：`qbm(temperature=1.0)`
 - **边界条件**：2 比特热态；经典玻尔兹曼采样
-- **案例**：`result = qbm_demo()`
+- **案例**：`result = qbm()`
 
 ---
 

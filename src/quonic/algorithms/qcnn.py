@@ -71,7 +71,7 @@ def _cost_function(
     Measures the probability of |0> on the output qubit for each input,
     and computes the mean squared error against labels.
     """
-    from ..backends import get_backend
+    from ..backends import run_circuit
 
     total_loss = 0.0
     for x, y in zip(X_train, y_train):
@@ -83,7 +83,8 @@ def _cost_function(
                 circuit.add(GateOperation("x", (i,)))
 
         # Run
-        result = get_backend("native").run(circuit, shots=1024)
+        from ..backends import run_circuit
+        result = run_circuit(circuit, shots=1024)
 
         # P(|0>) on qubit 0
         p0 = sum(v for k, v in result.counts.items() if k[-1] == "0") / 1024
@@ -153,6 +154,6 @@ def qcnn_train(
     )
 
 
-def qcnn_demo(maxiter: int = 50) -> Result:
+def qcnn(maxiter: int = 50) -> Result:
     """Quick QCNN demo with default settings."""
     return qcnn_train(n_qubits=4, n_layers=2, maxiter=maxiter)
