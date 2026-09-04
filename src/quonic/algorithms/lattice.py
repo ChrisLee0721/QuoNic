@@ -51,7 +51,7 @@ def lattice_svp(
     n_coeffs = basis.shape[0]
 
     # Total qubits: n_search per coefficient + dim for norm encoding
-    n_total = n_search * n_coeffs + dim
+    n_search * n_coeffs + dim
     circuit = Circuit()
 
     # Put coefficient qubits in superposition
@@ -90,7 +90,7 @@ def lattice_svp(
     best_norm = float("inf")
     best_vector = None
 
-    for bitstring, count in counts.items():
+    for bitstring in counts:
         # Parse coefficients from bitstring
         c1_bits = bitstring[-n_search:]
         c2_bits = bitstring[-2*n_search:-n_search]

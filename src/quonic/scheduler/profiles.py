@@ -15,7 +15,6 @@ from real execution timings.
 from __future__ import annotations
 
 import json
-import math
 import os
 import threading
 from dataclasses import asdict, dataclass, field
@@ -137,7 +136,7 @@ class ProfileRegistry(BackendRegistry):
         best_key = None
         best_time = float("inf")
 
-        for bm_key, profile in self.profiles.profiles.items():
+        for bm_key in self.profiles.profiles:
             method = bm_key.split("/", 1)[1] if "/" in bm_key else bm_key
             if eligible is not None and method not in eligible:
                 continue
@@ -244,7 +243,7 @@ def fit_profiles_from_exp13(checkpoint_path: str) -> ProfileSet:
         # Linear regression: T = a + b * X
         A = np.column_stack([np.ones(len(X_arr)), X_arr])
         try:
-            result, residuals, rank, sv = np.linalg.lstsq(A, T_arr, rcond=None)
+            result, _residuals, _rank, _sv = np.linalg.lstsq(A, T_arr, rcond=None)
         except np.linalg.LinAlgError:
             continue
 
@@ -326,7 +325,7 @@ def fit_profiles_from_benchmarks(benchmarks: dict) -> ProfileSet:
 
         A = np.column_stack([np.ones(len(X_arr)), X_arr])
         try:
-            result, residuals, rank, sv = np.linalg.lstsq(A, T_arr, rcond=None)
+            result, _residuals, _rank, _sv = np.linalg.lstsq(A, T_arr, rcond=None)
         except np.linalg.LinAlgError:
             continue
 

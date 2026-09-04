@@ -13,7 +13,6 @@ Example::
 
 from __future__ import annotations
 
-import math
 import random
 
 from ..backends import run_circuit
@@ -96,7 +95,7 @@ def quantum_annealing_hybrid(
 
         # Find best measurement outcome
         counts = result.counts
-        for bitstring, count in counts.items():
+        for bitstring in counts:
             spins = [1 if b == '1' else -1 for b in bitstring]
             energy = _ising_energy(spins, J)
             if energy < best_energy:

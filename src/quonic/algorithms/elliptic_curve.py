@@ -106,7 +106,7 @@ def elliptic_curve(
         order += 1
 
     # Build QPE circuit to estimate the order
-    n_total = n_precision + 2  # precision + 2 qubits for point encoding
+    n_precision + 2  # precision + 2 qubits for point encoding
     circuit = Circuit()
 
     # Superposition on precision qubits

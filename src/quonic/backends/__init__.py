@@ -181,7 +181,8 @@ def _background_explore(circuit, explore_backend, explore_method, profiles, feat
 
     Uses ProcessPoolExecutor so the subprocess can be terminated on timeout.
     """
-    from concurrent.futures import ProcessPoolExecutor, TimeoutError as _Timeout
+    from concurrent.futures import ProcessPoolExecutor
+    from concurrent.futures import TimeoutError as _Timeout
 
     ops = list(circuit.ops)
     n = circuit.num_qubits
@@ -205,6 +206,7 @@ def _pick_alternative(chosen_rec, profiles, feats):
     2. If none found, pick any eligible backend (broad exploration).
     """
     import random as _random
+
     from ..scheduler.capabilities import eligible_methods
 
     n = feats["n"]
@@ -297,8 +299,8 @@ __all__ = [
     "Backend",
     "EngineBackend",
     "available_backends",
-    "run_circuit",
     "get_backend",
     "get_backend_for_method",
     "resolve_target",
+    "run_circuit",
 ]

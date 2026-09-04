@@ -61,7 +61,7 @@ def discrete_log(
     # Build QPE circuit for period finding
     # Precision qubits: q0..q_{n-1}
     # Target register: q_n (single qubit for simplified demo)
-    n_total = n_precision + 1
+    n_precision + 1
     circuit = Circuit()
 
     # Initialize precision qubits in superposition
@@ -88,7 +88,7 @@ def discrete_log(
 
     # Classical post-processing: extract period from QPE output
     counts = result.counts
-    total = sum(counts.values())
+    sum(counts.values())
 
     # Find most frequent measurement
     top = max(counts.items(), key=lambda kv: kv[1])

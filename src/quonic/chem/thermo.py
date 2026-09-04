@@ -118,13 +118,13 @@ def thermochemistry(
     # Get vibrational frequencies and normal modes
     freq_result = thermo.harmonic_analysis(pyscf_mol, hess_matrix)
     freqs = freq_result["freq_au"]  # atomic units (Hartree)
-    norm_coords = freq_result["norm_mode"]
+    freq_result["norm_mode"]
 
     # Count imaginary frequencies
     n_imaginary = int(np.sum(np.array(freqs) < -10))  # threshold for imaginary
 
     # Get atom masses
-    masses = np.array(pyscf_mol.atom_mass_list())
+    np.array(pyscf_mol.atom_mass_list())
 
     # Compute thermochemical corrections
     # Using PySCF's built-in thermochemistry module

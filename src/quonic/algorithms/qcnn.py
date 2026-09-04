@@ -83,7 +83,6 @@ def _cost_function(
                 circuit.add(GateOperation("x", (i,)))
 
         # Run
-        from ..backends import run_circuit
         result = run_circuit(circuit, shots=1024)
 
         # P(|0>) on qubit 0
