@@ -262,17 +262,26 @@ def run_circuit(circuit, backend: str = "auto", shots: int = 1024, **kwargs):
         import threading as _threading
         import time as _time
 
-        from ..scheduler import default_profiles, schedule
+        from ..scheduler import Recommendation, default_profiles, schedule
         from ..scheduler.features import circuit_features as _cf
 
         profiles = default_profiles()
         rec = schedule(circuit, profiles=profiles)
-        be = get_backend(rec.backend)
         feats = _cf(circuit)
 
-        t0 = _time.time()
-        result = be.run(circuit, shots=shots, method=rec.method, **kwargs)
-        elapsed = _time.time() - t0
+        # Verify recommended backend is usable; fall back if dependencies missing
+        be = get_backend(rec.backend)
+        try:
+            t0 = _time.time()
+            result = be.run(circuit, shots=shots, method=rec.method, **kwargs)
+            elapsed = _time.time() - t0
+        except ImportError:
+            fallback_name = _detect_available()
+            be = get_backend(fallback_name)
+            t0 = _time.time()
+            result = be.run(circuit, shots=shots, **kwargs)
+            elapsed = _time.time() - t0
+            rec = Recommendation(backend=fallback_name, method="statevector")
 
         if profiles is not None:
             try:
