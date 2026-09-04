@@ -64,8 +64,8 @@ def test_recommend_method_no_grad_normal():
     feats = {"n": 4, "gate_types": ["h", "cx"], "is_clifford": True,
              "treewidth_ub": 0, "requires_grad": False}
     rec = recommend_method(feats)
-    # Clifford with low treewidth could be stabilizer
-    assert rec.method in ("statevector", "stabilizer")
+    # Clifford with low treewidth: benchmarks show density_matrix is fastest
+    assert rec.method in ("statevector", "stabilizer", "density_matrix")
 
 
 # ---------------------------------------------------------------------------

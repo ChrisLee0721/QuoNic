@@ -69,15 +69,13 @@ def detect_family(circuit: Circuit) -> str | None:
     gate_names = [op.name for op in ops]
     name_set = set(gate_names)
 
-    # GHZ: H on qubit 0, then chain of CX (q0→q1, q1→q2, ...)
-    if name_set <= {"h", "cx"} and n >= 2:
-        h_ops = [op for op in ops if op.name == "h"]
+    # GHZ: H + CX chain (q0→q1, q1→q2, ...) — lenient: any number of H gates
+    if "cx" in name_set and n >= 2:
         cx_ops = [op for op in ops if op.name == "cx"]
-        if (len(h_ops) == 1 and h_ops[0].qubits[0] == 0
-                and len(cx_ops) == n - 1):
-            # Verify chain pattern
-            cx_pairs = [(op.qubits[0], op.qubits[1]) for op in cx_ops]
-            if all(cx_pairs[i] == (i, i + 1) for i in range(n - 1)):
+        if len(cx_ops) >= n - 1 and "h" in name_set:
+            cx_pairs = sorted([(op.qubits[0], op.qubits[1]) for op in cx_ops])
+            chain = [(i, i + 1) for i in range(n - 1)]
+            if all(p in cx_pairs for p in chain):
                 return "ghz"
 
     # LinearCluster: H on all qubits, then chain of CZ
@@ -118,13 +116,7 @@ def detect_family(circuit: Circuit) -> str | None:
     if "rx" in name_set and "rz" in name_set and "cx" in name_set:
         return "qaoa"
 
-    # Random families: only if no structured pattern matched
-    non_clifford_gates = {"rx", "ry", "rz", "u1", "u2", "u3", "cu1", "cu2", "cu3"}
-    if name_set & non_clifford_gates:
-        return "random_nonclifford"
-    if name_set <= CLIFFORD_GATES:
-        return "random_clifford"
-
+    # No structured pattern matched — fall back to base bucket key
     return None
 
 

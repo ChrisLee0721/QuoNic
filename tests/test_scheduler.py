@@ -31,7 +31,7 @@ def test_features_bell():
     assert f["gate_types"] == ["cx", "h"]
     assert f["is_clifford"] is True
     assert f["treewidth_ub"] == 1
-    assert f["key"].startswith("n<8|clifford|tw<4|")
+    assert "n<8|clifford|tw<4|" in f["key"]
 
 
 def test_clifford_detection():
@@ -99,13 +99,14 @@ def test_recommend_method_mps():
 # ---------------------------------------------------------------------------
 
 def test_memory_registry():
-    table = MemoryRegistry({"n<8|clifford|tw<4|d0": "qiskit"})
+    # Bell circuit is detected as "ghz" family, so key includes family prefix
+    table = MemoryRegistry({"ghz|n<8|clifford|tw<4|d0": "qiskit"})
     assert schedule(_bell(), table=table).backend == "qiskit"
 
 
 def test_file_registry(tmp_path):
     p = tmp_path / "params.json"
-    p.write_text(json.dumps({"n<8|clifford|tw<4|d0": "pennylane"}), encoding="utf-8")
+    p.write_text(json.dumps({"ghz|n<8|clifford|tw<4|d0": "pennylane"}), encoding="utf-8")
     table = FileRegistry(str(p))
     assert schedule(_bell(), table=table).backend == "pennylane"
 
@@ -127,7 +128,7 @@ def test_local_cache_roundtrip(tmp_path):
 def test_schedule_priority(tmp_path):
     p = tmp_path / "cache.json"
     cache = LocalCacheRegistry(str(p))
-    table = MemoryRegistry({"n<8|clifford|tw<4|d0": "pennylane"})
+    table = MemoryRegistry({"ghz|n<8|clifford|tw<4|d0": "pennylane"})
     c = _bell()
     # 无 cache 记录时，静态表生效
     assert schedule(c, cache=cache, table=table).backend == "pennylane"
