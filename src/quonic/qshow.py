@@ -108,7 +108,17 @@ def qshow(
     else:
         be = get_backend_for_method(be_name, method, device=device)
     t0 = time.time()
-    result = be.run(circuit, shots=shots, noise=noise, method=method)
+    try:
+        result = be.run(circuit, shots=shots, noise=noise, method=method)
+    except ImportError:
+        from .backends import _detect_available
+        from .scheduler.registry import Recommendation as _Rec
+        fallback = _detect_available()
+        be = get_backend(fallback)
+        rec = _Rec(backend=fallback, method="statevector")
+        be_name = fallback
+        method = "statevector"
+        result = be.run(circuit, shots=shots, noise=noise, method=method)
     elapsed = time.time() - t0
 
     if cache is not None:
