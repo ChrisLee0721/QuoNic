@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quonic"
-version = "0.14.0"
+version = "0.14.1"
 description = "Quantum programming as simple as Python — 12+ backends, intelligent scheduling, 77 algorithms"
 readme = "README.md"
 requires-python = ">=3.9"
