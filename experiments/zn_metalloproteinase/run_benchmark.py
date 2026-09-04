@@ -14,31 +14,25 @@ Usage:
     python run_benchmark.py
 """
 
-import sys
-import os
-import math
 import json
+import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    parse_pdb_string,
-    find_metal_ions,
-    get_metal_template,
-    generate_metal_constraints,
-    auto_detect_geometry,
-    ProteinCoarseGraining,
-    MetalSiteDetector,
     GCIQA,
-    GeometricConstraint,
     ConstraintSet,
-    compute_rmsd,
-    validate_binding_site,
-    generate_report,
+    GeometricConstraint,
+    auto_detect_geometry,
     diagnose_failure,
-    to_pdb,
-    to_json,
+    find_metal_ions,
+    generate_metal_constraints,
+    generate_report,
+    get_metal_template,
+    parse_pdb_string,
 )
 
 
@@ -164,7 +158,7 @@ def _hybrid_coarse_grain(protein, metal_ion, max_dist=2.5):
     while preserving the metal coordination site as separate super-atoms
     so that inter-super-atom constraints survive.
     """
-    from gciqa.coarsegrain import CoarseGraining, _ATOMIC_MASSES, _build_cg_from_groups
+    from gciqa.coarsegrain import _ATOMIC_MASSES, _build_cg_from_groups
 
     n = len(protein.atoms)
     masses = [_ATOMIC_MASSES.get(a, 12.0) for a in protein.atoms]
@@ -366,7 +360,7 @@ def run_single_benchmark(pdb_string, true_zn_coord, protein_name, verbose=True):
             }
         else:
             if verbose:
-                print(f"  WARNING: Metal super-atom not in conformation")
+                print("  WARNING: Metal super-atom not in conformation")
             return {"success": False, "error": "metal_not_in_conformation"}
     else:
         if verbose:
@@ -429,20 +423,20 @@ def main():
         times = [r["time"] for r in successful]
         scores = [r["constraint_score"] for r in successful]
 
-        print(f"\n  RMSD statistics (successful only):")
+        print("\n  RMSD statistics (successful only):")
         print(f"    Mean: {sum(rmsds)/len(rmsds):.2f} Å")
         print(f"    Min: {min(rmsds):.2f} Å")
         print(f"    Max: {max(rmsds):.2f} Å")
 
-        print(f"\n  Time statistics:")
+        print("\n  Time statistics:")
         print(f"    Mean: {sum(times)/len(times):.2f} s")
         print(f"    Total: {sum(times):.2f} s")
 
-        print(f"\n  Constraint score statistics:")
+        print("\n  Constraint score statistics:")
         print(f"    Mean: {sum(scores)/len(scores):.2f}")
 
         # Per-protein results
-        print(f"\n  Per-protein results:")
+        print("\n  Per-protein results:")
         for r in results:
             if r.get("success"):
                 print(f"    {r['pdb_id']:6s} {r['name']:30s} RMSD={r['rmsd']:.2f} Å  Score={r['constraint_score']:.2f}")

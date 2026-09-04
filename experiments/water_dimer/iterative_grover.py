@@ -18,18 +18,17 @@ Usage:
     python iterative_grover.py
 """
 
-import sys
-import os
 import math
+import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    GroverOracle,
     ConstraintSet,
     GeometricConstraint,
+    GroverOracle,
     grover_search,
-    geometric_clustering,
 )
 
 
@@ -167,7 +166,6 @@ def main():
     print(f"\n{'Iter':>4} {'Valid':>8} {'Total':>8} {'Ratio':>8} {'Best O-O':>10} {'Error':>8} {'Range':>20}")
     print("-" * 70)
 
-    best_conformation = None
     best_oo = None
     convergence_history = []
 
@@ -194,7 +192,6 @@ def main():
 
         convergence_history.append((iteration, oo_dist, error, valid_count))
 
-        best_conformation = best_conf
         best_oo = oo_dist
 
         # Check convergence (constraint range width < 0.1)
@@ -235,12 +232,12 @@ def main():
     elif quantum_error > classical_error:
         print(f"\nClassical search achieves {quantum_error/classical_error:.1f}x better accuracy")
     else:
-        print(f"\nBoth methods achieve similar accuracy")
+        print("\nBoth methods achieve similar accuracy")
 
     # Key insight
-    print(f"\nKey insight: Classical search found 0 conformations in iteration 4")
-    print(f"(constraints too tight). Quantum Grover search amplifies valid states")
-    print(f"even in sparse search spaces, enabling continued refinement.")
+    print("\nKey insight: Classical search found 0 conformations in iteration 4")
+    print("(constraints too tight). Quantum Grover search amplifies valid states")
+    print("even in sparse search spaces, enabling continued refinement.")
 
 
 if __name__ == "__main__":

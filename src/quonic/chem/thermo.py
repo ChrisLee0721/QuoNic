@@ -91,7 +91,6 @@ def thermochemistry(
         RuntimeError: If frequency calculation fails.
     """
     try:
-        from pyscf import gto, hessian, scf
         from pyscf.hessian import thermo
     except ImportError as exc:
         raise ImportError(tr("err.chem.pyscf_missing")) from exc

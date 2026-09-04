@@ -21,14 +21,15 @@ Usage:
     python experiments/benchmark_classical_advantage.py
 """
 
+import math
 import os
 import sys
 import time
-import math
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from gciqa.angle_oracle import AngleEncodingOracle
+
 from gciqa.constraints import ConstraintSet, GeometricConstraint
 
 
@@ -56,8 +57,6 @@ def extract_zinc_site_from_pdb(pdb_path):
             # Find Zn
             if element == "ZN" or atom_name == "ZN":
                 zn_coord = (x, y, z)
-                zn_chain = chain
-                zn_res = res_seq
 
     if zn_coord is None:
         return None, []
@@ -189,7 +188,7 @@ def benchmark_protein(name, pdb_path):
     # Step 2: Compute expected distances
     all_coords = [zn_coord] + [lig["coord"] for lig in ligands]
     expected_dists = compute_pairwise_distances(all_coords)
-    print(f"\n2. Expected pairwise distances (from crystal structure):")
+    print("\n2. Expected pairwise distances (from crystal structure):")
     labels = ["Zn"] + [f"{lig['residue']}{lig['atom']}" for lig in ligands]
     idx = 0
     for i in range(len(labels)):
@@ -198,7 +197,7 @@ def benchmark_protein(name, pdb_path):
             idx += 1
 
     # Step 3: Run GCIQA search with different tolerances
-    print(f"\n3. GCIQA Classical Search:")
+    print("\n3. GCIQA Classical Search:")
     print(f"   {'Tolerance':>10} {'Valid':>6} {'Best Error':>11} {'Time':>8} {'Distances'}")
     print(f"   {'-'*60}")
 
@@ -211,18 +210,18 @@ def benchmark_protein(name, pdb_path):
         print(f"   {tol:>10.1f} {n_valid:>6} {error:>11.3f} {t:>7.3f}s  [{dist_str}]")
 
     # Step 4: Why classical force fields fail
-    print(f"\n4. Why Classical Force Fields Fail:")
-    print(f"   - AMBER: No Zn2+ parameters. Need bonded model (days of work)")
-    print(f"   - CHARMM: Has Zn2+ but only for tetrahedral His4 coordination")
-    print(f"   - OPLS: No Zn2+ parameters")
-    print(f"   - Manual parameterization: ~1 week per metal site")
-    print(f"   - Accuracy: Often wrong coordination geometry")
+    print("\n4. Why Classical Force Fields Fail:")
+    print("   - AMBER: No Zn2+ parameters. Need bonded model (days of work)")
+    print("   - CHARMM: Has Zn2+ but only for tetrahedral His4 coordination")
+    print("   - OPLS: No Zn2+ parameters")
+    print("   - Manual parameterization: ~1 week per metal site")
+    print("   - Accuracy: Often wrong coordination geometry")
 
-    print(f"\n5. GCIQA's Approach:")
-    print(f"   - Input: Geometric constraints from crystallography")
-    print(f"   - No force field parameters needed")
-    print(f"   - Finds coordination geometry directly")
-    print(f"   - Time: <1 second")
+    print("\n5. GCIQA's Approach:")
+    print("   - Input: Geometric constraints from crystallography")
+    print("   - No force field parameters needed")
+    print("   - Finds coordination geometry directly")
+    print("   - Time: <1 second")
 
     return {
         "name": name,
@@ -264,7 +263,7 @@ def main():
     # Summary
     if results:
         print(f"\n{'='*60}")
-        print(f"SUMMARY")
+        print("SUMMARY")
         print(f"{'='*60}")
         print(f"\n{'Protein':<30} {'Ligands':>8} {'Best Error':>11}")
         print(f"{'-'*50}")
@@ -274,12 +273,12 @@ def main():
             )
             print(f"{r['name']:<30} {len(r['ligands']):>8} {error:>11.3f} A")
 
-        print(f"\nConclusion:")
-        print(f"  GCIQA finds metal binding site geometry within ~0.1-0.3 A")
-        print(f"  of crystal structure, WITHOUT any force field parameters.")
-        print(f"  Classical force fields CANNOT compute these systems at all.")
-        print(f"\n  This is GCIQA's classical advantage:")
-        print(f"  Not faster, but POSSIBLE vs IMPOSSIBLE.")
+        print("\nConclusion:")
+        print("  GCIQA finds metal binding site geometry within ~0.1-0.3 A")
+        print("  of crystal structure, WITHOUT any force field parameters.")
+        print("  Classical force fields CANNOT compute these systems at all.")
+        print("\n  This is GCIQA's classical advantage:")
+        print("  Not faster, but POSSIBLE vs IMPOSSIBLE.")
 
 
 if __name__ == "__main__":

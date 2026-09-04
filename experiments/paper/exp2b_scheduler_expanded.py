@@ -99,6 +99,7 @@ def build_grover(n: int):
 
 def build_vqe(n: int, depth: int = 3):
     import random
+
     from quonic import qgate, reset
     from quonic.gates import CX, Ry
     from quonic.stack import current_circuit
@@ -116,7 +117,7 @@ def build_qpe(n_estimate: int, n_target: int = 1):
     from quonic import qgate, reset
     from quonic.gates import CX, H, Rz
     from quonic.stack import current_circuit
-    n = n_estimate + n_target
+    n_estimate + n_target
     reset()
     for i in range(n_estimate):
         qgate(H, i)
@@ -150,6 +151,7 @@ def build_qaoa(n: int):
 
 def build_random_clifford(n: int, depth: int, seed: int = 42):
     import random
+
     from quonic import qgate, reset
     from quonic.gates import CX, CZ, H, Z
     from quonic.stack import current_circuit
@@ -169,6 +171,7 @@ def build_random_clifford(n: int, depth: int, seed: int = 42):
 
 def build_random_non_clifford(n: int, depth: int, seed: int = 42):
     import random
+
     from quonic import qgate, reset
     from quonic.gates import CX, H, Rx, Ry, Rz
     from quonic.stack import current_circuit
@@ -198,7 +201,7 @@ def run_all_backends(circuit, name: str) -> dict:
     rec = schedule(circuit)
 
     t0 = time.perf_counter()
-    result_rec = get_backend(rec.backend).run(circuit, shots=SHOTS, method=rec.method)
+    get_backend(rec.backend).run(circuit, shots=SHOTS, method=rec.method)
     time_rec = time.perf_counter() - t0
 
     import threading

@@ -151,8 +151,8 @@ def geometric_clustering(
         centers.append(center)
 
     cluster_sizes = [0] * n_clusters
-    for l in labels:
-        cluster_sizes[l] += 1
+    for label in labels:
+        cluster_sizes[label] += 1
 
     largest = cluster_sizes.index(max(cluster_sizes))
 

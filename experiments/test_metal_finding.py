@@ -4,14 +4,15 @@ Tests the find_sites function with coordination constraints on multiple PDB file
 Collects statistics to identify failure patterns.
 """
 
-import sys
 import math
+import sys
 import time
+
 sys.path.insert(0, 'src')
 
-from gciqa import find_sites, GeometricConstraint, ConstraintSet
-from gciqa.pdb import parse_pdb, find_metal_ions
+from gciqa import ConstraintSet, GeometricConstraint, find_sites
 from gciqa.ligand_detect import _COORD_ELEMENTS
+from gciqa.pdb import find_metal_ions, parse_pdb
 
 
 def analyze_metal_site(pdb_file: str) -> dict:

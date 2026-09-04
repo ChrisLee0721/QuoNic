@@ -8,11 +8,11 @@ Usage:
     python direct_compute.py
 """
 
+import itertools
+import math
 import os
 import sys
 import time
-import math
-import itertools
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
@@ -76,7 +76,7 @@ def search_direct(expected_dists, tolerance, bits, drange=(0.0, 5.0)):
 
 def main():
     """Compare direct computation vs brute-force search."""
-    from constraint_density_gpu import parse_pdb_metal_sites, compute_pairwise, search_gpu
+    from constraint_density_gpu import compute_pairwise, parse_pdb_metal_sites, search_gpu
 
     print("=" * 60)
     print("Direct Computation vs Brute-Force Search")
@@ -172,7 +172,7 @@ def main():
         print(f"{c:<15} {n:>4} {m:>10.3f} {s:>8.3f} {v:>11.1f} {t:>11.6f}")
 
     # Verify: direct and GPU should give same results
-    print(f"\nVerification (direct vs GPU should match):")
+    print("\nVerification (direct vs GPU should match):")
     mismatches = 0
     for i in range(0, len(results), 4):
         d3 = results[i]    # 3dist_direct

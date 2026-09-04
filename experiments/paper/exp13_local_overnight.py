@@ -13,7 +13,6 @@ import json
 import math
 import random
 import signal
-import sys
 import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -136,7 +135,7 @@ def build_qpe(n_estimate: int, n_target: int = 1):
     from quonic import qgate, reset
     from quonic.gates import CX, H, Rz
     from quonic.stack import current_circuit
-    n = n_estimate + n_target
+    n_estimate + n_target
     reset()
     for i in range(n_estimate):
         qgate(H, i)
@@ -544,7 +543,7 @@ def main():
     print(f" FINAL RESULTS ({len(success)} success, {len(failed)} failed)")
     print(f"{'='*70}")
 
-    print(f"\n[Scheduler Accuracy]")
+    print("\n[Scheduler Accuracy]")
     print(f"  Circuits:      {stats.get('n_circuits', 0)}")
     print(f"  Accuracy:      {stats.get('accuracy_pct', 0)}% (picked fastest)")
     print(f"  Mean overhead: {stats.get('mean', 0)}x")
@@ -553,14 +552,14 @@ def main():
     print(f"  Worst case:    {stats.get('worst_case', 0)}x")
     print(f"  Geometric mean:{stats.get('geometric_mean', 0)}x")
 
-    print(f"\n[By Decision Class]")
+    print("\n[By Decision Class]")
     for cls, info in sorted(class_breakdown.items()):
         print(f"  {cls:12s}: {info['n_circuits']} circuits, "
               f"{info['accuracy_pct']}% accuracy, "
               f"{info['mean_overhead']}x mean, "
               f"{info['worst_case']}x worst")
 
-    print(f"\n[Scaling Curves]")
+    print("\n[Scaling Curves]")
     for family in sorted(curves):
         points = curves[family]
         print(f"  {family}:")

@@ -4,18 +4,17 @@ Tests GCIQA on a tiny system (5-6 points) with known ground truth.
 This verifies whether GCIQA can solve sparse constraint problems at all.
 """
 
-import sys
-import os
 import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    GeometricConstraint,
-    ConstraintSet,
     GCIQA,
-    generate_report,
+    ConstraintSet,
+    GeometricConstraint,
 )
 
 
@@ -78,7 +77,7 @@ def run_test(n_points, n_extra, seed=42, use_quantum=False, bits=5, coord_range=
     true_positions = generate_chain(n_points)
     constraints = extract_constraints(true_positions, n_extra)
 
-    n_chain = n_points - 1
+    n_points - 1
     n_total = len(constraints)
 
     # Build GCIQA constraints

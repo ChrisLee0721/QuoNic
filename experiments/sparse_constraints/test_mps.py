@@ -5,17 +5,14 @@ Memory: O(n * chi^2) instead of O(2^n), where chi is bond dimension.
 Works well for circuits with limited entanglement.
 """
 
-import sys
 import os
-import math
-import random
+import sys
 import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from gciqa import GeometricConstraint, ConstraintSet, GCIQA
+from gciqa import ConstraintSet, GeometricConstraint
 from gciqa.oracle import GroverOracle, estimate_oracle_qubits
-from gciqa.search import grover_search
 
 
 def test_mps_simulation(n_atoms, bits, n_constraints):

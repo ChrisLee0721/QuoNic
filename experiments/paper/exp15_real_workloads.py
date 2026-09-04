@@ -337,7 +337,7 @@ def run_trotter(spec):
         pauli = "I" * i + "ZZ" + "I" * (nq - i - 2)
         ham.append((j, pauli))
     t0 = time.perf_counter()
-    result = trotter(ham, time=spec["time"], steps=spec["steps"],
+    trotter(ham, time=spec["time"], steps=spec["steps"],
                      n_qubits=nq, shots=SHOTS, backend="native")
     t = time.perf_counter() - t0
     return {"name": spec["name"], "type": "trotter", "n_qubits": nq,
@@ -379,7 +379,7 @@ def run_amp_est(spec):
 def run_clustering(spec):
     from quonic.algorithms import quantum_clustering
     t0 = time.perf_counter()
-    result = quantum_clustering(spec["points"], spec["centroids"],
+    quantum_clustering(spec["points"], spec["centroids"],
                                 max_iter=20, shots=SHOTS, backend="native")
     t = time.perf_counter() - t0
     return {"name": spec["name"], "type": "clustering", "n_qubits": spec["n_qubits"],
@@ -408,7 +408,7 @@ def run_hhl():
     matrix = [[a, 0], [0, b]]
     vector = [1.0, 0.0]
     t0 = time.perf_counter()
-    result = hhl(matrix, vector, n_clock=4, shots=SHOTS, backend="native")
+    hhl(matrix, vector, n_clock=4, shots=SHOTS, backend="native")
     t = time.perf_counter() - t0
     return {"name": "HHL-2x2", "type": "hhl", "n_qubits": 6, "time": round(t, 6),
             "matrix": matrix}
@@ -434,7 +434,7 @@ def run_qaoa_tsp():
 def run_qnn():
     from quonic.algorithms import qnn
     t0 = time.perf_counter()
-    result = qnn(n_qubits=4, depth=3)
+    qnn(n_qubits=4, depth=3)
     t = time.perf_counter() - t0
     return {"name": "QNN-4q-3d", "type": "qnn", "n_qubits": 4, "time": round(t, 6)}
 
@@ -442,7 +442,7 @@ def run_qnn():
 def run_qgan():
     from quonic.algorithms import qgan
     t0 = time.perf_counter()
-    result = qgan(n_steps=100)
+    qgan(n_steps=100)
     t = time.perf_counter() - t0
     return {"name": "QGAN-100s", "type": "qgan", "n_qubits": 4, "time": round(t, 6)}
 
@@ -459,7 +459,7 @@ def run_qsvm():
 def run_ham_sim():
     from quonic.algorithms import hamiltonian_simulation
     t0 = time.perf_counter()
-    result = hamiltonian_simulation()
+    hamiltonian_simulation()
     t = time.perf_counter() - t0
     return {"name": "HamSim", "type": "ham_sim", "n_qubits": 2, "time": round(t, 6)}
 
@@ -631,7 +631,7 @@ def main():
             print(f"{algo_type:<20} {len(results):>5} {errs:>4} {mean_t:>10.2f}")
 
     # Time by qubit count
-    print(f"\n[Time by qubit count]")
+    print("\n[Time by qubit count]")
     by_q = {}
     for r in all_results:
         if "error" in r or "time" not in r:

@@ -10,7 +10,6 @@ from known structure, error = grid quantization).
 """
 import json
 import math
-import os
 import random
 import sys
 import time
@@ -20,10 +19,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from gciqa.pdb import parse_pdb, find_metal_ions
 from gciqa.ligand_detect import detect_pockets, refine_pocket
-from gciqa.metal_templates import get_metal_template, METAL_COORDINATION
-
+from gciqa.metal_templates import METAL_COORDINATION, get_metal_template
+from gciqa.pdb import find_metal_ions, parse_pdb
 
 COORD_ELEMENTS = {"N", "O", "S"}
 # Metals we can test (have templates)

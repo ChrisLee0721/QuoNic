@@ -131,7 +131,7 @@ def build_qpe(n_estimate: int, n_target: int = 1):
     from quonic import qgate, reset
     from quonic.gates import CX, H, Rz
     from quonic.stack import current_circuit
-    n = n_estimate + n_target
+    n_estimate + n_target
     reset()
     for i in range(n_estimate):
         qgate(H, i)
@@ -472,7 +472,6 @@ def _worker_run_batch(batch: list[tuple[str, dict]], shots: int) -> list[dict]:
     Circuits are regenerated inside the worker to avoid pickling Circuit objects.
     """
     # Re-import quonic in worker process
-    from quonic.scheduler.features import circuit_features
 
     # Map names to builder functions
     builders = {
@@ -526,7 +525,7 @@ def generate_bonus_circuits(n_bonus: int = 120) -> list[tuple[str, dict]]:
         seed = rng.randint(0, 99999)
         depth_label = rng.choice(depth_labels)
         depth_map = {"shallow": 2, "medium": 5, "deep": 10}
-        depth = max(n, n * depth_map[depth_label] // 5)
+        max(n, n * depth_map[depth_label] // 5)
         if rng.random() < 0.5:
             name = f"Bonus-RandCliff-{n}-{depth_label}-{seed}"
             meta = {"class": "clifford", "type": "random", "family": "RandomClifford",
@@ -546,19 +545,19 @@ def generate_template_compile_tasks() -> list[tuple[str, dict]]:
     """
     tasks = []
     templates = [
-        ("Grover-4", lambda: grover("1100", 4, shots=1)),
-        ("Grover-8", lambda: grover("11001100", 8, shots=1)),
-        ("QFT-4", lambda: qft(4, shots=1)),
-        ("QFT-8", lambda: qft(8, shots=1)),
-        ("QFT-12", lambda: qft(12, shots=1)),
-        ("QPE-pi-4", lambda: qpe(3.14159, n_precision=4, shots=1)),
-        ("QPE-pi-8", lambda: qpe(3.14159, n_precision=8, shots=1)),
-        ("Teleportation", lambda: teleportation(shots=1)),
-        ("BB84-4", lambda: bb84(n_bits=4, shots=1)),
-        ("BernsteinVazirani-4", lambda: bernstein_vazirani("1011", shots=1)),
-        ("DeutschJozsa-3", lambda: deutsch_jozsa(n_qubits=3, shots=1)),
-        ("BitFlip-3", lambda: bit_flip_code(shots=1)),
-        ("PhaseFlip-3", lambda: phase_flip_code(shots=1)),
+        ("Grover-4", lambda: grover("1100", 4, shots=1)),  # noqa: F821
+        ("Grover-8", lambda: grover("11001100", 8, shots=1)),  # noqa: F821
+        ("QFT-4", lambda: qft(4, shots=1)),  # noqa: F821
+        ("QFT-8", lambda: qft(8, shots=1)),  # noqa: F821
+        ("QFT-12", lambda: qft(12, shots=1)),  # noqa: F821
+        ("QPE-pi-4", lambda: qpe(3.14159, n_precision=4, shots=1)),  # noqa: F821
+        ("QPE-pi-8", lambda: qpe(3.14159, n_precision=8, shots=1)),  # noqa: F821
+        ("Teleportation", lambda: teleportation(shots=1)),  # noqa: F821
+        ("BB84-4", lambda: bb84(n_bits=4, shots=1)),  # noqa: F821
+        ("BernsteinVazirani-4", lambda: bernstein_vazirani("1011", shots=1)),  # noqa: F821
+        ("DeutschJozsa-3", lambda: deutsch_jozsa(n_qubits=3, shots=1)),  # noqa: F821
+        ("BitFlip-3", lambda: bit_flip_code(shots=1)),  # noqa: F821
+        ("PhaseFlip-3", lambda: phase_flip_code(shots=1)),  # noqa: F821
     ]
     for name, builder in templates:
         tasks.append((f"Template-{name}", {"type": "template_compile", "template": name}))
@@ -622,8 +621,15 @@ def _worker_run_one(item: tuple[str, dict], shots: int) -> dict | None:
 def _run_template_compile(name: str, meta: dict) -> dict:
     """Test algorithm template compilation: build circuit + compile + measure time."""
     from quonic.algorithms import (
-        bb84, bernstein_vazirani, bit_flip_code, deutsch_jozsa, grover,
-        phase_flip_code, qft, qpe, teleportation,
+        bb84,
+        bernstein_vazirani,
+        bit_flip_code,
+        deutsch_jozsa,
+        grover,
+        phase_flip_code,
+        qft,
+        qpe,
+        teleportation,
     )
     from quonic.compiler import compile as quonic_compile
 
@@ -660,7 +666,7 @@ def _run_template_compile(name: str, meta: dict) -> dict:
 
         # Compile (this exercises the compiler pipeline)
         t0 = time.perf_counter()
-        compiled = quonic_compile(circuit, route=True)
+        quonic_compile(circuit, route=True)
         t_compile = time.perf_counter() - t0
 
         print(f"  Template: {name} build={t_build:.4f}s compile={t_compile:.4f}s", flush=True)
@@ -711,9 +717,9 @@ def _run_with_throttle(item):
 
 
 def main():
-    import os
     import multiprocessing as mp
-    from concurrent.futures import ProcessPoolExecutor, as_completed
+    import os
+    from concurrent.futures import ProcessPoolExecutor
 
     global _large_sem
 
@@ -759,7 +765,7 @@ def main():
 
     # Run with continuous task generation
     all_results = list(checkpoint.values())
-    lock = mp.Lock()
+    mp.Lock()
     _large_sem = mp.Semaphore(1)  # Only 1 large circuit at a time to avoid OOM
     completed_count = 0
     bonus_gen_counter = 0
@@ -843,14 +849,14 @@ def main():
     print(f"  Geometric mean: {stats['geometric_mean']}x")
 
     breakdown = compute_class_breakdown(all_results)
-    print(f"\nPer-class breakdown:")
+    print("\nPer-class breakdown:")
     for cls, b in breakdown.items():
         print(f"  {cls}: {b['accuracy_pct']}% accuracy, "
               f"mean {b['mean_overhead']}x, worst {b['worst_case']}x ({b['n_circuits']} circuits)")
 
     # Scaling curves
     curves = compute_scaling_curves(all_results)
-    print(f"\nScaling curves (per family):")
+    print("\nScaling curves (per family):")
     for family, points in curves.items():
         print(f"  {family}: {len(points)} points, n range [{points[0]['n']}..{points[-1]['n']}]")
 

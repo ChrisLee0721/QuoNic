@@ -74,7 +74,7 @@ class Molecule:
             H  0.0  0.0  0.0
             H  0.0  0.0  0.74
         """
-        lines = [l.strip() for l in xyz.strip().splitlines() if l.strip()]
+        lines = [line.strip() for line in xyz.strip().splitlines() if line.strip()]
         if len(lines) < 3:
             raise ValueError(tr("err.chem.xyz_parse", reason="too few lines"))
         try:

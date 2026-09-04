@@ -42,7 +42,7 @@ def build_qft(n: int):
 def build_grover(n: int):
     """Grover search with n qubits."""
     from quonic import qgate, reset
-    from quonic.gates import CX, CZ, H, X
+    from quonic.gates import CZ, H, X
     from quonic.stack import current_circuit
 
     reset()
@@ -136,7 +136,8 @@ def quonic_optimize(circuit, passes: tuple) -> tuple[int, int, float]:
 def qiskit_transpile(circuit, optimization_level: int) -> tuple[int, int, float]:
     """Transpile with Qiskit. Returns (gate_count, cx_count, time)."""
     try:
-        from qiskit import QuantumCircuit, transpile as qiskit_transpile_fn
+        from qiskit import QuantumCircuit
+        from qiskit import transpile as qiskit_transpile_fn
 
         # Translate to qiskit
         from quonic.backends.translators import TRANSLATORS

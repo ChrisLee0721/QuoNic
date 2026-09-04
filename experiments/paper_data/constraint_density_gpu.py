@@ -6,14 +6,14 @@ Usage:
     F:/PyQQQ/.venv_gpu/Scripts/python.exe experiments/constraint_density_gpu.py
 """
 
+import json
+import math
 import os
 import sys
 import time
-import math
-import json
-import torch
-import numpy as np
 from collections import defaultdict
+
+import torch
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
@@ -218,7 +218,7 @@ def main():
         print(f"{c:<8} {n:>4} {m:>10.3f} {s:>8.3f} {v:>11.1f} {t:>11.3f}")
 
     # Per-site
-    print(f"\nPer-site (first 15):")
+    print("\nPer-site (first 15):")
     print(f"{'PDB':<12} {'Metal':<5} {'3dist_nv':>9} {'6dist_nv':>9} {'3dist_err':>10} {'6dist_err':>10}")
     print("-" * 58)
 

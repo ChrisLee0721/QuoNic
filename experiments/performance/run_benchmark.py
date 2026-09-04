@@ -13,24 +13,24 @@ Usage:
     python run_benchmark.py
 """
 
-import sys
-import os
-import time
 import math
+import os
 import random
+import sys
+import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    parse_pdb_string,
-    find_metal_ions,
-    get_metal_template,
-    generate_metal_constraints,
-    auto_detect_geometry,
-    GeometricConstraint,
-    ConstraintSet,
     GCIQA,
+    ConstraintSet,
+    GeometricConstraint,
+    auto_detect_geometry,
+    find_metal_ions,
+    generate_metal_constraints,
     generate_report,
+    get_metal_template,
+    parse_pdb_string,
 )
 
 
@@ -141,8 +141,8 @@ def benchmark_single(n_residues, verbose=False):
         metal_key = str(metal_super)
         if metal_key in result.best_conformation:
             predicted = result.best_conformation[metal_key]
-            rmsd = math.sqrt(sum((a - b) ** 2 for a, b in zip(predicted, (0, 0, 0))))
-            report = generate_report(result.best_conformation, constraints)
+            math.sqrt(sum((a - b) ** 2 for a, b in zip(predicted, (0, 0, 0))))
+            generate_report(result.best_conformation, constraints)
     timings["validation"] = time.time() - t0
 
     timings["total"] = sum(timings.values())

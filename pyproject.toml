@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quonic"
-version = "0.13.0"
+version = "0.14.0"
 description = "Quantum programming as simple as Python — 12+ backends, intelligent scheduling, 77 algorithms"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -94,10 +94,3 @@ quonic = ["py.typed", "scheduler/data/*.json"]
 testpaths = ["tests"]
 pythonpath = ["src"]
 
-[tool.ruff]
-line-length = 100
-target-version = "py39"
-
-[tool.ruff.lint]
-select = ["E", "F", "I", "W"]
-ignore = ["E501"]

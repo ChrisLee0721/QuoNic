@@ -22,10 +22,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from quonic.chem import (
     Molecule,
-    compute_dg,
     optimize_geometry,
-    thermochemistry,
     solvation_correction,
+    thermochemistry,
 )
 
 
@@ -61,7 +60,8 @@ def run_classical_pipeline(reactant, product, method, basis, solvent, temperatur
         t0 = time.time()
 
         # Compute gas phase energies
-        from pyscf import gto, scf as pyscf_scf, dft as pyscf_dft
+        from pyscf import dft as pyscf_dft
+        from pyscf import scf as pyscf_scf
 
         # Reactant energy
         mol_r = reactant.to_pyscf_mol(basis=basis)
@@ -108,7 +108,7 @@ def run_classical_pipeline(reactant, product, method, basis, solvent, temperatur
         d_electronic = (product_energy - reactant_energy) * HARTREE_TO_KCAL
         dg_total = d_electronic + d_solvation
 
-        print(f"\n[3/3] Summary (no ZPE/thermal corrections)")
+        print("\n[3/3] Summary (no ZPE/thermal corrections)")
         print(f"  ΔE(electronic) = {d_electronic:.2f} kcal/mol")
         print(f"  ΔΔG(solvation) = {d_solvation:.2f} kcal/mol")
         print(f"  ΔG(partial)    = {dg_total:.2f} kcal/mol")

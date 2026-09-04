@@ -7,15 +7,14 @@ Usage:
     F:/PyQQQ/.venv_gpu/Scripts/python.exe experiments/error_modeling_gpu.py
 """
 
+import json
+import math
 import os
 import sys
 import time
-import json
-import math
-import torch
-import numpy as np
 from collections import defaultdict
-from multiprocessing import Pool, cpu_count
+
+import torch
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
@@ -250,7 +249,7 @@ def main():
             by_metal[r['metal']].append(r['best_error'])
 
     if by_metal:
-        print(f"\nBy metal (4-bit, tol=0.5):")
+        print("\nBy metal (4-bit, tol=0.5):")
         print(f"{'Metal':>6} {'N':>4} {'Mean':>8} {'Std':>8}")
         print("-" * 28)
         for m, e in sorted(by_metal.items()):

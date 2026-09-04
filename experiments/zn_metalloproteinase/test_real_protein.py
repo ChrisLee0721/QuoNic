@@ -4,26 +4,25 @@ This is a blind test: we do NOT use the true Zn position as pocket center.
 Instead, we use the protein's geometric center and let GCIQA find the Zn site.
 """
 
-import sys
-import os
 import math
+import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    parse_pdb,
-    find_metal_ions,
-    auto_detect_geometry,
-    get_metal_template,
-    generate_metal_constraints,
-    GeometricConstraint,
-    ConstraintSet,
     GCIQA,
-    generate_report,
+    ConstraintSet,
+    GeometricConstraint,
+    auto_detect_geometry,
     diagnose_failure,
+    find_metal_ions,
+    generate_metal_constraints,
+    generate_report,
+    get_metal_template,
+    parse_pdb,
 )
-from gciqa.binding_site import PocketDetector, MetalSiteDetector
-from gciqa.coarsegrain import CoarseGraining, _ATOMIC_MASSES, _build_cg_from_groups
+from gciqa.coarsegrain import _ATOMIC_MASSES, _build_cg_from_groups
 
 
 def hybrid_coarse_grain(protein, metal_ion, max_dist=2.5):
@@ -246,7 +245,7 @@ def run_real_protein_test():
             report = generate_report(result.best_conformation, constraints)
             print(f"  Constraint score: {report.overall_score:.2f}")
         else:
-            print(f"  WARNING: Metal super-atom not in conformation")
+            print("  WARNING: Metal super-atom not in conformation")
     else:
         print("  No valid conformation found!")
         failure = diagnose_failure(result, constraints)
@@ -401,7 +400,7 @@ def run_test_on_pdb(pdb_path, name):
             print(f"  Constraint score: {report.overall_score:.2f}")
             return {"success": rmsd < 2.0, "rmsd": rmsd, "name": name}
         else:
-            print(f"  WARNING: Metal super-atom not in conformation")
+            print("  WARNING: Metal super-atom not in conformation")
             return {"success": False, "name": name}
     else:
         print("  No valid conformation found!")

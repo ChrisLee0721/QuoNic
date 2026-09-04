@@ -11,17 +11,16 @@ Usage:
     python precision_test.py
 """
 
-import sys
-import os
 import math
+import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    GroverOracle,
     ConstraintSet,
     GeometricConstraint,
-    grover_search,
+    GroverOracle,
 )
 
 
@@ -158,7 +157,7 @@ def main():
     # Note: Quantum simulation of arithmetic oracle requires too much memory
     # for statevector simulator (42+ qubits). On a real quantum computer,
     # Grover search would amplify valid states from 32.44% to ~100%.
-    print(f"\nNote: Arithmetic oracle circuit is too large for statevector simulation.")
+    print("\nNote: Arithmetic oracle circuit is too large for statevector simulation.")
     print(f"On a real quantum computer, Grover would amplify valid states from {100*valid_count/total:.1f}% to ~100%.")
 
     # Comparison
@@ -175,7 +174,7 @@ def main():
     if best_error < 0.020:
         print(f"\n3-bit encoding achieves {0.020/best_error:.1f}x better precision")
     else:
-        print(f"\n2-bit encoding already achieves sufficient precision for this system")
+        print("\n2-bit encoding already achieves sufficient precision for this system")
 
 
 if __name__ == "__main__":

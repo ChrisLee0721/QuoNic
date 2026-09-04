@@ -15,11 +15,11 @@ Metrics:
 - Success rate
 """
 
-import math
 import time
-import numpy as np
 from dataclasses import dataclass
 from typing import Optional
+
+import numpy as np
 
 
 @dataclass
@@ -267,17 +267,17 @@ def main():
     dg = [r for r in all_results if r.method == "Dist. Geometry"]
     dg_q = [r for r in all_results if r.method == "DG (quantized)"]
 
-    print(f"\nGCIQA (4-bit quantization):")
+    print("\nGCIQA (4-bit quantization):")
     print(f"  Distance error: {np.mean([r.dist_error for r in gciqa]):.4f} A")
     print(f"  Time: {np.mean([r.time_us for r in gciqa]):.1f} us")
     print(f"  Success rate: {100*sum(1 for r in gciqa if r.success)/len(gciqa):.1f}%")
 
-    print(f"\nDistance Geometry (from true distances):")
+    print("\nDistance Geometry (from true distances):")
     print(f"  Coord RMSD: {np.mean([r.coord_rmsd for r in dg]):.4f} A")
     print(f"  Time: {np.mean([r.time_us for r in dg]):.1f} us")
     print(f"  Success rate: {100*sum(1 for r in dg if r.success)/len(dg):.1f}%")
 
-    print(f"\nDistance Geometry (from quantized distances):")
+    print("\nDistance Geometry (from quantized distances):")
     print(f"  Coord RMSD: {np.mean([r.coord_rmsd for r in dg_q]):.4f} A")
     print(f"  Time: {np.mean([r.time_us for r in dg_q]):.1f} us")
     print(f"  Success rate: {100*sum(1 for r in dg_q if r.success)/len(dg_q):.1f}%")

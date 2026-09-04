@@ -18,7 +18,6 @@ Outputs: experiments/paper/results/exp10_groverize_hardware.json
 from __future__ import annotations
 
 import json
-import math
 import time
 from pathlib import Path
 
@@ -65,7 +64,7 @@ def build_cwhile_ghz():
     This tests groverize on a multi-qubit entangled circuit.
     """
     from quonic import qgate, reset
-    from quonic.gates import CX, H, X
+    from quonic.gates import CX, H
     from quonic.qif import creg, cwhile
     from quonic.stack import current_circuit
 

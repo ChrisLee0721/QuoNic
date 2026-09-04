@@ -11,7 +11,6 @@ No backend execution needed — we compare decisions, not re-run.
 from __future__ import annotations
 
 import json
-from collections import defaultdict
 from pathlib import Path
 
 RESULTS_DIR = Path(__file__).parent / "results"
@@ -136,7 +135,7 @@ def main():
                 improvements.append((delta, r))
     improvements.sort(key=lambda x: x[0], reverse=True)
     if improvements:
-        print(f"\nBiggest improvements (top 10):")
+        print("\nBiggest improvements (top 10):")
         for delta, r in improvements[:10]:
             print(f"  {r['circuit']}: {r['old_overhead']:.1f}x -> {r['new_overhead']:.1f}x "
                   f"({r['old_pick']} -> {r['new_pick']})")

@@ -14,19 +14,18 @@ Usage:
     python run_benchmark.py
 """
 
-import sys
-import os
 import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    GeometricConstraint,
-    ConstraintSet,
     GCIQA,
+    ConstraintSet,
+    GeometricConstraint,
     generate_report,
-    diagnose_failure,
 )
 
 
@@ -96,7 +95,7 @@ def _hybrid_coarse_grain_covalent(atoms, coords, reactive_idx, ligand_indices):
     - Each ligand atom → its own super-atom
     - All background → 1 super-atom
     """
-    from gciqa.coarsegrain import CoarseGraining, _ATOMIC_MASSES, _build_cg_from_groups
+    from gciqa.coarsegrain import _ATOMIC_MASSES, _build_cg_from_groups
 
     n = len(atoms)
     masses = [_ATOMIC_MASSES.get(a, 12.0) for a in atoms]

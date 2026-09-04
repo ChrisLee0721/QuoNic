@@ -11,19 +11,18 @@ Usage:
     python hierarchical_search.py
 """
 
-import sys
-import os
 import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    coarse_grain,
-    GroverOracle,
     ConstraintSet,
     GeometricConstraint,
-    grover_search,
+    GroverOracle,
+    coarse_grain,
 )
 
 
@@ -79,7 +78,7 @@ def main():
 
     cg_coarse = coarse_grain(atoms, coords, strategy="spatial", n_super_atoms=2)
     print(f"  Compression: {len(atoms)} → {cg_coarse.n_super_atoms} ({len(atoms)/cg_coarse.n_super_atoms:.0f}x)")
-    print(f"  Super-atom positions:")
+    print("  Super-atom positions:")
     for i, (sx, sy, sz) in enumerate(cg_coarse.super_coords):
         print(f"    SA{i}: ({sx:.2f}, {sy:.2f}, {sz:.2f})")
 
@@ -100,7 +99,7 @@ def main():
 
     cg_fine = coarse_grain(atoms, coords, strategy="spatial", n_super_atoms=4)
     print(f"  Compression: {len(atoms)} → {cg_fine.n_super_atoms} ({len(atoms)/cg_fine.n_super_atoms:.1f}x)")
-    print(f"  Super-atom positions:")
+    print("  Super-atom positions:")
     for i, (sx, sy, sz) in enumerate(cg_fine.super_coords):
         members = cg_fine.super_to_atoms[i]
         print(f"    SA{i}: ({sx:.2f}, {sy:.2f}, {sz:.2f}) — atoms {members}")
@@ -122,7 +121,7 @@ def main():
     print(f"{'='*60}")
 
     # Step 1: Coarse scan with wide constraints
-    print(f"\n  Step 1: Coarse scan (排除大部分空间)")
+    print("\n  Step 1: Coarse scan (排除大部分空间)")
     coarse_constraints = ConstraintSet([
         GeometricConstraint.bond("0", "1", min_dist=1.0, max_dist=5.0),
         GeometricConstraint.pocket(center=(1.5, 0.0, 0.0), radius=5.0),
@@ -140,7 +139,7 @@ def main():
 
     # Step 2: Fine scan within promising regions
     # Pocket must cover all 4 super-atoms (SA0-SA3 span ~3.4 Å)
-    print(f"\n  Step 2: Fine scan (在剩余区域内精确搜索)")
+    print("\n  Step 2: Fine scan (在剩余区域内精确搜索)")
     fine_constraints = ConstraintSet([
         GeometricConstraint.bond("0", "2", min_dist=2.5, max_dist=3.5),  # SA0-SA2 (O1-O2)
         GeometricConstraint.pocket(center=(1.5, 0.0, 0.0), radius=5.0),
@@ -165,12 +164,12 @@ def main():
     # Single-stage: search all 6 atoms at once
     single_qubits = 6 * 3 * 2  # 36 qubits
     single_space = 2 ** single_qubits
-    print(f"\n  Single-stage (6 atoms, 2 bits/coord):")
+    print("\n  Single-stage (6 atoms, 2 bits/coord):")
     print(f"    Search space: 2^{single_qubits} = {single_space:,} states")
     print(f"    Qubits needed: {single_qubits}")
-    print(f"    Mode: Arithmetic (>16 qubits)")
+    print("    Mode: Arithmetic (>16 qubits)")
 
-    print(f"\n  Hierarchical (coarse → fine):")
+    print("\n  Hierarchical (coarse → fine):")
     print(f"    Stage 1: 2^{coarse_qubits} = {coarse_space} states ({coarse_qubits} qubits)")
     print(f"    Stage 2: 2^{fine_qubits} = {fine_space:,} states ({fine_qubits} qubits)")
     total_hier = coarse_space + fine_space
@@ -178,25 +177,25 @@ def main():
     print(f"    Speedup: {single_space / total_hier:,.0f}x fewer states to search")
 
     # Key insight
-    print(f"\n  Key insight:")
+    print("\n  Key insight:")
     print(f"    Coarse scan 排除了 {100*(1-coarse_ratio):.0f}% 的搜索空间")
     print(f"    Fine scan 只需搜索剩余的 {100*coarse_ratio:.0f}%")
-    print(f"    两个阶段的集合有重合，但粗扫描大幅缩小了搜索范围")
+    print("    两个阶段的集合有重合，但粗扫描大幅缩小了搜索范围")
 
     # Accuracy comparison
-    print(f"\n  Accuracy:")
+    print("\n  Accuracy:")
     print(f"    Coarse only: {coarse_dist:.3f} Å (error {100*coarse_error/expected_oo:.1f}%)")
     print(f"    Fine only: {fine_dist:.3f} Å (error {100*fine_error/expected_oo:.1f}%)")
-    print(f"    Hierarchical: uses coarse to guide fine → best of both")
+    print("    Hierarchical: uses coarse to guide fine → best of both")
 
     # Demonstrate the set overlap concept
-    print(f"\n  Set overlap concept:")
-    print(f"    1000:1 (coarse) and 4:1 (fine) search spaces are NOT independent")
-    print(f"    Coarse scan identifies promising regions in compressed space")
-    print(f"    Fine scan explores those regions at higher resolution")
-    print(f"    The valid conformations in fine space are a SUBSET of")
-    print(f"    what the coarse scan would predict")
-    print(f"    → Coarse scan 排除了 fine space 中的大量无效组合")
+    print("\n  Set overlap concept:")
+    print("    1000:1 (coarse) and 4:1 (fine) search spaces are NOT independent")
+    print("    Coarse scan identifies promising regions in compressed space")
+    print("    Fine scan explores those regions at higher resolution")
+    print("    The valid conformations in fine space are a SUBSET of")
+    print("    what the coarse scan would predict")
+    print("    → Coarse scan 排除了 fine space 中的大量无效组合")
 
 
 if __name__ == "__main__":

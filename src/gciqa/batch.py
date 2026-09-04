@@ -275,7 +275,7 @@ def parse_pdb_metal_sites(
 
         if len(ligands) >= min_coord_atoms:
             # Compute metal-ligand distances
-            coords = [(mx, my, mz)] + [l['coord'] for l in ligands]
+            coords = [(mx, my, mz)] + [lig['coord'] for lig in ligands]
             expected_dists = _pairwise_distances(coords)[:len(ligands)]
 
             sites.append(MetalSite(

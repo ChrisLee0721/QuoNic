@@ -149,7 +149,7 @@ def detect_ligands(
         ))
 
     # Sort by size (largest first)
-    ligands.sort(key=lambda l: l.n_atoms, reverse=True)
+    ligands.sort(key=lambda lig: lig.n_atoms, reverse=True)
     return ligands
 
 
@@ -1981,7 +1981,9 @@ def _intersect_spheres_multi(
     un = math.sqrt(ux*ux + uy*uy + uz*uz)
     if un < 1e-10:
         return [(px, py, pz)]
-    ux /= un; uy /= un; uz /= un
+    ux /= un
+    uy /= un
+    uz /= un
     vx = wy*uz - wz*uy
     vy = wz*ux - wx*uz
     vz = wx*uy - wy*ux

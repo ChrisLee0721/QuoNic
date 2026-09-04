@@ -13,19 +13,18 @@ This is realistic: you know the protein is a chain, and you have a few additiona
 distance constraints from experiments (NMR, cross-linking, FRET, etc.).
 """
 
-import sys
-import os
 import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    parse_pdb,
-    GeometricConstraint,
-    ConstraintSet,
     GCIQA,
-    generate_report,
+    ConstraintSet,
+    GeometricConstraint,
+    parse_pdb,
 )
 
 
@@ -317,7 +316,7 @@ def run_benchmark(pdb_path, name, n_constraints_list, n_segments=10, seed=42):
             print(f"    GCIQA: RMSD={rmsd_gciqa:.2f}A, score={score:.2f}, time={result.total_time:.2f}s")
         else:
             rmsd_gciqa = float("inf")
-            print(f"    GCIQA: no valid conformation")
+            print("    GCIQA: no valid conformation")
 
         results.append({
             "n_constraints": n_constraints,
@@ -374,7 +373,7 @@ def main():
         rmsd_gciqa = r.get("rmsd_gciqa", float("inf"))
         dg_str = f"{rmsd_dg:.2f}" if rmsd_dg < float("inf") else "inf"
         gciqa_str = f"{rmsd_gciqa:.2f}" if rmsd_gciqa < float("inf") else "inf"
-        n_chain = len(extract_chain_constraints([(0,0,0)] * 10, []))  # placeholder
+        len(extract_chain_constraints([(0,0,0)] * 10, []))  # placeholder
         print(f"  {r['name']:25s} {r['n_constraints']:6d} {'~9':>6s} {r['n_constraints']+9:6d} {dg_str:>10s} {gciqa_str:>12s}")
 
 

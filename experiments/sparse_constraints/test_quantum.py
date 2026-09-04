@@ -7,15 +7,15 @@ Compares:
 On a small system where quantum simulation is feasible.
 """
 
-import sys
-import os
 import math
+import os
 import random
+import sys
 import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from gciqa import GeometricConstraint, ConstraintSet, GCIQA
+from gciqa import GCIQA, ConstraintSet, GeometricConstraint
 
 
 def generate_chain(n, bl=2.0):
@@ -111,7 +111,7 @@ def run_gciqa(n_pts, cs, init, cr, bits, use_quantum, n_shots=1000):
         if r.best_conformation:
             rp = [r.best_conformation[str(i)] for i in range(n_pts)]
             return rp, elapsed
-    except Exception as e:
+    except Exception:
         elapsed = time.time() - t0
         return None, elapsed
     return None, elapsed
@@ -148,7 +148,7 @@ def main():
     print(f"  Coord range: {cr}")
 
     # Classical mode
-    print(f"\n  --- Classical Mode ---")
+    print("\n  --- Classical Mode ---")
     rp_c, t_c = run_gciqa(n_pts, cons, init, cr, bits, use_quantum=False, n_shots=1000)
     if rp_c:
         r_c = rmsd(rp_c, true)
@@ -157,7 +157,7 @@ def main():
         print(f"  FAILED, Time: {t_c:.1f}s")
 
     # Quantum mode
-    print(f"\n  --- Quantum Mode (qiskit-aer) ---")
+    print("\n  --- Quantum Mode (qiskit-aer) ---")
     rp_q, t_q = run_gciqa(n_pts, cons, init, cr, bits, use_quantum=True, n_shots=1000)
     if rp_q:
         r_q = rmsd(rp_q, true)

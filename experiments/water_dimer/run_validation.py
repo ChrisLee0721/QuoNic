@@ -13,16 +13,15 @@ Usage:
     python run_validation.py
 """
 
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
     GCIQA,
-    GeometricConstraint,
     ConstraintSet,
-    coarse_grain,
+    GeometricConstraint,
 )
 
 
@@ -39,14 +38,6 @@ def main():
     # Approximate initial coordinates (far apart, not optimized)
     # Molecule 1 centered at origin
     # Molecule 2 displaced along x-axis
-    coords = [
-        (0.0, 0.0, 0.0),      # O1
-        (0.76, 0.59, 0.0),    # H1
-        (0.76, -0.59, 0.0),   # H2
-        (5.0, 0.0, 0.0),      # O2 (far away initially)
-        (5.76, 0.59, 0.0),    # H3
-        (5.76, -0.59, 0.0),   # H4
-    ]
 
     print(f"\nSystem: {len(atoms)} atoms ({', '.join(atoms)})")
     print("Molecule 1 (donor): O1, H1, H2")
@@ -130,7 +121,7 @@ def main():
         oo_dist = math.sqrt(sum((a - b) ** 2 for a, b in zip(o1, o2)))
         error = abs(oo_dist - 2.98)
         print(f"O-O distance: {oo_dist:.2f} Angstrom")
-        print(f"Expected:     2.98 Angstrom")
+        print("Expected:     2.98 Angstrom")
         print(f"Error:        {error:.2f} Angstrom ({100*error/2.98:.1f}%)")
         if error < 0.5:
             print("PASS: Within 0.5 Angstrom of expected value")

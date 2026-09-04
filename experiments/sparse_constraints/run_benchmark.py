@@ -16,21 +16,19 @@ Usage:
     python run_benchmark.py
 """
 
-import sys
-import os
 import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    parse_pdb,
-    GeometricConstraint,
-    ConstraintSet,
     GCIQA,
-    generate_report,
+    ConstraintSet,
+    GeometricConstraint,
+    parse_pdb,
 )
-from gciqa.coarsegrain import _ATOMIC_MASSES, _build_cg_from_groups
 
 
 def compute_residue_centers(protein):
@@ -215,7 +213,7 @@ def run_sparse_benchmark(pdb_path, name, n_constraints_list, n_segments=10, seed
                 })
             else:
                 print(f"\n  --- {n_constraints} constraints ---")
-                print(f"    No valid conformation found")
+                print("    No valid conformation found")
                 results.append({
                     "n_constraints": n_constraints,
                     "rmsd": float("inf"),
@@ -223,7 +221,7 @@ def run_sparse_benchmark(pdb_path, name, n_constraints_list, n_segments=10, seed
                 })
         else:
             print(f"\n  --- {n_constraints} constraints ---")
-            print(f"    No valid conformation found")
+            print("    No valid conformation found")
             results.append({
                 "n_constraints": n_constraints,
                 "rmsd": float("inf"),
@@ -316,10 +314,10 @@ def main():
         print(f"  {r['name']:30s} {r['n_constraints']:12d} {cpr:12.2f} {rmsd:8.2f} {status:>8s}")
 
     # Analysis
-    print(f"\n  Analysis:")
-    print(f"  - Classical methods need ~10-15 constraints/residue")
-    print(f"  - GCIQA is tested with < 1 constraint/residue")
-    print(f"  - Success = RMSD < 5.0 A (fold-level accuracy)")
+    print("\n  Analysis:")
+    print("  - Classical methods need ~10-15 constraints/residue")
+    print("  - GCIQA is tested with < 1 constraint/residue")
+    print("  - Success = RMSD < 5.0 A (fold-level accuracy)")
 
 
 if __name__ == "__main__":

@@ -108,7 +108,7 @@ def run_all_backends(circuit, name: str) -> dict:
 
     # Run recommended
     t0 = time.perf_counter()
-    result_rec = get_backend(rec.backend).run(circuit, shots=SHOTS, method=rec.method)
+    get_backend(rec.backend).run(circuit, shots=SHOTS, method=rec.method)
     time_rec = time.perf_counter() - t0
 
     # Run ALL backend/method combinations
@@ -214,7 +214,7 @@ def main():
         print(f"  Overhead vs fastest: {result['overhead_vs_fastest']:.2f}x")
 
         # Print all timings sorted
-        print(f"\n  All timings:")
+        print("\n  All timings:")
         valid = {k: v for k, v in result["all_timings"].items() if v["time"] > 0 and "error" not in v}
         for k in sorted(valid, key=lambda k: valid[k]["time"]):
             v = valid[k]

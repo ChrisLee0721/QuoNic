@@ -122,7 +122,7 @@ def build_rus_with_correction():
     P(success) = 3/4 (same as Ry(2π/3) but with different circuit structure).
     """
     from quonic import qgate, reset
-    from quonic.gates import Ry, X
+    from quonic.gates import Ry
     from quonic.qif import creg, cwhile
     from quonic.stack import current_circuit
 
@@ -465,7 +465,7 @@ def main():
     print(f" RUS Validation Report ({len(all_results)} circuits)")
     print(f"{'='*60}")
 
-    print(f"\n[Overall Metrics]")
+    print("\n[Overall Metrics]")
     print(f"  Mean TVD:       {mean_tvd:.4f} +/- {std_tvd:.4f}")
     print(f"  Median TVD:     {median_tvd:.4f}")
     print(f"  Max TVD:        {max(tvds):.4f}")
@@ -474,29 +474,29 @@ def main():
     print(f"  99th percentile:{p99:.4f}")
     print(f"  Success rate:   {success_count/n*100:.2f}% (TVD < 5%)")
 
-    print(f"\n[TVD by p range]")
+    print("\n[TVD by p range]")
     for bucket in sorted(p_groups.keys()):
         vals = p_groups[bucket]
         print(f"  p={bucket}:   {statistics.mean(vals):.4f} (n={len(vals)})")
 
-    print(f"\n[TVD by Grover iterations k]")
+    print("\n[TVD by Grover iterations k]")
     for k in sorted(k_groups.keys()):
         vals = k_groups[k]
         print(f"  k={k}:  {statistics.mean(vals):.4f} (n={len(vals)})")
 
-    print(f"\n[Circuit Depth by k]")
+    print("\n[Circuit Depth by k]")
     for k in sorted(depth_by_k.keys()):
         vals = depth_by_k[k]
         print(f"  k={k}:  mean={statistics.mean(vals):.1f}, "
               f"min={min(vals)}, max={max(vals)} (n={len(vals)})")
 
-    print(f"\n[Compilation Time]")
+    print("\n[Compilation Time]")
     print(f"  Mean:   {statistics.mean(compile_times)*1000:.3f} ms")
     print(f"  Median: {statistics.median(compile_times)*1000:.3f} ms")
     print(f"  Max:    {max(compile_times)*1000:.3f} ms")
     print(f"  Total:  {sum(compile_times):.3f} s")
 
-    print(f"\n[Circuit Scale]")
+    print("\n[Circuit Scale]")
     print(f"  Qubits: mean={statistics.mean(n_qubits_list):.1f}, "
           f"min={min(n_qubits_list)}, max={max(n_qubits_list)}")
     print(f"  Gates:  mean={statistics.mean(gate_counts):.1f}, "
@@ -504,7 +504,7 @@ def main():
 
     # Failure cases
     failures = [(r["circuit"], r["tvd_vs_theoretical"]) for r in all_results if r["tvd_vs_theoretical"] > 0.05]
-    print(f"\n[Failures (TVD > 5%)]")
+    print("\n[Failures (TVD > 5%)]")
     print(f"  Count: {len(failures)}")
     if failures:
         for name, tvd_val in sorted(failures, key=lambda x: -x[1])[:10]:

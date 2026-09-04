@@ -17,8 +17,8 @@ import math
 import re
 from pathlib import Path
 
-import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
@@ -137,7 +137,7 @@ def load_all() -> pd.DataFrame:
 def compute_stats(df: pd.DataFrame) -> dict:
     overheads = df["overhead"].values
     n = len(overheads)
-    sorted_ov = np.sort(overheads)
+    np.sort(overheads)
     match_count = df["is_fastest"].sum()
 
     stats = {
@@ -228,7 +228,7 @@ def fig_scaling_curves(df: pd.DataFrame):
     fig.tight_layout()
     fig.savefig(FIGURES_DIR / "fig_scaling_curves.png", dpi=200)
     plt.close(fig)
-    print(f"  Saved fig_scaling_curves.png")
+    print("  Saved fig_scaling_curves.png")
 
 
 def fig_heatmap(df: pd.DataFrame):
@@ -271,7 +271,7 @@ def fig_heatmap(df: pd.DataFrame):
     fig.tight_layout()
     fig.savefig(FIGURES_DIR / "fig_heatmap.png", dpi=200)
     plt.close(fig)
-    print(f"  Saved fig_heatmap.png")
+    print("  Saved fig_heatmap.png")
 
 
 def fig_backend_frequency(df: pd.DataFrame):
@@ -302,7 +302,7 @@ def fig_backend_frequency(df: pd.DataFrame):
     fig.tight_layout()
     fig.savefig(FIGURES_DIR / "fig_backend_frequency.png", dpi=200)
     plt.close(fig)
-    print(f"  Saved fig_backend_frequency.png")
+    print("  Saved fig_backend_frequency.png")
 
 
 def fig_class_comparison(df: pd.DataFrame):
@@ -327,7 +327,7 @@ def fig_class_comparison(df: pd.DataFrame):
     fig.tight_layout()
     fig.savefig(FIGURES_DIR / "fig_class_comparison.png", dpi=200)
     plt.close(fig)
-    print(f"  Saved fig_class_comparison.png")
+    print("  Saved fig_class_comparison.png")
 
 
 # ── Outlier analysis ───────────────────────────────────────────────────────
@@ -369,21 +369,21 @@ def main():
     # ── Statistics ──
     print("\n[Computing statistics...]")
     stats = compute_stats(df)
-    print(f"\n  Overall:")
+    print("\n  Overall:")
     print(f"    Circuits:      {stats['n_circuits']}")
     print(f"    Match rate:    {stats['match_rate_pct']}%")
     print(f"    Overhead:      mean={stats['overhead_mean']}x  median={stats['overhead_median']}x  "
           f"P95={stats['overhead_p95']}x  worst={stats['overhead_worst']}x")
     print(f"    Geometric mean: {stats['overhead_geomean']}x")
 
-    print(f"\n  Per class:")
+    print("\n  Per class:")
     for cls, info in stats["per_class"].items():
         print(f"    {cls:12s}: {info['n_circuits']:4d} circuits, "
               f"match={info['match_rate_pct']}%, "
               f"mean={info['overhead_mean']}x, P95={info['overhead_p95']}x, "
               f"worst={info['overhead_worst']}x")
 
-    print(f"\n  Per size:")
+    print("\n  Per size:")
     for size, info in stats["per_size"].items():
         print(f"    {size:8s}: {info['n_circuits']:4d} circuits, "
               f"match={info['match_rate_pct']}%, "
@@ -401,7 +401,7 @@ def main():
     outliers = analyze_outliers(df)
     print(f"  Found {len(outliers)} outliers")
     if len(outliers) > 0:
-        print(f"  Top 10:")
+        print("  Top 10:")
         for _, row in outliers.head(10).iterrows():
             print(f"    {row['circuit']:40s} {row['rec_key']:30s} vs {row['fastest_key']:30s} {row['overhead']:.1f}x")
 
@@ -425,7 +425,7 @@ def main():
     table_cols = ["circuit", "n_qubits", "family", "depth_bucket", "decision_class",
                   "rec_key", "fastest_key", "is_fastest", "overhead", "source"]
     df[table_cols].to_csv(RESULTS_DIR / "exp13_full_table.csv", index=False)
-    print(f"  Saved exp13_full_table.csv")
+    print("  Saved exp13_full_table.csv")
 
     # Outliers CSV
     if len(outliers) > 0:

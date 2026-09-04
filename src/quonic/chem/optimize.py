@@ -76,7 +76,6 @@ def optimize_geometry(
         RuntimeError: If optimization fails to converge.
     """
     try:
-        from pyscf import gto, scf
         from pyscf.geomopt import geometric_solver
     except ImportError as exc:
         raise ImportError(tr("err.chem.pyscf_missing")) from exc
@@ -189,7 +188,6 @@ def optimize_transition_state(
         )
 
     try:
-        from pyscf import gto, scf
         from pyscf.geomopt import geometric_solver
     except ImportError as exc:
         raise ImportError(tr("err.chem.pyscf_missing")) from exc

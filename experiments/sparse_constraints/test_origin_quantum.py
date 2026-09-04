@@ -1,8 +1,8 @@
 """Test: Origin Quantum (pyqpanda3) vs Qiskit-Aer Grover search benchmark."""
 
-import sys
-import os
 import math
+import os
+import sys
 import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
@@ -163,7 +163,7 @@ def main():
             diffuser_pq = build_diffuser_pq(n_data)
             counts_pq, t_pq = run_pq(oracle_pq, diffuser_pq, n_data, n_shots, n_iter)
             hits_pq = sum(counts_pq.get(s, 0) for s in valid_states)
-        except Exception as e:
+        except Exception:
             t_pq = None
 
         # qiskit-aer
@@ -172,7 +172,7 @@ def main():
             diffuser_qs = build_diffuser_qiskit(n_data)
             counts_qs, t_qs = run_qiskit(oracle_qs, diffuser_qs, n_data, n_shots, n_iter)
             hits_qs = sum(counts_qs.get(s, 0) for s in valid_states)
-        except Exception as e:
+        except Exception:
             t_qs = None
 
         # Format output

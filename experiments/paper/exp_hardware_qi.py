@@ -45,7 +45,7 @@ def build_qft(n: int):
 
 def build_grover_4():
     from quonic import qgate, reset
-    from quonic.gates import CX, H, X, CZ
+    from quonic.gates import CZ, H, X
     from quonic.stack import current_circuit
     reset()
     # Oracle for |1010>

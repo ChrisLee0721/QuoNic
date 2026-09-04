@@ -20,16 +20,16 @@ Usage:
     python grover_validation.py
 """
 
-import sys
-import os
 import math
+import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    GroverOracle,
     ConstraintSet,
     GeometricConstraint,
+    GroverOracle,
     grover_search,
 )
 
@@ -84,7 +84,7 @@ def main():
         GeometricConstraint.pocket(center=(0, 0, 0), radius=3.0),
     ])
 
-    print(f"\nConstraints:")
+    print("\nConstraints:")
     for c in constraints:
         print(f"  {c}")
 
@@ -106,7 +106,7 @@ def main():
             valid_states.append((state_int, bitstring, coords, oo_dist))
 
     print(f"\nValid states: {len(valid_states)} / {2**n_qubits} ({100*len(valid_states)/2**n_qubits:.1f}%)")
-    print(f"\nAll valid conformations:")
+    print("\nAll valid conformations:")
     for state_int, bitstring, coords, oo_dist in valid_states:
         print(f"  |{bitstring}⟩ (={state_int:3d}): O1={coords['0']}, O2={coords['1']}, O-O={oo_dist:.3f} Å")
 
@@ -135,12 +135,12 @@ def main():
         n_shots=1000,
     )
 
-    print(f"\nGrover search results:")
+    print("\nGrover search results:")
     print(f"  Unique states measured: {result.n_unique}")
     print(f"  Total shots: {result.n_shots}")
 
     # Decode top states
-    print(f"\nTop 10 measured states:")
+    print("\nTop 10 measured states:")
     for bitstring, count in result.top_states[:10]:
         coords = decode_bitstring(bitstring, n_atoms, bits_per_coord, coord_range)
         oo_dist = distance(coords["0"], coords["1"])

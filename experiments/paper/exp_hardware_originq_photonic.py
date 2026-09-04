@@ -6,7 +6,6 @@ Submits circuits to PQPUMESH8 photonic quantum computer.
 from __future__ import annotations
 
 import json
-import os
 import time
 from pathlib import Path
 

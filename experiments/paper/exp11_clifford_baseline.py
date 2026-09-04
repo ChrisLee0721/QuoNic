@@ -119,7 +119,6 @@ def main():
         # T_sv = c_sv * 2^n, T_stab = c_stab * n^2
         # Use two data points to solve for constants
         d1, d2 = ghz_data[0], ghz_data[-1]
-        import math
         c_sv = (d2["sv_time_s"] - d1["sv_time_s"]) / (2**d2["n"] - 2**d1["n"])
         c_stab = (d2["stab_time_s"] - d1["stab_time_s"]) / (d2["n"]**2 - d1["n"]**2)
         theoretical_crossover = None
@@ -139,7 +138,7 @@ def main():
     print(f"Theoretical crossover (from estimated constants): {theoretical_crossover}")
     if c_sv is not None:
         print(f"Estimated c_sv = {c_sv:.2e}, c_stab = {c_stab:.2e}")
-    print(f"Scheduler default threshold: n=24")
+    print("Scheduler default threshold: n=24")
 
     output = {
         "experiment": "exp11_clifford_baseline",

@@ -15,19 +15,18 @@ Usage:
     python cascading_search.py
 """
 
-import sys
-import os
 import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    coarse_grain,
-    GroverOracle,
     ConstraintSet,
     GeometricConstraint,
-    binding_site_super_atoms,
+    GroverOracle,
+    coarse_grain,
 )
 
 
@@ -292,17 +291,17 @@ def main():
     print(f"\n  Original system: {n_atoms} atoms")
     print(f"  True pocket: center={true_pocket}, radius={true_radius} Å")
 
-    print(f"\n  Level 0 (classic filtering):")
+    print("\n  Level 0 (classic filtering):")
     print(f"    {n_atoms} atoms → {len(level0_atoms)} atoms ({filter_radius_0} Å radius)")
-    print(f"    No quantum resources needed")
+    print("    No quantum resources needed")
 
-    print(f"\n  Level 1 (GCIQA conformation search):")
+    print("\n  Level 1 (GCIQA conformation search):")
     print(f"    {len(level0_atoms)} atoms → {n_sa_1} SA ({max(1,len(level0_atoms)//n_sa_1)}:1)")
     print(f"    Qubits: {n_sa_1 * 3 * bits_per_coord}")
     print(f"    Valid conformations: {100*ratio1:.1f}% of search space")
     print(f"    → 排除了 {100*(1-ratio1):.0f}% 的无效构象")
 
-    print(f"\n  Level 2 (GCIQA refine):")
+    print("\n  Level 2 (GCIQA refine):")
     print(f"    {len(pocket_atoms)} atoms → {n_sa_2} SA ({max(1,len(pocket_atoms)//n_sa_2)}:1)")
     print(f"    Qubits: {n_sa_2 * 3 * bits_per_coord}")
     print(f"    Valid conformations: {100*ratio2:.1f}% of search space")
@@ -311,25 +310,25 @@ def main():
     total_qubits = (n_sa_1 + n_sa_2) * 3 * bits_per_coord
     single_qubits = n_atoms * 3 * bits_per_coord
     combined_ratio = ratio1 * ratio2
-    print(f"\n  Cascading effect:")
+    print("\n  Cascading effect:")
     print(f"    Level 1: {100*ratio1:.1f}% valid")
     print(f"    Level 2: {100*ratio2:.1f}% valid")
     print(f"    Combined: {100*combined_ratio:.3f}% valid")
     print(f"    → 最终只搜索原始空间的 {100*combined_ratio:.3f}%")
 
-    print(f"\n  Quantum resources:")
+    print("\n  Quantum resources:")
     print(f"    Total qubits used: {total_qubits} (across 2 levels)")
     print(f"    Single-level qubits: {single_qubits}")
-    print(f"    Each level: ≤18 qubits (quantum computer can handle)")
+    print("    Each level: ≤18 qubits (quantum computer can handle)")
 
-    print(f"\n  Scaling to 1M atoms:")
-    print(f"    Level 0: 1,000,000 → ~10,000 (classic distance filter)")
-    print(f"    Level 1: ~10,000 → 3 SA, 18 qubits, 排除 ~84% 构象")
-    print(f"    Level 2: ~10,000 → 3 SA, 18 qubits, 排除 ~98% 构象")
-    print(f"    Level 3: ~10,000 → 3 SA, 18 qubits, 排除 ~99.8% 构象")
-    print(f"    ...每层排除率递增...")
-    print(f"    Total: classic filter + ~10 levels × 18 qubits = 180 qubit-tasks")
-    print(f"    每个任务都是量子计算机能处理的小电路")
+    print("\n  Scaling to 1M atoms:")
+    print("    Level 0: 1,000,000 → ~10,000 (classic distance filter)")
+    print("    Level 1: ~10,000 → 3 SA, 18 qubits, 排除 ~84% 构象")
+    print("    Level 2: ~10,000 → 3 SA, 18 qubits, 排除 ~98% 构象")
+    print("    Level 3: ~10,000 → 3 SA, 18 qubits, 排除 ~99.8% 构象")
+    print("    ...每层排除率递增...")
+    print("    Total: classic filter + ~10 levels × 18 qubits = 180 qubit-tasks")
+    print("    每个任务都是量子计算机能处理的小电路")
 
 
 if __name__ == "__main__":

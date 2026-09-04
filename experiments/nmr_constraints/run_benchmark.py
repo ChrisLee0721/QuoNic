@@ -14,17 +14,17 @@ Usage:
     python run_benchmark.py
 """
 
-import sys
-import os
 import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    GeometricConstraint,
-    ConstraintSet,
     GCIQA,
+    ConstraintSet,
+    GeometricConstraint,
     generate_report,
 )
 
@@ -203,9 +203,9 @@ def run_nmr_benchmark(verbose=True):
         status = "OK" if r["converged"] else "FAIL"
         print(f"  {r['n_constraints']:12d}  {status:>6s}  {r['score']:6.2f}  {r['time']:8.2f}s")
 
-    print(f"\n  Note: Classical distance geometry (CYANA, XPLOR-NIH) typically")
-    print(f"  requires >20 constraints/residue for reliable convergence.")
-    print(f"  GCIQA aims to work with <1 constraints/residue via quantum search.")
+    print("\n  Note: Classical distance geometry (CYANA, XPLOR-NIH) typically")
+    print("  requires >20 constraints/residue for reliable convergence.")
+    print("  GCIQA aims to work with <1 constraints/residue via quantum search.")
 
     return results
 

@@ -9,19 +9,18 @@ Usage:
     python experiments/error_modeling_fast.py
 """
 
+import json
+import math
 import os
 import sys
 import time
-import math
-import json
-import numpy as np
 from collections import defaultdict
 from multiprocessing import Pool, cpu_count
 
+import numpy as np
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from gciqa.angle_oracle import AngleEncodingOracle
-from gciqa.constraints import ConstraintSet, GeometricConstraint
 
 
 METAL_ELEMENTS = {'ZN', 'CU', 'FE', 'MN', 'NI', 'CO', 'CA', 'MG', 'MO', 'W',
@@ -284,7 +283,7 @@ def print_summary(results):
             by_metal[r['metal']].append(r['best_error'])
 
     if by_metal:
-        print(f"\nBy metal type (4-bit, tol=0.5):")
+        print("\nBy metal type (4-bit, tol=0.5):")
         print(f"{'Metal':>6} {'N':>4} {'Mean Err':>10} {'Std':>8}")
         print("-" * 30)
         for metal, errors in sorted(by_metal.items()):

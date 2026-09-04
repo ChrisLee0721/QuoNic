@@ -60,7 +60,7 @@ def build_qft(n: int):
 
 def build_grover(n: int):
     from quonic import qgate, reset
-    from quonic.gates import CX, CZ, H, X
+    from quonic.gates import CZ, H, X
     from quonic.stack import current_circuit
 
     reset()
@@ -109,7 +109,8 @@ def count_cx(circuit) -> int:
 
 def run_hardware_aware(circuit, coupling_map_name: str, edges: list) -> dict:
     """Compile circuit with hardware-aware routing."""
-    from quonic.compiler import compile as quonic_compile, decompose, optimize
+    from quonic.compiler import compile as quonic_compile
+    from quonic.compiler import decompose, optimize
     from quonic.topology import CouplingMap
 
     n_qubits = circuit.num_qubits

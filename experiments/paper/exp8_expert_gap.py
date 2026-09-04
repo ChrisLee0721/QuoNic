@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import json
 import math
-import time
 from pathlib import Path
 
 RESULTS_DIR = Path(__file__).parent / "results"
@@ -95,12 +94,11 @@ def expert_grover(n: int):
 
 def quonic_bell():
     """Bell via algorithm template."""
-    from quonic.algorithms import teleportation
     # Use teleportation as a proxy; build Bell manually for fair comparison
     from quonic import qgate, reset
+    from quonic.compiler import decompose, optimize
     from quonic.gates import CX, H
     from quonic.stack import current_circuit
-    from quonic.compiler import decompose, optimize
 
     reset()
     qgate(H, 0)
@@ -112,9 +110,9 @@ def quonic_bell():
 
 def quonic_ghz(n: int):
     from quonic import qgate, reset
+    from quonic.compiler import decompose, optimize
     from quonic.gates import CX, H
     from quonic.stack import current_circuit
-    from quonic.compiler import decompose, optimize
 
     reset()
     qgate(H, 0)
@@ -127,9 +125,9 @@ def quonic_ghz(n: int):
 
 def quonic_qft(n: int):
     from quonic import qgate, reset
+    from quonic.compiler import decompose, optimize
     from quonic.gates import CP, H
     from quonic.stack import current_circuit
-    from quonic.compiler import decompose, optimize
 
     reset()
     for i in range(n):
@@ -144,9 +142,9 @@ def quonic_qft(n: int):
 
 def quonic_grover(n: int):
     from quonic import qgate, reset
+    from quonic.compiler import decompose, optimize
     from quonic.gates import CZ, H, X
     from quonic.stack import current_circuit
-    from quonic.compiler import decompose, optimize
 
     reset()
     for i in range(n):

@@ -1,13 +1,13 @@
 """Quick precision test: DG + single GCIQA refinement at different resolutions."""
 
-import sys
-import os
 import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from gciqa import GeometricConstraint, ConstraintSet, GCIQA
+from gciqa import GCIQA, ConstraintSet, GeometricConstraint
 
 
 def generate_chain(n, bl=2.0):
@@ -97,7 +97,8 @@ def gciqa_refine(n_pts, cs, init, cr, bits, pct, n_shots=2000):
     try:
         r = g.run(max_iterations=3, n_shots=n_shots, n_clusters=3)
         return r.best_conformation if r.best_conformation else None
-    except: return None
+    except Exception:
+        return None
 
 
 def main():

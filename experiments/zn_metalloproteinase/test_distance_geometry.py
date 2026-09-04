@@ -7,23 +7,22 @@ For each coordinating atom, the metal must be within [dmin, dmax] distance.
 The intersection of all these spheres gives the metal position.
 """
 
-import sys
-import os
 import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    parse_pdb,
-    find_metal_ions,
-    auto_detect_geometry,
-    get_metal_template,
-    generate_metal_constraints,
-    GeometricConstraint,
-    ConstraintSet,
     GCIQA,
-    generate_report,
+    ConstraintSet,
+    GeometricConstraint,
+    auto_detect_geometry,
+    find_metal_ions,
+    generate_metal_constraints,
+    get_metal_template,
+    parse_pdb,
 )
 from gciqa.coarsegrain import _ATOMIC_MASSES, _build_cg_from_groups
 
@@ -117,7 +116,7 @@ def find_metal_by_intersection(
     dmin1, dmax1 = distance_ranges[0]
 
     # Mean distance for the first sphere
-    d_mean1 = (dmin1 + dmax1) / 2
+    (dmin1 + dmax1) / 2
 
     best_pos = center1
     best_score = -1
@@ -206,7 +205,7 @@ def run_distance_geometry_test(pdb_path, name):
         print(f"    {i}: ({coord[0]:.2f}, {coord[1]:.2f}, {coord[2]:.2f}) dist=[{dmin:.1f}, {dmax:.1f}]")
 
     # 5. Find metal by distance geometry
-    print(f"\n  --- Distance Geometry (dense sampling) ---")
+    print("\n  --- Distance Geometry (dense sampling) ---")
     pos, score = find_metal_by_intersection(ligand_coords, distance_ranges, n_samples=100000)
     rmsd = math.sqrt(sum((a-b)**2 for a, b in zip(pos, true_zn)))
     print(f"  Predicted Zn: ({pos[0]:.2f}, {pos[1]:.2f}, {pos[2]:.2f})")
@@ -215,7 +214,7 @@ def run_distance_geometry_test(pdb_path, name):
     print(f"  Success (RMSD < 2.0 A): {rmsd < 2.0}")
 
     # 6. Also try with GCIQA using the predicted position as pocket center
-    print(f"\n  --- GCIQA with distance geometry pocket ---")
+    print("\n  --- GCIQA with distance geometry pocket ---")
     cg = hybrid_coarse_grain(protein, zn, max_dist=2.5)
     metal_super = cg.atom_to_super[zn.index]
 
@@ -259,7 +258,7 @@ def run_distance_geometry_test(pdb_path, name):
         print(f"  GCIQA RMSD: {rmsd_gciqa:.2f} A")
         print(f"  GCIQA success: {rmsd_gciqa < 2.0}")
     else:
-        print(f"  GCIQA: no valid conformation")
+        print("  GCIQA: no valid conformation")
 
     return {"name": name, "rmsd_dg": rmsd, "score": score}
 

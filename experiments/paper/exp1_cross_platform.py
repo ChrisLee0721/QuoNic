@@ -56,7 +56,7 @@ def build_ghz(n: int = 10):
 def build_grover_4():
     """Grover search on 4 qubits, marking |1010>."""
     from quonic import qgate, reset
-    from quonic.gates import CX, CZ, H, X
+    from quonic.gates import CZ, H, X
     from quonic.stack import current_circuit
 
     reset()

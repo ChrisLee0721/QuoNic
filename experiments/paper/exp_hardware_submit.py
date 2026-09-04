@@ -10,7 +10,6 @@ This submits circuits to WK_C180 and saves job IDs for later retrieval.
 from __future__ import annotations
 
 import json
-import os
 import time
 from pathlib import Path
 
@@ -33,6 +32,7 @@ def build_ghz(n: int):
 
 def build_qft(n: int):
     import math
+
     from quonic import qgate, reset
     from quonic.gates import CX, H, Rz
     from quonic.stack import current_circuit

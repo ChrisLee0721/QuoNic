@@ -39,7 +39,7 @@ def build_qft(n: int):
 
 def build_grover(n: int):
     from quonic import qgate, reset
-    from quonic.gates import CX, CZ, H, X
+    from quonic.gates import CZ, H, X
     from quonic.stack import current_circuit
 
     reset()

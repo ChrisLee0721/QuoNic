@@ -150,8 +150,8 @@ METAL_COORDINATION = {
                 "N": (2.4, 2.8),
             },
             "angles": {
-                "O-Ca-O": (65, 75),   # Pentagon
-                "O-Ca-O": (140, 180), # Axial
+                "O-Ca-O": (65, 75),       # Pentagon
+                "O-Ca-O-axial": (140, 180), # Axial
             },
         },
         "octahedral": {

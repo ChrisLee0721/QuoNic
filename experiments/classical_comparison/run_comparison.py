@@ -16,24 +16,23 @@ Usage:
     python run_comparison.py
 """
 
-import sys
-import os
 import math
+import os
 import random
-import json
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    parse_pdb_string,
-    find_metal_ions,
-    get_metal_template,
-    generate_metal_constraints,
-    auto_detect_geometry,
-    GeometricConstraint,
-    ConstraintSet,
     GCIQA,
+    ConstraintSet,
+    GeometricConstraint,
+    auto_detect_geometry,
+    find_metal_ions,
+    generate_metal_constraints,
     generate_report,
+    get_metal_template,
+    parse_pdb_string,
 )
 
 
@@ -204,9 +203,9 @@ def run_comparison(verbose=True):
         g_rmsd = f"{r['gciqa_rmsd']:.2f} Å" if r["gciqa_rmsd"] != float("inf") else "FAIL"
         print(f"  {r['protein']:>15s}  {c_rmsd:>15s}  {g_rmsd:>12s}  {imp_str:>12s}")
 
-    print(f"\n  Key insight: Classical random search cannot find valid")
-    print(f"  metal coordination geometries. GCIQA's constraint-driven")
-    print(f"  search finds them reliably.")
+    print("\n  Key insight: Classical random search cannot find valid")
+    print("  metal coordination geometries. GCIQA's constraint-driven")
+    print("  search finds them reliably.")
 
     return results
 

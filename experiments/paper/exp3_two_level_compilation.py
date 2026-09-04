@@ -10,16 +10,15 @@ Compares:
 Measures: gate count reduction (%) and compilation time (ms).
 """
 
-import sys
-import os
-import time
 import json
+import os
+import sys
+import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from quonic.ir import Circuit, GateOperation
 from quonic.compiler import compile as quonic_compile
-from quonic.gates import H, CX
+from quonic.ir import Circuit, GateOperation
 
 # --- Circuit builders ---
 
@@ -196,7 +195,6 @@ def qiskit_compile_time(qc, opt_level: int = 2) -> float:
 def quonic_to_tket(circuit: Circuit):
     """Convert QuoNic IR to t|ket> Circuit."""
     from pytket import Circuit as TketCircuit
-    from pytket import OpType
     n = circuit.num_qubits
     tc = TketCircuit(n)
     for op in circuit:
@@ -314,7 +312,7 @@ def run_experiment():
 
         # --- Two-level: QuoNic → Qiskit L2 ---
         q_then_qiskit_circ = quonic_to_qiskit(q_compiled)
-        q_then_qiskit_orig = qiskit_gate_count(q_then_qiskit_circ)
+        qiskit_gate_count(q_then_qiskit_circ)
         q_then_qiskit_compiled = qiskit_compile(q_then_qiskit_circ, opt_level=2)
         q_then_qiskit_gates = qiskit_gate_count(q_then_qiskit_compiled)
         q_then_qiskit_time = q_time + qiskit_compile_time(q_then_qiskit_circ, opt_level=2)
@@ -323,7 +321,7 @@ def run_experiment():
 
         # --- Two-level: QuoNic → t|ket> ---
         q_then_tket_circ = quonic_to_tket(q_compiled)
-        q_then_tket_orig = tket_gate_count(q_then_tket_circ)
+        tket_gate_count(q_then_tket_circ)
         q_then_tket_compiled = tket_compile(q_then_tket_circ)
         q_then_tket_gates = tket_gate_count(q_then_tket_compiled)
         q_then_tket_time = q_time + tket_compile_time(q_then_tket_circ)

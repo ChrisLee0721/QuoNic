@@ -11,8 +11,9 @@ Comparison:
 """
 
 import time
-import numpy as np
 from typing import Optional
+
+import numpy as np
 
 
 def generate_metal_site(n_ligands: int) -> tuple[np.ndarray, np.ndarray]:
@@ -239,12 +240,12 @@ def main():
         dg_errors.extend([e for e in r['dg']['dist_errors'] if e < float('inf')])
         dg_times.extend(r['dg']['times'])
 
-    print(f"\nGCIQA (4-bit quantization):")
+    print("\nGCIQA (4-bit quantization):")
     print(f"  Mean distance error: {np.mean(gciqa_errors):.4f} A")
     print(f"  Mean time: {np.mean(gciqa_times)*1000:.3f} ms")
     print(f"  Success rate: {100*sum(1 for e in gciqa_errors if e < 0.15625)/len(gciqa_errors):.1f}%")
 
-    print(f"\nDistance Geometry:")
+    print("\nDistance Geometry:")
     if dg_errors:
         print(f"  Mean distance error: {np.mean(dg_errors):.4f} A")
     print(f"  Mean time: {np.mean(dg_times)*1000:.3f} ms")

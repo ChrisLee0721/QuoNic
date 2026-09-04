@@ -17,20 +17,18 @@ Usage:
     python run_validation.py
 """
 
-import sys
-import os
 import math
+import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
     GCIQA,
-    GeometricConstraint,
     ConstraintSet,
-    coarse_grain,
+    GeometricConstraint,
     binding_site_super_atoms,
-    GroverOracle,
-    grover_search,
+    coarse_grain,
 )
 
 
@@ -96,7 +94,7 @@ def main():
 
     print(f"\nSystem: {n_atoms} atoms")
     print(f"  Aspirin: {n_atoms - 3} atoms")
-    print(f"  Water: 3 atoms")
+    print("  Water: 3 atoms")
 
     # Coarse-grain (use 12 to separate reaction site atoms)
     n_super_atoms = 12
@@ -109,7 +107,7 @@ def main():
         n_super_atoms=n_super_atoms,
     )
 
-    print(f"  Super-atom positions:")
+    print("  Super-atom positions:")
     for i, (sx, sy, sz) in enumerate(cg.super_coords):
         members = cg.super_to_atoms[i]
         print(f"    SA{i}: ({sx:.2f}, {sy:.2f}, {sz:.2f}) — {len(members)} atoms")
@@ -139,7 +137,7 @@ def main():
     sa_o1 = find_super_atom(9)   # Carbonyl oxygen
     sa_o5 = find_super_atom(21)  # Water oxygen
 
-    print(f"\n  Key atom mapping:")
+    print("\n  Key atom mapping:")
     print(f"    C7 (ester) → SA{sa_c7}")
     print(f"    O1 (carbonyl) → SA{sa_o1}")
     print(f"    O5 (water) → SA{sa_o5}")
@@ -154,7 +152,7 @@ def main():
         GeometricConstraint.pocket(center=reaction_center, radius=5.0),
     ])
 
-    print(f"\n  Constraints:")
+    print("\n  Constraints:")
     for c in constraints:
         print(f"    {c}")
 
@@ -198,7 +196,7 @@ def main():
 
     # Convergence history
     if result.convergence_history:
-        print(f"\n  Convergence history:")
+        print("\n  Convergence history:")
         for iter_idx, conv_radius in result.convergence_history:
             print(f"    Iteration {iter_idx}: radius = {conv_radius:.3f} Å")
 
@@ -212,15 +210,15 @@ def main():
     print(f"  Converged: {result.converged}")
 
     if result.best_conformation:
-        print(f"  Best conformation found: Yes")
+        print("  Best conformation found: Yes")
     else:
-        print(f"  Best conformation found: No")
+        print("  Best conformation found: No")
 
-    print(f"\n  This validates GCIQA on a system larger than water dimer.")
-    print(f"  For quantum Grover search, the system needs ≤16 qubits")
+    print("\n  This validates GCIQA on a system larger than water dimer.")
+    print("  For quantum Grover search, the system needs ≤16 qubits")
     print(f"  (currently {n_super_atoms * 3 * 4} qubits with 4 bits/coord).")
     print(f"  With 2 bits/coord: {n_super_atoms * 3 * 2} qubits (still >16).")
-    print(f"  Hierarchical search needed: coarse scan → fine scan.")
+    print("  Hierarchical search needed: coarse scan → fine scan.")
 
 
 if __name__ == "__main__":

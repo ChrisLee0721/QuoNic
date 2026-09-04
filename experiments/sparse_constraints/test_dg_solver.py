@@ -8,18 +8,17 @@ Strategy:
 Key insight: DG reduces search space from 2^(3N*b) to N × 2^(3b).
 """
 
-import sys
-import os
 import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    GeometricConstraint,
-    ConstraintSet,
     GCIQA,
-    generate_report,
+    ConstraintSet,
+    GeometricConstraint,
 )
 
 
@@ -228,7 +227,7 @@ def run_test(n_points, n_extra, seed=42):
 
     try:
         result = gciqa.run(max_iterations=5, n_shots=2000, n_clusters=3)
-    except Exception as e:
+    except Exception:
         result = None
 
     if result and result.best_conformation:
@@ -245,7 +244,7 @@ def run_test(n_points, n_extra, seed=42):
     else:
         rmsd_gciqa = float("inf")
         sat_gciqa = 0
-        viol_gciqa = float("inf")
+        float("inf")
 
     return {
         "n_points": n_points,

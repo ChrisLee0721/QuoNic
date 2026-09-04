@@ -6,22 +6,21 @@ Tests 10+ proteins with different:
 - Sizes: small (< 100 residues) to large (> 300 residues)
 """
 
-import sys
-import os
 import math
+import os
 import random
+import sys
 import urllib.request
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from gciqa import (
-    parse_pdb,
-    find_metal_ions,
     auto_detect_geometry,
-    get_metal_template,
+    find_metal_ions,
     generate_metal_constraints,
+    get_metal_template,
+    parse_pdb,
 )
-from gciqa.coarsegrain import _ATOMIC_MASSES, _build_cg_from_groups
 
 
 def download_pdb(pdb_id, dest_dir):
@@ -94,7 +93,7 @@ def test_protein(pdb_path, name, metal_element="ZN"):
         # Try all metals
         metal_ions = protein.metal_ions
         if not metal_ions:
-            print(f"    ERROR: No metal ions found")
+            print("    ERROR: No metal ions found")
             return None
         metal_element = metal_ions[0].element
         print(f"    Note: Using {metal_element} instead of {metal_element}")
@@ -190,7 +189,7 @@ def main():
         pdb_path = download_pdb(pdb_id, data_dir)
         if pdb_path is None:
             print(f"\n  --- {name} ---")
-            print(f"    SKIPPED: download failed")
+            print("    SKIPPED: download failed")
             continue
 
         results = test_protein(pdb_path, name, metal)
@@ -216,12 +215,12 @@ def main():
 
     if successful:
         rmsds = [r["rmsd"] for r in successful]
-        print(f"\n  RMSD statistics (successful):")
+        print("\n  RMSD statistics (successful):")
         print(f"    Mean: {sum(rmsds)/len(rmsds):.2f} A")
         print(f"    Min: {min(rmsds):.2f} A")
         print(f"    Max: {max(rmsds):.2f} A")
 
-    print(f"\n  Per-metal results:")
+    print("\n  Per-metal results:")
     for r in all_results:
         if r["rmsd"] == float("inf"):
             status = "SKIP"

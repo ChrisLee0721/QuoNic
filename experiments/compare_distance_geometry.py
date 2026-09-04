@@ -13,10 +13,10 @@ Metrics:
 
 import math
 import time
-import random
-import numpy as np
 from dataclasses import dataclass
 from typing import Optional
+
+import numpy as np
 
 
 @dataclass
@@ -264,7 +264,7 @@ def run_comparison(n_points: int = 4, n_trials: int = 10) -> list[ComparisonResu
                     success=False,
                     max_error=float('inf'),
                 ))
-        except Exception as e:
+        except Exception:
             results.append(ComparisonResult(
                 method="Distance Geometry (MME)",
                 n_points=n_points,

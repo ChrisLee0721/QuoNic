@@ -261,7 +261,7 @@ def _parse_fcidump_integrals(
             i = int(parts[1])
             j = int(parts[2])
             k = int(parts[3])
-            l = int(parts[4])
+            l_val = int(parts[4])
         except (ValueError, IndexError):
             continue
 
@@ -269,23 +269,23 @@ def _parse_fcidump_integrals(
         # Two-electron: (ij|kl) — all > 0
         # One-electron: h(i,j) — k,l = 0
         # Nuclear repulsion: i,j,k,l = 0
-        if i == 0 and j == 0 and k == 0 and l == 0:
+        if i == 0 and j == 0 and k == 0 and l_val == 0:
             enuc = val
-        elif k == 0 and l == 0:
+        elif k == 0 and l_val == 0:
             # One-electron integral
             h1[i - 1, j - 1] = val
             h1[j - 1, i - 1] = val  # symmetric
         else:
             # Two-electron integral (chemist notation (ij|kl))
-            h2[i - 1, j - 1, k - 1, l - 1] = val
+            h2[i - 1, j - 1, k - 1, l_val - 1] = val
             # Symmetry: (ij|kl) = (ji|lk) = (kl|ij) = (lk|ji)
-            h2[j - 1, i - 1, k - 1, l - 1] = val
-            h2[i - 1, j - 1, l - 1, k - 1] = val
-            h2[j - 1, i - 1, l - 1, k - 1] = val
-            h2[k - 1, l - 1, i - 1, j - 1] = val
-            h2[l - 1, k - 1, i - 1, j - 1] = val
-            h2[k - 1, l - 1, j - 1, i - 1] = val
-            h2[l - 1, k - 1, j - 1, i - 1] = val
+            h2[j - 1, i - 1, k - 1, l_val - 1] = val
+            h2[i - 1, j - 1, l_val - 1, k - 1] = val
+            h2[j - 1, i - 1, l_val - 1, k - 1] = val
+            h2[k - 1, l_val - 1, i - 1, j - 1] = val
+            h2[l_val - 1, k - 1, i - 1, j - 1] = val
+            h2[k - 1, l_val - 1, j - 1, i - 1] = val
+            h2[l_val - 1, k - 1, j - 1, i - 1] = val
 
     return {"h1": h1, "h2": h2, "enuc": enuc}
 
