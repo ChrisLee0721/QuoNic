@@ -1,16 +1,14 @@
 """Tests for GCIQA module."""
 
+
 import pytest
-import math
 
 from gciqa import (
-    GeometricConstraint,
-    ConstraintSet,
-    GroverOracle,
-    grover_search,
-    geometric_clustering,
     GCIQA,
-    GCIQAResult,
+    ConstraintSet,
+    GeometricConstraint,
+    GroverOracle,
+    geometric_clustering,
 )
 from gciqa.clustering import compute_rmsd
 
@@ -242,7 +240,6 @@ class TestGroverOracle:
     def test_oracle_amplification(self):
         """Test Grover search amplifies valid states."""
         pytest.importorskip("qiskit")
-        import math
         constraints = ConstraintSet([
             GeometricConstraint.pocket(center=(0, 0, 0), radius=40.0),
         ])
@@ -348,7 +345,7 @@ class TestCoarseGraining:
 
     def test_binding_site_super_atoms(self):
         """Test finding super-atoms near binding site."""
-        from gciqa.coarsegrain import coarse_grain, binding_site_super_atoms
+        from gciqa.coarsegrain import binding_site_super_atoms, coarse_grain
         atoms = ["C", "C", "C"]
         coords = [(0, 0, 0), (1, 0, 0), (20, 0, 0)]
         cg = coarse_grain(atoms, coords, strategy="spatial", n_super_atoms=2)
@@ -357,7 +354,7 @@ class TestCoarseGraining:
 
     def test_gciqa_with_coarse_graining(self):
         """Test GCIQA with full molecular system coarse-graining."""
-        from gciqa import GCIQA, GeometricConstraint, ConstraintSet
+        from gciqa import GCIQA, ConstraintSet, GeometricConstraint
         atoms = ["C"] * 20
         coords = [(i * 1.5, 0, 0) for i in range(20)]
         # Use a pocket large enough to encompass the whole system

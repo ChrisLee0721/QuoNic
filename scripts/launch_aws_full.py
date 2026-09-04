@@ -9,7 +9,6 @@ import subprocess
 import sys
 import time
 
-
 PROFILE = "gciqa"
 REGION = "us-east-1"
 INSTANCE_TYPE = "r6i.2xlarge"
@@ -154,7 +153,7 @@ shutdown -h now
     print()
     print("To monitor:")
     print(f"  ssh -i key.pem ubuntu@{public_ip}")
-    print(f"  tail -f /var/log/gciqa-setup.log")
+    print("  tail -f /var/log/gciqa-setup.log")
     print()
     print("To download results:")
     print(f"  aws s3 cp s3://{BUCKET_NAME}/results/ ./results/ --recursive")

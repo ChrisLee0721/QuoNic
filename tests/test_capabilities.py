@@ -41,7 +41,7 @@ def test_method_capabilities_structure():
 
 def test_eligible_methods_basic_clifford():
     gs = {"h", "cx", "z"}
-    assert eligible_methods(gs) == {"statevector", "stabilizer", "matrix_product_state"}
+    assert eligible_methods(gs) == {"statevector", "stabilizer", "matrix_product_state", "density_matrix"}
 
 
 def test_eligible_methods_nonclifford_excludes_stabilizer():

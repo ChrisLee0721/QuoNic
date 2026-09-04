@@ -1,14 +1,11 @@
 """Tests for GCIQA constraint report."""
 
-import pytest
 
+from gciqa.constraints import ConstraintSet, GeometricConstraint
 from gciqa.report import (
-    generate_report,
-    ConstraintReport,
-    ConstraintEvaluation,
     ConstraintStatus,
+    generate_report,
 )
-from gciqa.constraints import GeometricConstraint, ConstraintSet
 
 
 class TestConstraintStatus:

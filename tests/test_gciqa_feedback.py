@@ -1,9 +1,8 @@
 """Tests for GCIQA constraint feedback."""
 
-import pytest
 
+from gciqa.constraints import ConstraintSet, GeometricConstraint
 from gciqa.feedback import ConstraintRelaxer, FeedbackSignal
-from gciqa.constraints import GeometricConstraint, ConstraintSet
 
 
 class TestFeedbackSignal:

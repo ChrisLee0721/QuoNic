@@ -3,14 +3,12 @@
 import pytest
 
 from gciqa.metal_templates import (
-    get_metal_template,
+    METAL_COORDINATION,
     auto_detect_geometry,
     generate_metal_constraints,
-    get_available_metals,
     get_available_geometries,
-    MetalTemplate,
-    METAL_COORDINATION,
-    DEFAULT_GEOMETRY,
+    get_available_metals,
+    get_metal_template,
 )
 from gciqa.pdb import MetalIon, ProteinStructure
 

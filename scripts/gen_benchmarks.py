@@ -10,7 +10,6 @@ Usage:
 from __future__ import annotations
 
 import json
-import random
 import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
@@ -64,6 +63,7 @@ def build_qaoa(n: int):
 
 def build_qft(n: int):
     import math
+
     from quonic import qgate, reset
     from quonic.gates import CP, H
     from quonic.stack import current_circuit
@@ -78,6 +78,7 @@ def build_qft(n: int):
 
 def build_random_clifford(n: int, depth: int, seed: int = 42):
     import random as rng_mod
+
     from quonic import qgate, reset
     from quonic.gates import CX, CZ, H, X, Y, Z
     from quonic.stack import current_circuit
@@ -98,6 +99,7 @@ def build_random_clifford(n: int, depth: int, seed: int = 42):
 
 def build_random_non_clifford(n: int, depth: int, seed: int = 42):
     import random as rng_mod
+
     from quonic import qgate, reset
     from quonic.gates import CX, H, Rx, Ry, Rz
     from quonic.stack import current_circuit
@@ -177,6 +179,7 @@ def make_jobs():
 def run_single(job: dict) -> dict:
     """Run a single benchmark. Called in a subprocess."""
     import threading
+
     from quonic.backends import get_backend
 
     backend = job["backend"]

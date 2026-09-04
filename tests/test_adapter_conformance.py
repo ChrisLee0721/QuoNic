@@ -7,21 +7,23 @@ Usage:
     pytest tests/test_adapter_conformance.py -v
 """
 
-import pytest
 import math
 
-from gciqa.coarsegrain import CoarseGraining
-from gciqa.coarsegrain_adapters import CoarseGrainingStrategy
-from gciqa.protein_cg import ProteinCoarseGraining
-from gciqa.binding_site import (
-    BindingSite, SiteDetector, MetalSiteDetector, PocketDetector,
-)
-from gciqa.constraint_adapters import (
-    ConstraintGenerator, TemplateConstraintGenerator, AdaptiveConstraintGenerator,
-)
-from gciqa.pdb import MetalIon, ResidueInfo, ProteinStructure
-from gciqa.constraints import ConstraintSet
+import pytest
 
+from gciqa.binding_site import (
+    BindingSite,
+    MetalSiteDetector,
+    PocketDetector,
+)
+from gciqa.coarsegrain import CoarseGraining
+from gciqa.constraint_adapters import (
+    AdaptiveConstraintGenerator,
+    TemplateConstraintGenerator,
+)
+from gciqa.constraints import ConstraintSet
+from gciqa.pdb import MetalIon, ProteinStructure, ResidueInfo
+from gciqa.protein_cg import ProteinCoarseGraining
 
 # ============================================================
 # Shared fixtures

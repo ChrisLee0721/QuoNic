@@ -1,13 +1,11 @@
 """Tests for GCIQA failure analysis."""
 
-import pytest
 
+from gciqa.constraints import ConstraintSet, GeometricConstraint
 from gciqa.failure import (
-    diagnose_failure,
     FailureMode,
-    FailureReport,
+    diagnose_failure,
 )
-from gciqa.constraints import GeometricConstraint, ConstraintSet
 from gciqa.iterative import GCIQAResult
 
 

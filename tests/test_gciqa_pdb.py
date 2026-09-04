@@ -1,22 +1,17 @@
 """Tests for GCIQA PDB parsing module."""
 
+
 import pytest
-import tempfile
-from pathlib import Path
 
 from gciqa.pdb import (
+    _is_metal,
+    _parse_element,
+    find_metal_ions,
+    get_nearby_residues,
+    get_residue_atoms,
     parse_pdb,
     parse_pdb_string,
-    find_metal_ions,
-    get_residue_atoms,
-    get_nearby_residues,
-    ProteinStructure,
-    ResidueInfo,
-    MetalIon,
-    _parse_element,
-    _is_metal,
 )
-
 
 # Minimal PDB string for testing
 MINIMAL_PDB = """\

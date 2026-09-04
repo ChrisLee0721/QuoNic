@@ -1,11 +1,10 @@
 """Tests for GCIQA output formats."""
 
 import json
-import pytest
 
-from gciqa.output import to_pdb, to_json
-from gciqa.report import generate_report, ConstraintReport
-from gciqa.constraints import GeometricConstraint, ConstraintSet
+from gciqa.constraints import ConstraintSet, GeometricConstraint
+from gciqa.output import to_json, to_pdb
+from gciqa.report import generate_report
 
 
 class TestToPdb:

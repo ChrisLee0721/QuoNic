@@ -4,7 +4,7 @@ import pytest
 
 pyscf = pytest.importorskip("pyscf")
 
-from quonic.chem import Molecule, thermochemistry, gibbs_free_energy
+from quonic.chem import Molecule, gibbs_free_energy, thermochemistry
 
 
 @pytest.fixture

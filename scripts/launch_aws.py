@@ -192,17 +192,17 @@ def main():
     # Wait for instance
     public_ip = wait_for_instance(instance_id, args.profile, args.region)
 
-    print(f"\n==========================================")
-    print(f"Instance ready!")
-    print(f"==========================================")
+    print("\n==========================================")
+    print("Instance ready!")
+    print("==========================================")
     print(f"Instance ID: {instance_id}")
     print(f"Public IP: {public_ip}")
-    print(f"\nTo monitor:")
+    print("\nTo monitor:")
     print(f"  ssh -i key.pem ubuntu@{public_ip}")
-    print(f"  tail -f /var/log/gciqa-setup.log")
-    print(f"\nTo download results:")
-    print(f"  aws s3 cp s3://gciqa-results/results/ ./results/ --recursive")
-    print(f"\nTo terminate:")
+    print("  tail -f /var/log/gciqa-setup.log")
+    print("\nTo download results:")
+    print("  aws s3 cp s3://gciqa-results/results/ ./results/ --recursive")
+    print("\nTo terminate:")
     print(f"  aws ec2 terminate-instances --instance-ids {instance_id}")
 
 

@@ -12,7 +12,6 @@ This script:
 """
 
 import argparse
-import json
 import os
 import subprocess
 import sys

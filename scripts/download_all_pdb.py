@@ -15,7 +15,6 @@ import subprocess
 import sys
 import time
 
-
 RCSB_RSYNC = "rsync.rcsb.org::ftp_data/structures/divided/pdb/"
 
 
@@ -35,9 +34,9 @@ def download_all(dest: str, workers: int = 4, dry_run: bool = False):
         "-v",     # verbose
         "-z",     # compress
         "--delete",
-        f"--port=33444",
-        f"--bwlimit=0",  # no bandwidth limit
-        f"--progress",
+        "--port=33444",
+        "--bwlimit=0",  # no bandwidth limit
+        "--progress",
     ]
 
     if workers > 1:

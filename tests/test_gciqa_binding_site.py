@@ -4,11 +4,11 @@ import pytest
 
 from gciqa.binding_site import (
     BindingSite,
-    SiteDetector,
     MetalSiteDetector,
     PocketDetector,
+    SiteDetector,
 )
-from gciqa.pdb import MetalIon, ResidueInfo, ProteinStructure
+from gciqa.pdb import MetalIon, ProteinStructure, ResidueInfo
 
 
 class TestBindingSite:

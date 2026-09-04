@@ -2,14 +2,12 @@
 
 import pytest
 
+from gciqa.binding_site import BindingSite
 from gciqa.validation import (
+    batch_validate,
     compute_rmsd,
     validate_binding_site,
-    batch_validate,
-    ValidationResult,
-    BatchValidationResult,
 )
-from gciqa.binding_site import BindingSite
 
 
 class TestComputeRmsd:

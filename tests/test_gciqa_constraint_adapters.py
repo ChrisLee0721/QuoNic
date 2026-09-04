@@ -3,11 +3,11 @@
 import pytest
 
 from gciqa.constraint_adapters import (
+    AdaptiveConstraintGenerator,
     ConstraintGenerator,
     TemplateConstraintGenerator,
-    AdaptiveConstraintGenerator,
 )
-from gciqa.pdb import MetalIon, ResidueInfo, ProteinStructure
+from gciqa.pdb import MetalIon, ProteinStructure, ResidueInfo
 
 
 def _make_metalloprotein():

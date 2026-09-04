@@ -1,10 +1,9 @@
 """Tests for GCIQA protein coarse-graining."""
 
-import pytest
 
-from gciqa.protein_cg import ProteinCoarseGraining
-from gciqa.pdb import ResidueInfo, MetalIon, ProteinStructure
 from gciqa.coarsegrain_adapters import CoarseGrainingStrategy
+from gciqa.pdb import MetalIon, ResidueInfo
+from gciqa.protein_cg import ProteinCoarseGraining
 
 
 class TestProteinCoarseGrainingInterface:

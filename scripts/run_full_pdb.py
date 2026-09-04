@@ -1,6 +1,5 @@
 """Run full PDB batch search on AWS instance."""
 import sys
-import os
 import time
 import traceback
 
@@ -8,8 +7,9 @@ sys.path.insert(0, '/data/gciqa/PyQQQ/src')
 
 from gciqa.batch import batch_search
 
+
 def main():
-    print(f"Starting full PDB batch search...")
+    print("Starting full PDB batch search...")
     print(f"Time: {time.strftime('%Y-%m-%d %H:%M:%S')}")
 
     try:
@@ -25,7 +25,7 @@ def main():
         result.print_summary()
 
         print(f"\nCompleted at: {time.strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"Results saved to /data/gciqa/results/full_pdb_4bit.parquet")
+        print("Results saved to /data/gciqa/results/full_pdb_4bit.parquet")
 
     except Exception as e:
         print(f"ERROR: {e}")
