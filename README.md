@@ -12,21 +12,21 @@
 
 <div align="center">
 
-  <img src="https://img.shields.io/badge/Version-0.11.0-purple?style=for-the-badge" alt="Version" />
-  <img src="https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
-  <img src="https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge" alt="License" />
-  <img src="https://img.shields.io/badge/Tests-771%20passed-22C55E?style=for-the-badge" alt="Tests" />
+  <img src="https://img.shields.io/badge/Version-0.14.0-purple?style=flat" alt="Version" />
+  <img src="https://img.shields.io/badge/Python-3.9+-3776AB?style=flat&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/License-Apache%202.0-blue?style=flat" alt="License" />
+  <img src="https://img.shields.io/badge/Tests-771%20passed-22C55E?style=flat" alt="Tests" />
 
 </div>
 
 <div align="center">
 
-  <img src="https://img.shields.io/badge/Qiskit-1.0+-6929C4?style=for-the-badge&logo=qiskit&logoColor=white" alt="Qiskit" />
-  <img src="https://img.shields.io/badge/Cirq-1.0+-FB8C00?style=for-the-badge" alt="Cirq" />
-  <img src="https://img.shields.io/badge/Qulacs-0.6+-00599C?style=for-the-badge" alt="Qulacs" />
-  <img src="https://img.shields.io/badge/CUDA--Q-0.8+-76B900?style=for-the-badge&logo=nvidia&logoColor=white" alt="CUDA-Q" />
-  <img src="https://img.shields.io/badge/Algorithms-77-7C3AED?style=for-the-badge" alt="Algorithms" />
-  <img src="https://img.shields.io/badge/Hardware-3%20verified-F59E0B?style=for-the-badge" alt="Hardware" />
+  <img src="https://img.shields.io/badge/Qiskit-1.0+-6929C4?style=flat&logo=qiskit&logoColor=white" alt="Qiskit" />
+  <img src="https://img.shields.io/badge/Cirq-1.0+-FB8C00?style=flat" alt="Cirq" />
+  <img src="https://img.shields.io/badge/Qulacs-0.6+-00599C?style=flat" alt="Qulacs" />
+  <img src="https://img.shields.io/badge/CUDA--Q-0.8+-76B900?style=flat&logo=nvidia&logoColor=white" alt="CUDA-Q" />
+  <img src="https://img.shields.io/badge/Algorithms-77-7C3AED?style=flat" alt="Algorithms" />
+  <img src="https://img.shields.io/badge/Hardware-4%20verified-F59E0B?style=flat" alt="Hardware" />
 
 </div>
 
