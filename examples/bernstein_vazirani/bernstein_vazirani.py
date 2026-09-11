@@ -12,9 +12,8 @@ Find secret s in f(x) = s·x mod 2. One query suffices.
 All shots give the hidden string s.
 所有测量结果给出隐藏串 s。"""
 
-from quonic import qgate
 from quonic.algorithms import bernstein_vazirani
-from quonic.gates import CZ
+from quonic.ir import GateOperation
 
 # Hidden string s = "1010" (decimal 10)
 S = 10
@@ -24,7 +23,8 @@ def bv_oracle(circuit, n):
     """Phase oracle for f(x) = s·x mod 2."""
     for i in range(n):
         if (S >> i) & 1:
-            qgate(CZ, i, n)
+            circuit.add(GateOperation("cz", (i, n)))
 
 result = bernstein_vazirani(N, bv_oracle, shots=1024)
-print(result.counts)
+print(f"Secret: {result.metadata.get('secret', 'unknown')}")
+print(f"Counts: {result.metadata.get('counts', {})}")

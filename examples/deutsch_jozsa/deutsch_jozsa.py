@@ -12,15 +12,15 @@ Determine if f is constant or balanced in one query.
 All zeros = constant, anything else = balanced.
 全零 = 常数，其他 = 平衡。"""
 
-from quonic import qgate
 from quonic.algorithms import deutsch_jozsa
-from quonic.gates import CX
+from quonic.ir import GateOperation
 
 N = 3
 
 def balanced_oracle(circuit, n):
     """Balanced oracle: flip last qubit if first qubit is |1>."""
-    qgate(CX, 0, n)
+    circuit.add(GateOperation("cx", (0, n)))
 
 result = deutsch_jozsa(N, balanced_oracle, shots=100)
-print(f"Counts: {result.counts}")
+print(f"Is balanced: {result.metadata.get('is_balanced', 'unknown')}")
+print(f"Counts: {result.metadata.get('counts', {})}")

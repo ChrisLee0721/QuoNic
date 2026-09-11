@@ -209,6 +209,10 @@ def _pick_alternative(chosen_rec, profiles, feats):
 
     from ..scheduler.capabilities import eligible_methods
 
+    # Check if profiles has benchmark data
+    if profiles is None or profiles.profiles is None:
+        return None
+
     n = feats["n"]
     gate_count = feats.get("gate_count", n)
     chosen_key = f"{chosen_rec.backend}/{chosen_rec.method}"

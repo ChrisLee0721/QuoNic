@@ -55,6 +55,7 @@ def qshow(
     device: str | None = None,
     requires_grad: bool = False,
     groverize: bool = False,
+    decision_platform: str | None = None,
 ) -> Result | None:
     if result is not None:
         if not isinstance(result, Result):
@@ -83,6 +84,10 @@ def qshow(
 
     if report:
         _print_circuit_report(circuit)
+
+    # Decision boundary analysis
+    if decision_platform:
+        _print_decision_analysis(circuit, decision_platform)
 
     # scheduling: resolve the circuit to pick method; when backend is "auto",
     # use the full scheduler chain (cache -> profiles -> table -> rules)
@@ -166,6 +171,25 @@ def _print_circuit_report(circuit: Circuit) -> None:
     print(tr("show.gate_count", n=circuit.gate_count()))
     print(tr("show.depth", n=circuit.depth()))
     print(tr("show.qubit_count", n=circuit.num_qubits))
+
+
+def _print_decision_analysis(circuit: Circuit, platform: str) -> None:
+    """Print decision boundary analysis for the circuit."""
+    from .decision import analyze_quonic_circuit, select_strategy_for_quonic
+
+    print()
+    print("=" * 60)
+    print("Decision Boundary Analysis")
+    print("=" * 60)
+
+    # Analyze circuit
+    analysis = analyze_quonic_circuit(circuit)
+    print(analysis.summary())
+
+    # Select strategy
+    strategy, decision = select_strategy_for_quonic(circuit, platform)
+    print()
+    print(decision.summary())
 
 
 def _print_result(result: Result, backend_name: str | None = None) -> None:
