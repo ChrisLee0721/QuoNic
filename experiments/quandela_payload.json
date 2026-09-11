@@ -1,0 +1,62 @@
+{
+  "name": "f_gate_test_20260911_020011",
+  "description": "F_gate extraction test on Quandela photonic QPU",
+  "shots": 1000,
+  "backend": "Simplon simulator",
+  "circuit": {
+    "components": [
+      {
+        "type": "source",
+        "modes": [
+          0,
+          1
+        ],
+        "state": "|1,1>"
+      },
+      {
+        "type": "BS",
+        "mode_in": [
+          0,
+          1
+        ],
+        "mode_out": [
+          0,
+          1
+        ],
+        "theta": 0.7853975
+      },
+      {
+        "type": "PS",
+        "mode": 0,
+        "phi": 1.570795
+      },
+      {
+        "type": "BS",
+        "mode_in": [
+          0,
+          1
+        ],
+        "mode_out": [
+          0,
+          1
+        ],
+        "theta": 0.7853975
+      },
+      {
+        "type": "measure",
+        "modes": [
+          0,
+          1
+        ]
+      }
+    ],
+    "output_modes": [
+      0,
+      1
+    ]
+  },
+  "parameters": {
+    "precision": "double",
+    "platform": "bloom"
+  }
+}

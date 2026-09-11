@@ -1,0 +1,49 @@
+{
+  "submit_job": {
+    "command": "submit_job",
+    "name": "test_20260911_020129",
+    "shots": 1000,
+    "input_state": "|1,1>",
+    "program": "import perceval as pcvl\nimport numpy as np\n\nc = pcvl.Circuit(2)\nc.add(0, pcvl.BS())\nc.add((0,), pcvl.PS(np.pi/2))\nc.add(0, pcvl.BS())\n\ncgs = pcvl.Serializable(c)",
+    "backend": "Simplon.1"
+  },
+  "submit": {
+    "command": "submit",
+    "backend": "Simplon.1",
+    "shots": 1000,
+    "circuit": {
+      "n_modes": 2,
+      "components": [
+        {
+          "type": "BS",
+          "modes": [
+            0,
+            1
+          ]
+        },
+        {
+          "type": "PS",
+          "mode": 0,
+          "phi": 1.5708
+        },
+        {
+          "type": "BS",
+          "modes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "input_state": [
+        1,
+        1
+      ]
+    }
+  },
+  "run": {
+    "command": "run",
+    "backend": "Simplon.1",
+    "shots": 1000,
+    "program": "import perceval as pcvl\nc = pcvl.Circuit(2)\nc.add(0, pcvl.BS())\nprint(pcvl.Serializable(c).dump())"
+  }
+}

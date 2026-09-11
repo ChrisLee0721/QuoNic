@@ -1,0 +1,26 @@
+{
+  "25": {
+    "p_dynamic": 0.0,
+    "p_groverize": 0.04925,
+    "dyn_depth": 52,
+    "grov_depth": 240
+  },
+  "27": {
+    "p_dynamic": 0.0,
+    "p_groverize": 0.0235,
+    "dyn_depth": 56,
+    "grov_depth": 247
+  },
+  "29": {
+    "p_dynamic": 0.0,
+    "p_groverize": 0.00875,
+    "dyn_depth": 60,
+    "grov_depth": 265
+  },
+  "31": {
+    "p_dynamic": 0.0,
+    "p_groverize": 0.009,
+    "dyn_depth": 64,
+    "grov_depth": 267
+  }
+}

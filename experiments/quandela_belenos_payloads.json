@@ -1,0 +1,26 @@
+{
+  "basic": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\n# Create 2-mode photonic circuit\nc = pcvl.Circuit(2)\n\n# Beam splitter (creates superposition)\nc.add(0, pcvl.BS())\n\n# Phase shifter\nc.add((0,), pcvl.PS(np.pi/2))\n\n# Another beam splitter\nc.add(0, pcvl.BS())\n\n# Serialize\nprint(pcvl.Serializable(c).dump())",
+    "shots": 1000
+  },
+  "f_gate_k1": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\n# Create photonic circuit with k beam splitters\nc = pcvl.Circuit(2)\n\n# Add k stages of beam splitters + phase shifters\nfor i in range(1):\n    c.add(0, pcvl.BS())\n    c.add((0,), pcvl.PS(np.pi/4))\n\n# Final beam splitter\nc.add(0, pcvl.BS())\n\nprint(pcvl.Serializable(c).dump())",
+    "shots": 1000
+  },
+  "f_gate_k5": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\n# Create photonic circuit with k beam splitters\nc = pcvl.Circuit(2)\n\n# Add k stages of beam splitters + phase shifters\nfor i in range(5):\n    c.add(0, pcvl.BS())\n    c.add((0,), pcvl.PS(np.pi/4))\n\n# Final beam splitter\nc.add(0, pcvl.BS())\n\nprint(pcvl.Serializable(c).dump())",
+    "shots": 1000
+  }
+}

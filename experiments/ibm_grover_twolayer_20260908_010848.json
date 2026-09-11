@@ -1,0 +1,35 @@
+{
+  "layer1": {
+    "counts": {
+      "01": 1270,
+      "10": 1104,
+      "11": 913,
+      "00": 713
+    },
+    "phase_est": 0.3885625,
+    "theta_est": 1.220705095460484,
+    "M_est_raw": 7.058898515499282,
+    "M_est": 7,
+    "k_opt": 1,
+    "theta_ideal": 0.36136712390670783
+  },
+  "methods": {
+    "A_pure_unitary": {
+      "k": 3,
+      "measured": 0.27775,
+      "theory": 0.330078125,
+      "depth": 208
+    },
+    "B_twolayer": {
+      "k": 1,
+      "measured": 0.686,
+      "theory": 0.7812500000000001,
+      "depth": 67
+    },
+    "C_dynamic": {
+      "k": 3,
+      "measured": 0.183,
+      "depth": 221
+    }
+  }
+}

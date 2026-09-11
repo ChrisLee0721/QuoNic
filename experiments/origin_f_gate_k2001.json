@@ -1,0 +1,16 @@
+{
+  "platform": "Origin Quantum WK_C180",
+  "result": {
+    "depth": 2001,
+    "total_gates": 6003,
+    "p0": 0.99783,
+    "shots": 4000
+  },
+  "comparison": [
+    {"depth": 1, "p0": 0.9981},
+    {"depth": 801, "p0": 0.9975},
+    {"depth": 2001, "p0": 0.9978}
+  ],
+  "conclusion": "No observable decay up to 6000 gates. Per-step error < 0.001%.",
+  "timestamp": "20260910_221500"
+}

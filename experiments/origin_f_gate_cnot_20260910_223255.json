@@ -1,0 +1,32 @@
+{
+  "platform": "Origin Quantum WK_C180",
+  "gate": "CNOT",
+  "results": [
+    {
+      "depth": 1,
+      "p0": 0.4484765,
+      "ideal": 1.0
+    },
+    {
+      "depth": 2,
+      "p0": 0.4635884,
+      "ideal": 0.5
+    },
+    {
+      "depth": 3,
+      "p0": 0.999357,
+      "ideal": 1.0
+    },
+    {
+      "depth": 5,
+      "p0": 0.4754984,
+      "ideal": 1.0
+    },
+    {
+      "depth": 10,
+      "p0": 0.4689989,
+      "ideal": 0.5
+    }
+  ],
+  "timestamp": "20260910_223255"
+}

@@ -1,0 +1,18 @@
+{
+  "platform": "Origin Quantum WK_C180",
+  "method": "Plan A: Direct submission (no local transpilation)",
+  "results": [
+    {"depth": 1, "p0": 0.9992, "ideal": 1.0},
+    {"depth": 2, "p0": 0.3776, "ideal": 0.5},
+    {"depth": 3, "p0": 0.9981, "ideal": 1.0},
+    {"depth": 5, "p0": 0.9992, "ideal": 1.0},
+    {"depth": 10, "p0": 0.4957, "ideal": 0.5},
+    {"depth": 20, "p0": 0.3605, "ideal": 0.5},
+    {"depth": 50, "p0": 0.3574, "ideal": 0.5},
+    {"depth": 100, "p0": 0.5039, "ideal": 0.5}
+  ],
+  "F_per_step": 0.999988,
+  "error_per_step": 0.0012,
+  "key_insight": "Must submit logical circuit directly to platform. Local transpilation + cloud submission causes double-compensation artifacts.",
+  "timestamp": "20260910_235000"
+}

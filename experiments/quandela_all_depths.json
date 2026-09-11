@@ -1,0 +1,66 @@
+{
+  "k=1": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\nc = pcvl.Circuit(2)\nfor i in range(1):\n    c.add(0, pcvl.BS())\n    c.add((0,), pcvl.PS(np.pi/4))\nc.add(0, pcvl.BS())\n\nprint(pcvl.Serializable(c).dump())",
+    "shots": 1000
+  },
+  "k=2": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\nc = pcvl.Circuit(2)\nfor i in range(2):\n    c.add(0, pcvl.BS())\n    c.add((0,), pcvl.PS(np.pi/4))\nc.add(0, pcvl.BS())\n\nprint(pcvl.Serializable(c).dump())",
+    "shots": 1000
+  },
+  "k=3": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\nc = pcvl.Circuit(2)\nfor i in range(3):\n    c.add(0, pcvl.BS())\n    c.add((0,), pcvl.PS(np.pi/4))\nc.add(0, pcvl.BS())\n\nprint(pcvl.Serializable(c).dump())",
+    "shots": 1000
+  },
+  "k=5": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\nc = pcvl.Circuit(2)\nfor i in range(5):\n    c.add(0, pcvl.BS())\n    c.add((0,), pcvl.PS(np.pi/4))\nc.add(0, pcvl.BS())\n\nprint(pcvl.Serializable(c).dump())",
+    "shots": 1000
+  },
+  "k=10": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\nc = pcvl.Circuit(2)\nfor i in range(10):\n    c.add(0, pcvl.BS())\n    c.add((0,), pcvl.PS(np.pi/4))\nc.add(0, pcvl.BS())\n\nprint(pcvl.Serializable(c).dump())",
+    "shots": 1000
+  },
+  "k=20": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\nc = pcvl.Circuit(2)\nfor i in range(20):\n    c.add(0, pcvl.BS())\n    c.add((0,), pcvl.PS(np.pi/4))\nc.add(0, pcvl.BS())\n\nprint(pcvl.Serializable(c).dump())",
+    "shots": 1000
+  },
+  "k=50": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\nc = pcvl.Circuit(2)\nfor i in range(50):\n    c.add(0, pcvl.BS())\n    c.add((0,), pcvl.PS(np.pi/4))\nc.add(0, pcvl.BS())\n\nprint(pcvl.Serializable(c).dump())",
+    "shots": 1000
+  },
+  "k=100": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\nc = pcvl.Circuit(2)\nfor i in range(100):\n    c.add(0, pcvl.BS())\n    c.add((0,), pcvl.PS(np.pi/4))\nc.add(0, pcvl.BS())\n\nprint(pcvl.Serializable(c).dump())",
+    "shots": 1000
+  }
+}

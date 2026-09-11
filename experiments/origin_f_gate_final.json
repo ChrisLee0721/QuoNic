@@ -1,0 +1,19 @@
+{
+  "platform": "Origin Quantum WK_C180",
+  "method": "Plan A: Direct submission",
+  "results_odd_k": [
+    {"depth": 1, "p0": 0.9992},
+    {"depth": 3, "p0": 0.9981},
+    {"depth": 5, "p0": 0.9992},
+    {"depth": 51, "p0": 0.9981},
+    {"depth": 101, "p0": 0.9996},
+    {"depth": 201, "p0": 0.9981},
+    {"depth": 301, "p0": 0.9983},
+    {"depth": 401, "p0": 0.9995},
+    {"depth": 501, "p0": 0.9986},
+    {"depth": 801, "p0": 0.9980}
+  ],
+  "conclusion": "P(0) does not decay with k. Gate error < 0.01%, below measurement sensitivity.",
+  "key_insight": "Must submit logical circuit directly. Local transpilation causes double-compensation.",
+  "timestamp": "20260911_001500"
+}

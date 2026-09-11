@@ -1,0 +1,26 @@
+{
+  "batch1_shallow": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\ndepths = [1, 2, 3, 5]\nresults = {}\n\nfor k in depths:\n    c = pcvl.Circuit(2)\n    for i in range(k):\n        c.add(0, pcvl.BS())\n        c.add((0,), pcvl.PS(np.pi/4))\n    c.add(0, pcvl.BS())\n    results[k] = pcvl.Serializable(c).dump()\n\nprint(results)",
+    "shots": 1000
+  },
+  "batch2_medium": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\ndepths = [10, 20, 50]\nresults = {}\n\nfor k in depths:\n    c = pcvl.Circuit(2)\n    for i in range(k):\n        c.add(0, pcvl.BS())\n        c.add((0,), pcvl.PS(np.pi/4))\n    c.add(0, pcvl.BS())\n    results[k] = pcvl.Serializable(c).dump()\n\nprint(results)",
+    "shots": 1000
+  },
+  "batch3_deep": {
+    "backend": "qpu:belenos",
+    "command": "sample_count",
+    "input_state": "|1,1>",
+    "max_shots": 100,
+    "program": "import perceval as pcvl\nimport numpy as np\n\ndepths = [100, 201]\nresults = {}\n\nfor k in depths:\n    c = pcvl.Circuit(2)\n    for i in range(k):\n        c.add(0, pcvl.BS())\n        c.add((0,), pcvl.PS(np.pi/4))\n    c.add(0, pcvl.BS())\n    results[k] = pcvl.Serializable(c).dump()\n\nprint(results)",
+    "shots": 1000
+  }
+}

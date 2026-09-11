@@ -1,0 +1,15 @@
+{
+  "platform": "Origin Quantum WK_C180",
+  "results": [
+    {"depth": 51, "p0": 0.9977, "ideal": 1.0},
+    {"depth": 101, "p0": 0.9997, "ideal": 1.0},
+    {"depth": 201, "p0": 0.9973, "ideal": 1.0},
+    {"depth": 301, "p0": 0.9979, "ideal": 1.0},
+    {"depth": 401, "p0": 0.9993, "ideal": 1.0},
+    {"depth": 501, "p0": 0.9975, "ideal": 1.0},
+    {"depth": 801, "p0": 0.9975, "ideal": 1.0}
+  ],
+  "F_per_step": 0.999999,
+  "error_per_step": 0.0001,
+  "timestamp": "20260910_214937"
+}
