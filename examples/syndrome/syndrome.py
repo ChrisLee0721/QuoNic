@@ -15,4 +15,4 @@ Syndrome bits indicating error location.
 from quonic.algorithms import syndrome
 
 result = syndrome(n_data=3, shots=100)
-print(result.counts)
+print(result.metadata["counts"])

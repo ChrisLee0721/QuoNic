@@ -15,4 +15,4 @@ Samples from target distribution.
 from quonic.algorithms import rejection_sampling
 
 result = rejection_sampling(n_samples=100)
-print(result.counts)
+print(result.metadata["counts"])
