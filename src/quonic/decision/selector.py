@@ -2,11 +2,11 @@
 Strategy selector for automatic compilation strategy selection.
 """
 
-from typing import Optional, Any, Tuple
+from typing import Any, Optional, Tuple
 
-from .platforms import PlatformParams, get_platform, PLATFORMS
 from .analyzer import CircuitAnalysis, analyze_circuit
-from .boundary import Strategy, DecisionResult, calculate_decision
+from .boundary import DecisionResult, Strategy, calculate_decision
+from .platforms import PlatformParams, get_platform
 
 
 def select_strategy(

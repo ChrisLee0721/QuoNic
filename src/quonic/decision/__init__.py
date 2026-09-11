@@ -11,15 +11,15 @@ Reference:
     Measurement tax: T = F_meas * exp(-T_fb/T2)
 """
 
-from .platforms import PlatformParams, PLATFORMS, get_platform
 from .analyzer import CircuitAnalysis, analyze_circuit
-from .boundary import Strategy, DecisionResult, calculate_decision, compare_strategies
-from .selector import select_strategy, compare_platforms, get_optimal_platform
+from .boundary import DecisionResult, Strategy, calculate_decision, compare_strategies
+from .platforms import PLATFORMS, PlatformParams, get_platform
 from .quonic_integration import (
     QuoNicCircuitAnalysis,
     analyze_quonic_circuit,
     select_strategy_for_quonic,
 )
+from .selector import compare_platforms, get_optimal_platform, select_strategy
 
 __all__ = [
     "PlatformParams",

@@ -3,8 +3,7 @@ Circuit analyzer for decision boundary calculation.
 """
 
 from dataclasses import dataclass, field
-from typing import List, Optional, Any
-import numpy as np
+from typing import Any, List, Optional
 
 
 @dataclass
@@ -41,7 +40,7 @@ class CircuitAnalysis:
     def summary(self) -> str:
         """Return a summary string of circuit analysis."""
         lines = [
-            f"Circuit Analysis:",
+            "Circuit Analysis:",
             f"  Qubits: {self.n_qubits}",
             f"  Depth: {self.depth}",
             f"  Gates: {self.n_gates}",

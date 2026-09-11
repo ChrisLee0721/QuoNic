@@ -2,8 +2,9 @@
 Platform-specific parameters for the decision boundary framework.
 """
 
-from dataclasses import dataclass, field
-from typing import Optional, Dict
+from dataclasses import dataclass
+from typing import Dict, Optional
+
 import numpy as np
 
 

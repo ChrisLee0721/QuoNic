@@ -2,10 +2,10 @@
 Integration with QuoNic's Circuit IR.
 """
 
-from typing import Optional, Any
 from dataclasses import dataclass, field
+from typing import Any
 
-from ..ir import Circuit, GateOperation, ClassicalIfOperation, ClassicalWhileOperation
+from ..ir import Circuit, ClassicalIfOperation, ClassicalWhileOperation
 
 
 @dataclass
@@ -188,8 +188,8 @@ def select_strategy_for_quonic(
     Returns:
         Tuple of (Strategy, DecisionResult)
     """
-    from .platforms import get_platform
     from .boundary import calculate_decision
+    from .platforms import get_platform
 
     # Analyze circuit
     analysis = analyze_quonic_circuit(circuit, coupling_map)

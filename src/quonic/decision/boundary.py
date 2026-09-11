@@ -5,10 +5,9 @@ Decision boundary calculation for compilation strategy selection.
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
-import numpy as np
 
-from .platforms import PlatformParams
 from .analyzer import CircuitAnalysis
+from .platforms import PlatformParams
 
 
 class Strategy(Enum):

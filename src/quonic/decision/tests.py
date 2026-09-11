@@ -2,13 +2,13 @@
 Tests for the decision module.
 """
 
-import pytest
 import numpy as np
+import pytest
 
-from .platforms import PlatformParams, PLATFORMS, get_platform
-from .analyzer import CircuitAnalysis, analyze_circuit
-from .boundary import Strategy, DecisionResult, calculate_decision, calculate_advantage
-from .selector import select_strategy, compare_platforms
+from .analyzer import CircuitAnalysis
+from .boundary import DecisionResult, Strategy, calculate_advantage, calculate_decision
+from .platforms import PLATFORMS, PlatformParams, get_platform
+from .selector import compare_platforms, select_strategy
 
 
 class TestPlatformParams:

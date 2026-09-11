@@ -2,12 +2,13 @@
 Visualization for decision boundary analysis.
 """
 
-from typing import Optional, Any
+from typing import Any, Optional
+
 import numpy as np
 
-from .platforms import PlatformParams, get_platform
 from .analyzer import analyze_circuit
-from .boundary import Strategy, calculate_decision, compare_strategies
+from .boundary import calculate_decision, compare_strategies
+from .platforms import get_platform
 
 
 def qshow_decision(
@@ -118,7 +119,7 @@ def plot_decision_boundary(
     fig, ax = plt.subplots(figsize=(10, 8))
 
     # Plot decision regions
-    contour = ax.contourf(C, D, decision, levels=[0, 0.5, 1],
+    ax.contourf(C, D, decision, levels=[0, 0.5, 1],
                           colors=['#ff6b6b', '#51cf66'], alpha=0.3)
     ax.contour(C, D, CD, levels=[threshold], colors='black',
                linestyles='--', linewidths=2)
@@ -223,7 +224,7 @@ def plot_platform_comparison(
     )
     axes[2].set_title('Strategy Distribution')
 
-    plt.suptitle(f'Platform Comparison', fontsize=14, y=1.02)
+    plt.suptitle('Platform Comparison', fontsize=14, y=1.02)
     plt.tight_layout()
 
     if save_path:
